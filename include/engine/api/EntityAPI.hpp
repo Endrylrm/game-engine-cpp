@@ -7,18 +7,17 @@
 class EntityAPI : public ManagerAPI<SceneManager>
 {
 public:
-    template <std::derived_from<Entity> T, class... Args>
-    static T *spawnEntity(Args &&...args)
+    static Entity *createEntity()
     {
         Scene *currentScene = getManager().getCurrentScene();
-        T *ptr = currentScene->spawnEntity<T>(std::forward<Args>(args)...);
+        Entity *ptr = currentScene->createEntity();
         return ptr;
     }
 
-    static Entity *spawnFromBlueprint(std::unique_ptr<Entity> entity)
+    static Entity *createEntity(std::unique_ptr<Entity> entityBlueprint)
     {
         Scene *currentScene = getManager().getCurrentScene();
-        Entity *ptr = currentScene->spawnEntityBlueprint(std::move(entity));
+        Entity *ptr = currentScene->createEntity(std::move(entityBlueprint));
         return ptr;
     }
 };

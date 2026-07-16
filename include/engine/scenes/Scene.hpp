@@ -10,16 +10,15 @@ class Scene
 public:
 	virtual ~Scene() = default;
 
-	template <std::derived_from<Entity> T, class... Args>
-	T *spawnEntity(Args &&...args)
+	Entity *createEntity()
 	{
-		T *ptr = entityManager.spawnEntity<T>(std::forward<Args>(args)...);
+		Entity *ptr = entityManager.createEntity();
 		return ptr;
 	}
 
-	Entity *spawnEntityBlueprint(std::unique_ptr<Entity> entity)
+	Entity *createEntity(std::unique_ptr<Entity> entityBlueprint)
 	{
-		Entity *ptr = entityManager.spawnEntityBlueprint(std::move(entity));
+		Entity *ptr = entityManager.createEntity(std::move(entityBlueprint));
 		return ptr;
 	}
 

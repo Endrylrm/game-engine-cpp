@@ -15,7 +15,7 @@ void GameManager::onUpdate(float deltaTime)
 
 void GameManager::respawnPlayer()
 {
-	player = EntityAPI::spawnFromBlueprint(PlayerFactory::create());
+	player = EntityAPI::createEntity(PlayerFactory::create());
 	Health *health = player->getComponent<Health>();
 	playerDiedConnection = health->onDead.connect([this]()
 												  { TimerAPI::after(1.5f, [this]()

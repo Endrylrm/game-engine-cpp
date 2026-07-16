@@ -25,12 +25,11 @@ public:
     std::vector<Entity *> findAllWithTag(const std::string &tag);
     std::vector<std::unique_ptr<Entity>> &getEntities();
 
-    template <std::derived_from<Entity> T, typename... Args>
-    T *spawnEntity(Args &&...args)
+    Entity *createEntity()
     {
-        auto entity = std::make_unique<T>(std::forward<Args>(args)...);
+        auto entity = std::make_unique<Entity>();
 
-        T *ptr = entity.get();
+        Entity *ptr = entity.get();
 
         entities.push_back(std::move(entity));
         spawnQueue.push(entities.back().get());
@@ -38,11 +37,11 @@ public:
         return ptr;
     }
 
-    Entity *spawnEntityBlueprint(std::unique_ptr<Entity> entity)
+    Entity *createEntity(std::unique_ptr<Entity> entityBlueprint)
     {
-        Entity *ptr = entity.get();
+        Entity *ptr = entityBlueprint.get();
 
-        entities.push_back(std::move(entity));
+        entities.push_back(std::move(entityBlueprint));
         spawnQueue.push(entities.back().get());
 
         return ptr;

@@ -21,9 +21,6 @@ void Engine::initialize(const char *title, int width, int height)
 	currentWindowManager = std::make_unique<SDLWindowManager>(title, width, height);
 	currentRenderer = std::make_unique<SDLRenderer>();
 	currentInputManager = std::make_unique<SDLInputManager>(&running);
-	currentSceneManager = std::make_unique<SceneManager>();
-	currentTimerManager = std::make_unique<TimerManager>();
-	currentTime = std::make_unique<Time>();
 
 	if (!currentWindowManager->onInit())
 	{
@@ -35,18 +32,17 @@ void Engine::initialize(const char *title, int width, int height)
 		return;
 	}
 
-	currentAssetDB = std::make_unique<AssetDatabase>();
-	currentAssetDB->registerManager<Texture>(
+	currentAssetDB.registerManager<Texture>(
 		[this](const std::string &path)
 		{ return currentRenderer->loadTexture(path); });
 
 	InputAPI::setManager(currentInputManager.get());
 	WindowAPI::setManager(currentWindowManager.get());
-	ScenesAPI::setManager(currentSceneManager.get());
-	EntityAPI::setManager(currentSceneManager.get());
-	AssetsAPI::setManager(currentAssetDB.get());
-	TimerAPI::setManager(currentTimerManager.get());
-	TimeAPI::setManager(currentTime.get());
+	ScenesAPI::setManager(&currentSceneManager);
+	EntityAPI::setManager(&currentSceneManager);
+	AssetsAPI::setManager(&currentAssetDB);
+	TimerAPI::setManager(&currentTimerManager);
+	TimeAPI::setManager(&currentTime);
 
 	game.onInit();
 }
@@ -60,40 +56,40 @@ void Engine::beginFrame()
 
 void Engine::physicsStep(float fixedDeltaTime)
 {
-	currentSceneManager->onPhysics(fixedDeltaTime);
+	currentSceneManager.onPhysics(fixedDeltaTime);
 	game.onPhysics(fixedDeltaTime);
 }
 
 void Engine::preUpdate()
 {
-	currentSceneManager->onPreUpdate();
+	currentSceneManager.onPreUpdate();
 	game.onPreUpdate();
 }
 
 void Engine::update(float deltaTime)
 {
-	currentSceneManager->onUpdate(deltaTime);
-	currentTimerManager->onUpdate(deltaTime);
+	currentSceneManager.onUpdate(deltaTime);
+	currentTimerManager.onUpdate(deltaTime);
 	game.onUpdate(deltaTime);
 }
 
 void Engine::postUpdate()
 {
-	currentSceneManager->onPostUpdate();
+	currentSceneManager.onPostUpdate();
 	game.onPostUpdate();
 }
 
 void Engine::render()
 {
 	currentRenderer->clear();
-	currentSceneManager->onRender(*currentRenderer);
+	currentSceneManager.onRender(*currentRenderer);
 	game.onRender();
 	currentRenderer->present();
 }
 
 void Engine::processLifeCycle()
 {
-	currentSceneManager->processLifecycle();
+	currentSceneManager.processLifecycle();
 	game.processLifecycle();
 }
 
@@ -104,24 +100,24 @@ void Engine::endFrame()
 
 void Engine::mainLoop()
 {
-	const float fixedDeltaTime = currentTime->getFixedDeltaTime();
-	std::chrono::duration<float> targetFrameTime = currentTime->getTargetFrameTime();
+	const float fixedDeltaTime = currentTime.getFixedDeltaTime();
+	std::chrono::duration<float> targetFrameTime = currentTime.getTargetFrameTime();
 
 	while (running)
 	{
 		auto frameStart = std::chrono::steady_clock::now();
-		currentTime->tick();
+		currentTime.tick();
 
 		beginFrame();
 
-		int fixedSteps = currentTime->consumeFixedSteps();
+		int fixedSteps = currentTime.consumeFixedSteps();
 		for (int i = 0; i < fixedSteps; i++)
 		{
 			physicsStep(fixedDeltaTime);
 		}
 
 		preUpdate();
-		update(currentTime->getDeltaTime());
+		update(currentTime.getDeltaTime());
 		postUpdate();
 		processLifeCycle();
 		render();

@@ -37,10 +37,10 @@ private:
 	std::unique_ptr<WindowManager> currentWindowManager;
 	std::unique_ptr<Renderer> currentRenderer;
 	std::unique_ptr<InputManager> currentInputManager;
-	std::unique_ptr<AssetDatabase> currentAssetDB;
-	std::unique_ptr<SceneManager> currentSceneManager;
-	std::unique_ptr<TimerManager> currentTimerManager;
-	std::unique_ptr<Time> currentTime;
+	AssetDatabase currentAssetDB;
+	SceneManager currentSceneManager;
+	TimerManager currentTimerManager;
+	Time currentTime;
 	Game &game;
 	bool running = true;
 };

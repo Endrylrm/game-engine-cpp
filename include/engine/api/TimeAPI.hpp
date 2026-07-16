@@ -6,17 +6,17 @@
 class TimeAPI : public ManagerAPI<Time>
 {
 public:
-    float getDeltaTime() const
+    static float getDeltaTime()
     {
         return getManager().getDeltaTime();
     }
 
-    float getFixedDeltaTime() const
+    static float getFixedDeltaTime()
     {
         return getManager().getFixedDeltaTime();
     }
 
-    uint32_t getFPS() const
+    static uint32_t getFPS()
     {
         return getManager().getFPS();
     }

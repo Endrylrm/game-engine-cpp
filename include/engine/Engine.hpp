@@ -13,6 +13,13 @@ class Engine
 {
 public:
 	Engine(Game &gameRef) : game(gameRef) {}
+
+	// Prevent copying and moving of the engine
+	Engine(const Engine &) = delete;
+	Engine &operator=(const Engine &) = delete;
+	Engine(Engine &&) = delete;
+	Engine &operator=(Engine &&) = delete;
+
 	void initialize(const char *title, int width, int height);
 	void mainLoop();
 	void shutdown();

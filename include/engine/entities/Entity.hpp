@@ -1,0 +1,115 @@
+#pragma once
+#include <vector>
+#include <unordered_map>
+#include <memory>
+#include <string>
+#include "engine/entities/components/Component.hpp"
+#include "engine/entities/components/ComponentRegistry.hpp"
+#include "engine/entities/components/Transform2D.hpp"
+#include "engine/entities/EntityState.hpp"
+#include "engine/core/graphics/Renderer.hpp"
+#include "engine/core/helpers/Flags.hpp"
+#include <iostream>
+
+class Entity
+{
+public:
+	Entity() {}
+	~Entity() = default;
+
+	template <std::derived_from<Component> T, typename... Args>
+	T *addComponent(Args &&...args)
+	{
+		auto component = std::make_unique<T>(std::forward<Args>(args)...);
+		component->owner = this;
+		T *ptr = component.get();
+		componentsMap[ComponentRegistry::GetId<T>()] = ptr;
+		components.push_back(std::move(component));
+		return ptr;
+	}
+
+	template <std::derived_from<Component> T>
+	T *attachComponent(std::unique_ptr<T> component)
+	{
+		component->owner = this;
+		T *ptr = component.get();
+		componentsMap[ComponentRegistry::GetId<T>()] = ptr;
+		components.push_back(std::move(component));
+		return ptr;
+	}
+
+	template <typename T>
+	T *getComponent()
+	{
+		auto it = componentsMap.find(ComponentRegistry::GetId<T>());
+
+		if (it == componentsMap.end())
+			return nullptr;
+
+		return static_cast<T *>(it->second);
+	}
+
+	template <typename T>
+	bool hasComponent()
+	{
+		auto it = componentsMap.find(ComponentRegistry::GetId<T>());
+
+		if (it == componentsMap.end())
+			return false;
+
+		return true;
+	}
+
+	void onAwake();
+	void onActivate();
+	void onDeactivate();
+	void onStart();
+	void onPhysics(float fixedDeltaTime);
+	void onPreUpdate();
+	void onUpdate(float deltaTime);
+	void onPostUpdate();
+	void onRender(Renderer &renderer);
+	void onCollisionEnter(Entity &other);
+	void onCollisionStay(Entity &other);
+	void onCollisionExit(Entity &other);
+	void onDestruction();
+
+	// Entity *getParent() const;
+	// void setParent(Entity *parent);
+	// void addChild(Entity *child);
+	// void removeChild(Entity *child);
+	// std::vector<Entity *> &getChildren() const;
+
+	bool isPendingSpawn() const;
+	void markSpawned();
+
+	bool isPendingAwake() const;
+	void markToStart();
+
+	bool isPendingStart() const;
+	void markStarted();
+
+	bool isActive() const;
+	bool isDeactivated() const;
+	void markActive();
+	void setActive(bool value);
+
+	bool isVisible() const;
+	void setVisible(bool value);
+
+	bool isPendingDestruction() const;
+	void markForDestruction();
+
+	std::string tag;
+	Transform2D transform;
+
+private:
+	Flags<EntityState> state{EntityState::PendingSpawn};
+	// Entity *parent = nullptr;
+	// std::vector<Entity *> children;
+	std::vector<std::unique_ptr<Component>> components;
+	std::unordered_map<ComponentId, Component *> componentsMap;
+};
+
+template <>
+Transform2D *Entity::getComponent<Transform2D>();

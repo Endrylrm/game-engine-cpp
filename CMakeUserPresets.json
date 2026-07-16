@@ -1,0 +1,58 @@
+{
+  "version": 9,
+  "include": [
+    "CMakePresets.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "local-gcc",
+      "displayName": "GCC Compiler + VCPKG",
+      "inherits": "default",
+      "environment": {
+        "VCPKG_ROOT": "C:/dev/vcpkg",
+        "VCPKG_DEFAULT_TRIPLET": "x64-mingw-dynamic",
+        "VCPKG_DEFAULT_HOST_TRIPLET": "x64-mingw-dynamic"
+      },
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_C_COMPILER": "gcc"
+      }
+    },
+    {
+      "name": "local-clang",
+      "displayName": "Clang Compiler",
+      "inherits": "clang-default",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_C_COMPILER": "clang"
+      }
+    },
+    {
+      "name": "local-windows-clang",
+      "displayName": "Windows Clang Compiler + VCPKG",
+      "inherits": "windows-default",
+      "environment": {
+        "VCPKG_ROOT": "C:/dev/vcpkg",
+        "VCPKG_DEFAULT_TRIPLET": "x64-windows",
+        "VCPKG_DEFAULT_HOST_TRIPLET": "x64-windows"
+      },
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_CXX_COMPILER": "clang-cl",
+        "CMAKE_C_COMPILER": "clang-cl"
+      }
+    },
+    {
+      "name": "local-windows",
+      "displayName": "Windows Visual Studio Compiler + VCPKG",
+      "inherits": "windows-default",
+      "environment": {
+        "VCPKG_ROOT": "C:/dev/vcpkg",
+        "VCPKG_DEFAULT_TRIPLET": "x64-windows",
+        "VCPKG_DEFAULT_HOST_TRIPLET": "x64-windows"
+      }
+    }
+  ]
+}

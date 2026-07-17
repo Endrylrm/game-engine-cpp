@@ -38,6 +38,6 @@ public:
 private:
     static EntityManager &getEntityManager()
     {
-        return getManager().getCurrentScene()->getEntityManager();
+        return getManager().getMainScene()->getEntityManager();
     }
 };

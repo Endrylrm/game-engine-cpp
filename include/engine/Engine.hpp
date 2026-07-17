@@ -32,6 +32,7 @@ private:
 	void postUpdate();
 	void render();
 	void processLifeCycle();
+	void processCommands();
 	void endFrame();
 
 	std::unique_ptr<WindowManager> currentWindowManager;

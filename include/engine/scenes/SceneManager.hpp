@@ -4,6 +4,7 @@
 #include <string>
 #include "engine/scenes/Scene.hpp"
 #include "engine/scenes/SceneRegistry.hpp"
+#include "engine/scenes/SceneCommand.hpp"
 #include "engine/core/graphics/Renderer.hpp"
 
 class SceneManager
@@ -23,15 +24,26 @@ public:
     }
 
     template <typename T>
-    void changeScene()
+    void loadScene()
     {
-        currentScene = scenes.at(SceneRegistry::GetId<T>()).get();
-        currentScene->init();
+        pendingCommands.push_back({SceneCommandType::Load, SceneRegistry::GetId<T>()});
     }
 
-    Scene *getCurrentScene()
+    template <typename T>
+    void loadSceneAdditive()
     {
-        return currentScene;
+        pendingCommands.push_back({SceneCommandType::LoadAdditive, SceneRegistry::GetId<T>()});
+    }
+
+    template <typename T>
+    void unloadScene(SceneId id)
+    {
+        pendingCommands.push_back({SceneCommandType::Unload, SceneRegistry::GetId<T>()});
+    }
+
+    Scene *getMainScene()
+    {
+        return mainScene;
     }
 
     void onInit();
@@ -41,8 +53,11 @@ public:
     void onPostUpdate();
     void onRender(Renderer &renderer);
     void processLifecycle();
+    void processCommands();
 
 private:
     std::unordered_map<SceneId, std::unique_ptr<Scene>> scenes;
-    Scene *currentScene = nullptr;
+    std::vector<Scene *> activeScenes;
+    std::vector<SceneCommand> pendingCommands;
+    Scene *mainScene = nullptr;
 };

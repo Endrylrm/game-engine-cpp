@@ -13,13 +13,25 @@ public:
     }
 
     template <typename T>
-    static void changeScene()
+    static void loadScene()
     {
-        getManager().changeScene<T>();
+        getManager().loadScene<T>();
     }
 
-    static Scene *getCurrentScene()
+    template <typename T>
+    static void loadSceneAdditive()
     {
-        return getManager().getCurrentScene();
+        getManager().loadSceneAdditive<T>();
+    }
+
+    template <typename T>
+    static void unloadScene()
+    {
+        getManager().unloadScene<T>();
+    }
+
+    static Scene *getMainScene()
+    {
+        return getManager().getMainScene();
     }
 };

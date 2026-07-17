@@ -2,42 +2,75 @@
 
 void SceneManager::onInit()
 {
-    if (currentScene)
-        currentScene->init();
 }
 
 void SceneManager::onPhysics(float fixedDeltaTime)
 {
-    if (currentScene)
-        currentScene->physics(fixedDeltaTime);
+    for (auto *scene : activeScenes)
+        scene->physics(fixedDeltaTime);
 }
 
 void SceneManager::onPreUpdate()
 {
-    if (currentScene)
-        currentScene->preUpdate();
+    for (auto *scene : activeScenes)
+        scene->preUpdate();
 }
 
 void SceneManager::onUpdate(float deltaTime)
 {
-    if (currentScene)
-        currentScene->update(deltaTime);
+    for (auto *scene : activeScenes)
+        scene->update(deltaTime);
 }
 
 void SceneManager::onPostUpdate()
 {
-    if (currentScene)
-        currentScene->postUpdate();
+    for (auto *scene : activeScenes)
+        scene->postUpdate();
 }
 
 void SceneManager::onRender(Renderer &renderer)
 {
-    if (currentScene)
-        currentScene->render(renderer);
+    for (auto *scene : activeScenes)
+        scene->render(renderer);
 }
 
 void SceneManager::processLifecycle()
 {
-    if (currentScene)
-        currentScene->processLifecycle();
+    for (auto *scene : activeScenes)
+        scene->processLifecycle();
+}
+
+void SceneManager::processCommands()
+{
+    for (auto &command : pendingCommands)
+    {
+        switch (command.type)
+        {
+        case SceneCommandType::Load:
+        {
+            if (!activeScenes.empty())
+                activeScenes.clear();
+
+            auto *scene = scenes.at(command.id).get();
+            mainScene = scene;
+            activeScenes.push_back(scene);
+            scene->init();
+            break;
+        }
+        case SceneCommandType::LoadAdditive:
+        {
+            auto *scene = scenes.at(command.id).get();
+            activeScenes.push_back(scene);
+            scene->init();
+            break;
+        }
+        case SceneCommandType::Unload:
+        {
+            break;
+        }
+        default:
+            break;
+        }
+    }
+    pendingCommands.clear();
 }

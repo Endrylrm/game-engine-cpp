@@ -5,7 +5,7 @@
 void SpaceShooterGame::onInit()
 {
     ScenesAPI::registerScene<GameplayScene>();
-    ScenesAPI::changeScene<GameplayScene>();
+    ScenesAPI::loadScene<GameplayScene>();
 }
 
 void SpaceShooterGame::onShutdown()

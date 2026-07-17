@@ -44,6 +44,7 @@ void Engine::initialize(const char *title, int width, int height)
 	TimerAPI::setManager(&currentTimerManager);
 	TimeAPI::setManager(&currentTime);
 
+	currentSceneManager.onInit();
 	game.onInit();
 }
 
@@ -93,6 +94,11 @@ void Engine::processLifeCycle()
 	game.processLifecycle();
 }
 
+void Engine::processCommands()
+{
+	currentSceneManager.processCommands();
+}
+
 void Engine::endFrame()
 {
 	game.onEndFrame();
@@ -120,6 +126,7 @@ void Engine::mainLoop()
 		update(currentTime.getDeltaTime());
 		postUpdate();
 		processLifeCycle();
+		processCommands();
 		render();
 		endFrame();
 

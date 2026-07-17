@@ -21,9 +21,9 @@ public:
     }
 
     template <typename T>
-    T *get(AssetHandle<T> id)
+    T *get(AssetHandle<T> handle)
     {
-        return getManager<T>().get(id);
+        return getManager<T>().get(handle);
     }
 
     template <typename T>

@@ -25,15 +25,15 @@ public:
         if (auto it = pathToHandle.find(path); it != pathToHandle.end())
             return it->second;
 
-        AssetHandle<T> id(nextID++);
-        assets[id] = std::move(loader(path));
-        pathToHandle[path] = id;
-        return id;
+        AssetHandle<T> handle(nextID++);
+        assets[handle] = std::move(loader(path));
+        pathToHandle[path] = handle;
+        return handle;
     }
 
-    T *get(AssetHandle<T> id) const
+    T *get(AssetHandle<T> handle) const
     {
-        return assets.at(id).get();
+        return assets.at(handle).get();
     }
 
 private:

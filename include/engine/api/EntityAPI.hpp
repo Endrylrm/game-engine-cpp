@@ -20,7 +20,7 @@ public:
     template <typename... Components, typename Func>
     static void forEach(Func &&func)
     {
-        getEntityManager().forEach<Components>(std::forward<Func>(func));
+        getEntityManager().forEach<Components...>(std::forward<Func>(func));
     }
 
     template <typename Func>
@@ -32,7 +32,7 @@ public:
     template <typename... Components, typename Func>
     static void forEachComponent(Func &&func)
     {
-        getEntityManager().forEachComponent<Components>(std::forward<Func>(func));
+        getEntityManager().forEachComponent<Components...>(std::forward<Func>(func));
     }
 
 private:

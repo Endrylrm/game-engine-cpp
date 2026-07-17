@@ -24,6 +24,7 @@ public:
     Entity *findWithTag(const std::string &tag);
     std::vector<Entity *> findAllWithTag(const std::string &tag);
     std::vector<std::unique_ptr<Entity>> &getEntities();
+    void clearEntities();
 
     Entity *createEntity()
     {

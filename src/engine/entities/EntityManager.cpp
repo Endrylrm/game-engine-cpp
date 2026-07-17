@@ -164,3 +164,8 @@ std::vector<std::unique_ptr<Entity>> &EntityManager::getEntities()
 {
     return entities;
 }
+
+void EntityManager::clearEntities()
+{
+    entities.clear();
+}

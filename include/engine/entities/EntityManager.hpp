@@ -31,8 +31,7 @@ public:
 
         Entity *ptr = entity.get();
 
-        entities.push_back(std::move(entity));
-        spawnQueue.push(entities.back().get());
+        spawnQueue.push_back(std::move(entity));
 
         return ptr;
     }
@@ -41,8 +40,7 @@ public:
     {
         Entity *ptr = entityBlueprint.get();
 
-        entities.push_back(std::move(entityBlueprint));
-        spawnQueue.push(entities.back().get());
+        spawnQueue.push_back(std::move(entityBlueprint));
 
         return ptr;
     }
@@ -80,7 +78,7 @@ public:
 
 private:
     std::vector<std::unique_ptr<Entity>> entities;
-    std::queue<Entity *> spawnQueue;
-    std::queue<Entity *> awakeQueue;
-    std::queue<Entity *> startQueue;
+    std::vector<std::unique_ptr<Entity>> spawnQueue;
+    std::vector<Entity *> awakeQueue;
+    std::vector<Entity *> startQueue;
 };

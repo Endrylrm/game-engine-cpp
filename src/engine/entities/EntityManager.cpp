@@ -73,20 +73,20 @@ void EntityManager::processPendingSpawns()
     if (spawnQueue.empty())
         return;
 
-    while (!spawnQueue.empty())
+    for (auto &entity : spawnQueue)
     {
-        Entity *entity = spawnQueue.front();
-
         if (entity->isPendingDestruction())
         {
-            spawnQueue.pop();
             continue;
         }
 
-        entity->markSpawned();
-        awakeQueue.push(entity);
-        spawnQueue.pop();
+        Entity *ptr = entity.get();
+        entities.push_back(std::move(entity));
+        ptr->markSpawned();
+        awakeQueue.push_back(ptr);
     }
+
+    spawnQueue.clear();
 }
 
 void EntityManager::processAwakeQueue()
@@ -94,23 +94,22 @@ void EntityManager::processAwakeQueue()
     if (awakeQueue.empty())
         return;
 
-    while (!awakeQueue.empty())
+    for (auto entity : awakeQueue)
     {
-        Entity *entity = awakeQueue.front();
         // if the object get set to be destroyed, just skip it.
         // in case it's deactivated, we can awake the entity later.
         if (entity->isPendingDestruction() || entity->isDeactivated())
         {
-            awakeQueue.pop();
             continue;
         }
 
         entity->markToStart();
         entity->onAwake();
 
-        startQueue.push(entity);
-        awakeQueue.pop();
+        startQueue.push_back(entity);
     }
+
+    awakeQueue.clear();
 }
 
 void EntityManager::processStartQueue()
@@ -118,14 +117,12 @@ void EntityManager::processStartQueue()
     if (startQueue.empty())
         return;
 
-    while (!startQueue.empty())
+    for (auto entity : startQueue)
     {
-        Entity *entity = startQueue.front();
         // if the object get set to be destroyed, just skip it.
         // in case it's deactivated, we can start the entity later.
         if (entity->isPendingDestruction() || entity->isDeactivated())
         {
-            startQueue.pop();
             continue;
         }
 
@@ -134,8 +131,9 @@ void EntityManager::processStartQueue()
         entity->markStarted();
         entity->onStart();
         entity->setVisible(true);
-        startQueue.pop();
     }
+
+    startQueue.clear();
 }
 
 Entity *EntityManager::findWithTag(const std::string &tag)

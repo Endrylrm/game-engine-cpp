@@ -5,7 +5,8 @@ enum class SceneCommandType
 {
     Load,
     LoadAdditive,
-    Unload
+    Unload,
+    UnloadAll
 };
 
 struct SceneCommand

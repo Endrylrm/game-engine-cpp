@@ -66,6 +66,18 @@ void SceneManager::processCommands()
         }
         case SceneCommandType::Unload:
         {
+            auto *scene = scenes.at(command.id).get();
+            scene->unload();
+            std::erase(activeScenes, scene);
+            break;
+        }
+        case SceneCommandType::UnloadAll:
+        {
+            for (auto *scene : activeScenes)
+            {
+                scene->unload();
+            }
+            activeScenes.clear();
             break;
         }
         default:

@@ -66,6 +66,12 @@ public:
 		entityManager.processStartQueue();
 	}
 
+	void unload()
+	{
+		entityManager.clearEntities();
+		onUnload();
+	}
+
 	EntityManager &getEntityManager()
 	{
 		return entityManager;
@@ -78,6 +84,7 @@ protected:
 	virtual void onUpdate(float deltaTime) {}
 	virtual void onPostUpdate() {}
 	virtual void onRender(Renderer &renderer) {}
+	virtual void onUnload() {}
 
 private:
 	EntityManager entityManager;

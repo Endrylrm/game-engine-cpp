@@ -26,6 +26,7 @@ public:
     template <typename T>
     void loadScene()
     {
+        unloadAllScenes();
         pendingCommands.push_back({SceneCommandType::Load, SceneRegistry::GetId<T>()});
     }
 
@@ -39,6 +40,11 @@ public:
     void unloadScene()
     {
         pendingCommands.push_back({SceneCommandType::Unload, SceneRegistry::GetId<T>()});
+    }
+
+    void unloadAllScenes()
+    {
+        pendingCommands.push_back({SceneCommandType::UnloadAll, 0});
     }
 
     Scene *getMainScene()

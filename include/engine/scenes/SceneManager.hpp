@@ -36,7 +36,7 @@ public:
     }
 
     template <typename T>
-    void unloadScene(SceneId id)
+    void unloadScene()
     {
         pendingCommands.push_back({SceneCommandType::Unload, SceneRegistry::GetId<T>()});
     }

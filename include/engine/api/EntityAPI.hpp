@@ -3,6 +3,7 @@
 #include "engine/entities/Entity.hpp"
 #include "engine/entities/EntityManager.hpp"
 #include "engine/scenes/SceneManager.hpp"
+#include "engine/scenes/Scene.hpp"
 
 class EntityAPI : public ManagerAPI<SceneManager>
 {
@@ -15,6 +16,18 @@ public:
     static Entity *createEntity(std::unique_ptr<Entity> entityBlueprint)
     {
         return getEntityManager().createEntity(std::move(entityBlueprint));
+    }
+
+    template <std::derived_from<Scene> T>
+    static Entity *createEntityAt()
+    {
+        return getEntityManagerAt<T>().createEntity();
+    }
+
+    template <std::derived_from<Scene> T>
+    static Entity *createEntityAt(std::unique_ptr<Entity> entityBlueprint)
+    {
+        return getEntityManagerAt<T>().createEntity(std::move(entityBlueprint));
     }
 
     template <typename... Components, typename Func>
@@ -39,5 +52,11 @@ private:
     static EntityManager &getEntityManager()
     {
         return getManager().getMainScene()->getEntityManager();
+    }
+
+    template <std::derived_from<Scene> T>
+    static EntityManager &getEntityManagerAt()
+    {
+        return getManager().getActiveScene<T>()->getEntityManager();
     }
 };

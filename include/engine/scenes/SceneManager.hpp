@@ -47,6 +47,46 @@ public:
         pendingCommands.push_back({SceneCommandType::UnloadAll, 0});
     }
 
+    template <typename T>
+    T *getActiveScene() const
+    {
+        auto iter = scenes.find(SceneRegistry::GetId<T>());
+        if (iter == scenes.end())
+        {
+            return nullptr;
+        }
+
+        Scene *scene = iter->second.get();
+
+        auto vecIter = std::find(activeScenes.begin(), activeScenes.end(), scene);
+        if (vecIter == activeScenes.end())
+        {
+            return nullptr;
+        }
+
+        return static_cast<T *>(scene);
+    }
+
+    template <typename T>
+    bool isActiveScene() const
+    {
+        auto iter = scenes.find(SceneRegistry::GetId<T>());
+        if (iter == scenes.end())
+        {
+            return false;
+        }
+
+        Scene *scene = iter->second.get();
+
+        auto vecIter = std::find(activeScenes.begin(), activeScenes.end(), scene);
+        if (vecIter == activeScenes.end())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     Scene *getMainScene()
     {
         return mainScene;

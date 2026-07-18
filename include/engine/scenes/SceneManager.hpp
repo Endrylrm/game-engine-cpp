@@ -23,20 +23,20 @@ public:
         scenes[id] = std::make_unique<T>(std::forward<Args>(args)...);
     }
 
-    template <typename T>
+    template <std::derived_from<Scene> T>
     void loadScene()
     {
         unloadAllScenes();
         pendingCommands.push_back({SceneCommandType::Load, SceneRegistry::GetId<T>()});
     }
 
-    template <typename T>
+    template <std::derived_from<Scene> T>
     void loadSceneAdditive()
     {
         pendingCommands.push_back({SceneCommandType::LoadAdditive, SceneRegistry::GetId<T>()});
     }
 
-    template <typename T>
+    template <std::derived_from<Scene> T>
     void unloadScene()
     {
         pendingCommands.push_back({SceneCommandType::Unload, SceneRegistry::GetId<T>()});
@@ -47,7 +47,7 @@ public:
         pendingCommands.push_back({SceneCommandType::UnloadAll, 0});
     }
 
-    template <typename T>
+    template <std::derived_from<Scene> T>
     T *getActiveScene() const
     {
         auto iter = scenes.find(SceneRegistry::GetId<T>());
@@ -67,7 +67,7 @@ public:
         return static_cast<T *>(scene);
     }
 
-    template <typename T>
+    template <std::derived_from<Scene> T>
     bool isActiveScene() const
     {
         auto iter = scenes.find(SceneRegistry::GetId<T>());

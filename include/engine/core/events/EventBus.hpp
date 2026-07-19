@@ -32,12 +32,14 @@ public:
 	template <typename EventType>
 	void emit(const EventType &event)
 	{
-		auto it = listenersMap.find(typeid(EventType));
+		auto iter = listenersMap.find(typeid(EventType));
 
-		if (it == listenersMap.end())
+		if (iter == listenersMap.end())
 			return;
 
-		for (auto &listener : it->second)
+		auto &list = iter->second;
+
+		for (auto &listener : list)
 		{
 			if (listener.slot.state != ConnectionState::Connected)
 				continue;
@@ -59,12 +61,14 @@ public:
 			auto event = std::move(eventQueue.front());
 			eventQueue.pop();
 
-			auto it = listenersMap.find(typeid(*event));
+			auto iter = listenersMap.find(typeid(*event));
 
-			if (it == listenersMap.end())
+			if (iter == listenersMap.end())
 				continue;
 
-			for (auto &listener : it->second)
+			auto &list = iter->second;
+
+			for (auto &listener : list)
 			{
 				if (listener.slot.state != ConnectionState::Connected)
 					continue;
@@ -86,12 +90,14 @@ public:
 private:
 	void disconnect(std::type_index type, uint32_t id) override
 	{
-		auto it = listenersMap.find(type);
+		auto iter = listenersMap.find(type);
 
-		if (it == listenersMap.end())
+		if (iter == listenersMap.end())
 			return;
 
-		for (auto &listener : it->second)
+		auto &list = iter->second;
+
+		for (auto &listener : list)
 		{
 			if (listener.slot.id == id)
 			{
@@ -103,12 +109,12 @@ private:
 
 	void setListenerEnabled(std::type_index type, uint32_t id, bool enabled) override
 	{
-		auto it = listenersMap.find(type);
+		auto iter = listenersMap.find(type);
 
-		if (it == listenersMap.end())
+		if (iter == listenersMap.end())
 			return;
 
-		auto &list = it->second;
+		auto &list = iter->second;
 
 		for (auto &listener : list)
 		{
@@ -124,12 +130,12 @@ private:
 
 	bool isListenerEnabled(std::type_index type, uint32_t id) override
 	{
-		auto it = listenersMap.find(type);
+		auto iter = listenersMap.find(type);
 
-		if (it == listenersMap.end())
+		if (iter == listenersMap.end())
 			return;
 
-		auto &list = it->second;
+		auto &list = iter->second;
 
 		for (auto &listener : list)
 		{

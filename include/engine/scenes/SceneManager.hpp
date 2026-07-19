@@ -58,8 +58,8 @@ public:
 
         Scene *scene = iter->second.get();
 
-        auto vecIter = std::find(activeScenes.begin(), activeScenes.end(), scene);
-        if (vecIter == activeScenes.end())
+        auto sceneIter = std::find(activeScenes.begin(), activeScenes.end(), scene);
+        if (sceneIter == activeScenes.end())
         {
             return nullptr;
         }
@@ -78,8 +78,8 @@ public:
 
         Scene *scene = iter->second.get();
 
-        auto vecIter = std::find(activeScenes.begin(), activeScenes.end(), scene);
-        if (vecIter == activeScenes.end())
+        auto sceneIter = std::find(activeScenes.begin(), activeScenes.end(), scene);
+        if (sceneIter == activeScenes.end())
         {
             return false;
         }

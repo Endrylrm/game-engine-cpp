@@ -29,11 +29,11 @@ public:
     template <typename T>
     AssetManager<T> &getManager()
     {
-        auto it = managers.find(typeid(T));
-        if (it == managers.end())
+        auto iter = managers.find(typeid(T));
+        if (iter == managers.end())
             throw std::runtime_error("AssetManager<T> not found: " + std::string(typeid(T).name()));
 
-        return static_cast<AssetManager<T> &>(*it->second);
+        return static_cast<AssetManager<T> &>(*iter->second);
     }
 
 private:

@@ -41,20 +41,20 @@ public:
 	template <typename T>
 	T *getComponent()
 	{
-		auto it = componentsMap.find(ComponentRegistry::GetId<T>());
+		auto iter = componentsMap.find(ComponentRegistry::GetId<T>());
 
-		if (it == componentsMap.end())
+		if (iter == componentsMap.end())
 			return nullptr;
 
-		return static_cast<T *>(it->second);
+		return static_cast<T *>(iter->second);
 	}
 
 	template <typename T>
 	bool hasComponent()
 	{
-		auto it = componentsMap.find(ComponentRegistry::GetId<T>());
+		auto iter = componentsMap.find(ComponentRegistry::GetId<T>());
 
-		if (it == componentsMap.end())
+		if (iter == componentsMap.end())
 			return false;
 
 		return true;

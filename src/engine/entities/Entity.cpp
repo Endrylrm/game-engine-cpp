@@ -6,6 +6,12 @@ Transform2D *Entity::getComponent<Transform2D>()
 	return &transform;
 }
 
+template <>
+bool Entity::hasComponent<Transform2D>()
+{
+	return true;
+}
+
 void Entity::onAwake()
 {
 	for (auto &component : components)

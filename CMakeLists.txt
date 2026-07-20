@@ -19,6 +19,7 @@ set(ENGINE_SOURCES
     src/engine/entities/Entity.cpp
     src/engine/entities/EntityManager.cpp
     src/engine/scenes/SceneManager.cpp
+    src/engine/systems/RenderSystem.cpp
     src/engine/time/Time.cpp
     src/engine/time/Timer.cpp
     src/engine/time/TimerManager.cpp
@@ -29,12 +30,10 @@ set(GAME_SOURCES
     src/game/SpaceShooterGame.cpp
     src/game/components/bullet/BulletDeleter.cpp
     src/game/components/bullet/BulletMove.cpp
-    src/game/components/bullet/BulletRenderer.cpp
     src/game/components/common/ClampLR.cpp
     src/game/components/common/ClampUD.cpp
     src/game/components/common/Health.cpp
     src/game/components/player/PlayerController.cpp
-    src/game/components/player/PlayerRenderer.cpp
     src/game/Factories/BulletFactory.cpp
     src/game/Factories/PlayerFactory.cpp
     src/game/managers/GameManager.cpp

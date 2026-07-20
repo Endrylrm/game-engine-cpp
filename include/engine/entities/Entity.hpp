@@ -9,7 +9,6 @@
 #include "engine/entities/EntityState.hpp"
 #include "engine/core/graphics/Renderer.hpp"
 #include "engine/core/helpers/Flags.hpp"
-#include <iostream>
 
 class Entity
 {
@@ -113,3 +112,6 @@ private:
 
 template <>
 Transform2D *Entity::getComponent<Transform2D>();
+
+template <>
+bool Entity::hasComponent<Transform2D>();

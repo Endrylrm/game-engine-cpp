@@ -4,6 +4,7 @@
 #include "engine/entities/Entity.hpp"
 #include "engine/core/graphics/Renderer.hpp"
 #include "engine/entities/EntityManager.hpp"
+#include "engine/systems/RenderSystem.hpp"
 
 class Scene
 {
@@ -54,7 +55,7 @@ public:
 
 	void render(Renderer &renderer)
 	{
-		entityManager.onRender(renderer);
+		renderSystem.render(entityManager, renderer);
 		onRender(renderer);
 	}
 
@@ -88,4 +89,5 @@ protected:
 
 private:
 	EntityManager entityManager;
+	RenderSystem renderSystem;
 };

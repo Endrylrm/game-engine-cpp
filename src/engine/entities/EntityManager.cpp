@@ -44,16 +44,6 @@ void EntityManager::onPostUpdate()
     }
 }
 
-void EntityManager::onRender(Renderer &renderer)
-{
-    for (auto &entity : entities)
-    {
-        if (!entity->isActiveInHierarchy() || !entity->isVisibleInHierarchy())
-            continue;
-        entity->onRender(renderer);
-    }
-}
-
 void EntityManager::removeDestroyedObjects()
 {
     for (auto &entity : entities)

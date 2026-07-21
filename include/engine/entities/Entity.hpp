@@ -7,7 +7,6 @@
 #include "engine/entities/components/ComponentRegistry.hpp"
 #include "engine/entities/components/Transform2D.hpp"
 #include "engine/entities/EntityState.hpp"
-#include "engine/core/graphics/Renderer.hpp"
 #include "engine/core/helpers/Flags.hpp"
 
 class Entity
@@ -67,7 +66,6 @@ public:
 	void onPreUpdate();
 	void onUpdate(float deltaTime);
 	void onPostUpdate();
-	void onRender(Renderer &renderer);
 	void onCollisionEnter(Entity &other);
 	void onCollisionStay(Entity &other);
 	void onCollisionExit(Entity &other);

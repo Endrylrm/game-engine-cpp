@@ -1,5 +1,4 @@
 #pragma once
-#include "engine/core/graphics/Renderer.hpp"
 
 // forward declaration
 class Entity;
@@ -16,7 +15,6 @@ public:
     virtual void onPreUpdate() {}
     virtual void onUpdate(float deltaTime) {}
     virtual void onPostUpdate() {}
-    virtual void onRender(Renderer &renderer) {}
     virtual void onCollisionEnter(Entity &other) {}
     virtual void onCollisionStay(Entity &other) {}
     virtual void onCollisionExit(Entity &other) {}

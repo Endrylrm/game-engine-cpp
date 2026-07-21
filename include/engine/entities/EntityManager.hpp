@@ -3,7 +3,6 @@
 #include <queue>
 #include <memory>
 #include "engine/entities/Entity.hpp"
-#include "engine/core/graphics/Renderer.hpp"
 
 class EntityManager
 {
@@ -15,7 +14,6 @@ public:
     void onPreUpdate();
     void onUpdate(float deltaTime);
     void onPostUpdate();
-    void onRender(Renderer &renderer);
     void removeDestroyedObjects();
     void processPendingSpawns();
     void processAwakeQueue();

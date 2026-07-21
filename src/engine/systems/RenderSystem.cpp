@@ -6,12 +6,13 @@
 
 void RenderSystem::render(EntityManager &entityManager, Renderer &renderer)
 {
-    entityManager.forEachComponent<SpriteRenderer, Transform2D>(
-        [&](SpriteRenderer &sprite, Transform2D &transform)
+    entityManager.forEach<SpriteRenderer, Transform2D>(
+        [&](Entity &entity, SpriteRenderer &sprite, Transform2D &transform)
         {
-            renderer.drawTexture(
-                AssetsAPI::get<Texture>(sprite.textureId),
-                transform.position.x,
-                transform.position.y);
+            if (entity.isVisibleInHierarchy())
+                renderer.drawTexture(
+                    AssetsAPI::get<Texture>(sprite.textureId),
+                    transform.position.x,
+                    transform.position.y);
         });
 }

@@ -76,14 +76,6 @@ void Entity::onPostUpdate()
 	}
 }
 
-void Entity::onRender(Renderer &renderer)
-{
-	for (auto &component : components)
-	{
-		component->onRender(renderer);
-	}
-}
-
 void Entity::onCollisionEnter(Entity &other)
 {
 	for (auto &component : components)

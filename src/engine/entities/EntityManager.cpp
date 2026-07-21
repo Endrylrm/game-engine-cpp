@@ -94,7 +94,7 @@ void EntityManager::processAwakeQueue()
     if (awakeQueue.empty())
         return;
 
-    for (auto entity : awakeQueue)
+    for (auto *entity : awakeQueue)
     {
         // if the object get set to be destroyed, just skip it.
         // in case it's deactivated, we can awake the entity later.
@@ -117,7 +117,7 @@ void EntityManager::processStartQueue()
     if (startQueue.empty())
         return;
 
-    for (auto entity : startQueue)
+    for (auto *entity : startQueue)
     {
         // if the object get set to be destroyed, just skip it.
         // in case it's deactivated, we can start the entity later.

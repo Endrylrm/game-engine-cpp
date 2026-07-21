@@ -53,7 +53,7 @@ public:
         {
             if ((entity->hasComponent<Components>() && ...))
             {
-                func(*entity, entity->getComponent<Components>()...);
+                func(*entity, *entity->getComponent<Components>()...);
             }
         }
     }
@@ -72,7 +72,7 @@ public:
         {
             if ((entity->hasComponent<Components>() && ...))
             {
-                func(entity->getComponent<Components>()...);
+                func(*entity->getComponent<Components>()...);
             }
         }
     }

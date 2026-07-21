@@ -7,11 +7,11 @@
 void RenderSystem::render(EntityManager &entityManager, Renderer &renderer)
 {
     entityManager.forEachComponent<SpriteRenderer, Transform2D>(
-        [&](SpriteRenderer *sprite, Transform2D *transform)
+        [&](SpriteRenderer &sprite, Transform2D &transform)
         {
             renderer.drawTexture(
-                AssetsAPI::get<Texture>(sprite->textureId),
-                transform->position.x,
-                transform->position.y);
+                AssetsAPI::get<Texture>(sprite.textureId),
+                transform.position.x,
+                transform.position.y);
         });
 }

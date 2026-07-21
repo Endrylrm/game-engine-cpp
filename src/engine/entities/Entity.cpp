@@ -78,9 +78,6 @@ void Entity::onPostUpdate()
 
 void Entity::onRender(Renderer &renderer)
 {
-	if (!isVisible())
-		return;
-
 	for (auto &component : components)
 	{
 		component->onRender(renderer);
@@ -212,6 +209,11 @@ bool Entity::isActive() const
 	return state.has(EntityState::Active);
 }
 
+bool Entity::isActiveInHierarchy() const
+{
+	return isActive() && (!parent || parent->isActiveInHierarchy());
+}
+
 bool Entity::isDeactivated() const
 {
 	return state.has(EntityState::Deactivated);
@@ -264,6 +266,11 @@ void Entity::setActive(bool value)
 bool Entity::isVisible() const
 {
 	return state.has(EntityState::Visible);
+}
+
+bool Entity::isVisibleInHierarchy() const
+{
+	return isVisible() && (!parent || parent->isVisibleInHierarchy());
 }
 
 void Entity::setVisible(bool value)

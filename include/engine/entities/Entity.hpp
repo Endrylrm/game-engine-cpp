@@ -90,11 +90,13 @@ public:
 	void markStarted();
 
 	bool isActive() const;
+	bool isActiveInHierarchy() const;
 	bool isDeactivated() const;
 	void markActive();
 	void setActive(bool value);
 
 	bool isVisible() const;
+	bool isVisibleInHierarchy() const;
 	void setVisible(bool value);
 
 	bool isPendingDestruction() const;

@@ -8,7 +8,7 @@ void EntityManager::onPhysics(float fixedDeltaTime)
 {
     for (auto &entity : entities)
     {
-        if (!entity->isActive())
+        if (!entity->isActiveInHierarchy())
             continue;
         entity->onPhysics(fixedDeltaTime);
     }
@@ -18,7 +18,7 @@ void EntityManager::onPreUpdate()
 {
     for (auto &entity : entities)
     {
-        if (!entity->isActive())
+        if (!entity->isActiveInHierarchy())
             continue;
         entity->onPreUpdate();
     }
@@ -28,7 +28,7 @@ void EntityManager::onUpdate(float deltaTime)
 {
     for (auto &entity : entities)
     {
-        if (!entity->isActive())
+        if (!entity->isActiveInHierarchy())
             continue;
         entity->onUpdate(deltaTime);
     }
@@ -38,7 +38,7 @@ void EntityManager::onPostUpdate()
 {
     for (auto &entity : entities)
     {
-        if (!entity->isActive())
+        if (!entity->isActiveInHierarchy())
             continue;
         entity->onPostUpdate();
     }
@@ -48,7 +48,7 @@ void EntityManager::onRender(Renderer &renderer)
 {
     for (auto &entity : entities)
     {
-        if (!entity->isActive())
+        if (!entity->isActiveInHierarchy() || !entity->isVisibleInHierarchy())
             continue;
         entity->onRender(renderer);
     }

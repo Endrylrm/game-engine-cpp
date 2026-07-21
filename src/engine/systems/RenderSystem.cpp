@@ -3,7 +3,6 @@
 #include "engine/entities/components/SpriteRenderer.hpp"
 #include "engine/entities/components/Transform2D.hpp"
 #include "engine/api/AssetsAPI.hpp"
-#include <iostream>
 
 void RenderSystem::render(EntityManager &entityManager, Renderer &renderer)
 {

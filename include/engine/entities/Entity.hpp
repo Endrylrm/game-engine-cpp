@@ -73,11 +73,12 @@ public:
 	void onCollisionExit(Entity &other);
 	void onDestruction();
 
-	// Entity *getParent() const;
-	// void setParent(Entity *parent);
-	// void addChild(Entity *child);
-	// void removeChild(Entity *child);
-	// std::vector<Entity *> &getChildren() const;
+	Entity *getParent() const;
+	void setParent(Entity *newParent);
+	void addChild(Entity *child);
+	void removeChild(Entity *child);
+	bool isAncestorOf(Entity *entity) const;
+	std::vector<Entity *> &getChildren();
 
 	bool isPendingSpawn() const;
 	void markSpawned();
@@ -104,8 +105,8 @@ public:
 
 private:
 	Flags<EntityState> state{EntityState::PendingSpawn};
-	// Entity *parent = nullptr;
-	// std::vector<Entity *> children;
+	Entity *parent = nullptr;
+	std::vector<Entity *> children;
 	std::vector<std::unique_ptr<Component>> components;
 	std::unordered_map<ComponentId, Component *> componentsMap;
 };

@@ -119,6 +119,64 @@ void Entity::onDestruction()
 	}
 }
 
+Entity *Entity::getParent() const
+{
+	return parent;
+}
+
+void Entity::setParent(Entity *newParent)
+{
+	if (parent == newParent)
+		return;
+
+	if (parent)
+		parent->removeChild(this);
+
+	parent = newParent;
+}
+
+void Entity::addChild(Entity *child)
+{
+	if (child->parent == this)
+		return;
+
+	if (child->isAncestorOf(this))
+		return;
+
+	if (child->parent)
+		child->parent->removeChild(child);
+
+	children.push_back(child);
+	child->parent = this;
+}
+
+void Entity::removeChild(Entity *child)
+{
+	auto iter = std::find(children.begin(), children.end(), child);
+
+	if (iter != children.end())
+	{
+		children.erase(iter);
+		child->parent = nullptr;
+	}
+}
+
+bool Entity::isAncestorOf(Entity *entity) const
+{
+	while (entity)
+	{
+		if (entity == this)
+			return true;
+		entity = entity->parent;
+	}
+	return false;
+}
+
+std::vector<Entity *> &Entity::getChildren()
+{
+	return children;
+}
+
 bool Entity::isPendingSpawn() const
 {
 	return state.has(EntityState::PendingSpawn);
@@ -220,5 +278,11 @@ bool Entity::isPendingDestruction() const
 
 void Entity::markForDestruction()
 {
+	if (state == EntityState::PendingDestruction)
+		return;
+
 	state.assign(EntityState::PendingDestruction);
+
+	for (auto *child : children)
+		child->markForDestruction();
 }

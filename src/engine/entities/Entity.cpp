@@ -168,37 +168,37 @@ std::vector<Entity *> &Entity::getChildren()
 
 bool Entity::isPendingSpawn() const
 {
-	return state.has(EntityState::PendingSpawn);
+	return lifetime == LifetimeState::PendingSpawn;
 }
 
 void Entity::markSpawned()
 {
-	state.replace(EntityState::PendingSpawn, EntityState::PendingAwake);
+	lifetime = LifetimeState::PendingAwake;
 }
 
 bool Entity::isPendingAwake() const
 {
-	return state.has(EntityState::PendingAwake);
+	return lifetime == LifetimeState::PendingAwake;
 }
 
 void Entity::markToStart()
 {
-	state.assign(EntityState::PendingStart);
+	lifetime = LifetimeState::PendingStart;
 }
 
 bool Entity::isPendingStart() const
 {
-	return state.has(EntityState::PendingStart);
+	return lifetime == LifetimeState::PendingStart;
 }
 
 void Entity::markStarted()
 {
-	state.remove(EntityState::PendingStart);
+	lifetime = LifetimeState::Alive;
 }
 
 bool Entity::isActive() const
 {
-	return state.has(EntityState::Active);
+	return state.has(EntityStateFlags::Active);
 }
 
 bool Entity::isActiveInHierarchy() const
@@ -208,12 +208,12 @@ bool Entity::isActiveInHierarchy() const
 
 bool Entity::isDeactivated() const
 {
-	return state.has(EntityState::Deactivated);
+	return state.has(EntityStateFlags::Deactivated);
 }
 
 void Entity::markActive()
 {
-	state.set(EntityState::Active, true);
+	state.set(EntityStateFlags::Active, true);
 }
 
 void Entity::setActive(bool value)
@@ -225,8 +225,8 @@ void Entity::setActive(bool value)
 		return;
 
 	state.replace(
-		value ? EntityState::Deactivated : EntityState::Active,
-		value ? EntityState::Active : EntityState::Deactivated);
+		value ? EntityStateFlags::Deactivated : EntityStateFlags::Active,
+		value ? EntityStateFlags::Active : EntityStateFlags::Deactivated);
 
 	if (value)
 	{
@@ -257,7 +257,7 @@ void Entity::setActive(bool value)
 
 bool Entity::isVisible() const
 {
-	return state.has(EntityState::Visible);
+	return state.has(EntityStateFlags::Visible);
 }
 
 bool Entity::isVisibleInHierarchy() const
@@ -267,20 +267,20 @@ bool Entity::isVisibleInHierarchy() const
 
 void Entity::setVisible(bool value)
 {
-	state.set(EntityState::Visible, value);
+	state.set(EntityStateFlags::Visible, value);
 }
 
 bool Entity::isPendingDestruction() const
 {
-	return state.has(EntityState::PendingDestruction);
+	return lifetime == LifetimeState::PendingDestruction;
 }
 
 void Entity::markForDestruction()
 {
-	if (state == EntityState::PendingDestruction)
+	if (lifetime == LifetimeState::PendingDestruction)
 		return;
 
-	state.assign(EntityState::PendingDestruction);
+	lifetime = LifetimeState::PendingDestruction;
 
 	for (auto *child : children)
 		child->markForDestruction();

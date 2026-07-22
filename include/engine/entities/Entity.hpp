@@ -6,7 +6,8 @@
 #include "engine/entities/components/Component.hpp"
 #include "engine/entities/components/ComponentRegistry.hpp"
 #include "engine/entities/components/Transform2D.hpp"
-#include "engine/entities/EntityState.hpp"
+#include "engine/entities/EntityStateFlags.hpp"
+#include "engine/entities/LifetimeState.hpp"
 #include "engine/core/helpers/Flags.hpp"
 
 class Entity
@@ -104,7 +105,8 @@ public:
 	Transform2D transform;
 
 private:
-	Flags<EntityState> state{EntityState::PendingSpawn};
+	Flags<EntityStateFlags> state{};
+	LifetimeState lifetime = LifetimeState::PendingSpawn;
 	Entity *parent = nullptr;
 	std::vector<Entity *> children;
 	std::vector<std::unique_ptr<Component>> components;

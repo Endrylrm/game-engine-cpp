@@ -95,7 +95,6 @@ void EntityManager::processAwakeQueue()
 
         entity->markToStart();
         entity->onAwake();
-
         startQueue.push_back(entity);
     }
 

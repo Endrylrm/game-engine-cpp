@@ -31,5 +31,5 @@ public:
     }
 
 private:
-    std::vector<EventConnection> connections;
+    std::vector<EventConnection> connections{};
 };

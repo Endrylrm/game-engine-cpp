@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    inline static SceneId nextId = 0;
+    inline static SceneId nextId{};
 };

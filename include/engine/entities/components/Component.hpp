@@ -20,5 +20,5 @@ public:
     virtual void onCollisionExit(Entity &other) {}
     virtual void onDestruction() {}
 
-    Entity *owner = nullptr;
+    Entity *owner{};
 };

@@ -76,8 +76,8 @@ public:
     }
 
 private:
-    std::vector<std::unique_ptr<Entity>> entities;
-    std::vector<std::unique_ptr<Entity>> spawnQueue;
-    std::vector<Entity *> awakeQueue;
-    std::vector<Entity *> startQueue;
+    std::vector<std::unique_ptr<Entity>> entities{};
+    std::vector<std::unique_ptr<Entity>> spawnQueue{};
+    std::vector<Entity *> awakeQueue{};
+    std::vector<Entity *> startQueue{};
 };

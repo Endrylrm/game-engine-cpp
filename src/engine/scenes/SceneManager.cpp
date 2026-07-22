@@ -49,7 +49,13 @@ void SceneManager::processCommands()
         case SceneCommandType::Load:
         {
             if (!activeScenes.empty())
+            {
+                for (auto *scene : activeScenes)
+                {
+                    scene->unload();
+                }
                 activeScenes.clear();
+            }
 
             auto *scene = scenes.at(command.id).get();
             mainScene = scene;

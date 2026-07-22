@@ -9,6 +9,6 @@ public:
     void onUpdate(float deltaTime) override;
 
 private:
-    Transform2D *transform = nullptr;
-    float speed = 350.0f;
+    Transform2D *transform{};
+    float speed{350.0f};
 };

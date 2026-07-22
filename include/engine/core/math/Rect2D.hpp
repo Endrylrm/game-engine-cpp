@@ -2,10 +2,10 @@
 
 struct Rect2D
 {
-    float x = 0;
-    float y = 0;
-    float w = 1;
-    float h = 1;
+    float x{};
+    float y{};
+    float w{1.0f};
+    float h{1.0f};
 
     Rect2D &operator+=(const Rect2D &other)
     {

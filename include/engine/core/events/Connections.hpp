@@ -127,11 +127,11 @@ private:
         eventId = 0;
     }
 
-    ConnectionSource *connSource = nullptr;
-    EventConnection *prev = nullptr;
-    EventConnection *next = nullptr;
-    std::type_index eventType = typeid(void);
-    uint32_t eventId = 0;
+    ConnectionSource *connSource{};
+    EventConnection *prev{};
+    EventConnection *next{};
+    std::type_index eventType{typeid(void)};
+    uint32_t eventId{};
 };
 
 inline ConnectionSource::~ConnectionSource()

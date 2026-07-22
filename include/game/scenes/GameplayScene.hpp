@@ -17,5 +17,5 @@ protected:
     void onRender(Renderer &renderer) override;
 
 private:
-    GameManager gameManager;
+    GameManager gameManager{};
 };

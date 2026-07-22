@@ -14,5 +14,5 @@ public:
     }
 
 private:
-    inline static ComponentId nextId = 0;
+    inline static ComponentId nextId{};
 };

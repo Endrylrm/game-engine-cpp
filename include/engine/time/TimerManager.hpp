@@ -14,5 +14,5 @@ public:
     size_t activeCount() const;
 
 private:
-    std::vector<std::unique_ptr<Timer>> timers;
+    std::vector<std::unique_ptr<Timer>> timers{};
 };

@@ -25,5 +25,5 @@ public:
     }
 
 private:
-    std::unique_ptr<Entity> entity = std::make_unique<Entity>();
+    std::unique_ptr<Entity> entity{std::make_unique<Entity>()};
 };

@@ -10,5 +10,5 @@ public:
     void onPostUpdate() override;
 
 private:
-    Transform2D *transform = nullptr;
+    Transform2D *transform{};
 };

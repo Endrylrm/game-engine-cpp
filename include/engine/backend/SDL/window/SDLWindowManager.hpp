@@ -17,7 +17,7 @@ public:
     void quitGame() override;
 
 private:
-    SDL_Window *window = nullptr;
+    SDL_Window *window{};
     std::string title;
     int width;
     int height;

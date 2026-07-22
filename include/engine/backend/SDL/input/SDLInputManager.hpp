@@ -47,5 +47,5 @@ private:
     std::unordered_set<MouseInput> mousePressed;
     std::unordered_set<MouseInput> mouseReleased;
 
-    bool *running = nullptr;
+    bool *running{};
 };

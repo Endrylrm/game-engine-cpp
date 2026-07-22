@@ -11,6 +11,6 @@ public:
 
 private:
     void respawnPlayer();
-    Entity *player = nullptr;
+    Entity *player{};
     EventConnection playerDiedConnection;
 };

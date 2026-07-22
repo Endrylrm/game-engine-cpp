@@ -10,8 +10,8 @@ public:
     Vector2D(float all) : x(all), y(all) {}
     Vector2D(float x, float y) : x(x), y(y) {}
 
-    float x = 0.0f;
-    float y = 0.0f;
+    float x{};
+    float y{};
 
     glm::vec2 toGLM() const
     {

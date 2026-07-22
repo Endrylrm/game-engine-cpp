@@ -32,12 +32,12 @@ public:
     bool isOneShot() const;
 
 private:
-    float waitTime = 1.0f;
-    float timeLeft = 0.0f;
-    bool oneShot = false;
-    bool autostart = false;
-    bool running = false;
-    bool paused = false;
+    float waitTime{1.0f};
+    float timeLeft{0.0f};
+    bool oneShot{false};
+    bool autostart{false};
+    bool running{false};
+    bool paused{false};
 
     TimeoutCallback onTimeout;
 };

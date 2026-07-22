@@ -7,10 +7,10 @@
 class Quaternion
 {
 public:
-    float x = 0.0f;
-    float y = 0.0f;
-    float z = 0.0f;
-    float w = 1.0f;
+    float x{};
+    float y{};
+    float z{};
+    float w{1.0f};
 
     constexpr Quaternion() = default;
     constexpr Quaternion(float all) : x(all), y(all), z(all), w(all) {}

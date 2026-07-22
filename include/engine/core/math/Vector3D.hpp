@@ -14,9 +14,9 @@ public:
     Vector3D(float all) : x(all), y(all), z(all) {}
     Vector3D(float x, float y, float z) : x(x), y(y), z(z) {}
 
-    float x = 0.0f;
-    float y = 0.0f;
-    float z = 0.0f;
+    float x{};
+    float y{};
+    float z{};
 
     static Vector3D Zero()
     {

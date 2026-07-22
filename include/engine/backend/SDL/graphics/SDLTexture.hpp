@@ -19,7 +19,7 @@ public:
     bool isValid() const override;
 
 private:
-    SDL_Texture *texture = nullptr;
+    SDL_Texture *texture{};
     float width;
     float height;
 };

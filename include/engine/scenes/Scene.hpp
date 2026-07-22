@@ -88,6 +88,6 @@ protected:
 	virtual void onUnload() {}
 
 private:
-	EntityManager entityManager;
-	RenderSystem renderSystem;
+	EntityManager entityManager{};
+	RenderSystem renderSystem{};
 };

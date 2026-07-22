@@ -25,6 +25,6 @@ public:
     void *getNativeRenderer() const override;
 
 private:
-    SDL_Renderer *renderer = nullptr;
-    TTF_Font *font = nullptr;
+    SDL_Renderer *renderer{};
+    TTF_Font *font{};
 };

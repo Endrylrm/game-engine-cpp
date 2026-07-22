@@ -14,7 +14,7 @@ public:
 	void print();
 
 private:
-	Transform2D *transform = nullptr;
-	float speed = 300.0f;
+	Transform2D *transform{};
+	float speed{300.0f};
 	EventConnection healthConnection;
 };

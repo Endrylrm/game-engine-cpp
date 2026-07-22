@@ -147,7 +147,7 @@ private:
 		return false;
 	}
 
-	std::unordered_map<std::type_index, std::vector<Listener<const Event &>>> listenersMap;
-	std::queue<std::unique_ptr<Event>> eventQueue;
-	uint32_t currentID = 0;
+	std::unordered_map<std::type_index, std::vector<Listener<const Event &>>> listenersMap{};
+	std::queue<std::unique_ptr<Event>> eventQueue{};
+	uint32_t currentID{};
 };

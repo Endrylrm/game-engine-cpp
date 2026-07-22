@@ -103,8 +103,8 @@ public:
     void processCommands();
 
 private:
-    std::unordered_map<SceneId, std::unique_ptr<Scene>> scenes;
-    std::vector<Scene *> activeScenes;
-    std::vector<SceneCommand> pendingCommands;
-    Scene *mainScene = nullptr;
+    std::unordered_map<SceneId, std::unique_ptr<Scene>> scenes{};
+    std::vector<Scene *> activeScenes{};
+    std::vector<SceneCommand> pendingCommands{};
+    Scene *mainScene{};
 };

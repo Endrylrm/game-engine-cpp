@@ -18,5 +18,5 @@ public:
     void setType(FactionType newFaction);
 
 private:
-    FactionType faction;
+    FactionType faction{};
 };

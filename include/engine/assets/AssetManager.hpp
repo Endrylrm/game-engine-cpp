@@ -39,6 +39,6 @@ public:
 private:
     std::unordered_map<AssetHandle<T>, std::unique_ptr<T>, AssetHandleHasher> assets;
     std::unordered_map<std::string, AssetHandle<T>> pathToHandle;
-    uint32_t nextID = 1;
+    uint32_t nextID{1};
     Loader loader;
 };

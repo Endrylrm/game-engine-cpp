@@ -37,5 +37,5 @@ public:
     }
 
 private:
-    std::unordered_map<std::type_index, std::unique_ptr<BaseAssetManager>> managers;
+    std::unordered_map<std::type_index, std::unique_ptr<BaseAssetManager>> managers{};
 };

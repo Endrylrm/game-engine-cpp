@@ -11,5 +11,5 @@ public:
 
 private:
     bool isOutOfBounds();
-    Transform2D *transform = nullptr;
+    Transform2D *transform{};
 };

@@ -20,7 +20,7 @@ public:
 	Signal<int> onHealthChanged;
 
 private:
-	int hp = 0;
-	int maxHP = 0;
-	int minHP = 0;
+	int hp{};
+	int maxHP{};
+	int minHP{};
 };

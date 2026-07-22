@@ -81,6 +81,6 @@ private:
 					  { return listener.slot.state == ConnectionState::Disconnected; });
 	}
 
-	std::vector<Listener<Args...>> slots;
-	uint32_t currentID = 0;
+	std::vector<Listener<Args...>> slots{};
+	uint32_t currentID{};
 };

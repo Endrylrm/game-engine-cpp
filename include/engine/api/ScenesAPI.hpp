@@ -7,28 +7,28 @@
 class ScenesAPI : public ManagerAPI<SceneManager>
 {
 public:
-    template <SceneConcept Scene, typename... Args>
+    template <SceneConcept SceneType, typename... Args>
     static void registerScene(Args &&...args)
     {
-        getManager().registerScene<Scene>(std::forward<Args>(args)...);
+        getManager().registerScene<SceneType>(std::forward<Args>(args)...);
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     static void loadScene()
     {
-        getManager().loadScene<Scene>();
+        getManager().loadScene<SceneType>();
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     static void loadSceneAdditive()
     {
-        getManager().loadSceneAdditive<Scene>();
+        getManager().loadSceneAdditive<SceneType>();
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     static void unloadScene()
     {
-        getManager().unloadScene<Scene>();
+        getManager().unloadScene<SceneType>();
     }
 
     static Scene *getMainScene()

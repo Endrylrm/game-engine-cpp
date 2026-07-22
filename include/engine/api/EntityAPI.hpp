@@ -19,16 +19,16 @@ public:
         return getEntityManager().createEntity(std::move(entityBlueprint));
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     static Entity *createEntityAt()
     {
-        return getEntityManagerAt<Scene>().createEntity();
+        return getEntityManagerAt<SceneType>().createEntity();
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     static Entity *createEntityAt(std::unique_ptr<Entity> entityBlueprint)
     {
-        return getEntityManagerAt<Scene>().createEntity(std::move(entityBlueprint));
+        return getEntityManagerAt<SceneType>().createEntity(std::move(entityBlueprint));
     }
 
     template <typename... Components, typename Func>
@@ -55,9 +55,9 @@ private:
         return getManager().getMainScene()->getEntityManager();
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     static EntityManager &getEntityManagerAt()
     {
-        return getManager().getActiveScene<Scene>()->getEntityManager();
+        return getManager().getActiveScene<SceneType>()->getEntityManager();
     }
 };

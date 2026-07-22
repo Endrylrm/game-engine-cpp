@@ -11,36 +11,36 @@
 class SceneManager
 {
 public:
-    template <SceneConcept Scene, typename... Args>
+    template <SceneConcept SceneType, typename... Args>
     void registerScene(Args &&...args)
     {
-        SceneId id = SceneRegistry::GetId<Scene>();
+        SceneId id = SceneRegistry::GetId<SceneType>();
 
         if (scenes.contains(id))
         {
             return;
         }
 
-        scenes[id] = std::make_unique<Scene>(std::forward<Args>(args)...);
+        scenes[id] = std::make_unique<SceneType>(std::forward<Args>(args)...);
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     void loadScene()
     {
         unloadAllScenes();
-        pendingCommands.push_back({SceneCommandType::Load, SceneRegistry::GetId<Scene>()});
+        pendingCommands.push_back({SceneCommandType::Load, SceneRegistry::GetId<SceneType>()});
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     void loadSceneAdditive()
     {
-        pendingCommands.push_back({SceneCommandType::LoadAdditive, SceneRegistry::GetId<Scene>()});
+        pendingCommands.push_back({SceneCommandType::LoadAdditive, SceneRegistry::GetId<SceneType>()});
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     void unloadScene()
     {
-        pendingCommands.push_back({SceneCommandType::Unload, SceneRegistry::GetId<Scene>()});
+        pendingCommands.push_back({SceneCommandType::Unload, SceneRegistry::GetId<SceneType>()});
     }
 
     void unloadAllScenes()
@@ -48,10 +48,10 @@ public:
         pendingCommands.push_back({SceneCommandType::UnloadAll, 0});
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     Scene *getActiveScene() const
     {
-        auto iter = scenes.find(SceneRegistry::GetId<Scene>());
+        auto iter = scenes.find(SceneRegistry::GetId<SceneType>());
         if (iter == scenes.end())
         {
             return nullptr;
@@ -65,13 +65,13 @@ public:
             return nullptr;
         }
 
-        return static_cast<Scene *>(scene);
+        return static_cast<SceneType *>(scene);
     }
 
-    template <SceneConcept Scene>
+    template <SceneConcept SceneType>
     bool isActiveScene() const
     {
-        auto iter = scenes.find(SceneRegistry::GetId<Scene>());
+        auto iter = scenes.find(SceneRegistry::GetId<SceneType>());
         if (iter == scenes.end())
         {
             return false;

@@ -2,32 +2,33 @@
 #include "engine/api/ManagerAPI.hpp"
 #include "engine/scenes/SceneManager.hpp"
 #include "engine/scenes/Scene.hpp"
+#include "engine/scenes/SceneConcept.hpp"
 
 class ScenesAPI : public ManagerAPI<SceneManager>
 {
 public:
-    template <std::derived_from<Scene> T, typename... Args>
+    template <SceneConcept Scene, typename... Args>
     static void registerScene(Args &&...args)
     {
-        getManager().registerScene<T>(std::forward<Args>(args)...);
+        getManager().registerScene<Scene>(std::forward<Args>(args)...);
     }
 
-    template <typename T>
+    template <SceneConcept Scene>
     static void loadScene()
     {
-        getManager().loadScene<T>();
+        getManager().loadScene<Scene>();
     }
 
-    template <typename T>
+    template <SceneConcept Scene>
     static void loadSceneAdditive()
     {
-        getManager().loadSceneAdditive<T>();
+        getManager().loadSceneAdditive<Scene>();
     }
 
-    template <typename T>
+    template <SceneConcept Scene>
     static void unloadScene()
     {
-        getManager().unloadScene<T>();
+        getManager().unloadScene<Scene>();
     }
 
     static Scene *getMainScene()

@@ -108,9 +108,9 @@ private:
 	Flags<EntityStateFlags> state{};
 	LifetimeState lifetime{LifetimeState::PendingSpawn};
 	Entity *parent{};
-	std::vector<Entity *> children;
-	std::vector<std::unique_ptr<Component>> components;
-	std::unordered_map<ComponentId, Component *> componentsMap;
+	std::vector<Entity *> children{};
+	std::vector<std::unique_ptr<Component>> components{};
+	std::unordered_map<ComponentId, Component *> componentsMap{};
 };
 
 template <>

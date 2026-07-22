@@ -35,9 +35,9 @@ private:
 	void processCommands();
 	void endFrame();
 
-	std::unique_ptr<WindowManager> currentWindowManager;
-	std::unique_ptr<Renderer> currentRenderer;
-	std::unique_ptr<InputManager> currentInputManager;
+	std::unique_ptr<WindowManager> currentWindowManager{};
+	std::unique_ptr<Renderer> currentRenderer{};
+	std::unique_ptr<InputManager> currentInputManager{};
 	AssetDatabase currentAssetDB{};
 	SceneManager currentSceneManager{};
 	TimerManager currentTimerManager{};

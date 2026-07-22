@@ -9,10 +9,12 @@ void RenderSystem::render(EntityManager &entityManager, Renderer &renderer)
     entityManager.forEach<SpriteRenderer, Transform2D>(
         [&](Entity &entity, SpriteRenderer &sprite, Transform2D &transform)
         {
-            if (entity.isVisibleInHierarchy())
-                renderer.drawTexture(
-                    AssetsAPI::get<Texture>(sprite.textureId),
-                    transform.position.x,
-                    transform.position.y);
+            if (!entity.isVisibleInHierarchy())
+                return;
+
+            renderer.drawTexture(
+                AssetsAPI::get<Texture>(sprite.textureId),
+                transform.position.x,
+                transform.position.y);
         });
 }

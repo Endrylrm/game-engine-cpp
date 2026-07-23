@@ -59,15 +59,15 @@ public:
     }
 
     template <typename... Components>
-    std::vector<Entity &> getEntitiesWith()
+    std::vector<Entity *> getEntitiesWith()
     {
-        std::vector<Entity &> entitiesWith{};
+        std::vector<Entity *> entitiesWith{};
 
         for (auto &entity : entities)
         {
             if ((entity->hasComponent<Components>() && ...))
             {
-                entitiesWith.push_back(*entity);
+                entitiesWith.push_back(entity.get());
             }
         }
 

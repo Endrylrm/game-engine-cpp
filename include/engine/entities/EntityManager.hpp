@@ -74,6 +74,22 @@ public:
         return entitiesWith;
     }
 
+    template <typename... Components>
+    std::vector<Entity *> getEntitiesWithAny()
+    {
+        std::vector<Entity *> entitiesWith{};
+
+        for (auto &entity : entities)
+        {
+            if ((entity->hasComponent<Components>() || ...))
+            {
+                entitiesWith.push_back(entity.get());
+            }
+        }
+
+        return entitiesWith;
+    }
+
 private:
     std::vector<std::unique_ptr<Entity>> entities{};
     std::vector<std::unique_ptr<Entity>> spawnQueue{};

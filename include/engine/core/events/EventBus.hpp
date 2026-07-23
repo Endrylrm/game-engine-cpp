@@ -10,23 +10,27 @@
 #include "engine/core/events/Event.hpp"
 #include "engine/core/events/Listener.hpp"
 #include "engine/core/events/Connections.hpp"
+#include "engine/core/events/QueuedEvent.hpp"
 
 class EventBus : public ConnectionSource
 {
 public:
-	template <typename EventType>
-	EventConnection connect(std::function<void(const EventType &)> callback)
+	template <typename EventType, typename Callback>
+	EventConnection connect(Callback &&callback)
 	{
 		auto &list = listenersMap[typeid(EventType)];
 
 		uint32_t id = currentID++;
 
-		list.push_back({{id}, [fn = std::move(callback)](const Event &e)
-						{
-							fn(static_cast<const EventType &>(e));
-						}});
+		std::function<void(const Event &)> wrapper =
+			[fn = std::forward<Callback>(callback)](const Event &e)
+		{
+			fn(static_cast<const EventType &>(e));
+		};
 
-		return EventConnection(this, EventType, id);
+		list.push_back({{id}, std::move(wrapper)});
+
+		return EventConnection(this, typeid(EventType), id);
 	}
 
 	template <typename EventType>
@@ -51,17 +55,18 @@ public:
 	template <typename EventType>
 	void dispatch(EventType event)
 	{
-		eventQueue.push(std::make_unique<EventType>(std::move(event)));
+		eventQueue.push({std::type_index(typeid(EventType)),
+						 std::make_unique<EventType>(std::move(event))});
 	}
 
 	void processEvents()
 	{
 		while (!eventQueue.empty())
 		{
-			auto event = std::move(eventQueue.front());
+			auto queued = std::move(eventQueue.front());
 			eventQueue.pop();
 
-			auto iter = listenersMap.find(typeid(*event));
+			auto iter = listenersMap.find(queued->type);
 
 			if (iter == listenersMap.end())
 				continue;
@@ -73,7 +78,7 @@ public:
 				if (listener.slot.state != ConnectionState::Connected)
 					continue;
 
-				listener.callback(*event);
+				listener.callback(*queued->event);
 			}
 		}
 	}
@@ -133,7 +138,7 @@ private:
 		auto iter = listenersMap.find(type);
 
 		if (iter == listenersMap.end())
-			return;
+			return false;
 
 		auto &list = iter->second;
 
@@ -148,6 +153,6 @@ private:
 	}
 
 	std::unordered_map<std::type_index, std::vector<Listener<const Event &>>> listenersMap{};
-	std::queue<std::unique_ptr<Event>> eventQueue{};
+	std::queue<std::unique_ptr<QueuedEvent>> eventQueue{};
 	uint32_t currentID{};
 };

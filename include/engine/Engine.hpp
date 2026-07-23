@@ -8,6 +8,7 @@
 #include "engine/time/Time.hpp"
 #include "engine/time/TimerManager.hpp"
 #include "engine/assets/AssetDatabase.hpp"
+#include "engine/core/events/EventBus.hpp"
 
 class Engine
 {
@@ -42,6 +43,7 @@ private:
 	SceneManager currentSceneManager{};
 	TimerManager currentTimerManager{};
 	Time currentTime{};
+	EventBus eventBus{};
 	Game &game;
 	bool running{true};
 };

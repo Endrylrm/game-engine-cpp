@@ -14,6 +14,7 @@
 #include "engine/api/AssetsAPI.hpp"
 #include "engine/api/TimerAPI.hpp"
 #include "engine/api/TimeAPI.hpp"
+#include "engine/api/EventsAPI.hpp"
 
 void Engine::initialize(const char *title, int width, int height)
 {
@@ -43,6 +44,7 @@ void Engine::initialize(const char *title, int width, int height)
 	AssetsAPI::setManager(&currentAssetDB);
 	TimerAPI::setManager(&currentTimerManager);
 	TimeAPI::setManager(&currentTime);
+	EventsAPI::setManager(&eventBus);
 
 	currentSceneManager.onInit();
 	game.onInit();

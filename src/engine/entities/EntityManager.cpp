@@ -125,6 +125,21 @@ void EntityManager::processStartQueue()
     startQueue.clear();
 }
 
+Entity *EntityManager::createEntity()
+{
+    auto entity = std::make_unique<Entity>();
+    Entity *ptr = entity.get();
+    spawnQueue.push_back(std::move(entity));
+    return ptr;
+}
+
+Entity *EntityManager::createEntity(std::unique_ptr<Entity> entityBlueprint)
+{
+    Entity *ptr = entityBlueprint.get();
+    spawnQueue.push_back(std::move(entityBlueprint));
+    return ptr;
+}
+
 Entity *EntityManager::findWithTag(const std::string &tag)
 {
     for (auto &entity : entities)

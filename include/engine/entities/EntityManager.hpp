@@ -24,25 +24,8 @@ public:
     std::vector<std::unique_ptr<Entity>> &getEntities();
     void clearEntities();
 
-    Entity *createEntity()
-    {
-        auto entity = std::make_unique<Entity>();
-
-        Entity *ptr = entity.get();
-
-        spawnQueue.push_back(std::move(entity));
-
-        return ptr;
-    }
-
-    Entity *createEntity(std::unique_ptr<Entity> entityBlueprint)
-    {
-        Entity *ptr = entityBlueprint.get();
-
-        spawnQueue.push_back(std::move(entityBlueprint));
-
-        return ptr;
-    }
+    Entity *createEntity();
+    Entity *createEntity(std::unique_ptr<Entity> entityBlueprint);
 
     template <typename... Components, typename Func>
     void forEach(Func &&func)
@@ -73,6 +56,22 @@ public:
                 func(*entity->getComponent<Components>()...);
             }
         }
+    }
+
+    template <typename... Components>
+    std::vector<Entity &> getEntitiesWith()
+    {
+        std::vector<Entity &> entitiesWith{};
+
+        for (auto &entity : entities)
+        {
+            if ((entity->hasComponent<Components>() && ...))
+            {
+                entitiesWith.push_back(*entity);
+            }
+        }
+
+        return entitiesWith;
     }
 
 private:

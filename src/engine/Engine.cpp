@@ -94,6 +94,7 @@ void Engine::render()
 void Engine::processLifeCycle()
 {
 	currentSceneManager.processLifecycle();
+	eventBus.removeDeletedEvents();
 	game.processLifecycle();
 }
 

@@ -54,6 +54,7 @@ void Engine::beginFrame()
 {
 	currentInputManager->beginFrame();
 	currentInputManager->processEvent();
+	eventBus.processEvents();
 	game.onBeginFrame();
 }
 

@@ -14,6 +14,7 @@ public:
 	void init()
 	{
 		entityManager.onInit();
+		renderSystem.onInit();
 		onInit();
 	}
 
@@ -43,7 +44,7 @@ public:
 
 	void render(Renderer &renderer)
 	{
-		renderSystem.render(entityManager, renderer);
+		renderSystem.onRender(renderer);
 		onRender(renderer);
 	}
 

@@ -10,11 +10,12 @@ class RenderSystem
 {
 public:
     void onInit();
+    void onUnload();
     void onRender(Renderer &renderer);
 
 private:
     EventConnection spriteAdded;
     EventConnection spriteRemoved;
 
-    std::vector<Entity *> entities;
+    std::vector<Entity *> entitiesSprite{};
 };

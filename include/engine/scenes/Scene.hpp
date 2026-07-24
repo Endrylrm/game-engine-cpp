@@ -59,6 +59,7 @@ public:
 	void unload()
 	{
 		entityManager.clearEntities();
+		renderSystem.onUnload();
 		onUnload();
 	}
 

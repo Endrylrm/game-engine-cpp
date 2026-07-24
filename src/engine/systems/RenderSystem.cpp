@@ -9,18 +9,25 @@ void RenderSystem::onInit()
     spriteAdded = EventsAPI::connect<ComponentAddedEvent<SpriteRenderer>>(
         [&](const ComponentAddedEvent<SpriteRenderer> &event)
         {
-            entities.push_back(event.entity);
+            entitiesSprite.push_back(event.entity);
         });
     spriteRemoved = EventsAPI::connect<ComponentRemovedEvent<SpriteRenderer>>(
         [&](const ComponentRemovedEvent<SpriteRenderer> &event)
         {
-            std::erase(entities, event.entity);
+            std::erase(entitiesSprite, event.entity);
         });
+}
+
+void RenderSystem::onUnload()
+{
+    spriteAdded.disconnect();
+    spriteRemoved.disconnect();
+    entitiesSprite.clear();
 }
 
 void RenderSystem::onRender(Renderer &renderer)
 {
-    for (auto *entity : entities)
+    for (auto *entity : entitiesSprite)
     {
         if (!entity->isVisibleInHierarchy())
             return;

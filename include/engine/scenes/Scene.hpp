@@ -11,18 +11,6 @@ class Scene
 public:
 	virtual ~Scene() = default;
 
-	Entity *createEntity()
-	{
-		Entity *ptr = entityManager.createEntity();
-		return ptr;
-	}
-
-	Entity *createEntity(std::unique_ptr<Entity> entityBlueprint)
-	{
-		Entity *ptr = entityManager.createEntity(std::move(entityBlueprint));
-		return ptr;
-	}
-
 	void init()
 	{
 		entityManager.onInit();

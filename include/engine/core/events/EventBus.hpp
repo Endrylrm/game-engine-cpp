@@ -2,7 +2,6 @@
 #include <functional>
 #include <unordered_map>
 #include <vector>
-#include <queue>
 #include <typeindex>
 #include <memory>
 #include <algorithm>
@@ -55,18 +54,22 @@ public:
 	template <typename EventType>
 	void dispatch(EventType event)
 	{
-		eventQueue.push({std::type_index(typeid(EventType)),
-						 std::make_unique<EventType>(std::move(event))});
+		pendingEvents.push_back({std::type_index(typeid(EventType)),
+								 std::make_unique<EventType>(std::move(event))});
 	}
 
 	void processEvents()
 	{
-		while (!eventQueue.empty())
-		{
-			auto queued = std::move(eventQueue.front());
-			eventQueue.pop();
+		std::swap(eventQueue, pendingEvents);
 
-			auto iter = listenersMap.find(queued->type);
+		if (eventQueue.empty())
+			return;
+
+		for (auto &event : eventQueue)
+		{
+			auto queued = std::move(event);
+
+			auto iter = listenersMap.find(queued.type);
 
 			if (iter == listenersMap.end())
 				continue;
@@ -78,9 +81,11 @@ public:
 				if (listener.slot.state != ConnectionState::Connected)
 					continue;
 
-				listener.callback(*queued->event);
+				listener.callback(*queued.event);
 			}
 		}
+
+		eventQueue.clear();
 	}
 
 	void removeDeletedEvents()
@@ -153,6 +158,7 @@ private:
 	}
 
 	std::unordered_map<std::type_index, std::vector<Listener<const Event &>>> listenersMap{};
-	std::queue<std::unique_ptr<QueuedEvent>> eventQueue{};
+	std::vector<QueuedEvent> eventQueue{};
+	std::vector<QueuedEvent> pendingEvents{};
 	uint32_t currentID{};
 };

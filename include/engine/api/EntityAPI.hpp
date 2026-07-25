@@ -11,53 +11,35 @@ class EntityAPI : public ManagerAPI<SceneManager>
 public:
     static Entity *createEntity()
     {
-        return getEntityManager().createEntity();
+        return getMainScene()->createEntity();
     }
 
     static Entity *createEntity(std::unique_ptr<Entity> entityBlueprint)
     {
-        return getEntityManager().createEntity(std::move(entityBlueprint));
+        return getMainScene()->createEntity(std::move(entityBlueprint));
     }
 
     template <SceneConcept SceneType>
     static Entity *createEntityAt()
     {
-        return getEntityManagerAt<SceneType>().createEntity();
+        return getActiveScene<SceneType>()->createEntity();
     }
 
     template <SceneConcept SceneType>
     static Entity *createEntityAt(std::unique_ptr<Entity> entityBlueprint)
     {
-        return getEntityManagerAt<SceneType>().createEntity(std::move(entityBlueprint));
-    }
-
-    template <typename... Components, typename Func>
-    static void forEach(Func &&func)
-    {
-        getEntityManager().forEach<Components...>(std::forward<Func>(func));
-    }
-
-    template <typename Func>
-    static void forEachEntity(Func &&func)
-    {
-        getEntityManager().forEachEntity(std::forward<Func>(func));
-    }
-
-    template <typename... Components, typename Func>
-    static void forEachComponent(Func &&func)
-    {
-        getEntityManager().forEachComponent<Components...>(std::forward<Func>(func));
+        return getActiveScene<SceneType>()->createEntity(std::move(entityBlueprint));
     }
 
 private:
-    static EntityManager &getEntityManager()
+    static Scene *getMainScene()
     {
-        return getManager().getMainScene()->getEntityManager();
+        return getManager().getMainScene();
     }
 
     template <SceneConcept SceneType>
-    static EntityManager &getEntityManagerAt()
+    static Scene *getActiveScene()
     {
-        return getManager().getActiveScene<SceneType>()->getEntityManager();
+        return getManager().getActiveScene<SceneType>();
     }
 };

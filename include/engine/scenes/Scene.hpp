@@ -1,8 +1,8 @@
 #pragma once
-#include <vector>
 #include <memory>
 #include "engine/core/graphics/Renderer.hpp"
 #include "engine/entities/EntityManager.hpp"
+#include "engine/entities/Entity.hpp"
 #include "engine/systems/RenderSystem.hpp"
 
 class Scene
@@ -62,9 +62,12 @@ public:
 		onUnload();
 	}
 
-	EntityManager &getEntityManager()
-	{
-		return entityManager;
+	Entity *createEntity() {
+		return entityManager.createEntity();
+	}
+
+	Entity *createEntity(std::unique_ptr<Entity> entityBlueprint) {
+		return entityManager.createEntity(std::move(entityBlueprint));
 	}
 
 protected:

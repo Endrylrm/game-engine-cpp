@@ -4,7 +4,7 @@
 void GameplayScene::onInit()
 {
     gameManager.onStart();
-    getEntityManager().createEntity(BulletFactory::create());
+    createEntity(BulletFactory::create());
 }
 
 void GameplayScene::onPhysics(float fixedDeltaTime)

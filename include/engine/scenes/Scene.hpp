@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include "engine/entities/Entity.hpp"
 #include "engine/core/graphics/Renderer.hpp"
 #include "engine/entities/EntityManager.hpp"
 #include "engine/systems/RenderSystem.hpp"

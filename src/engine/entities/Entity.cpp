@@ -1,4 +1,5 @@
 #include "engine/entities/Entity.hpp"
+#include "engine/scenes/Scene.hpp"
 
 template <>
 Transform2D *Entity::getComponent<Transform2D>()
@@ -164,6 +165,10 @@ bool Entity::isAncestorOf(Entity *entity) const
 std::vector<Entity *> &Entity::getChildren()
 {
 	return children;
+}
+
+Scene *Entity::getScene() {
+	return scene;
 }
 
 bool Entity::isPendingSpawn() const

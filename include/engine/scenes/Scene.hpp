@@ -63,11 +63,15 @@ public:
 	}
 
 	Entity *createEntity() {
-		return entityManager.createEntity();
+		Entity *ptr = entityManager.createEntity();
+		ptr->scene = this;
+		return ptr;
 	}
 
 	Entity *createEntity(std::unique_ptr<Entity> entityBlueprint) {
-		return entityManager.createEntity(std::move(entityBlueprint));
+		Entity *ptr = entityManager.createEntity(std::move(entityBlueprint));
+		ptr->scene = this;
+		return ptr;
 	}
 
 protected:

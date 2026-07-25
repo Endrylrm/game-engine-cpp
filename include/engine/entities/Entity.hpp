@@ -10,8 +10,11 @@
 #include "engine/entities/LifetimeState.hpp"
 #include "engine/core/helpers/Flags.hpp"
 
+class Scene;
+
 class Entity
 {
+	friend class Scene;
 public:
 	Entity() {}
 	~Entity() = default;
@@ -79,6 +82,8 @@ public:
 	bool isAncestorOf(Entity *entity) const;
 	std::vector<Entity *> &getChildren();
 
+	Scene *getScene();
+
 	bool isPendingSpawn() const;
 	void markSpawned();
 
@@ -111,6 +116,7 @@ private:
 	std::vector<Entity *> children{};
 	std::vector<std::unique_ptr<Component>> components{};
 	std::unordered_map<ComponentId, Component *> componentsMap{};
+	Scene *scene;
 };
 
 template <>

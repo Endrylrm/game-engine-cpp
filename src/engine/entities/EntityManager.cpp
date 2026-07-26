@@ -140,7 +140,7 @@ Entity *EntityManager::createEntity(std::unique_ptr<Entity> entityBlueprint)
     return ptr;
 }
 
-Entity *EntityManager::findWithTag(const std::string &tag)
+Entity *EntityManager::findWithTag(const StringHandle &tag)
 {
     for (auto &entity : entities)
     {
@@ -151,7 +151,7 @@ Entity *EntityManager::findWithTag(const std::string &tag)
     return nullptr;
 }
 
-std::vector<Entity *> EntityManager::findAllWithTag(const std::string &tag)
+std::vector<Entity *> EntityManager::findAllWithTag(const StringHandle &tag)
 {
     std::vector<Entity *> taggedEntities;
 

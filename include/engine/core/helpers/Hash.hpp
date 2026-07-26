@@ -30,10 +30,10 @@ constexpr uint64_t fnv1a_64(std::string_view str) noexcept
     return hash;
 }
 
-constexpr uint32_t operator"" _fnv32(const char* str, std::size_t len) noexcept {
+constexpr uint32_t operator""_fnv32(const char* str, std::size_t len) noexcept {
     return fnv1a_32(std::string_view(str, len));
 }
 
-constexpr uint64_t operator"" _fnv64(const char* str, std::size_t len) noexcept {
+constexpr uint64_t operator""_fnv64(const char* str, std::size_t len) noexcept {
     return fnv1a_64(std::string_view(str, len));
 }

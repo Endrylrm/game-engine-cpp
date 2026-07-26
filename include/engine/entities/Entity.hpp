@@ -2,13 +2,14 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include <string>
+#include <string_view>
 #include "engine/entities/components/Component.hpp"
 #include "engine/entities/components/ComponentRegistry.hpp"
 #include "engine/entities/components/Transform2D.hpp"
 #include "engine/entities/EntityStateFlags.hpp"
 #include "engine/entities/LifetimeState.hpp"
 #include "engine/core/helpers/Flags.hpp"
+#include "engine/core/string/StringHandle.hpp"
 
 class Scene;
 
@@ -106,7 +107,8 @@ public:
 	bool isPendingDestruction() const;
 	void markForDestruction();
 
-	std::string tag;
+	StringHandle name;
+	StringHandle tag;
 	Transform2D transform;
 
 private:

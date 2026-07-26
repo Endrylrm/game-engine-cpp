@@ -3,6 +3,7 @@
 #include <queue>
 #include <memory>
 #include "engine/entities/Entity.hpp"
+#include "engine/core/string/StringHandle.hpp"
 
 class EntityManager
 {
@@ -19,8 +20,8 @@ public:
     void processAwakeQueue();
     void processStartQueue();
 
-    Entity *findWithTag(const std::string &tag);
-    std::vector<Entity *> findAllWithTag(const std::string &tag);
+    Entity *findWithTag(const StringHandle &tag);
+    std::vector<Entity *> findAllWithTag(const StringHandle &tag);
     std::vector<std::unique_ptr<Entity>> &getEntities();
     void clearEntities();
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <string_view>
 #include "engine/entities/Entity.hpp"
 #include "engine/entities/components/Component.hpp"
 
@@ -13,7 +14,13 @@ public:
         return *this;
     }
 
-    EntityBuilder &tag(std::string tag)
+    EntityBuilder &name(std::string_view name)
+    {
+        entity->name = std::move(name);
+        return *this;
+    }
+
+    EntityBuilder &tag(std::string_view tag)
     {
         entity->tag = std::move(tag);
         return *this;

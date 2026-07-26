@@ -13,6 +13,7 @@ std::unique_ptr<Entity> PlayerFactory::create()
 {
     AssetHandle<Texture> sprite = AssetsAPI::load<Texture>("assets/player/playerShip1_blue.png");
     return EntityBuilder{}
+        .name("Player")
         .tag("Player")
         .addComponent<Health>(3)
         .addComponent<Faction>(FactionType::Player)

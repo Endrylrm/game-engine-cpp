@@ -5,7 +5,7 @@ std::unordered_map<std::string, std::unique_ptr<StringIntern>> StringTable::stri
 
 const StringIntern* StringTable::Intern(std::string_view str) 
 {
-    auto [iter, inserted] = strings.emplace(std::string(str), std::make_unique<StringIntern>());
+    auto [iter, inserted] = strings.emplace(str, std::make_unique<StringIntern>());
 
     if (inserted)
     {

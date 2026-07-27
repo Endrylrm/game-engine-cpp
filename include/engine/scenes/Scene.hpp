@@ -13,74 +13,17 @@ class Scene
 public:
 	virtual ~Scene() = default;
 
-	void init()
-	{
-		renderSystem.setEventBus(&eventBus);
-		entityManager.onInit();
-		renderSystem.onInit();
-		onInit();
-	}
+	void init();
+	void physics(float fixedDeltaTime);
+	void preUpdate();
+	void update(float deltaTime);
+	void postUpdate();
+	void render(Renderer &renderer);
+	void processLifecycle();
+	void unload();
 
-	void physics(float fixedDeltaTime)
-	{
-		entityManager.onPhysics(fixedDeltaTime);
-		onPhysics(fixedDeltaTime);
-	}
-
-	void preUpdate()
-	{
-		eventBus.processEvents();
-		entityManager.onPreUpdate();
-		onPreUpdate();
-	}
-
-	void update(float deltaTime)
-	{
-		entityManager.onUpdate(deltaTime);
-		onUpdate(deltaTime);
-	}
-
-	void postUpdate()
-	{
-		entityManager.onPostUpdate();
-		onPostUpdate();
-	}
-
-	void render(Renderer &renderer)
-	{
-		renderSystem.onRender(renderer);
-		onRender(renderer);
-	}
-
-	void processLifecycle()
-	{
-		eventBus.removeDeletedEvents();
-		entityManager.removeDestroyedObjects();
-		entityManager.processPendingSpawns();
-		entityManager.processAwakeQueue();
-		entityManager.processStartQueue();
-	}
-
-	void unload()
-	{
-		entityManager.clearEntities();
-		renderSystem.onUnload();
-		onUnload();
-	}
-
-	Entity *createEntity() 
-	{
-		Entity *ptr = entityManager.createEntity();
-		ptr->scene = this;
-		return ptr;
-	}
-
-	Entity *createEntity(std::unique_ptr<Entity> entityBlueprint) 
-	{
-		Entity *ptr = entityManager.createEntity(std::move(entityBlueprint));
-		ptr->scene = this;
-		return ptr;
-	}
+	Entity *createEntity();
+	Entity *createEntity(std::unique_ptr<Entity> entityBlueprint);
 
 	template <typename EventType, typename Callback>
 	EventConnection connectEvent(Callback &&callback) 

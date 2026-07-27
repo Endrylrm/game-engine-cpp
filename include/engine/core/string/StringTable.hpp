@@ -11,5 +11,5 @@ public:
     static const StringIntern* Intern(std::string_view str);
 
 private:
-    static std::unordered_map<std::string, std::unique_ptr<StringIntern>> strings;
+    inline static std::unordered_map<std::string, std::unique_ptr<StringIntern>> strings;
 };

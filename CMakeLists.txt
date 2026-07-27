@@ -20,6 +20,7 @@ set(ENGINE_SOURCES
     src/engine/entities/components/SpriteRenderer.cpp
     src/engine/entities/Entity.cpp
     src/engine/entities/EntityManager.cpp
+    src/engine/scenes/Scene.cpp
     src/engine/scenes/SceneManager.cpp
     src/engine/systems/RenderSystem.cpp
     src/engine/time/Time.cpp

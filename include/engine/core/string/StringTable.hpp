@@ -8,7 +8,7 @@
 class StringTable
 {
 public:
-    static const StringIntern* Intern(std::string_view str);
+    static const StringIntern* intern(std::string_view str);
 
 private:
     inline static std::unordered_map<std::string, std::unique_ptr<StringIntern>> strings;

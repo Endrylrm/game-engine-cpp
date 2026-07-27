@@ -9,7 +9,7 @@ class StringHandle
 {
 public:
     StringHandle() = default;
-    explicit StringHandle(std::string_view str) : string(StringTable::Intern(str)) {}
+    explicit StringHandle(std::string_view str) : string(StringTable::intern(str)) {}
 
     const std::string_view& text() const
     {
@@ -23,7 +23,7 @@ public:
 
     StringHandle& operator=(std::string_view str)
     {
-        string = StringTable::Intern(str);
+        string = StringTable::intern(str);
         return *this;
     }
 

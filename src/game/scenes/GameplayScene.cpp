@@ -1,4 +1,5 @@
 #include "game/scenes/GameplayScene.hpp"
+
 #include "game/factories/BulletFactory.hpp"
 
 void GameplayScene::onInit()
@@ -7,23 +8,15 @@ void GameplayScene::onInit()
     createEntity(BulletFactory::create());
 }
 
-void GameplayScene::onPhysics(float fixedDeltaTime)
-{
-}
+void GameplayScene::onPhysics(float fixedDeltaTime) {}
 
-void GameplayScene::onPreUpdate()
-{
-}
+void GameplayScene::onPreUpdate() {}
 
 void GameplayScene::onUpdate(float deltaTime)
 {
     gameManager.onUpdate(deltaTime);
 }
 
-void GameplayScene::onPostUpdate()
-{
-}
+void GameplayScene::onPostUpdate() {}
 
-void GameplayScene::onRender(Renderer &renderer)
-{
-}
+void GameplayScene::onRender(Renderer &renderer) {}

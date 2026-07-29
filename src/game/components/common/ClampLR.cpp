@@ -1,7 +1,9 @@
-#include <algorithm>
 #include "game/components/common/ClampLR.hpp"
-#include "engine/entities/Entity.hpp"
+
+#include <algorithm>
+
 #include "engine/api/WindowAPI.hpp"
+#include "engine/entities/Entity.hpp"
 
 void ClampLR::onStart()
 {

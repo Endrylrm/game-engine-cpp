@@ -1,164 +1,167 @@
 #pragma once
+#include <algorithm>
 #include <functional>
+#include <memory>
+#include <typeindex>
 #include <unordered_map>
 #include <vector>
-#include <typeindex>
-#include <memory>
-#include <algorithm>
+
 #include "engine/core/events/ConnectionSlot.hpp"
+#include "engine/core/events/Connections.hpp"
 #include "engine/core/events/Event.hpp"
 #include "engine/core/events/Listener.hpp"
-#include "engine/core/events/Connections.hpp"
 #include "engine/core/events/QueuedEvent.hpp"
 
 class EventBus : public ConnectionSource
 {
 public:
-	template <typename EventType, typename Callback>
-	EventConnection connect(Callback &&callback)
-	{
-		auto &list = listenersMap[typeid(EventType)];
+    template <typename EventType, typename Callback>
+    EventConnection connect(Callback &&callback)
+    {
+        auto &list = listenersMap[typeid(EventType)];
 
-		uint32_t id = currentID++;
+        uint32_t id = currentID++;
 
-		std::function<void(const Event &)> wrapper =
-			[fn = std::forward<Callback>(callback)](const Event &e)
-		{
-			fn(static_cast<const EventType &>(e));
-		};
+        std::function<void(const Event &)> wrapper =
+            [fn = std::forward<Callback>(callback)](const Event &e)
+        { fn(static_cast<const EventType &>(e)); };
 
-		list.push_back({{id}, std::move(wrapper)});
+        list.push_back({{id}, std::move(wrapper)});
 
-		return EventConnection(this, typeid(EventType), id);
-	}
+        return EventConnection(this, typeid(EventType), id);
+    }
 
-	template <typename EventType>
-	void emit(const EventType &event)
-	{
-		auto iter = listenersMap.find(typeid(EventType));
+    template <typename EventType>
+    void emit(const EventType &event)
+    {
+        auto iter = listenersMap.find(typeid(EventType));
 
-		if (iter == listenersMap.end())
-			return;
+        if (iter == listenersMap.end())
+            return;
 
-		auto &list = iter->second;
+        auto &list = iter->second;
 
-		for (auto &listener : list)
-		{
-			if (listener.slot.state != ConnectionState::Connected)
-				continue;
+        for (auto &listener : list)
+        {
+            if (listener.slot.state != ConnectionState::Connected)
+                continue;
 
-			listener.callback(event);
-		}
-	}
+            listener.callback(event);
+        }
+    }
 
-	template <typename EventType>
-	void dispatch(EventType event)
-	{
-		pendingEvents.push_back({std::type_index(typeid(EventType)),
-								 std::make_unique<EventType>(std::move(event))});
-	}
+    template <typename EventType>
+    void dispatch(EventType event)
+    {
+        pendingEvents.push_back(
+            {std::type_index(typeid(EventType)), std::make_unique<EventType>(std::move(event))}
+        );
+    }
 
-	void processEvents()
-	{
-		std::swap(eventQueue, pendingEvents);
+    void processEvents()
+    {
+        std::swap(eventQueue, pendingEvents);
 
-		if (eventQueue.empty())
-			return;
+        if (eventQueue.empty())
+            return;
 
-		for (auto &event : eventQueue)
-		{
-			auto queued = std::move(event);
+        for (auto &event : eventQueue)
+        {
+            auto queued = std::move(event);
 
-			auto iter = listenersMap.find(queued.type);
+            auto iter = listenersMap.find(queued.type);
 
-			if (iter == listenersMap.end())
-				continue;
+            if (iter == listenersMap.end())
+                continue;
 
-			auto &list = iter->second;
+            auto &list = iter->second;
 
-			for (auto &listener : list)
-			{
-				if (listener.slot.state != ConnectionState::Connected)
-					continue;
+            for (auto &listener : list)
+            {
+                if (listener.slot.state != ConnectionState::Connected)
+                    continue;
 
-				listener.callback(*queued.event);
-			}
-		}
+                listener.callback(*queued.event);
+            }
+        }
 
-		eventQueue.clear();
-	}
+        eventQueue.clear();
+    }
 
-	void removeDeletedEvents()
-	{
-		for (auto &[type, list] : listenersMap)
-		{
-			std::erase_if(list, [](const Listener<const Event &> &listener)
-						  { return listener.slot.state == ConnectionState::Disconnected; });
-		}
-	}
+    void removeDeletedEvents()
+    {
+        for (auto &[type, list] : listenersMap)
+        {
+            std::erase_if(
+                list, [](const Listener<const Event &> &listener)
+                { return listener.slot.state == ConnectionState::Disconnected; }
+            );
+        }
+    }
 
 private:
-	void disconnect(std::type_index type, uint32_t id) override
-	{
-		auto iter = listenersMap.find(type);
+    void disconnect(std::type_index type, uint32_t id) override
+    {
+        auto iter = listenersMap.find(type);
 
-		if (iter == listenersMap.end())
-			return;
+        if (iter == listenersMap.end())
+            return;
 
-		auto &list = iter->second;
+        auto &list = iter->second;
 
-		for (auto &listener : list)
-		{
-			if (listener.slot.id == id)
-			{
-				listener.slot.state = ConnectionState::Disconnected;
-				return;
-			}
-		}
-	}
+        for (auto &listener : list)
+        {
+            if (listener.slot.id == id)
+            {
+                listener.slot.state = ConnectionState::Disconnected;
+                return;
+            }
+        }
+    }
 
-	void setListenerEnabled(std::type_index type, uint32_t id, bool enabled) override
-	{
-		auto iter = listenersMap.find(type);
+    void setListenerEnabled(std::type_index type, uint32_t id, bool enabled) override
+    {
+        auto iter = listenersMap.find(type);
 
-		if (iter == listenersMap.end())
-			return;
+        if (iter == listenersMap.end())
+            return;
 
-		auto &list = iter->second;
+        auto &list = iter->second;
 
-		for (auto &listener : list)
-		{
-			if (listener.slot.id == id)
-			{
-				if (listener.slot.state == ConnectionState::Disconnected)
-					return;
+        for (auto &listener : list)
+        {
+            if (listener.slot.id == id)
+            {
+                if (listener.slot.state == ConnectionState::Disconnected)
+                    return;
 
-				listener.slot.state = enabled ? ConnectionState::Connected : ConnectionState::Disabled;
-			}
-		}
-	}
+                listener.slot.state =
+                    enabled ? ConnectionState::Connected : ConnectionState::Disabled;
+            }
+        }
+    }
 
-	bool isListenerEnabled(std::type_index type, uint32_t id) override
-	{
-		auto iter = listenersMap.find(type);
+    bool isListenerEnabled(std::type_index type, uint32_t id) override
+    {
+        auto iter = listenersMap.find(type);
 
-		if (iter == listenersMap.end())
-			return false;
+        if (iter == listenersMap.end())
+            return false;
 
-		auto &list = iter->second;
+        auto &list = iter->second;
 
-		for (auto &listener : list)
-		{
-			if (listener.slot.id == id)
-			{
-				return listener.slot.state == ConnectionState::Connected;
-			}
-		}
-		return false;
-	}
+        for (auto &listener : list)
+        {
+            if (listener.slot.id == id)
+            {
+                return listener.slot.state == ConnectionState::Connected;
+            }
+        }
+        return false;
+    }
 
-	std::unordered_map<std::type_index, std::vector<Listener<const Event &>>> listenersMap{};
-	std::vector<QueuedEvent> eventQueue{};
-	std::vector<QueuedEvent> pendingEvents{};
-	uint32_t currentID{};
+    std::unordered_map<std::type_index, std::vector<Listener<const Event &>>> listenersMap{};
+    std::vector<QueuedEvent> eventQueue{};
+    std::vector<QueuedEvent> pendingEvents{};
+    uint32_t currentID{};
 };

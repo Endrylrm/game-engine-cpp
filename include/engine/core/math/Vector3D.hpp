@@ -1,7 +1,8 @@
 #pragma once
+#include <algorithm>
 #include <cmath>
 #include <numbers>
-#include <algorithm>
+
 #include "engine/core/math/Math.hpp"
 #include "engine/core/math/Vector2D.hpp"
 
@@ -122,9 +123,8 @@ public:
     Vector3D cross(const Vector3D &other) const
     {
         return Vector3D(
-            y * other.z - z * other.y,
-            z * other.x - x * other.z,
-            x * other.y - y * other.x);
+            y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x
+        );
     }
 
     float angle(const Vector3D &other) const

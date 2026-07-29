@@ -1,13 +1,16 @@
 #pragma once
-#include "engine/entities/components/colliders/Collider.hpp"
-#include "engine/entities/Entity.hpp"
 #include "engine/core/math/Rect2D.hpp"
 #include "engine/core/math/Vector2D.hpp"
+#include "engine/entities/Entity.hpp"
+#include "engine/entities/components/colliders/Collider.hpp"
 
 class Rect2DCollider : public Collider
 {
 public:
-    Rect2DCollider(float offsetX, float offsetY, float width, float height) : rect{offsetX, offsetY, width, height} {}
+    Rect2DCollider(float offsetX, float offsetY, float width, float height)
+        : rect{offsetX, offsetY, width, height}
+    {
+    }
     Rect2DCollider(Rect2D offsetRect) : rect(offsetRect) {}
 
     Rect2D GetAABB() const override

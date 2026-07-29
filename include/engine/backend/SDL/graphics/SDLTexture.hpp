@@ -1,7 +1,8 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include <string>
 #include <cstdint>
+#include <string>
+
 #include "engine/core/graphics/Texture.hpp"
 
 class SDLTexture : public Texture

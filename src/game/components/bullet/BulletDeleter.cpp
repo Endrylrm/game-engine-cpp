@@ -1,7 +1,9 @@
 #include "game/components/bullet/BulletDeleter.hpp"
-#include "engine/entities/Entity.hpp"
-#include "engine/api/WindowAPI.hpp"
+
 #include <iostream>
+
+#include "engine/api/WindowAPI.hpp"
+#include "engine/entities/Entity.hpp"
 
 void BulletDeleter::onStart()
 {

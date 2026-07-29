@@ -1,9 +1,10 @@
 #pragma once
-#include <vector>
-#include <queue>
 #include <memory>
-#include "engine/entities/Entity.hpp"
+#include <queue>
+#include <vector>
+
 #include "engine/core/string/StringHandle.hpp"
+#include "engine/entities/Entity.hpp"
 
 class EntityManager
 {

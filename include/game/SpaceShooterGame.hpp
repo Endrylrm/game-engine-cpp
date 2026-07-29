@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+
 #include "engine/Game.hpp"
 
 class SpaceShooterGame : public Game

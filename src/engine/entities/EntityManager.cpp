@@ -1,8 +1,6 @@
 #include "engine/entities/EntityManager.hpp"
 
-void EntityManager::onInit()
-{
-}
+void EntityManager::onInit() {}
 
 void EntityManager::onPhysics(float fixedDeltaTime)
 {
@@ -54,8 +52,10 @@ void EntityManager::removeDestroyedObjects()
         }
     }
 
-    std::erase_if(entities, [](const std::unique_ptr<Entity> &entity)
-                  { return entity == nullptr || entity->isPendingDestruction(); });
+    std::erase_if(
+        entities, [](const std::unique_ptr<Entity> &entity)
+        { return entity == nullptr || entity->isPendingDestruction(); }
+    );
 }
 
 void EntityManager::processPendingSpawns()

@@ -7,10 +7,20 @@ public:
     Transform2D() = default;
     Transform2D(Vector2D position) : position(position) {}
     Transform2D(Vector2D position, float rotation) : position(position), rotation(rotation) {}
-    Transform2D(Vector2D position, float rotation, Vector2D scale) : position(position), rotation(rotation), scale(scale) {}
+    Transform2D(Vector2D position, float rotation, Vector2D scale)
+        : position(position), rotation(rotation), scale(scale)
+    {
+    }
     Transform2D(float positionX, float positionY) : position{positionX, positionY} {}
-    Transform2D(float positionX, float positionY, float rotation) : position{positionX, positionY}, rotation(rotation) {}
-    Transform2D(float positionX, float positionY, float rotation, float scaleX, float scaleY) : position{positionX, positionY}, rotation(rotation), scale{scaleX, scaleY} {}
+    Transform2D(float positionX, float positionY, float rotation)
+        : position{positionX, positionY}, rotation(rotation)
+    {
+    }
+    Transform2D(float positionX, float positionY, float rotation, float scaleX, float scaleY)
+        : position{positionX, positionY}, rotation(rotation), scale{scaleX, scaleY}
+    {
+    }
+
     ~Transform2D() = default;
 
     Vector2D position{};

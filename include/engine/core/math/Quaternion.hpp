@@ -1,6 +1,7 @@
 #pragma once
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+
 #include "engine/core/math/Math.hpp"
 #include "engine/core/math/Vector3D.hpp"
 
@@ -16,8 +17,15 @@ public:
     constexpr Quaternion(float all) : x(all), y(all), z(all), w(all) {}
     constexpr Quaternion(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
-    glm::quat toGLM() const { return glm::quat(w, x, y, z); }
-    static Quaternion fromGLM(const glm::quat &q) { return Quaternion(q.x, q.y, q.z, q.w); }
+    glm::quat toGLM() const
+    {
+        return glm::quat(w, x, y, z);
+    }
+
+    static Quaternion fromGLM(const glm::quat &q)
+    {
+        return Quaternion(q.x, q.y, q.z, q.w);
+    }
 
     static constexpr Quaternion identity()
     {
@@ -48,7 +56,8 @@ public:
             w * other.x + x * other.w + y * other.z - z * other.y,
             w * other.y - x * other.z + y * other.w + z * other.x,
             w * other.z + x * other.y - y * other.x + z * other.w,
-            w * other.w - x * other.x - y * other.y - z * other.z);
+            w * other.w - x * other.x - y * other.y - z * other.z
+        );
     }
 
     Quaternion &operator*=(const Quaternion &other)

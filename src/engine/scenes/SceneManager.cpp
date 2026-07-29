@@ -1,8 +1,6 @@
 #include "engine/scenes/SceneManager.hpp"
 
-void SceneManager::onInit()
-{
-}
+void SceneManager::onInit() {}
 
 void SceneManager::onPhysics(float fixedDeltaTime)
 {

@@ -1,10 +1,10 @@
 #pragma once
-#include "engine/entities/components/colliders/Collider.hpp"
-#include "engine/entities/Entity.hpp"
-#include "engine/entities/components/Transform2D.hpp"
 #include "engine/core/math/Circle.hpp"
 #include "engine/core/math/Rect2D.hpp"
 #include "engine/core/math/Vector2D.hpp"
+#include "engine/entities/Entity.hpp"
+#include "engine/entities/components/Transform2D.hpp"
+#include "engine/entities/components/colliders/Collider.hpp"
 
 class CircleCollider : public Collider
 {
@@ -16,7 +16,10 @@ public:
     {
         Vector2D offset = Vector2D{circle.x, circle.y};
         Vector2D position = owner->getComponent<Transform2D>()->position + offset;
-        return {position.x - circle.r, position.y - circle.r, position.x + circle.r, position.y + circle.r};
+        return {
+            position.x - circle.r, position.y - circle.r, position.x + circle.r,
+            position.y + circle.r
+        };
     }
 
     Circle getCircle()

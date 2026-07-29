@@ -1,12 +1,13 @@
 #pragma once
-#include <unordered_map>
 #include <memory>
 #include <string>
+#include <unordered_map>
+
+#include "engine/core/graphics/Renderer.hpp"
 #include "engine/scenes/Scene.hpp"
-#include "engine/scenes/SceneRegistry.hpp"
 #include "engine/scenes/SceneCommand.hpp"
 #include "engine/scenes/SceneConcept.hpp"
-#include "engine/core/graphics/Renderer.hpp"
+#include "engine/scenes/SceneRegistry.hpp"
 
 class SceneManager
 {
@@ -34,7 +35,9 @@ public:
     template <SceneConcept SceneType>
     void loadSceneAdditive()
     {
-        pendingCommands.push_back({SceneCommandType::LoadAdditive, SceneRegistry::GetId<SceneType>()});
+        pendingCommands.push_back(
+            {SceneCommandType::LoadAdditive, SceneRegistry::GetId<SceneType>()}
+        );
     }
 
     template <SceneConcept SceneType>

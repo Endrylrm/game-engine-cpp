@@ -1,6 +1,7 @@
 #pragma once
-#include <typeindex>
 #include <memory>
+#include <typeindex>
+
 #include "engine/core/events/Event.hpp"
 
 struct QueuedEvent

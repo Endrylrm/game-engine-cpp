@@ -12,20 +12,17 @@ enum class EntityStateFlags : uint8_t
 
 inline EntityStateFlags operator|(EntityStateFlags a, EntityStateFlags b)
 {
-    return static_cast<EntityStateFlags>(
-        static_cast<uint8_t>(a) | static_cast<uint8_t>(b));
+    return static_cast<EntityStateFlags>(static_cast<uint8_t>(a) | static_cast<uint8_t>(b));
 }
 
 inline EntityStateFlags operator&(EntityStateFlags a, EntityStateFlags b)
 {
-    return static_cast<EntityStateFlags>(
-        static_cast<uint8_t>(a) & static_cast<uint8_t>(b));
+    return static_cast<EntityStateFlags>(static_cast<uint8_t>(a) & static_cast<uint8_t>(b));
 }
 
 inline EntityStateFlags operator~(EntityStateFlags a)
 {
-    return static_cast<EntityStateFlags>(
-        ~static_cast<uint8_t>(a));
+    return static_cast<EntityStateFlags>(~static_cast<uint8_t>(a));
 }
 
 inline EntityStateFlags &operator|=(EntityStateFlags &a, EntityStateFlags b)

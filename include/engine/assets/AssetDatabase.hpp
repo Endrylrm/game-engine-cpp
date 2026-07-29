@@ -1,9 +1,10 @@
 #pragma once
-#include <typeindex>
-#include <string>
 #include <stdexcept>
-#include "engine/assets/AssetManager.hpp"
+#include <string>
+#include <typeindex>
+
 #include "engine/assets/AssetHandle.hpp"
+#include "engine/assets/AssetManager.hpp"
 
 class AssetDatabase
 {

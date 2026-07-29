@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include <numbers>
+
 #include "engine/core/math/Math.hpp"
 
 class Vector2D

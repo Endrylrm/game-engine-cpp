@@ -1,7 +1,8 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include <string>
 #include <memory>
+#include <string>
+
 #include "engine/core/window/WindowManager.hpp"
 
 class SDLWindowManager : public WindowManager

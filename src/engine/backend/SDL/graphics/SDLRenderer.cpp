@@ -1,4 +1,5 @@
 #include "engine/backend/SDL/graphics/SDLRenderer.hpp"
+
 #include "engine/backend/SDL/graphics/SDLTexture.hpp"
 
 bool SDLRenderer::onInit(void *window)
@@ -28,13 +29,15 @@ std::unique_ptr<Texture> SDLRenderer::loadTexture(const std::string &path)
 void SDLRenderer::drawTexture(Texture *texture, float x, float y)
 {
     SDL_FRect dest{x, y, texture->getWidth(), texture->getHeight()};
-    SDL_RenderTexture(renderer, static_cast<SDL_Texture *>(texture->getNativeHandle()), nullptr, &dest);
+    SDL_Texture *nativeHandle = static_cast<SDL_Texture *>(texture->getNativeHandle());
+    SDL_RenderTexture(renderer, nativeHandle, nullptr, &dest);
 }
 
 void SDLRenderer::drawTexture(Texture *texture, float x, float y, float w, float h)
 {
     SDL_FRect dest{x, y, w, h};
-    SDL_RenderTexture(renderer, static_cast<SDL_Texture *>(texture->getNativeHandle()), nullptr, &dest);
+    SDL_Texture *nativeHandle = static_cast<SDL_Texture *>(texture->getNativeHandle());
+    SDL_RenderTexture(renderer, nativeHandle, nullptr, &dest);
 }
 
 void SDLRenderer::drawTexture(Texture *texture, Rect2D rect)
@@ -42,7 +45,9 @@ void SDLRenderer::drawTexture(Texture *texture, Rect2D rect)
     drawTexture(texture, rect.x, rect.y, rect.w, rect.h);
 }
 
-void SDLRenderer::drawRect(float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+void SDLRenderer::drawRect(
+    float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b, uint8_t a
+)
 {
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
     SDL_FRect rectangle{x, y, w, h};

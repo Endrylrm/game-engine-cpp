@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+
 #include "engine/entities/Entity.hpp"
 
 class BulletFactory

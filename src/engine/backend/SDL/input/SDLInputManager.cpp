@@ -1,5 +1,6 @@
-#include <iostream>
 #include "engine/backend/SDL/input/SDLInputManager.hpp"
+
+#include <iostream>
 
 SDLInputManager::SDLInputManager(bool *isRunning)
 {

@@ -1,6 +1,8 @@
 #include "game/SpaceShooterGame.hpp"
-#include "game/scenes/GameplayScene.hpp"
+
 #include "engine/api/ScenesAPI.hpp"
+
+#include "game/scenes/GameplayScene.hpp"
 
 void SpaceShooterGame::onInit()
 {
@@ -8,6 +10,4 @@ void SpaceShooterGame::onInit()
     ScenesAPI::loadScene<GameplayScene>();
 }
 
-void SpaceShooterGame::onShutdown()
-{
-}
+void SpaceShooterGame::onShutdown() {}

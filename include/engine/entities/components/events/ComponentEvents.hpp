@@ -5,7 +5,10 @@
 template <typename T>
 struct ComponentAddedEvent : public Event
 {
-    explicit ComponentAddedEvent(Entity *entity, T *component) : entity(entity), component(component) {}
+    explicit ComponentAddedEvent(Entity *entity, T *component)
+        : entity(entity), component(component)
+    {
+    }
 
     Entity *entity;
     T *component;
@@ -14,7 +17,10 @@ struct ComponentAddedEvent : public Event
 template <typename T>
 struct ComponentRemovedEvent : public Event
 {
-    explicit ComponentRemovedEvent(Entity *entity, T *component) : entity(entity), component(component) {}
+    explicit ComponentRemovedEvent(Entity *entity, T *component)
+        : entity(entity), component(component)
+    {
+    }
 
     Entity *entity;
     T *component;

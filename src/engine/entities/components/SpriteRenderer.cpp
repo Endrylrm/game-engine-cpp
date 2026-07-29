@@ -1,4 +1,5 @@
 #include "engine/entities/components/SpriteRenderer.hpp"
+
 #include "engine/scenes/Scene.hpp"
 
 void SpriteRenderer::onAwake()

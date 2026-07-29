@@ -15,8 +15,15 @@ void Timer::stop()
     timeLeft = 0.0f;
 }
 
-void Timer::pause() { paused = true; }
-void Timer::resume() { paused = false; }
+void Timer::pause()
+{
+    paused = true;
+}
+
+void Timer::resume()
+{
+    paused = false;
+}
 
 void Timer::onUpdate(float deltaTime)
 {
@@ -40,12 +47,42 @@ void Timer::onUpdate(float deltaTime)
     }
 }
 
-void Timer::setWaitTime(float time) { waitTime = time; }
-void Timer::setOneShot(bool value) { oneShot = value; }
-void Timer::setOnTimeout(TimeoutCallback callback) { onTimeout = std::move(callback); }
+void Timer::setWaitTime(float time)
+{
+    waitTime = time;
+}
 
-float Timer::getTimeLeft() const { return timeLeft; }
-float Timer::getWaitTime() const { return waitTime; }
-bool Timer::isRunning() const { return running; }
-bool Timer::isPaused() const { return paused; }
-bool Timer::isOneShot() const { return oneShot; }
+void Timer::setOneShot(bool value)
+{
+    oneShot = value;
+}
+
+void Timer::setOnTimeout(TimeoutCallback callback)
+{
+    onTimeout = std::move(callback);
+}
+
+float Timer::getTimeLeft() const
+{
+    return timeLeft;
+}
+
+float Timer::getWaitTime() const
+{
+    return waitTime;
+}
+
+bool Timer::isRunning() const
+{
+    return running;
+}
+
+bool Timer::isPaused() const
+{
+    return paused;
+}
+
+bool Timer::isOneShot() const
+{
+    return oneShot;
+}

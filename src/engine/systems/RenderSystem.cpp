@@ -1,22 +1,21 @@
 #include "engine/systems/RenderSystem.hpp"
+
+#include "engine/api/AssetsAPI.hpp"
+#include "engine/api/EventsAPI.hpp"
 #include "engine/core/graphics/Texture.hpp"
 #include "engine/entities/Entity.hpp"
 #include "engine/entities/components/Transform2D.hpp"
-#include "engine/api/AssetsAPI.hpp"
-#include "engine/api/EventsAPI.hpp"
 
 void RenderSystem::onInit()
 {
     spriteAdded = eventBus->connect<ComponentAddedEvent<SpriteRenderer>>(
         [&](const ComponentAddedEvent<SpriteRenderer> &event)
-        {
-            sprites.push_back(event.component);
-        });
+        { sprites.push_back(event.component); }
+    );
     spriteRemoved = eventBus->connect<ComponentRemovedEvent<SpriteRenderer>>(
         [&](const ComponentRemovedEvent<SpriteRenderer> &event)
-        {
-            std::erase(sprites, event.component);
-        });
+        { std::erase(sprites, event.component); }
+    );
 }
 
 void RenderSystem::onUnload()
@@ -30,16 +29,16 @@ void RenderSystem::onRender(Renderer &renderer)
 {
     for (auto *sprite : sprites)
     {
-        Entity& entity = *sprite->owner;
+        Entity &entity = *sprite->owner;
 
         if (!entity.isVisibleInHierarchy())
             continue;
 
         Transform2D &transform = *entity.getComponent<Transform2D>();
 
-        renderer.drawTexture(
-            AssetsAPI::get<Texture>(sprite->textureId),
-            transform.position.x,
-            transform.position.y);
+        auto texture = AssetsAPI::get<Texture>(sprite->textureId);
+        auto position = transform.position;
+
+        renderer.drawTexture(texture, position.x, transform.position.y);
     }
 }

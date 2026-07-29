@@ -13,28 +13,23 @@ public:
 
     constexpr void add(Enum flags)
     {
-        value = static_cast<Enum>(
-            static_cast<Underlying>(value) |
-            static_cast<Underlying>(flags));
+        value = static_cast<Enum>(static_cast<Underlying>(value) | static_cast<Underlying>(flags));
     }
 
     constexpr void remove(Enum flags)
     {
-        value = static_cast<Enum>(
-            static_cast<Underlying>(value) &
-            ~static_cast<Underlying>(flags));
+        value = static_cast<Enum>(static_cast<Underlying>(value) & ~static_cast<Underlying>(flags));
     }
 
     constexpr bool has(Enum flags) const
     {
-        return (static_cast<Underlying>(value) &
-                static_cast<Underlying>(flags)) == static_cast<Underlying>(flags);
+        return (static_cast<Underlying>(value) & static_cast<Underlying>(flags)) ==
+               static_cast<Underlying>(flags);
     }
 
     constexpr bool hasAny(Enum flags) const
     {
-        return (static_cast<Underlying>(value) &
-                static_cast<Underlying>(flags)) != 0;
+        return (static_cast<Underlying>(value) & static_cast<Underlying>(flags)) != 0;
     }
 
     constexpr void assign(Enum newValue)

@@ -1,7 +1,8 @@
 #pragma once
-#include <vector>
-#include <memory>
 #include <algorithm>
+#include <memory>
+#include <vector>
+
 #include "engine/time/Timer.hpp"
 
 class TimerManager

@@ -1,6 +1,6 @@
 #pragma once
-#include "engine/entities/Entity.hpp"
 #include "engine/core/events/Connections.hpp"
+#include "engine/entities/Entity.hpp"
 
 class GameManager
 {

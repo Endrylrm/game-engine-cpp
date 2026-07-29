@@ -2,8 +2,9 @@
 #include <cstdint>
 #include <string>
 #include <string_view>
-#include "engine/core/string/StringTable.hpp"
+
 #include "engine/core/string/StringIntern.hpp"
+#include "engine/core/string/StringTable.hpp"
 
 class StringHandle
 {
@@ -11,7 +12,7 @@ public:
     StringHandle() = default;
     explicit StringHandle(std::string_view str) : string(StringTable::intern(str)) {}
 
-    const std::string_view& text() const
+    const std::string_view &text() const
     {
         return string->text;
     }
@@ -21,13 +22,13 @@ public:
         return string->hash;
     }
 
-    StringHandle& operator=(std::string_view str)
+    StringHandle &operator=(std::string_view str)
     {
         string = StringTable::intern(str);
         return *this;
     }
 
-    bool operator==(const StringHandle&) const = default;
+    bool operator==(const StringHandle &) const = default;
 
     explicit operator bool() const
     {
@@ -35,5 +36,5 @@ public:
     }
 
 private:
-    const StringIntern* string{};
+    const StringIntern *string{};
 };

@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
-#include "engine/core/graphics/Renderer.hpp"
-#include "engine/core/events/EventBus.hpp"
+
 #include "engine/core/events/Connections.hpp"
+#include "engine/core/events/EventBus.hpp"
+#include "engine/core/graphics/Renderer.hpp"
 #include "engine/entities/components/SpriteRenderer.hpp"
 #include "engine/entities/components/events/ComponentEvents.hpp"
 
@@ -13,7 +14,8 @@ public:
     void onUnload();
     void onRender(Renderer &renderer);
 
-    void setEventBus(EventBus* SceneEventBus) {
+    void setEventBus(EventBus *SceneEventBus)
+    {
         eventBus = SceneEventBus;
     }
 
@@ -22,5 +24,5 @@ private:
     EventConnection spriteRemoved;
 
     std::vector<SpriteRenderer *> sprites{};
-    EventBus* eventBus{};
+    EventBus *eventBus{};
 };

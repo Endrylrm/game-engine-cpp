@@ -1,23 +1,22 @@
 #include "game/managers/GameManager.hpp"
-#include "game/components/common/Health.hpp"
-#include "game/factories/PlayerFactory.hpp"
+
 #include "engine/api/EntityAPI.hpp"
 #include "engine/api/TimerAPI.hpp"
 
+#include "game/components/common/Health.hpp"
+#include "game/factories/PlayerFactory.hpp"
+
 void GameManager::onStart()
 {
-	respawnPlayer();
+    respawnPlayer();
 }
 
-void GameManager::onUpdate(float deltaTime)
-{
-}
+void GameManager::onUpdate(float deltaTime) {}
 
 void GameManager::respawnPlayer()
 {
-	player = EntityAPI::createEntity(PlayerFactory::create());
-	Health *health = player->getComponent<Health>();
-	playerDiedConnection = health->onDead.connect([this]()
-												  { TimerAPI::after(1.5f, [this]()
-																	{ respawnPlayer(); }); });
+    player = EntityAPI::createEntity(PlayerFactory::create());
+    Health *health = player->getComponent<Health>();
+    playerDiedConnection =
+        health->onDead.connect([this]() { TimerAPI::after(1.5f, [this]() { respawnPlayer(); }); });
 }

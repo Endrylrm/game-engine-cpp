@@ -1,6 +1,7 @@
 #pragma once
-#include "engine/scenes/Scene.hpp"
 #include "engine/core/graphics/Renderer.hpp"
+#include "engine/scenes/Scene.hpp"
+
 #include "game/managers/GameManager.hpp"
 
 class GameplayScene : public Scene

@@ -4,6 +4,32 @@ Standard: c++20
 TabWidth: 4
 IndentWidth: 4
 ColumnLimit: 100
+AccessModifierOffset: -4
+IndentAccessModifiers: false
 AllowShortIfStatementsOnASingleLine: false
-BreakBeforeBraces: AllMan
-AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: Empty
+AlwaysBreakTemplateDeclarations: Yes
+BreakBeforeBraces: Allman
+AlignAfterOpenBracket: BlockIndent
+PackArguments:
+  BinPack: UseBreakAfter
+  BreakAfter: 3
+PackParameters:
+  BinPack: UseBreakAfter
+  BreakAfter: 3
+# includes
+IncludeBlocks: Regroup
+SortIncludes:
+  Enabled: true
+  IgnoreCase: false
+IncludeCategories:
+  - Regex:           '^<.*>$'         # Standard C/C++ library headers
+    Priority:        1
+  - Regex:           '^<engine/.*>$'  # Project-specific system headers
+    Priority:        2
+  - Regex:           '^"engine/.*"$'  # Project-specific system headers
+    Priority:        3
+  - Regex:           '^"game/.*"$'    # game-specific system headers
+    Priority:        4
+  - Regex:           '^".*"'          # All other local headers
+    Priority:        5

@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+
 #include "engine/api/ManagerAPI.hpp"
 #include "engine/time/Time.hpp"
 

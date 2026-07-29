@@ -11,12 +11,8 @@ AllowShortFunctionsOnASingleLine: Empty
 AlwaysBreakTemplateDeclarations: Yes
 BreakBeforeBraces: Allman
 AlignAfterOpenBracket: BlockIndent
-PackArguments:
-  BinPack: UseBreakAfter
-  BreakAfter: 3
-PackParameters:
-  BinPack: UseBreakAfter
-  BreakAfter: 3
+BinPackArguments: false
+BinPackParameters: false
 # includes
 IncludeBlocks: Regroup
 SortIncludes:

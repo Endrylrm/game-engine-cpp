@@ -1,4 +1,5 @@
 #include "engine/Engine.hpp"
+
 #include "game/SpaceShooterGame.hpp"
 
 int main(int argc, char *argv[])

@@ -27,9 +27,11 @@ IncludeCategories:
     Priority:        1
   - Regex:           '^<engine/.*>$'  # Project-specific system headers
     Priority:        2
-  - Regex:           '^"engine/.*"$'  # Project-specific system headers
+  - Regex:           '^"engine/.*"$'  # Project-specific headers
     Priority:        3
-  - Regex:           '^"game/.*"$'    # game-specific system headers
+  - Regex:           '^<game/.*>$'    # Game-specific System headers
     Priority:        4
-  - Regex:           '^".*"'          # All other local headers
+  - Regex:           '^"game/.*"$'    # Game-specific headers
     Priority:        5
+  - Regex:           '^".*"'          # All other local headers
+    Priority:        6

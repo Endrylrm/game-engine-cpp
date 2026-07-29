@@ -42,20 +42,21 @@ void EntityManager::onPostUpdate()
     }
 }
 
-void EntityManager::removeDestroyedObjects()
+void EntityManager::removeDestroyedEntities()
 {
-    for (auto &entity : entities)
+    if (destroyQueue.empty())
+        return;
+
+    for (auto *entity : destroyQueue)
     {
         if (entity->isPendingDestruction())
         {
             entity->onDestruction();
+            removeEntity(entity);
         }
     }
 
-    std::erase_if(
-        entities, [](const std::unique_ptr<Entity> &entity)
-        { return entity == nullptr || entity->isPendingDestruction(); }
-    );
+    destroyQueue.clear();
 }
 
 void EntityManager::processPendingSpawns()
@@ -71,6 +72,7 @@ void EntityManager::processPendingSpawns()
         }
 
         Entity *ptr = entity.get();
+        ptr->storageIndex = entities.size();
         entities.push_back(std::move(entity));
         ptr->markSpawned();
         awakeQueue.push_back(ptr);
@@ -125,7 +127,7 @@ void EntityManager::processStartQueue()
     startQueue.clear();
 }
 
-Entity *EntityManager::createEntity()
+Entity *EntityManager::create()
 {
     auto entity = std::make_unique<Entity>();
     Entity *ptr = entity.get();
@@ -133,11 +135,31 @@ Entity *EntityManager::createEntity()
     return ptr;
 }
 
-Entity *EntityManager::createEntity(std::unique_ptr<Entity> entityBlueprint)
+Entity *EntityManager::create(std::unique_ptr<Entity> entityBlueprint)
 {
     Entity *ptr = entityBlueprint.get();
     spawnQueue.push_back(std::move(entityBlueprint));
     return ptr;
+}
+
+void EntityManager::queueDestroy(Entity *entity)
+{
+    destroyQueue.push_back(entity);
+}
+
+// O(1) removal
+void EntityManager::removeEntity(Entity *entity)
+{
+    const size_t index = entity->storageIndex;
+    const size_t last = entities.size() - 1;
+
+    if (index != last)
+    {
+        std::swap(entities[index], entities[last]);
+        entities[index]->storageIndex = index;
+    }
+
+    entities.pop_back();
 }
 
 Entity *EntityManager::findWithTag(const StringHandle &tag)
@@ -169,7 +191,7 @@ std::vector<std::unique_ptr<Entity>> &EntityManager::getEntities()
     return entities;
 }
 
-void EntityManager::clearEntities()
+void EntityManager::clear()
 {
     entities.clear();
 }

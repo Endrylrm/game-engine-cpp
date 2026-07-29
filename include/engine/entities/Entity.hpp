@@ -13,10 +13,12 @@
 #include "engine/entities/components/Transform2D.hpp"
 
 class Scene;
+class EntityManager;
 
 class Entity
 {
     friend class Scene;
+    friend class EntityManager;
 
 public:
     Entity() {}
@@ -121,6 +123,7 @@ private:
     std::vector<std::unique_ptr<Component>> components{};
     std::unordered_map<ComponentId, Component *> componentsMap{};
     Scene *scene;
+    size_t storageIndex = 0;
 };
 
 template <>

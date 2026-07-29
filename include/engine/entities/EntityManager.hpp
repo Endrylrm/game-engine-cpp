@@ -16,7 +16,7 @@ public:
     void onPreUpdate();
     void onUpdate(float deltaTime);
     void onPostUpdate();
-    void removeDestroyedObjects();
+    void removeDestroyedEntities();
     void processPendingSpawns();
     void processAwakeQueue();
     void processStartQueue();
@@ -24,10 +24,11 @@ public:
     Entity *findWithTag(const StringHandle &tag);
     std::vector<Entity *> findAllWithTag(const StringHandle &tag);
     std::vector<std::unique_ptr<Entity>> &getEntities();
-    void clearEntities();
+    void clear();
 
-    Entity *createEntity();
-    Entity *createEntity(std::unique_ptr<Entity> entityBlueprint);
+    Entity *create();
+    Entity *create(std::unique_ptr<Entity> entityBlueprint);
+    void queueDestroy(Entity *entity);
 
     template <typename... Components, typename Func>
     void forEach(Func &&func)
@@ -93,8 +94,11 @@ public:
     }
 
 private:
+    void removeEntity(Entity *entity);
+
     std::vector<std::unique_ptr<Entity>> entities{};
     std::vector<std::unique_ptr<Entity>> spawnQueue{};
     std::vector<Entity *> awakeQueue{};
     std::vector<Entity *> startQueue{};
+    std::vector<Entity *> destroyQueue{};
 };

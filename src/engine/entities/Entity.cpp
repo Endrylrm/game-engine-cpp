@@ -289,6 +289,7 @@ void Entity::markForDestruction()
         return;
 
     lifetime = LifetimeState::PendingDestruction;
+    scene->queueDestroyEntity(this);
 
     for (auto *child : children)
         child->markForDestruction();

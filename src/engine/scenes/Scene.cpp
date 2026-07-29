@@ -42,7 +42,7 @@ void Scene::render(Renderer &renderer)
 void Scene::processLifecycle()
 {
     eventBus.removeDeletedEvents();
-    entityManager.removeDestroyedObjects();
+    entityManager.removeDestroyedEntities();
     entityManager.processPendingSpawns();
     entityManager.processAwakeQueue();
     entityManager.processStartQueue();
@@ -50,21 +50,26 @@ void Scene::processLifecycle()
 
 void Scene::unload()
 {
-    entityManager.clearEntities();
+    entityManager.clear();
     renderSystem.onUnload();
     onUnload();
 }
 
 Entity *Scene::createEntity()
 {
-    Entity *ptr = entityManager.createEntity();
+    Entity *ptr = entityManager.create();
     ptr->scene = this;
     return ptr;
 }
 
 Entity *Scene::createEntity(std::unique_ptr<Entity> entityBlueprint)
 {
-    Entity *ptr = entityManager.createEntity(std::move(entityBlueprint));
+    Entity *ptr = entityManager.create(std::move(entityBlueprint));
     ptr->scene = this;
     return ptr;
+}
+
+void Scene::queueDestroyEntity(Entity *entity)
+{
+    entityManager.queueDestroy(entity);
 }

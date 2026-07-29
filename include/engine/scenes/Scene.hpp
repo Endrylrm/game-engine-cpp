@@ -25,6 +25,7 @@ public:
 
     Entity *createEntity();
     Entity *createEntity(std::unique_ptr<Entity> entityBlueprint);
+    void queueDestroyEntity(Entity *entity);
 
     template <typename EventType, typename Callback>
     EventConnection connectEvent(Callback &&callback)

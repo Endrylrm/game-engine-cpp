@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <iostream>
 #include <string>
 #include <string_view>
 
@@ -33,6 +34,17 @@ public:
     explicit operator bool() const
     {
         return string != nullptr;
+    }
+
+    operator std::string_view() const
+    {
+        return text();
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const StringHandle &handle)
+    {
+        os << handle.text();
+        return os;
     }
 
 private:

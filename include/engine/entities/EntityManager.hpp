@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
 #include <queue>
+#include <string_view>
 #include <vector>
 
-#include "engine/core/string/StringHandle.hpp"
 #include "engine/entities/Entity.hpp"
 
 class EntityManager
@@ -21,8 +21,8 @@ public:
     void processAwakeQueue();
     void processStartQueue();
 
-    Entity *findWithTag(const StringHandle &tag);
-    std::vector<Entity *> findAllWithTag(const StringHandle &tag);
+    Entity *findWithTag(const std::string_view &tag);
+    std::vector<Entity *> findAllWithTag(const std::string_view &tag);
     std::vector<std::unique_ptr<Entity>> &getEntities();
     void clear();
 

@@ -1,5 +1,7 @@
 #include "engine/entities/EntityManager.hpp"
 
+#include "engine/core/string/StringHandle.hpp"
+
 void EntityManager::onInit() {}
 
 void EntityManager::onPhysics(float fixedDeltaTime)
@@ -162,24 +164,24 @@ void EntityManager::removeEntity(Entity *entity)
     entities.pop_back();
 }
 
-Entity *EntityManager::findWithTag(const StringHandle &tag)
+Entity *EntityManager::findWithTag(const std::string_view &tag)
 {
     for (auto &entity : entities)
     {
-        if (entity->tag == tag)
+        if (entity->tag == StringHandle(tag))
             return entity.get();
     }
 
     return nullptr;
 }
 
-std::vector<Entity *> EntityManager::findAllWithTag(const StringHandle &tag)
+std::vector<Entity *> EntityManager::findAllWithTag(const std::string_view &tag)
 {
     std::vector<Entity *> taggedEntities;
 
     for (auto &entity : entities)
     {
-        if (entity->tag == tag)
+        if (entity->tag == StringHandle(tag))
             taggedEntities.push_back(entity.get());
     }
 

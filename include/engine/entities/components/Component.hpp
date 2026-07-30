@@ -1,6 +1,5 @@
 #pragma once
 
-// forward declaration
 class Entity;
 
 class Component

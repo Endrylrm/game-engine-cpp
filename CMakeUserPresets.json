@@ -35,8 +35,9 @@
       "inherits": "windows-default",
       "environment": {
         "VCPKG_ROOT": "C:/dev/vcpkg",
-        "VCPKG_DEFAULT_TRIPLET": "x64-windows",
-        "VCPKG_DEFAULT_HOST_TRIPLET": "x64-windows"
+        "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-clang",
+        "VCPKG_HOST_TRIPLET": "x64-windows-clang"
       },
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",

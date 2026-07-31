@@ -21,20 +21,20 @@
 void Engine::initialize(const char *title, int width, int height)
 {
     running = true;
-    currentWindowManager = std::make_unique<SDLWindowManager>(title, width, height);
-    currentRenderer = std::make_unique<SDLRenderer>();
-    currentInputManager = std::make_unique<SDLInputManager>(&running);
 
+    currentWindowManager = std::make_unique<SDLWindowManager>(title, width, height);
     if (!currentWindowManager->onInit())
     {
         return;
     }
 
-    if (!currentRenderer->onInit(currentWindowManager->getWindowHandle()))
+    currentRenderer = std::make_unique<SDLRenderer>(currentWindowManager->getWindowHandle());
+    if (!currentRenderer->onInit())
     {
         return;
     }
 
+    currentInputManager = std::make_unique<SDLInputManager>(&running);
     currentAssetDB.registerManager<Texture>([this](const std::string &path)
                                             { return currentRenderer->loadTexture(path); });
 

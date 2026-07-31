@@ -12,8 +12,9 @@
 class SDLRenderer : public Renderer
 {
 public:
+    SDLRenderer(void *windowHandle);
     ~SDLRenderer() override;
-    bool onInit(void *window) override;
+    bool onInit() override;
     std::unique_ptr<Texture> loadTexture(const std::string &path) override;
     void drawTexture(Texture *texture, float x, float y) override;
     void drawTexture(Texture *texture, float x, float y, float w, float h) override;
@@ -28,6 +29,7 @@ public:
     void *getNativeRenderer() const override;
 
 private:
+    SDL_Window *window{};
     SDL_Renderer *renderer{};
     TTF_Font *font{};
 };

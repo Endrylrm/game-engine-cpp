@@ -2,9 +2,15 @@
 
 #include "engine/backend/SDL/graphics/SDLTexture.hpp"
 
-bool SDLRenderer::onInit(void *window)
+SDLRenderer::SDLRenderer(void *windowHandle)
 {
-    renderer = SDL_CreateRenderer(static_cast<SDL_Window *>(window), NULL);
+    window = static_cast<SDL_Window *>(windowHandle);
+}
+
+bool SDLRenderer::onInit()
+{
+    renderer = SDL_CreateRenderer(window, NULL);
+
     if (!renderer)
     {
         SDL_Log("Failed to create Renderer: %s", SDL_GetError());

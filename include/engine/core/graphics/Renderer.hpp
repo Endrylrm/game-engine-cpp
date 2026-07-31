@@ -11,7 +11,7 @@ class Renderer
 public:
     virtual ~Renderer() = default;
 
-    virtual bool onInit(void *window) = 0;
+    virtual bool onInit() = 0;
     virtual std::unique_ptr<Texture> loadTexture(const std::string &path) = 0;
     virtual void drawTexture(Texture *texture, float x, float y) = 0;
     virtual void drawTexture(Texture *texture, float x, float y, float w, float h) = 0;

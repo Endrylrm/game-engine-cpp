@@ -4,7 +4,7 @@
 #include "engine/api/EventsAPI.hpp"
 #include "engine/core/graphics/Texture.hpp"
 #include "engine/entities/Entity.hpp"
-#include "engine/entities/components/Transform2D.hpp"
+#include "engine/entities/components/Transform.hpp"
 
 void RenderSystem::onInit()
 {
@@ -34,7 +34,7 @@ void RenderSystem::onRender(Renderer &renderer)
         if (!entity.isVisibleInHierarchy())
             continue;
 
-        Transform2D &transform = *entity.getComponent<Transform2D>();
+        Transform &transform = *entity.getComponent<Transform>();
 
         auto texture = AssetsAPI::get<Texture>(sprite->textureId);
         auto position = transform.position;

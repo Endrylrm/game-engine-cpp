@@ -3,7 +3,7 @@
 
 #include "engine/core/events/Connections.hpp"
 #include "engine/entities/components/Component.hpp"
-#include "engine/entities/components/Transform2D.hpp"
+#include "engine/entities/components/Transform.hpp"
 
 class PlayerController : public Component
 {
@@ -15,7 +15,7 @@ public:
     void print();
 
 private:
-    Transform2D *transform{};
+    Transform *transform{};
     float speed{300.0f};
     EventConnection healthConnection;
 };

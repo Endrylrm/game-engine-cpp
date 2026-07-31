@@ -1,6 +1,6 @@
 #pragma once
 #include "engine/entities/components/Component.hpp"
-#include "engine/entities/components/Transform2D.hpp"
+#include "engine/entities/components/Transform.hpp"
 
 class ClampUD : public Component
 {
@@ -10,5 +10,5 @@ public:
     void onPostUpdate() override;
 
 private:
-    Transform2D *transform{};
+    Transform *transform{};
 };

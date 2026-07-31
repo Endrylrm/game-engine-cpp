@@ -6,7 +6,7 @@
 
 void BulletMove::onStart()
 {
-    transform = owner->getComponent<Transform2D>();
+    transform = owner->getComponent<Transform>();
 }
 
 void BulletMove::onUpdate(float deltaTime)

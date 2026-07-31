@@ -9,7 +9,7 @@
 
 void PlayerController::onStart()
 {
-    transform = owner->getComponent<Transform2D>();
+    transform = owner->getComponent<Transform>();
     transform->position.x = 375;
     transform->position.y = 450;
     std::cout << "Player Started!" << std::endl;

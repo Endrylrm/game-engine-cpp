@@ -10,7 +10,7 @@
 #include "engine/entities/LifetimeState.hpp"
 #include "engine/entities/components/Component.hpp"
 #include "engine/entities/components/ComponentRegistry.hpp"
-#include "engine/entities/components/Transform2D.hpp"
+#include "engine/entities/components/Transform.hpp"
 
 class Scene;
 class EntityManager;
@@ -113,7 +113,7 @@ public:
 
     StringHandle name;
     StringHandle tag;
-    Transform2D transform;
+    Transform transform;
 
 private:
     Flags<EntityStateFlags> state{};
@@ -127,7 +127,7 @@ private:
 };
 
 template <>
-Transform2D *Entity::getComponent<Transform2D>();
+Transform *Entity::getComponent<Transform>();
 
 template <>
-bool Entity::hasComponent<Transform2D>();
+bool Entity::hasComponent<Transform>();

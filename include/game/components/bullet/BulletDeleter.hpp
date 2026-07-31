@@ -1,6 +1,6 @@
 #pragma once
 #include "engine/entities/components/Component.hpp"
-#include "engine/entities/components/Transform2D.hpp"
+#include "engine/entities/components/Transform.hpp"
 
 class BulletDeleter : public Component
 {
@@ -11,5 +11,5 @@ public:
 
 private:
     bool isOutOfBounds();
-    Transform2D *transform{};
+    Transform *transform{};
 };

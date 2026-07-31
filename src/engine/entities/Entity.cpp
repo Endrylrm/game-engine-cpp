@@ -3,13 +3,13 @@
 #include "engine/scenes/Scene.hpp"
 
 template <>
-Transform2D *Entity::getComponent<Transform2D>()
+Transform *Entity::getComponent<Transform>()
 {
     return &transform;
 }
 
 template <>
-bool Entity::hasComponent<Transform2D>()
+bool Entity::hasComponent<Transform>()
 {
     return true;
 }

@@ -16,7 +16,7 @@ public:
     Rect2D GetAABB() const override
     {
         Vector2D offset = Vector2D{rect.x, rect.y};
-        Vector2D position = owner->getComponent<Transform2D>()->position + offset;
+        Vector2D position = owner->getComponent<Transform>()->position + offset;
         return {position.x, position.y, position.x + rect.w, position.y + rect.h};
     }
 

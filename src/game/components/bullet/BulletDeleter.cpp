@@ -7,7 +7,7 @@
 
 void BulletDeleter::onStart()
 {
-    transform = owner->getComponent<Transform2D>();
+    transform = owner->getComponent<Transform>();
 }
 
 void BulletDeleter::onUpdate(float deltaTime)

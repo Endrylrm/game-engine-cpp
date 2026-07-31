@@ -15,9 +15,11 @@ public:
     Rect2D GetAABB() const override
     {
         Vector2D offset = Vector2D{circle.x, circle.y};
-        Vector2D position = owner->getComponent<Transform2D>()->position + offset;
+        Vector2D position = owner->getComponent<Transform>()->position + offset;
         return {
-            position.x - circle.r, position.y - circle.r, position.x + circle.r,
+            position.x - circle.r,
+            position.y - circle.r,
+            position.x + circle.r,
             position.y + circle.r
         };
     }

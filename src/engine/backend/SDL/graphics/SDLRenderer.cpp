@@ -2,10 +2,7 @@
 
 #include "engine/backend/SDL/graphics/SDLTexture.hpp"
 
-SDLRenderer::SDLRenderer(void *windowHandle)
-{
-    window = static_cast<SDL_Window *>(windowHandle);
-}
+SDLRenderer::SDLRenderer(void *windowHandle) : window(static_cast<SDL_Window *>(windowHandle)) {}
 
 bool SDLRenderer::onInit()
 {

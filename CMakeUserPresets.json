@@ -6,13 +6,8 @@
   "configurePresets": [
     {
       "name": "local-gcc",
-      "displayName": "GCC Compiler + VCPKG",
+      "displayName": "GCC Compiler",
       "inherits": "default",
-      "environment": {
-        "VCPKG_ROOT": "C:/dev/vcpkg",
-        "VCPKG_DEFAULT_TRIPLET": "x64-mingw-dynamic",
-        "VCPKG_DEFAULT_HOST_TRIPLET": "x64-mingw-dynamic"
-      },
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CMAKE_CXX_COMPILER": "g++",
@@ -22,11 +17,26 @@
     {
       "name": "local-clang",
       "displayName": "Clang Compiler",
-      "inherits": "clang-default",
+      "inherits": "default",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_C_COMPILER": "clang"
+      }
+    },
+    {
+      "name": "local-windows-gcc",
+      "displayName": "Windows GCC Compiler + VCPKG",
+      "inherits": "windows-default",
+      "environment": {
+        "VCPKG_ROOT": "C:/dev/vcpkg",
+        "VCPKG_DEFAULT_TRIPLET": "x64-mingw-dynamic",
+        "VCPKG_DEFAULT_HOST_TRIPLET": "x64-mingw-dynamic"
+      },
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_C_COMPILER": "gcc"
       }
     },
     {
@@ -46,7 +56,7 @@
       }
     },
     {
-      "name": "local-windows",
+      "name": "local-windows-msvc",
       "displayName": "Windows Visual Studio Compiler + VCPKG",
       "inherits": "windows-default",
       "environment": {
@@ -54,6 +64,37 @@
         "VCPKG_DEFAULT_TRIPLET": "x64-windows",
         "VCPKG_DEFAULT_HOST_TRIPLET": "x64-windows"
       }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default-build",
+      "hidden": true,
+      "configurePreset": "local-windows-clang"
+    },
+    {
+      "name": "debug",
+      "displayName": "Build Debug",
+      "inherits": "default-build",
+      "configuration": "Debug"
+    },
+    {
+      "name": "release",
+      "displayName": "Build Release",
+      "inherits": "default-build",
+      "configuration": "release"
+    },
+    {
+      "name": "relwithdebinfo",
+      "displayName": "Build Release with Debug Info",
+      "inherits": "default-build",
+      "configuration": "RelWithDebInfo"
+    },
+    {
+      "name": "minsizerel",
+      "displayName": "Build Minimal Size Release",
+      "inherits": "default-build",
+      "configuration": "MinSizeRel"
     }
   ]
 }

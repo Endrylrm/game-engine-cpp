@@ -2,6 +2,7 @@
 
 #include "engine/api/AssetsAPI.hpp"
 #include "engine/core/graphics/Texture.hpp"
+#include "engine/core/log/Log.hpp"
 #include "engine/entities/EntityBuilder.hpp"
 #include "engine/entities/components/SpriteRenderer.hpp"
 
@@ -13,6 +14,7 @@
 
 std::unique_ptr<Entity> PlayerFactory::create()
 {
+    LOG_DEBUG("Player Factory creating...");
     AssetHandle<Texture> sprite = AssetsAPI::load<Texture>("assets/player/playerShip1_blue.png");
     return EntityBuilder{}
         .name("Player")

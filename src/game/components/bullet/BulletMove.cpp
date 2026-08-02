@@ -1,7 +1,5 @@
 #include "game/components/bullet/BulletMove.hpp"
 
-#include <iostream>
-
 #include "engine/entities/Entity.hpp"
 
 void BulletMove::onStart()

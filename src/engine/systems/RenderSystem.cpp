@@ -36,9 +36,9 @@ void RenderSystem::onRender(Renderer &renderer)
 
         Transform &transform = *entity.getComponent<Transform>();
 
-        auto texture = AssetsAPI::get<Texture>(sprite->textureId);
+        auto *texture = AssetsAPI::get<Texture>(sprite->textureId);
         auto position = transform.position;
 
-        renderer.drawTexture(texture, position.x, transform.position.y);
+        renderer.drawTexture(texture, position.x, position.y);
     }
 }

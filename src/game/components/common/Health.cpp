@@ -1,7 +1,6 @@
 #include "game/components/common/Health.hpp"
 
-#include <iostream>
-
+#include "engine/core/log/Log.hpp"
 #include "engine/entities/Entity.hpp"
 
 void Health::onAwake()
@@ -31,6 +30,8 @@ void Health::takeDamage(int damage)
 {
     hp -= damage;
     onHealthChanged.emit(hp);
+    LOG_DEBUG("Took damage: {}", damage);
+    LOG_DEBUG("Current Health: {}", hp);
 }
 
 int Health::getCurrentHP()

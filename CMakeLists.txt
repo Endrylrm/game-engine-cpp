@@ -16,6 +16,7 @@ set(ENGINE_SOURCES
     src/engine/backend/SDL/graphics/SDLTexture.cpp
     src/engine/backend/SDL/input/SDLInputManager.cpp
     src/engine/backend/SDL/window/SDLWindowManager.cpp
+    src/engine/core/log/Logger.cpp
     src/engine/core/string/StringTable.cpp
     src/engine/entities/components/SpriteRenderer.cpp
     src/engine/entities/Entity.cpp

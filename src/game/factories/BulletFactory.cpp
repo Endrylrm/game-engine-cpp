@@ -2,6 +2,7 @@
 
 #include "engine/api/AssetsAPI.hpp"
 #include "engine/core/graphics/Texture.hpp"
+#include "engine/core/log/Log.hpp"
 #include "engine/entities/EntityBuilder.hpp"
 #include "engine/entities/components/SpriteRenderer.hpp"
 
@@ -12,6 +13,7 @@
 
 std::unique_ptr<Entity> BulletFactory::create()
 {
+    LOG_DEBUG("Bullet Factory creating...");
     AssetHandle<Texture> sprite = AssetsAPI::load<Texture>("assets/bullets/laserBlue01.png");
     return EntityBuilder{}
         .tag("Player")

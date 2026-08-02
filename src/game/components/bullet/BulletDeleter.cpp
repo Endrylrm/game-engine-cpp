@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "engine/api/WindowAPI.hpp"
+#include "engine/core/log/Log.hpp"
 #include "engine/entities/Entity.hpp"
 
 void BulletDeleter::onStart()
@@ -41,5 +42,5 @@ bool BulletDeleter::isOutOfBounds()
 
 void BulletDeleter::onDestruction()
 {
-    std::cout << "bullet destroyed" << std::endl;
+    LOG_DEBUG("Bullet destroyed!");
 }

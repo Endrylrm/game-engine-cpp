@@ -17,6 +17,7 @@
 #include "engine/backend/SDL/input/SDLInputManager.hpp"
 #include "engine/backend/SDL/window/SDLWindowManager.hpp"
 #include "engine/core/graphics/Texture.hpp"
+#include "engine/core/log/Log.hpp"
 
 void Engine::initialize(const char *title, int width, int height)
 {
@@ -49,6 +50,7 @@ void Engine::initialize(const char *title, int width, int height)
 
     currentSceneManager.onInit();
     game.onInit();
+    LOG_INIT();
 }
 
 void Engine::beginFrame()

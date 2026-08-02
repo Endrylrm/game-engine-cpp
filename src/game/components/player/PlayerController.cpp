@@ -4,6 +4,7 @@
 #include <string>
 
 #include "engine/api/InputAPI.hpp"
+#include "engine/core/log/Log.hpp"
 #include "engine/core/math/Vector2D.hpp"
 #include "engine/entities/Entity.hpp"
 
@@ -12,7 +13,7 @@ void PlayerController::onStart()
     transform = owner->getComponent<Transform>();
     transform->position.x = 375;
     transform->position.y = 450;
-    std::cout << "Player Started!" << std::endl;
+    LOG_DEBUG("Player started");
 }
 
 void PlayerController::onUpdate(float deltaTime)
@@ -47,11 +48,11 @@ void PlayerController::onUpdate(float deltaTime)
 
 void PlayerController::onDestruction()
 {
-    std::cout << "Player Destroyed!" << std::endl;
+    LOG_DEBUG("Player destroyed!");
 }
 
 void PlayerController::print()
 {
     auto position = transform->position;
-    std::cout << "my position is: " << position.x << "," << position.y << std::endl;
+    LOG_DEBUG("my position is: {},{}", position.x, position.y);
 }

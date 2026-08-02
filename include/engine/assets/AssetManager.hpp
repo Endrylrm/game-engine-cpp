@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include "engine/assets/AssetHandle.hpp"
+#include "engine/core/log/Log.hpp"
 
 struct BaseAssetManager
 {
@@ -28,6 +29,7 @@ public:
 
         AssetHandle<T> handle(nextID++);
         assets[handle] = std::move(loader(path));
+        LOG_INFO("loaded Asset: {}", path);
         pathToHandle[path] = handle;
         return handle;
     }

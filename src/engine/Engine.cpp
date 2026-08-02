@@ -17,11 +17,13 @@
 #include "engine/backend/SDL/input/SDLInputManager.hpp"
 #include "engine/backend/SDL/window/SDLWindowManager.hpp"
 #include "engine/core/graphics/Texture.hpp"
-#include "engine/core/log/Log.hpp"
+#include "engine/core/log/Logger.hpp"
 
 void Engine::initialize(const char *title, int width, int height)
 {
     running = true;
+
+    Logger::Init();
 
     currentWindowManager = std::make_unique<SDLWindowManager>(title, width, height);
     if (!currentWindowManager->onInit())
@@ -50,7 +52,6 @@ void Engine::initialize(const char *title, int width, int height)
 
     currentSceneManager.onInit();
     game.onInit();
-    LOG_INIT();
 }
 
 void Engine::beginFrame()
@@ -149,4 +150,5 @@ void Engine::mainLoop()
 void Engine::shutdown()
 {
     game.onShutdown();
+    Logger::Shutdown();
 }

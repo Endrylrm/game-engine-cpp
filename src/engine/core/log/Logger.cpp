@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 
-void Logger::Init()
+void Logger::init()
 {
     std::string output;
 
@@ -13,12 +13,12 @@ void Logger::Init()
 
     std::cout << output << std::endl;
 
-    LogMessage(LogLevel::Info, "Logger Initialized", __FILE_NAME__, __FUNCTION__, __LINE__);
+    log(LogLevel::Info, __FILE_NAME__, __FUNCTION__, __LINE__, "Logger Initialized");
 }
 
-void Logger::Shutdown() {}
+void Logger::shutdown() {}
 
-void Logger::LogMessage(
+void Logger::logImpl(
     LogLevel level, const std::string &message, const char *file, const char *function, int line
 )
 {

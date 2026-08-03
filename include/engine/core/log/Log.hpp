@@ -1,12 +1,17 @@
 #pragma once
 #include "engine/core/log/Logger.hpp"
 
-#define LOG(level, ...) Logger::Log(level, __FILE_NAME__, __FUNCTION__, __LINE__, __VA_ARGS__)
-
-#define LOG_TRACE(...) LOG(LogLevel::Trace, __VA_ARGS__)
-#define LOG_DEBUG(...) LOG(LogLevel::Debug, __VA_ARGS__)
-#define LOG_INFO(...) LOG(LogLevel::Info, __VA_ARGS__)
-#define LOG_SUCCESS(...) LOG(LogLevel::Success, __VA_ARGS__)
-#define LOG_WARNING(...) LOG(LogLevel::Warning, __VA_ARGS__)
-#define LOG_ERROR(...) LOG(LogLevel::Error, __VA_ARGS__)
-#define LOG_CRITICAL(...) LOG(LogLevel::Critical, __VA_ARGS__)
+#define LOG_TRACE(...)                                                                             \
+    Logger::log(LogLevel::Trace, __FILE_NAME__, __FUNCTION__, __LINE__, __VA_ARGS__)
+#define LOG_DEBUG(...)                                                                             \
+    Logger::log(LogLevel::Debug, __FILE_NAME__, __FUNCTION__, __LINE__, __VA_ARGS__)
+#define LOG_INFO(...)                                                                              \
+    Logger::log(LogLevel::Info, __FILE_NAME__, __FUNCTION__, __LINE__, __VA_ARGS__)
+#define LOG_SUCCESS(...)                                                                           \
+    Logger::log(LogLevel::Success, __FILE_NAME__, __FUNCTION__, __LINE__, __VA_ARGS__)
+#define LOG_WARNING(...)                                                                           \
+    Logger::log(LogLevel::Warning, __FILE_NAME__, __FUNCTION__, __LINE__, __VA_ARGS__)
+#define LOG_ERROR(...)                                                                             \
+    Logger::log(LogLevel::Error, __FILE_NAME__, __FUNCTION__, __LINE__, __VA_ARGS__)
+#define LOG_CRITICAL(...)                                                                          \
+    Logger::log(LogLevel::Critical, __FILE_NAME__, __FUNCTION__, __LINE__, __VA_ARGS__)

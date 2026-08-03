@@ -23,7 +23,7 @@ void Engine::initialize(const char *title, int width, int height)
 {
     running = true;
 
-    Logger::Init();
+    Logger::get().init();
 
     currentWindowManager = std::make_unique<SDLWindowManager>(title, width, height);
     if (!currentWindowManager->onInit())
@@ -150,5 +150,5 @@ void Engine::mainLoop()
 void Engine::shutdown()
 {
     game.onShutdown();
-    Logger::Shutdown();
+    Logger::get().shutdown();
 }

@@ -1,18 +1,9 @@
 #pragma once
-
 #include <format>
 #include <string>
 #include <string_view>
 
-enum class LogLevel
-{
-    Info,
-    Warning,
-    Success,
-    Error,
-    Debug,
-    Trace
-};
+#include "engine/core/log/LogLevel.hpp"
 
 class Logger
 {
@@ -43,6 +34,8 @@ private:
         LogLevel level, const std::string &message, const char *file, const char *function, int line
     );
 
-    static const char *LevelToString(LogLevel level);
-    static const char *setLogTextColor(LogLevel level);
+    constexpr static const LogLevelInfo &getLogLevelInfo(LogLevel level)
+    {
+        return LogLevels[std::to_underlying(level)];
+    }
 };

@@ -1,6 +1,7 @@
 #include "engine/backend/SDL/graphics/SDLRenderer.hpp"
 
 #include "engine/backend/SDL/graphics/SDLTexture.hpp"
+#include "engine/core/log/Log.hpp"
 
 SDLRenderer::SDLRenderer(void *windowHandle) : window(static_cast<SDL_Window *>(windowHandle)) {}
 
@@ -10,14 +11,15 @@ bool SDLRenderer::onInit()
 
     if (!renderer)
     {
-        SDL_Log("Failed to create Renderer: %s", SDL_GetError());
+        LOG_ERROR("Failed to create Renderer: {}", SDL_GetError());
         SDL_Quit();
         return false;
     }
 
     if (!TTF_Init())
     {
-        SDL_Log("Couldn't initialize SDL_ttf: %s\n", SDL_GetError());
+        LOG_ERROR("Couldn't initialize SDL_ttf: {}", SDL_GetError());
+        SDL_Quit();
         return false;
     }
 

@@ -1,5 +1,7 @@
 #include "engine/backend/SDL/window/SDLWindowManager.hpp"
 
+#include "engine/core/log/Log.hpp"
+
 SDLWindowManager::SDLWindowManager(std::string newTitle, int newWidth, int newHeight)
 {
     title = newTitle;
@@ -12,7 +14,7 @@ bool SDLWindowManager::onInit()
     // Initialize video and audio subsystem
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
     {
-        SDL_Log("SDL Init Failed: %s", SDL_GetError());
+        LOG_ERROR("SDL Init Failed: {}", SDL_GetError());
         return false;
     }
 
@@ -20,7 +22,7 @@ bool SDLWindowManager::onInit()
 
     if (!window)
     {
-        SDL_Log("Failed to create Window: %s", SDL_GetError());
+        LOG_ERROR("Failed to create Window: {}", SDL_GetError());
         SDL_Quit();
         return false;
     }

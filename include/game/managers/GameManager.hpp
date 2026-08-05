@@ -1,6 +1,5 @@
 #pragma once
 #include "engine/core/events/Connections.hpp"
-#include "engine/entities/Entity.hpp"
 
 class GameManager
 {
@@ -11,6 +10,5 @@ public:
 
 private:
     void respawnPlayer();
-    Entity *player{};
     EventConnection playerDiedConnection;
 };

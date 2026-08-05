@@ -2,6 +2,7 @@
 
 #include "engine/api/EntityAPI.hpp"
 #include "engine/api/TimerAPI.hpp"
+#include "engine/entities/Entity.hpp"
 
 #include "game/components/common/Health.hpp"
 #include "game/factories/PlayerFactory.hpp"
@@ -15,7 +16,7 @@ void GameManager::onUpdate(float deltaTime) {}
 
 void GameManager::respawnPlayer()
 {
-    player = EntityAPI::createEntity(PlayerFactory::create());
+    Entity *player = EntityAPI::createEntity(PlayerFactory::create());
     Health *health = player->getComponent<Health>();
     playerDiedConnection =
         health->onDead.connect([this]() { TimerAPI::after(1.5f, [this]() { respawnPlayer(); }); });

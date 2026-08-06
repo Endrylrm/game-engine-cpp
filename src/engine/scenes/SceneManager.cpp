@@ -1,7 +1,5 @@
 #include "engine/scenes/SceneManager.hpp"
 
-#include "engine/core/log/Log.hpp"
-
 void SceneManager::onInit() {}
 
 void SceneManager::onPhysics(float fixedDeltaTime)
@@ -42,22 +40,26 @@ void SceneManager::processLifecycle()
 
 void SceneManager::loadScene(std::string_view id)
 {
+    LOG_INFO("Queued Load Scene '{}'...", id);
     unloadAllScenes();
     pendingCommands.push_back({SceneCommandType::Load, StringHandle(id)});
 }
 
 void SceneManager::loadSceneAdditive(std::string_view id)
 {
+    LOG_INFO("Queued Load Scene '{}' (Additive)...", id);
     pendingCommands.push_back({SceneCommandType::LoadAdditive, StringHandle(id)});
 }
 
 void SceneManager::unloadScene(std::string_view id)
 {
+    LOG_INFO("Queued Unload Scene '{}'...", id);
     pendingCommands.push_back({SceneCommandType::Unload, StringHandle(id)});
 }
 
 void SceneManager::unloadAllScenes()
 {
+    LOG_INFO("Queued Unload All Scenes...");
     pendingCommands.push_back({SceneCommandType::UnloadAll, StringHandle("")});
 }
 
@@ -96,6 +98,7 @@ Scene *SceneManager::buildScene(std::string_view id)
     auto scene = std::make_unique<Scene>();
     scene->name = id;
     builder(*scene);
+    LOG_DEBUG("Created Scene instance '{}'.", id);
     Scene *scenePtr = scene.get();
     activeScenes.push_back(std::move(scene));
     scenePtr->init();
@@ -104,6 +107,11 @@ Scene *SceneManager::buildScene(std::string_view id)
 
 void SceneManager::processCommands()
 {
+    if (pendingCommands.size() > 0)
+    {
+        LOG_DEBUG("Processing {} commands...", pendingCommands.size());
+    }
+
     for (auto &command : pendingCommands)
     {
         switch (command.type)
@@ -120,13 +128,13 @@ void SceneManager::processCommands()
             }
 
             mainScene = buildScene(command.id);
-            LOG_DEBUG("Loaded Scene '{}'.", command.id.text());
+            LOG_INFO("Loaded Scene '{}'.", command.id.text());
             break;
         }
         case SceneCommandType::LoadAdditive:
         {
             buildScene(command.id);
-            LOG_DEBUG("Loaded Scene '{}' (Additive).", command.id.text());
+            LOG_INFO("Loaded Scene '{}' (Additive).", command.id.text());
             break;
         }
         case SceneCommandType::Unload:
@@ -138,7 +146,7 @@ void SceneManager::processCommands()
             std::erase_if(
                 activeScenes, [scene](const auto &scenePtr) { return scenePtr.get() == scene; }
             );
-            LOG_DEBUG("Unloaded Scene '{}'.", command.id.text());
+            LOG_INFO("Unloaded Scene '{}'.", command.id.text());
             break;
         }
         case SceneCommandType::UnloadAll:
@@ -148,7 +156,7 @@ void SceneManager::processCommands()
                 scene->unload();
             }
             activeScenes.clear();
-            LOG_DEBUG("Unloaded All Scenes...");
+            LOG_INFO("Unloaded All Scenes...");
             break;
         }
         default:

@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include "engine/core/graphics/Renderer.hpp"
+#include "engine/core/log/Log.hpp"
 #include "engine/core/string/StringHandle.hpp"
 #include "engine/scenes/Scene.hpp"
 #include "engine/scenes/SceneCommand.hpp"
@@ -18,6 +19,7 @@ public:
     template <typename Callback>
     void registerScene(std::string_view id, Callback &&callback)
     {
+        LOG_DEBUG("Registered Scene '{}'...", id);
         scenes.try_emplace(StringHandle(id), std::forward<Callback>(callback));
     }
 

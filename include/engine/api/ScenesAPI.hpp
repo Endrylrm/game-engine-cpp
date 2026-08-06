@@ -31,6 +31,18 @@ public:
         getManager().unloadScene<SceneType>();
     }
 
+    template <SceneConcept SceneType>
+    static SceneType *getActiveScene()
+    {
+        return getManager().getActiveScene<SceneType>();
+    }
+
+    template <SceneConcept SceneType>
+    static bool isActiveScene()
+    {
+        return getManager().isActiveScene<SceneType>();
+    }
+
     static Scene *getMainScene()
     {
         return getManager().getMainScene();

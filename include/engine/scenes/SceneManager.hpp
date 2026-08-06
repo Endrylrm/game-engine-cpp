@@ -52,7 +52,7 @@ public:
     }
 
     template <SceneConcept SceneType>
-    Scene *getActiveScene() const
+    SceneType *getActiveScene() const
     {
         auto iter = scenes.find(SceneRegistry::GetId<SceneType>());
         if (iter == scenes.end())

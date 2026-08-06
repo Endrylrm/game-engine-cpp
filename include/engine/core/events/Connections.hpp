@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <typeindex>
 
+#include "engine/core/log/Log.hpp"
+
 class ConnectionSource
 {
     friend class EventConnection;
@@ -32,6 +34,8 @@ public:
         : connSource(source), eventType(type), eventId(id)
     {
         source->registerConnection(this);
+        LOG_DEBUG("Event Connection connected to source.");
+        LOG_TRACE("Event Connection {:p} constructed.", static_cast<const void *>(this));
     }
 
     // delete copy
@@ -42,6 +46,12 @@ public:
     EventConnection(EventConnection &&other) noexcept
     {
         moveFrom(other);
+        LOG_DEBUG("Event Connection moved.");
+        LOG_TRACE(
+            "EventConnection {:p} moved from {:p}.",
+            static_cast<const void *>(this),
+            static_cast<const void *>(&other)
+        );
     }
 
     EventConnection &operator=(EventConnection &&other) noexcept
@@ -52,12 +62,21 @@ public:
             disconnect();
             moveFrom(other);
         }
+
+        LOG_TRACE(
+            "EventConnection {:p} moved from {:p}.",
+            static_cast<const void *>(this),
+            static_cast<const void *>(&other)
+        );
+        LOG_DEBUG("Event Connection moved.");
         return *this;
     }
 
     ~EventConnection()
     {
         disconnect();
+        LOG_DEBUG("Event Connection destroyed.");
+        LOG_TRACE("EventConnection {:p} destroyed.", static_cast<const void *>(this));
     }
 
     void disconnect()
@@ -68,6 +87,7 @@ public:
         connSource->disconnect(eventType, eventId);
         connSource->unregisterConnection(this);
         invalidate();
+        LOG_DEBUG("Event Connection disconnected from source.");
     }
 
     void enable()

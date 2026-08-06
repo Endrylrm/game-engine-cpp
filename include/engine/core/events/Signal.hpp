@@ -5,6 +5,7 @@
 #include "engine/core/events/ConnectionSlot.hpp"
 #include "engine/core/events/Connections.hpp"
 #include "engine/core/events/Listener.hpp"
+#include "engine/core/log/Log.hpp"
 
 template <typename... Args>
 class Signal : public ConnectionSource
@@ -15,6 +16,7 @@ public:
         uint32_t id = currentID++;
 
         slots.push_back({{id}, callback});
+        LOG_DEBUG("Event id '{}' connected to Signal.", id);
 
         return EventConnection(this, typeid(Signal), id);
     }
@@ -42,6 +44,7 @@ private:
         {
             if (listener.slot.id == id)
             {
+                LOG_DEBUG("Event id '{}' disconnected from Signal.", id);
                 listener.slot.state = ConnectionState::Disconnected;
                 break;
             }
@@ -80,7 +83,8 @@ private:
     void cleanup()
     {
         std::erase_if(
-            slots, [](const Listener<Args...> &listener)
+            slots,
+            [](const Listener<Args...> &listener)
             { return listener.slot.state == ConnectionState::Disconnected; }
         );
     }

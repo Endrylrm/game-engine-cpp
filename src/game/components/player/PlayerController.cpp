@@ -1,5 +1,6 @@
 #include "game/components/player/PlayerController.hpp"
 
+#include <game/components/common/Health.hpp>
 #include <iostream>
 #include <string>
 
@@ -22,6 +23,8 @@ void PlayerController::onUpdate(float deltaTime)
 
     if (InputAPI::isKeyPressed(KeyInput::Space))
     {
+        Health *health = owner->getComponent<Health>();
+        health->takeDamage(1);
         print();
     }
     if (InputAPI::isKeyDown(KeyInput::W))

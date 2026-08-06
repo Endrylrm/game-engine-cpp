@@ -11,6 +11,7 @@
 #include "engine/core/events/Event.hpp"
 #include "engine/core/events/Listener.hpp"
 #include "engine/core/events/QueuedEvent.hpp"
+#include "engine/core/log/Log.hpp"
 
 class EventBus : public ConnectionSource
 {
@@ -27,6 +28,7 @@ public:
         { fn(static_cast<const EventType &>(e)); };
 
         list.push_back({{id}, std::move(wrapper)});
+        LOG_DEBUG("Event id '{}' connected to EventBus.", id);
 
         return EventConnection(this, typeid(EventType), id);
     }
@@ -93,7 +95,8 @@ public:
         for (auto &[type, list] : listenersMap)
         {
             std::erase_if(
-                list, [](const Listener<const Event &> &listener)
+                list,
+                [](const Listener<const Event &> &listener)
                 { return listener.slot.state == ConnectionState::Disconnected; }
             );
         }
@@ -113,6 +116,7 @@ private:
         {
             if (listener.slot.id == id)
             {
+                LOG_DEBUG("Event id '{}' disconnected from EventBus.", id);
                 listener.slot.state = ConnectionState::Disconnected;
                 return;
             }

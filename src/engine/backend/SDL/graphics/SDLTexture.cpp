@@ -27,6 +27,8 @@ SDLTexture::SDLTexture(SDL_Renderer *renderer, const std::string &path)
         LOG_ERROR("Unable to create texture: {}", SDL_GetError());
         throw std::runtime_error(SDL_GetError());
     }
+
+    LOG_DEBUG("SDL Texture Created.");
 }
 
 void SDLTexture::bind(uint32_t slot /* = 0 */) const {}
@@ -54,4 +56,5 @@ float SDLTexture::getHeight() const
 SDLTexture::~SDLTexture()
 {
     SDL_DestroyTexture(texture);
+    LOG_DEBUG("SDL Texture Destroyed.");
 }

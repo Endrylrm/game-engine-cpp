@@ -1,10 +1,13 @@
 #include "engine/scenes/Scene.hpp"
 
+#include "engine/core/log/Log.hpp"
+
 void Scene::init()
 {
     renderSystem.setEventBus(&eventBus);
     entityManager.onInit();
     renderSystem.onInit();
+    LOG_DEBUG("Scene '{}' Loaded and Initialized!", name.text());
 }
 
 void Scene::physics(float fixedDeltaTime)
@@ -46,6 +49,7 @@ void Scene::unload()
 {
     entityManager.clear();
     renderSystem.onUnload();
+    LOG_DEBUG("Scene '{}' Unloaded!", name.text());
 }
 
 Entity *Scene::createEntity()

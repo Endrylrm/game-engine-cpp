@@ -23,6 +23,7 @@ bool SDLRenderer::onInit()
         return false;
     }
 
+    LOG_DEBUG("SDL Renderer Initialized.");
     return true;
 }
 
@@ -93,4 +94,6 @@ SDLRenderer::~SDLRenderer()
         SDL_DestroyRenderer(renderer);
         renderer = nullptr;
     }
+
+    LOG_DEBUG("SDL Renderer destroyed.");
 }

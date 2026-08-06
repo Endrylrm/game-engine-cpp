@@ -27,6 +27,7 @@ bool SDLWindowManager::onInit()
         return false;
     }
 
+    LOG_DEBUG("SDL Window Initialized.");
     return true;
 }
 
@@ -64,4 +65,5 @@ SDLWindowManager::~SDLWindowManager()
         window = nullptr;
     }
     SDL_Quit();
+    LOG_DEBUG("SDL Window Destroyed.");
 }

@@ -5,6 +5,7 @@
 #include "engine/core/events/Connections.hpp"
 #include "engine/core/events/EventBus.hpp"
 #include "engine/core/graphics/Renderer.hpp"
+#include "engine/core/string/StringHandle.hpp"
 #include "engine/entities/Entity.hpp"
 #include "engine/entities/EntityManager.hpp"
 #include "engine/systems/RenderSystem.hpp"
@@ -12,7 +13,7 @@
 class Scene
 {
 public:
-    virtual ~Scene() = default;
+    ~Scene() = default;
 
     void init();
     void physics(float fixedDeltaTime);
@@ -45,14 +46,7 @@ public:
         eventBus.dispatch<EventType>(event);
     }
 
-protected:
-    virtual void onInit() {}
-    virtual void onPhysics(float fixedDeltaTime) {}
-    virtual void onPreUpdate() {}
-    virtual void onUpdate(float deltaTime) {}
-    virtual void onPostUpdate() {}
-    virtual void onRender(Renderer &renderer) {}
-    virtual void onUnload() {}
+    StringHandle name;
 
 private:
     EntityManager entityManager{};

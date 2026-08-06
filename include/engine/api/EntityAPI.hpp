@@ -1,9 +1,10 @@
 #pragma once
+#include <string_view>
+
 #include "engine/api/ManagerAPI.hpp"
 #include "engine/entities/Entity.hpp"
 #include "engine/entities/EntityManager.hpp"
 #include "engine/scenes/Scene.hpp"
-#include "engine/scenes/SceneConcept.hpp"
 #include "engine/scenes/SceneManager.hpp"
 
 class EntityAPI : public ManagerAPI<SceneManager>
@@ -19,16 +20,14 @@ public:
         return getMainScene()->createEntity(std::move(entityBlueprint));
     }
 
-    template <SceneConcept SceneType>
-    static Entity *createEntityAt()
+    static Entity *createEntityAt(std::string_view id)
     {
-        return getActiveScene<SceneType>()->createEntity();
+        return getActiveScene(id)->createEntity();
     }
 
-    template <SceneConcept SceneType>
-    static Entity *createEntityAt(std::unique_ptr<Entity> entityBlueprint)
+    static Entity *createEntityAt(std::string_view id, std::unique_ptr<Entity> entityBlueprint)
     {
-        return getActiveScene<SceneType>()->createEntity(std::move(entityBlueprint));
+        return getActiveScene(id)->createEntity(std::move(entityBlueprint));
     }
 
 private:
@@ -37,9 +36,8 @@ private:
         return getManager().getMainScene();
     }
 
-    template <SceneConcept SceneType>
-    static Scene *getActiveScene()
+    static Scene *getActiveScene(std::string_view id)
     {
-        return getManager().getActiveScene<SceneType>();
+        return getManager().getActiveScene(id);
     }
 };

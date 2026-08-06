@@ -1,5 +1,5 @@
 #pragma once
-#include "engine/scenes/SceneRegistry.hpp"
+#include "engine/core/string/StringHandle.hpp"
 
 enum class SceneCommandType
 {
@@ -12,5 +12,5 @@ enum class SceneCommandType
 struct SceneCommand
 {
     SceneCommandType type;
-    SceneId id;
+    StringHandle id;
 };

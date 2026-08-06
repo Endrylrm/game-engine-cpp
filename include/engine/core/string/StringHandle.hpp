@@ -50,3 +50,12 @@ public:
 private:
     const StringIntern *string{};
 };
+
+// for use in maps as keys
+struct StringHandleHash
+{
+    uint64_t operator()(const StringHandle &handle) const
+    {
+        return handle.hash();
+    }
+};

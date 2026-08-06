@@ -1,46 +1,40 @@
 #pragma once
 #include "engine/api/ManagerAPI.hpp"
 #include "engine/scenes/Scene.hpp"
-#include "engine/scenes/SceneConcept.hpp"
 #include "engine/scenes/SceneManager.hpp"
 
 class ScenesAPI : public ManagerAPI<SceneManager>
 {
 public:
-    template <SceneConcept SceneType, typename... Args>
-    static void registerScene(Args &&...args)
+    template <typename Callback>
+    static void registerScene(std::string_view id, Callback &&callback)
     {
-        getManager().registerScene<SceneType>(std::forward<Args>(args)...);
+        getManager().registerScene(id, std::forward<Callback>(callback));
     }
 
-    template <SceneConcept SceneType>
-    static void loadScene()
+    static void loadScene(std::string_view id)
     {
-        getManager().loadScene<SceneType>();
+        getManager().loadScene(id);
     }
 
-    template <SceneConcept SceneType>
-    static void loadSceneAdditive()
+    static void loadSceneAdditive(std::string_view id)
     {
-        getManager().loadSceneAdditive<SceneType>();
+        getManager().loadSceneAdditive(id);
     }
 
-    template <SceneConcept SceneType>
-    static void unloadScene()
+    static void unloadScene(std::string_view id)
     {
-        getManager().unloadScene<SceneType>();
+        getManager().unloadScene(id);
     }
 
-    template <SceneConcept SceneType>
-    static SceneType *getActiveScene()
+    static Scene *getActiveScene(std::string_view id)
     {
-        return getManager().getActiveScene<SceneType>();
+        return getManager().getActiveScene(id);
     }
 
-    template <SceneConcept SceneType>
-    static bool isActiveScene()
+    static bool isActiveScene(std::string_view id)
     {
-        return getManager().isActiveScene<SceneType>();
+        return getManager().isActiveScene(id);
     }
 
     static Scene *getMainScene()

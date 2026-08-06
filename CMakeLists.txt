@@ -39,9 +39,10 @@ set(GAME_SOURCES
     src/game/components/common/Health.cpp
     src/game/components/player/PlayerController.cpp
     src/game/Factories/BulletFactory.cpp
+    src/game/Factories/DirectorFactory.cpp
     src/game/Factories/PlayerFactory.cpp
     src/game/managers/GameManager.cpp
-    src/game/scenes/GameplayScene.cpp
+    src/game/scenes/SceneFactory.cpp
 )
 
 set(LIBS

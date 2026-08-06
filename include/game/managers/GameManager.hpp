@@ -1,12 +1,13 @@
 #pragma once
 #include "engine/core/events/Connections.hpp"
+#include "engine/entities/components/Component.hpp"
 
-class GameManager
+class GameManager : public Component
 {
 public:
     ~GameManager() = default;
-    void onStart();
-    void onUpdate(float deltaTime);
+    void onStart() override;
+    void onUpdate(float deltaTime) override;
 
 private:
     void respawnPlayer();

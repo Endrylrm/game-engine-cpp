@@ -1,100 +1,35 @@
 #pragma once
+#include <functional>
 #include <memory>
-#include <string>
+#include <ranges>
+#include <string_view>
 #include <unordered_map>
 
 #include "engine/core/graphics/Renderer.hpp"
+#include "engine/core/string/StringHandle.hpp"
 #include "engine/scenes/Scene.hpp"
 #include "engine/scenes/SceneCommand.hpp"
-#include "engine/scenes/SceneConcept.hpp"
-#include "engine/scenes/SceneRegistry.hpp"
+
+using SceneBuilder = std::function<void(Scene &)>;
 
 class SceneManager
 {
 public:
-    template <SceneConcept SceneType, typename... Args>
-    void registerScene(Args &&...args)
+    template <typename Callback>
+    void registerScene(std::string_view id, Callback &&callback)
     {
-        SceneId id = SceneRegistry::GetId<SceneType>();
-
-        if (scenes.contains(id))
-        {
-            return;
-        }
-
-        scenes[id] = std::make_unique<SceneType>(std::forward<Args>(args)...);
+        scenes.try_emplace(StringHandle(id), std::forward<Callback>(callback));
     }
 
-    template <SceneConcept SceneType>
-    void loadScene()
-    {
-        unloadAllScenes();
-        pendingCommands.push_back({SceneCommandType::Load, SceneRegistry::GetId<SceneType>()});
-    }
+    void loadScene(std::string_view id);
+    void loadSceneAdditive(std::string_view id);
+    void unloadScene(std::string_view id);
+    void unloadAllScenes();
 
-    template <SceneConcept SceneType>
-    void loadSceneAdditive()
-    {
-        pendingCommands.push_back(
-            {SceneCommandType::LoadAdditive, SceneRegistry::GetId<SceneType>()}
-        );
-    }
+    Scene *getActiveScene(std::string_view id) const;
+    bool isActiveScene(std::string_view id) const;
 
-    template <SceneConcept SceneType>
-    void unloadScene()
-    {
-        pendingCommands.push_back({SceneCommandType::Unload, SceneRegistry::GetId<SceneType>()});
-    }
-
-    void unloadAllScenes()
-    {
-        pendingCommands.push_back({SceneCommandType::UnloadAll, 0});
-    }
-
-    template <SceneConcept SceneType>
-    SceneType *getActiveScene() const
-    {
-        auto iter = scenes.find(SceneRegistry::GetId<SceneType>());
-        if (iter == scenes.end())
-        {
-            return nullptr;
-        }
-
-        Scene *scene = iter->second.get();
-
-        auto sceneIter = std::find(activeScenes.begin(), activeScenes.end(), scene);
-        if (sceneIter == activeScenes.end())
-        {
-            return nullptr;
-        }
-
-        return static_cast<SceneType *>(scene);
-    }
-
-    template <SceneConcept SceneType>
-    bool isActiveScene() const
-    {
-        auto iter = scenes.find(SceneRegistry::GetId<SceneType>());
-        if (iter == scenes.end())
-        {
-            return false;
-        }
-
-        Scene *scene = iter->second.get();
-
-        auto sceneIter = std::find(activeScenes.begin(), activeScenes.end(), scene);
-        if (sceneIter == activeScenes.end())
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    Scene *getMainScene()
-    {
-        return mainScene;
-    }
+    Scene *getMainScene();
 
     void onInit();
     void onPhysics(float fixedDeltaTime);
@@ -106,8 +41,10 @@ public:
     void processCommands();
 
 private:
-    std::unordered_map<SceneId, std::unique_ptr<Scene>> scenes{};
-    std::vector<Scene *> activeScenes{};
+    Scene *buildScene(std::string_view id);
+
+    std::unordered_map<StringHandle, SceneBuilder, StringHandleHash> scenes{};
+    std::vector<std::unique_ptr<Scene>> activeScenes{};
     std::vector<SceneCommand> pendingCommands{};
     Scene *mainScene{};
 };

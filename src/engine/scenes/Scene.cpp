@@ -5,38 +5,32 @@ void Scene::init()
     renderSystem.setEventBus(&eventBus);
     entityManager.onInit();
     renderSystem.onInit();
-    onInit();
 }
 
 void Scene::physics(float fixedDeltaTime)
 {
     entityManager.onPhysics(fixedDeltaTime);
-    onPhysics(fixedDeltaTime);
 }
 
 void Scene::preUpdate()
 {
     eventBus.processEvents();
     entityManager.onPreUpdate();
-    onPreUpdate();
 }
 
 void Scene::update(float deltaTime)
 {
     entityManager.onUpdate(deltaTime);
-    onUpdate(deltaTime);
 }
 
 void Scene::postUpdate()
 {
     entityManager.onPostUpdate();
-    onPostUpdate();
 }
 
 void Scene::render(Renderer &renderer)
 {
     renderSystem.onRender(renderer);
-    onRender(renderer);
 }
 
 void Scene::processLifecycle()
@@ -52,7 +46,6 @@ void Scene::unload()
 {
     entityManager.clear();
     renderSystem.onUnload();
-    onUnload();
 }
 
 Entity *Scene::createEntity()

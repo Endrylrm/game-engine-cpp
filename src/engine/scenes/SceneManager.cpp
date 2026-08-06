@@ -132,6 +132,8 @@ void SceneManager::processCommands()
         case SceneCommandType::Unload:
         {
             auto *scene = getActiveScene(command.id);
+            if (mainScene == scene)
+                mainScene = nullptr;
             scene->unload();
             std::erase_if(
                 activeScenes, [scene](const auto &scenePtr) { return scenePtr.get() == scene; }

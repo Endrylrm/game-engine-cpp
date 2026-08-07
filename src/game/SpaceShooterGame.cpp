@@ -1,8 +1,8 @@
 #include "game/SpaceShooterGame.hpp"
 
-#include "engine/api/ScenesAPI.hpp"
+#include <engine/api/ScenesAPI.hpp>
 
-#include "game/scenes/SceneFactory.hpp"
+#include <game/scenes/SceneFactory.hpp>
 
 void SpaceShooterGame::onInit()
 {

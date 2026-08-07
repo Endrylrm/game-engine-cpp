@@ -1,7 +1,7 @@
 #include "game/components/common/Health.hpp"
 
-#include "engine/core/log/Log.hpp"
-#include "engine/entities/Entity.hpp"
+#include <engine/core/log/Log.hpp>
+#include <engine/entities/Entity.hpp>
 
 void Health::onAwake()
 {

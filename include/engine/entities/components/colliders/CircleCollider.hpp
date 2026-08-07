@@ -1,10 +1,10 @@
 #pragma once
-#include "engine/core/math/Circle.hpp"
-#include "engine/core/math/Rect2D.hpp"
-#include "engine/core/math/Vector2D.hpp"
-#include "engine/entities/Entity.hpp"
-#include "engine/entities/components/Transform2D.hpp"
-#include "engine/entities/components/colliders/Collider.hpp"
+#include <engine/core/math/Circle.hpp>
+#include <engine/core/math/Rect2D.hpp>
+#include <engine/core/math/Vector2D.hpp>
+#include <engine/entities/Entity.hpp>
+#include <engine/entities/components/Transform2D.hpp>
+#include <engine/entities/components/colliders/Collider.hpp>
 
 class CircleCollider : public Collider
 {

@@ -1,6 +1,6 @@
 #include "engine/entities/Entity.hpp"
 
-#include "engine/scenes/Scene.hpp"
+#include <engine/scenes/Scene.hpp>
 
 template <>
 Transform *Entity::getComponent<Transform>()

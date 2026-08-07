@@ -4,13 +4,13 @@
 #include <unordered_map>
 #include <vector>
 
-#include "engine/core/helpers/Flags.hpp"
-#include "engine/core/string/StringHandle.hpp"
-#include "engine/entities/EntityStateFlags.hpp"
-#include "engine/entities/LifetimeState.hpp"
-#include "engine/entities/components/Component.hpp"
-#include "engine/entities/components/ComponentRegistry.hpp"
-#include "engine/entities/components/Transform.hpp"
+#include <engine/core/helpers/Flags.hpp>
+#include <engine/core/string/StringHandle.hpp>
+#include <engine/entities/EntityStateFlags.hpp>
+#include <engine/entities/LifetimeState.hpp>
+#include <engine/entities/components/Component.hpp>
+#include <engine/entities/components/ComponentRegistry.hpp>
+#include <engine/entities/components/Transform.hpp>
 
 class Scene;
 class EntityManager;

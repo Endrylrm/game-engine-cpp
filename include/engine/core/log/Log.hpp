@@ -1,5 +1,5 @@
 #pragma once
-#include "engine/core/log/Logger.hpp"
+#include "Logger.hpp"
 
 #define LOG_TRACE(...)                                                                             \
     Logger::log(LogLevel::Trace, __FILE_NAME__, __FUNCTION__, __LINE__, __VA_ARGS__)

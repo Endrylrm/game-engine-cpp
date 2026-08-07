@@ -1,12 +1,13 @@
 #pragma once
-#include <SDL3/SDL.h>
 #include <unordered_set>
 
-#include "engine/core/input/InputManager.hpp"
-#include "engine/core/input/KeyInput.hpp"
-#include "engine/core/input/MouseInput.hpp"
-#include "engine/core/input/MouseState.hpp"
-#include "engine/core/math/Vector2D.hpp"
+#include <SDL3/SDL.h>
+
+#include <engine/core/input/InputManager.hpp>
+#include <engine/core/input/KeyInput.hpp>
+#include <engine/core/input/MouseInput.hpp>
+#include <engine/core/input/MouseState.hpp>
+#include <engine/core/math/Vector2D.hpp>
 
 class SDLInputManager : public InputManager
 {

@@ -1,6 +1,6 @@
 #include "game/components/bullet/BulletMove.hpp"
 
-#include "engine/entities/Entity.hpp"
+#include <engine/entities/Entity.hpp>
 
 void BulletMove::onStart()
 {

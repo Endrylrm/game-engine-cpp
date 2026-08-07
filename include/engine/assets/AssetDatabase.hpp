@@ -3,8 +3,8 @@
 #include <string>
 #include <typeindex>
 
-#include "engine/assets/AssetHandle.hpp"
-#include "engine/assets/AssetManager.hpp"
+#include "AssetHandle.hpp"
+#include "AssetManager.hpp"
 
 class AssetDatabase
 {

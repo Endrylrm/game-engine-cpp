@@ -3,7 +3,7 @@
 #include <string>
 #include <string_view>
 
-#include "engine/core/log/LogLevel.hpp"
+#include "LogLevel.hpp"
 
 class Logger
 {

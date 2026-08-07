@@ -1,6 +1,6 @@
 #include "engine/scenes/Scene.hpp"
 
-#include "engine/core/log/Log.hpp"
+#include <engine/core/log/Log.hpp>
 
 void Scene::init()
 {

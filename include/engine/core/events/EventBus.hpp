@@ -6,13 +6,14 @@
 #include <unordered_map>
 #include <vector>
 
-#include "engine/core/events/ConnectionSlot.hpp"
-#include "engine/core/events/Connections.hpp"
-#include "engine/core/events/Event.hpp"
-#include "engine/core/events/EventRegistry.hpp"
-#include "engine/core/events/Listener.hpp"
-#include "engine/core/events/QueuedEvent.hpp"
-#include "engine/core/log/Log.hpp"
+#include <engine/core/log/Log.hpp>
+
+#include "ConnectionSlot.hpp"
+#include "Connections.hpp"
+#include "Event.hpp"
+#include "EventRegistry.hpp"
+#include "Listener.hpp"
+#include "QueuedEvent.hpp"
 
 class EventBus : public ConnectionSource
 {

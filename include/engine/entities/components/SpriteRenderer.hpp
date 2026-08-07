@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
 
-#include "engine/assets/AssetHandle.hpp"
-#include "engine/core/graphics/Texture.hpp"
-#include "engine/entities/components/Component.hpp"
-#include "engine/entities/components/events/ComponentEvents.hpp"
+#include <engine/assets/AssetHandle.hpp>
+#include <engine/core/graphics/Texture.hpp>
+#include <engine/entities/components/Component.hpp>
+#include <engine/entities/components/events/ComponentEvents.hpp>
 
 class SpriteRenderer : public Component
 {

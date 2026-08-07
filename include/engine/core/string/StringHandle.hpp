@@ -4,8 +4,8 @@
 #include <string>
 #include <string_view>
 
-#include "engine/core/string/StringIntern.hpp"
-#include "engine/core/string/StringTable.hpp"
+#include "StringIntern.hpp"
+#include "StringTable.hpp"
 
 class StringHandle
 {

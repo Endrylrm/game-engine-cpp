@@ -1,7 +1,7 @@
 #pragma once
-#include "engine/api/ManagerAPI.hpp"
-#include "engine/time/Timer.hpp"
-#include "engine/time/TimerManager.hpp"
+#include <engine/api/ManagerAPI.hpp>
+#include <engine/time/Timer.hpp>
+#include <engine/time/TimerManager.hpp>
 
 class TimerAPI : public ManagerAPI<TimerManager>
 {

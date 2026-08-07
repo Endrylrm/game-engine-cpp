@@ -1,5 +1,5 @@
 #pragma once
-#include "engine/core/string/StringHandle.hpp"
+#include <engine/core/string/StringHandle.hpp>
 
 enum class SceneCommandType
 {

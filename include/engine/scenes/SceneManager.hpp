@@ -5,11 +5,12 @@
 #include <string_view>
 #include <unordered_map>
 
-#include "engine/core/graphics/Renderer.hpp"
-#include "engine/core/log/Log.hpp"
-#include "engine/core/string/StringHandle.hpp"
-#include "engine/scenes/Scene.hpp"
-#include "engine/scenes/SceneCommand.hpp"
+#include <engine/core/graphics/Renderer.hpp>
+#include <engine/core/log/Log.hpp>
+#include <engine/core/string/StringHandle.hpp>
+
+#include "Scene.hpp"
+#include "SceneCommand.hpp"
 
 using SceneBuilder = std::function<void(Scene &)>;
 

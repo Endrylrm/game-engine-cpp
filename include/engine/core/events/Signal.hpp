@@ -1,11 +1,12 @@
 #pragma once
 #include <functional>
 
-#include "engine/core/events/ConnectionSlot.hpp"
-#include "engine/core/events/Connections.hpp"
-#include "engine/core/events/EventRegistry.hpp"
-#include "engine/core/events/Listener.hpp"
-#include "engine/core/log/Log.hpp"
+#include <engine/core/log/Log.hpp>
+
+#include "ConnectionSlot.hpp"
+#include "Connections.hpp"
+#include "EventRegistry.hpp"
+#include "Listener.hpp"
 
 template <typename... Args>
 class Signal : public ConnectionSource

@@ -1,8 +1,8 @@
 #pragma once
 #include <cstdint>
 
-#include "engine/api/ManagerAPI.hpp"
-#include "engine/time/Time.hpp"
+#include <engine/api/ManagerAPI.hpp>
+#include <engine/time/Time.hpp>
 
 class TimeAPI : public ManagerAPI<Time>
 {

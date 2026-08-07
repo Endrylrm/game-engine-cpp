@@ -1,7 +1,7 @@
 #pragma once
-#include "engine/api/ManagerAPI.hpp"
-#include "engine/assets/AssetDatabase.hpp"
-#include "engine/assets/AssetHandle.hpp"
+#include <engine/api/ManagerAPI.hpp>
+#include <engine/assets/AssetDatabase.hpp>
+#include <engine/assets/AssetHandle.hpp>
 
 class AssetsAPI : public ManagerAPI<AssetDatabase>
 {

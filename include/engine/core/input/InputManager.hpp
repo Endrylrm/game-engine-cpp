@@ -1,8 +1,9 @@
 #pragma once
-#include "engine/core/input/KeyInput.hpp"
-#include "engine/core/input/MouseInput.hpp"
-#include "engine/core/input/MouseState.hpp"
-#include "engine/core/math/Vector2D.hpp"
+#include <engine/core/math/Vector2D.hpp>
+
+#include "KeyInput.hpp"
+#include "MouseInput.hpp"
+#include "MouseState.hpp"
 
 class InputManager
 {

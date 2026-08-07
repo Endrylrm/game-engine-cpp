@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 
-#include "engine/core/events/ConnectionSlot.hpp"
+#include "ConnectionSlot.hpp"
 
 template <typename... Args>
 struct Listener

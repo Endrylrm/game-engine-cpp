@@ -1,13 +1,14 @@
 #pragma once
-#include <SDL3/SDL.h>
-#include <SDL3_ttf/SDL_ttf.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
 
-#include "engine/core/graphics/Renderer.hpp"
-#include "engine/core/graphics/Texture.hpp"
-#include "engine/core/math/Rect2D.hpp"
+#include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
+#include <engine/core/graphics/Renderer.hpp>
+#include <engine/core/graphics/Texture.hpp>
+#include <engine/core/math/Rect2D.hpp>
 
 class SDLRenderer : public Renderer
 {

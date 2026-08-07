@@ -1,6 +1,6 @@
 #include "engine/backend/SDL/window/SDLWindowManager.hpp"
 
-#include "engine/core/log/Log.hpp"
+#include <engine/core/log/Log.hpp>
 
 SDLWindowManager::SDLWindowManager(std::string newTitle, int newWidth, int newHeight)
 {

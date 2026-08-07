@@ -1,7 +1,7 @@
 #include "engine/entities/components/SpriteRenderer.hpp"
 
-#include "engine/core/log/Log.hpp"
-#include "engine/scenes/Scene.hpp"
+#include <engine/core/log/Log.hpp>
+#include <engine/scenes/Scene.hpp>
 
 void SpriteRenderer::onAwake()
 {

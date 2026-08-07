@@ -5,19 +5,19 @@
 #include <string>
 #include <thread>
 
-#include "engine/api/AssetsAPI.hpp"
-#include "engine/api/EntityAPI.hpp"
-#include "engine/api/EventsAPI.hpp"
-#include "engine/api/InputAPI.hpp"
-#include "engine/api/ScenesAPI.hpp"
-#include "engine/api/TimeAPI.hpp"
-#include "engine/api/TimerAPI.hpp"
-#include "engine/api/WindowAPI.hpp"
-#include "engine/backend/SDL/graphics/SDLRenderer.hpp"
-#include "engine/backend/SDL/input/SDLInputManager.hpp"
-#include "engine/backend/SDL/window/SDLWindowManager.hpp"
-#include "engine/core/graphics/Texture.hpp"
-#include "engine/core/log/Logger.hpp"
+#include <engine/api/AssetsAPI.hpp>
+#include <engine/api/EntityAPI.hpp>
+#include <engine/api/EventsAPI.hpp>
+#include <engine/api/InputAPI.hpp>
+#include <engine/api/ScenesAPI.hpp>
+#include <engine/api/TimeAPI.hpp>
+#include <engine/api/TimerAPI.hpp>
+#include <engine/api/WindowAPI.hpp>
+#include <engine/backend/SDL/graphics/SDLRenderer.hpp>
+#include <engine/backend/SDL/input/SDLInputManager.hpp>
+#include <engine/backend/SDL/window/SDLWindowManager.hpp>
+#include <engine/core/graphics/Texture.hpp>
+#include <engine/core/log/Logger.hpp>
 
 void Engine::initialize(const char *title, int width, int height)
 {

@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <cmath>
 
-#include "engine/core/math/Math.hpp"
-#include "engine/core/math/Vector3D.hpp"
+#include "Math.hpp"
+#include "Vector3D.hpp"
 
 class Quaternion
 {

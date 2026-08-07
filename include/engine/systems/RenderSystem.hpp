@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
 
-#include "engine/core/events/Connections.hpp"
-#include "engine/core/events/EventBus.hpp"
-#include "engine/core/graphics/Renderer.hpp"
-#include "engine/entities/components/SpriteRenderer.hpp"
-#include "engine/entities/components/events/ComponentEvents.hpp"
+#include <engine/core/events/Connections.hpp>
+#include <engine/core/events/EventBus.hpp>
+#include <engine/core/graphics/Renderer.hpp>
+#include <engine/entities/components/SpriteRenderer.hpp>
+#include <engine/entities/components/events/ComponentEvents.hpp>
 
 class RenderSystem
 {

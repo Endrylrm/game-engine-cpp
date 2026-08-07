@@ -4,7 +4,7 @@
 #include <string_view>
 #include <unordered_map>
 
-#include "engine/core/string/StringIntern.hpp"
+#include "StringIntern.hpp"
 
 class StringTable
 {

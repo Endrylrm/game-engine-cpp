@@ -1,6 +1,6 @@
 #pragma once
-#include "engine/core/events/Event.hpp"
-#include "engine/entities/Entity.hpp"
+#include <engine/core/events/Event.hpp>
+#include <engine/entities/Entity.hpp>
 
 template <typename T>
 struct ComponentAddedEvent : public Event

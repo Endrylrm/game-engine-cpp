@@ -3,8 +3,8 @@
 #include <cmath>
 #include <numbers>
 
-#include "engine/core/math/Math.hpp"
-#include "engine/core/math/Vector2D.hpp"
+#include "Math.hpp"
+#include "Vector2D.hpp"
 
 float EPSILON = 0.000001f;
 

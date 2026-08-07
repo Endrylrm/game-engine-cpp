@@ -1,9 +1,9 @@
 #include "game/factories/DirectorFactory.hpp"
 
-#include "engine/core/log/Log.hpp"
-#include "engine/entities/EntityBuilder.hpp"
+#include <engine/core/log/Log.hpp>
+#include <engine/entities/EntityBuilder.hpp>
 
-#include "game/managers/GameManager.hpp"
+#include <game/managers/GameManager.hpp>
 
 std::unique_ptr<Entity> DirectorFactory::create()
 {

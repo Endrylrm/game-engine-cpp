@@ -3,8 +3,9 @@
 #include <memory>
 #include <string>
 
-#include "engine/core/graphics/Texture.hpp"
-#include "engine/core/math/Rect2D.hpp"
+#include <engine/core/math/Rect2D.hpp>
+
+#include "Texture.hpp"
 
 class Renderer
 {

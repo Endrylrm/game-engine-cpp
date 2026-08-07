@@ -1,14 +1,16 @@
 #include "game/managers/GameManager.hpp"
 
-#include "engine/api/EntityAPI.hpp"
-#include "engine/api/TimerAPI.hpp"
-#include "engine/entities/Entity.hpp"
+#include <engine/api/EntityAPI.hpp>
+#include <engine/api/TimerAPI.hpp>
+#include <engine/core/log/Log.hpp>
+#include <engine/entities/Entity.hpp>
 
-#include "game/components/common/Health.hpp"
-#include "game/factories/PlayerFactory.hpp"
+#include <game/components/common/Health.hpp>
+#include <game/factories/PlayerFactory.hpp>
 
 void GameManager::onStart()
 {
+    LOG_DEBUG("Game Manager started.");
     respawnPlayer();
 }
 
@@ -20,4 +22,5 @@ void GameManager::respawnPlayer()
     Health *health = player->getComponent<Health>();
     playerDiedConnection =
         health->onDead.connect([this]() { TimerAPI::after(1.5f, [this]() { respawnPlayer(); }); });
+    LOG_DEBUG("Player Respawned.");
 }

@@ -1,6 +1,6 @@
 #pragma once
-#include "engine/core/math/Rect2D.hpp"
-#include "engine/entities/components/Component.hpp"
+#include <engine/core/math/Rect2D.hpp>
+#include <engine/entities/components/Component.hpp>
 
 class Collider : public Component
 {

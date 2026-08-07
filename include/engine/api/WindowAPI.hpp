@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 
-#include "engine/api/ManagerAPI.hpp"
-#include "engine/core/window/WindowManager.hpp"
+#include <engine/api/ManagerAPI.hpp>
+#include <engine/core/window/WindowManager.hpp>
 
 class WindowAPI : public ManagerAPI<WindowManager>
 {

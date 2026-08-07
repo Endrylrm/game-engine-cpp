@@ -1,7 +1,7 @@
 #include "engine/backend/SDL/graphics/SDLRenderer.hpp"
 
-#include "engine/backend/SDL/graphics/SDLTexture.hpp"
-#include "engine/core/log/Log.hpp"
+#include <engine/backend/SDL/graphics/SDLTexture.hpp>
+#include <engine/core/log/Log.hpp>
 
 SDLRenderer::SDLRenderer(void *windowHandle) : window(static_cast<SDL_Window *>(windowHandle)) {}
 

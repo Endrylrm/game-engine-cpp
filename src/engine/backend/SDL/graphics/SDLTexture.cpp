@@ -1,9 +1,10 @@
 #include "engine/backend/SDL/graphics/SDLTexture.hpp"
 
-#include <SDL3_image/SDL_image.h>
 #include <stdexcept>
 
-#include "engine/core/log/Log.hpp"
+#include <SDL3_image/SDL_image.h>
+
+#include <engine/core/log/Log.hpp>
 
 SDLTexture::SDLTexture(SDL_Renderer *renderer, const std::string &path)
 {

@@ -1,20 +1,19 @@
 #include "game/components/player/PlayerController.hpp"
 
-#include <game/components/common/Health.hpp>
 #include <iostream>
 #include <string>
 
-#include "engine/api/InputAPI.hpp"
-#include "engine/core/log/Log.hpp"
-#include "engine/core/math/Vector2D.hpp"
-#include "engine/entities/Entity.hpp"
+#include <engine/api/InputAPI.hpp>
+#include <engine/core/log/Log.hpp>
+#include <engine/core/math/Vector2D.hpp>
+#include <engine/entities/Entity.hpp>
 
 void PlayerController::onStart()
 {
     transform = owner->getComponent<Transform>();
     transform->position.x = 375;
     transform->position.y = 450;
-    LOG_DEBUG("Player started");
+    LOG_DEBUG("Player Controller started.");
 }
 
 void PlayerController::onUpdate(float deltaTime)
@@ -23,8 +22,6 @@ void PlayerController::onUpdate(float deltaTime)
 
     if (InputAPI::isKeyPressed(KeyInput::Space))
     {
-        Health *health = owner->getComponent<Health>();
-        health->takeDamage(1);
         print();
     }
     if (InputAPI::isKeyDown(KeyInput::W))
@@ -51,7 +48,7 @@ void PlayerController::onUpdate(float deltaTime)
 
 void PlayerController::onDestruction()
 {
-    LOG_DEBUG("Player destroyed!");
+    LOG_DEBUG("Player Controller destroyed.");
 }
 
 void PlayerController::print()

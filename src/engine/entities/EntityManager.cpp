@@ -1,6 +1,6 @@
 #include "engine/entities/EntityManager.hpp"
 
-#include "engine/core/string/StringHandle.hpp"
+#include <engine/core/string/StringHandle.hpp>
 
 void EntityManager::onInit() {}
 

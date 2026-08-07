@@ -1,8 +1,9 @@
 #pragma once
 #include <cstdint>
 
-#include "engine/core/events/EventRegistry.hpp"
-#include "engine/core/log/Log.hpp"
+#include <engine/core/log/Log.hpp>
+
+#include "EventRegistry.hpp"
 
 class ConnectionSource
 {

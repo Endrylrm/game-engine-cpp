@@ -34,8 +34,11 @@ public:
         : connSource(source), eventType(type), eventId(id)
     {
         source->registerConnection(this);
-        LOG_DEBUG("Event Connection connected to source.");
-        LOG_TRACE("Event Connection {:p} constructed.", static_cast<const void *>(this));
+        LOG_TRACE(
+            "Event Connection '{}' constructed at {:p} and connected to source.",
+            eventId,
+            static_cast<const void *>(this)
+        );
     }
 
     // delete copy
@@ -46,9 +49,9 @@ public:
     EventConnection(EventConnection &&other) noexcept
     {
         moveFrom(other);
-        LOG_DEBUG("Event Connection moved.");
         LOG_TRACE(
-            "EventConnection {:p} moved from {:p}.",
+            "Event Connection '{}' at {:p} moved from {:p}.",
+            eventId,
             static_cast<const void *>(this),
             static_cast<const void *>(&other)
         );
@@ -64,19 +67,20 @@ public:
         }
 
         LOG_TRACE(
-            "EventConnection {:p} moved from {:p}.",
+            "Event Connection '{}' at {:p} moved from {:p}.",
+            eventId,
             static_cast<const void *>(this),
             static_cast<const void *>(&other)
         );
-        LOG_DEBUG("Event Connection moved.");
         return *this;
     }
 
     ~EventConnection()
     {
+        LOG_TRACE(
+            "destroying Event Connection '{}' at {:p}...", eventId, static_cast<const void *>(this)
+        );
         disconnect();
-        LOG_DEBUG("Event Connection destroyed.");
-        LOG_TRACE("EventConnection {:p} destroyed.", static_cast<const void *>(this));
     }
 
     void disconnect()
@@ -86,8 +90,12 @@ public:
 
         connSource->disconnect(eventType, eventId);
         connSource->unregisterConnection(this);
+        LOG_TRACE(
+            "Event Connection '{}' at {:p} disconnected from source.",
+            eventId,
+            static_cast<const void *>(this)
+        );
         invalidate();
-        LOG_DEBUG("Event Connection disconnected from source.");
     }
 
     void enable()

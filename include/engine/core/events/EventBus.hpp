@@ -9,6 +9,7 @@
 #include "engine/core/events/ConnectionSlot.hpp"
 #include "engine/core/events/Connections.hpp"
 #include "engine/core/events/Event.hpp"
+#include "engine/core/events/EventRegistry.hpp"
 #include "engine/core/events/Listener.hpp"
 #include "engine/core/events/QueuedEvent.hpp"
 #include "engine/core/log/Log.hpp"
@@ -19,7 +20,7 @@ public:
     template <typename EventType, typename Callback>
     EventConnection connect(Callback &&callback)
     {
-        auto &list = listenersMap[typeid(EventType)];
+        auto &list = listenersMap[EventRegistry::getTypeId<EventType>()];
 
         uint32_t id = currentID++;
 
@@ -30,13 +31,13 @@ public:
         list.push_back({{id}, std::move(wrapper)});
         LOG_DEBUG("Event id '{}' connected to EventBus.", id);
 
-        return EventConnection(this, typeid(EventType), id);
+        return EventConnection(this, EventRegistry::getTypeId<EventType>(), id);
     }
 
     template <typename EventType>
     void emit(const EventType &event)
     {
-        auto iter = listenersMap.find(typeid(EventType));
+        auto iter = listenersMap.find(EventRegistry::getTypeId<EventType>());
 
         if (iter == listenersMap.end())
             return;
@@ -56,7 +57,7 @@ public:
     void dispatch(EventType event)
     {
         pendingEvents.push_back(
-            {std::type_index(typeid(EventType)), std::make_unique<EventType>(std::move(event))}
+            {EventRegistry::getTypeId<EventType>(), std::make_unique<EventType>(std::move(event))}
         );
     }
 
@@ -103,7 +104,7 @@ public:
     }
 
 private:
-    void disconnect(std::type_index type, uint32_t id) override
+    void disconnect(EventTypeId type, uint32_t id) override
     {
         auto iter = listenersMap.find(type);
 
@@ -123,7 +124,7 @@ private:
         }
     }
 
-    void setListenerEnabled(std::type_index type, uint32_t id, bool enabled) override
+    void setListenerEnabled(EventTypeId type, uint32_t id, bool enabled) override
     {
         auto iter = listenersMap.find(type);
 
@@ -145,7 +146,7 @@ private:
         }
     }
 
-    bool isListenerEnabled(std::type_index type, uint32_t id) override
+    bool isListenerEnabled(EventTypeId type, uint32_t id) override
     {
         auto iter = listenersMap.find(type);
 
@@ -164,7 +165,7 @@ private:
         return false;
     }
 
-    std::unordered_map<std::type_index, std::vector<Listener<const Event &>>> listenersMap{};
+    std::unordered_map<EventTypeId, std::vector<Listener<const Event &>>> listenersMap{};
     std::vector<QueuedEvent> eventQueue{};
     std::vector<QueuedEvent> pendingEvents{};
     uint32_t currentID{};

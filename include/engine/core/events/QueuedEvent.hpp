@@ -1,11 +1,11 @@
 #pragma once
 #include <memory>
-#include <typeindex>
 
 #include "engine/core/events/Event.hpp"
+#include "engine/core/events/EventRegistry.hpp"
 
 struct QueuedEvent
 {
-    std::type_index type;
+    EventTypeId type;
     std::unique_ptr<Event> event;
 };

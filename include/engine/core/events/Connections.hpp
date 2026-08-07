@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
-#include <typeindex>
 
+#include "engine/core/events/EventRegistry.hpp"
 #include "engine/core/log/Log.hpp"
 
 class ConnectionSource
@@ -12,9 +12,9 @@ public:
     virtual ~ConnectionSource();
 
 protected:
-    virtual void disconnect(std::type_index type, uint32_t id) = 0;
-    virtual void setListenerEnabled(std::type_index type, uint32_t id, bool enabled) = 0;
-    virtual bool isListenerEnabled(std::type_index type, uint32_t id) = 0;
+    virtual void disconnect(EventTypeId type, uint32_t id) = 0;
+    virtual void setListenerEnabled(EventTypeId type, uint32_t id, bool enabled) = 0;
+    virtual bool isListenerEnabled(EventTypeId type, uint32_t id) = 0;
 
 private:
     void registerConnection(EventConnection *connection);
@@ -30,7 +30,7 @@ class EventConnection
 
 public:
     EventConnection() = default;
-    EventConnection(ConnectionSource *source, std::type_index type, uint32_t id)
+    EventConnection(ConnectionSource *source, EventTypeId type, uint32_t id)
         : connSource(source), eventType(type), eventId(id)
     {
         source->registerConnection(this);
@@ -151,14 +151,14 @@ private:
         connSource = nullptr;
         prev = nullptr;
         next = nullptr;
-        eventType = typeid(void);
+        eventType = EventRegistry::getTypeId<void>();
         eventId = 0;
     }
 
     ConnectionSource *connSource{};
     EventConnection *prev{};
     EventConnection *next{};
-    std::type_index eventType{typeid(void)};
+    EventTypeId eventType{EventRegistry::getTypeId<void>()};
     uint32_t eventId{};
 };
 

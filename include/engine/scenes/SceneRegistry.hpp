@@ -1,13 +1,13 @@
 #pragma once
-#include <cstddef>
+#include <cstdint>
 
-using SceneId = std::size_t;
+using SceneId = uint32_t;
 
 class SceneRegistry
 {
 public:
     template <typename T>
-    static SceneId GetId()
+    static SceneId getTypeId()
     {
         static const SceneId id = nextId++;
         return id;

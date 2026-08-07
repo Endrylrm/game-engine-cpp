@@ -1,9 +1,9 @@
 #pragma once
 #include <functional>
-#include <typeindex>
 
 #include "engine/core/events/ConnectionSlot.hpp"
 #include "engine/core/events/Connections.hpp"
+#include "engine/core/events/EventRegistry.hpp"
 #include "engine/core/events/Listener.hpp"
 #include "engine/core/log/Log.hpp"
 
@@ -18,7 +18,7 @@ public:
         slots.push_back({{id}, callback});
         LOG_DEBUG("Event id '{}' connected to Signal.", id);
 
-        return EventConnection(this, typeid(Signal), id);
+        return EventConnection(this, EventRegistry::getTypeId<Signal>(), id);
     }
 
     void emit(Args... args)
@@ -38,7 +38,7 @@ public:
     }
 
 private:
-    void disconnect(std::type_index type, uint32_t id) override
+    void disconnect(EventTypeId type, uint32_t id) override
     {
         for (auto &listener : slots)
         {
@@ -53,7 +53,7 @@ private:
         cleanup();
     }
 
-    void setListenerEnabled(std::type_index type, uint32_t id, bool enabled) override
+    void setListenerEnabled(EventTypeId type, uint32_t id, bool enabled) override
     {
         for (auto &listener : slots)
         {
@@ -68,7 +68,7 @@ private:
         }
     }
 
-    bool isListenerEnabled(std::type_index type, uint32_t id) override
+    bool isListenerEnabled(EventTypeId type, uint32_t id) override
     {
         for (auto &listener : slots)
         {

@@ -1,13 +1,13 @@
 #pragma once
-#include <cstddef>
+#include <cstdint>
 
-using ComponentId = std::size_t;
+using ComponentId = uint32_t;
 
 class ComponentRegistry
 {
 public:
     template <typename T>
-    static ComponentId GetId()
+    static ComponentId getTypeId()
     {
         static const ComponentId id = nextId++;
         return id;

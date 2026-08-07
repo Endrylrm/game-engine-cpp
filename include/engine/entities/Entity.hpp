@@ -30,7 +30,7 @@ public:
         auto component = std::make_unique<T>(std::forward<Args>(args)...);
         component->owner = this;
         T *ptr = component.get();
-        componentsMap[ComponentRegistry::GetId<T>()] = ptr;
+        componentsMap[ComponentRegistry::getTypeId<T>()] = ptr;
         components.push_back(std::move(component));
         return ptr;
     }
@@ -40,7 +40,7 @@ public:
     {
         component->owner = this;
         T *ptr = component.get();
-        componentsMap[ComponentRegistry::GetId<T>()] = ptr;
+        componentsMap[ComponentRegistry::getTypeId<T>()] = ptr;
         components.push_back(std::move(component));
         return ptr;
     }
@@ -48,7 +48,7 @@ public:
     template <typename T>
     T *getComponent()
     {
-        auto iter = componentsMap.find(ComponentRegistry::GetId<T>());
+        auto iter = componentsMap.find(ComponentRegistry::getTypeId<T>());
 
         if (iter == componentsMap.end())
             return nullptr;
@@ -59,7 +59,7 @@ public:
     template <typename T>
     bool hasComponent()
     {
-        auto iter = componentsMap.find(ComponentRegistry::GetId<T>());
+        auto iter = componentsMap.find(ComponentRegistry::getTypeId<T>());
 
         if (iter == componentsMap.end())
             return false;

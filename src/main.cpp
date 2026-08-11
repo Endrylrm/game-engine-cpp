@@ -8,6 +8,5 @@ int main(int argc, char *argv[])
     Engine engine(game);
     engine.initialize("Space Shooter", 800, 600);
     engine.mainLoop();
-    engine.shutdown();
     return 0;
 }

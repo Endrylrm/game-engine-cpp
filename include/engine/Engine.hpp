@@ -25,7 +25,6 @@ public:
 
     void initialize(const char *title, int width, int height);
     void mainLoop();
-    void shutdown();
 
 private:
     void beginFrame();
@@ -37,6 +36,7 @@ private:
     void processLifeCycle();
     void processCommands();
     void endFrame();
+    void shutdown();
 
     std::unique_ptr<WindowManager> currentWindowManager{};
     std::unique_ptr<Renderer> currentRenderer{};

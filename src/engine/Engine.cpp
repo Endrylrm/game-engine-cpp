@@ -145,6 +145,8 @@ void Engine::mainLoop()
             std::this_thread::sleep_for(targetFrameTime - frameTime);
         }
     }
+
+    shutdown();
 }
 
 void Engine::shutdown()

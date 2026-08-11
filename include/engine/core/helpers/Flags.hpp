@@ -9,7 +9,7 @@ public:
     using Underlying = std::underlying_type_t<Enum>;
 
     constexpr Flags() = default;
-    constexpr explicit Flags(Enum value) : value(value) {}
+    constexpr Flags(Enum value) : value(value) {}
 
     constexpr void add(Enum flags)
     {
@@ -61,9 +61,14 @@ public:
         return value;
     }
 
-    constexpr operator Enum() const
+    constexpr explicit operator Enum() const
     {
         return value;
+    }
+
+    constexpr explicit operator bool() const
+    {
+        return static_cast<Underlying>(value) != 0;
     }
 
     constexpr Flags &operator=(Enum value)
@@ -72,6 +77,98 @@ public:
         return *this;
     }
 
+    constexpr Flags &operator|=(Enum flags)
+    {
+        add(flags);
+        return *this;
+    }
+
+    constexpr Flags &operator&=(Enum flags)
+    {
+        value = static_cast<Enum>(static_cast<Underlying>(value) & static_cast<Underlying>(flags));
+
+        return *this;
+    }
+
+    constexpr Flags &operator^=(Enum flags)
+    {
+        value = static_cast<Enum>(static_cast<Underlying>(value) ^ static_cast<Underlying>(flags));
+
+        return *this;
+    }
+
 private:
     Enum value{};
 };
+
+template <typename Enum>
+constexpr Flags<Enum> operator|(Enum lhs, Enum rhs)
+{
+    static_assert(std::is_enum_v<Enum>);
+
+    Flags<Enum> result{lhs};
+    result.add(rhs);
+    return result;
+}
+
+template <typename Enum>
+constexpr Flags<Enum> operator|(Flags<Enum> lhs, Enum rhs)
+{
+    lhs.add(rhs);
+    return lhs;
+}
+
+template <typename Enum>
+constexpr Flags<Enum> operator|(Enum lhs, Flags<Enum> rhs)
+{
+    rhs.add(lhs);
+    return rhs;
+}
+
+template <typename Enum>
+constexpr Flags<Enum> operator&(Enum lhs, Enum rhs)
+{
+    using Underlying = std::underlying_type_t<Enum>;
+
+    return Flags<Enum>(
+        static_cast<Enum>(static_cast<Underlying>(lhs) & static_cast<Underlying>(rhs))
+    );
+}
+
+template <typename Enum>
+constexpr Flags<Enum> operator&(Flags<Enum> lhs, Enum rhs)
+{
+    lhs &= rhs;
+    return lhs;
+}
+
+template <typename Enum>
+constexpr Flags<Enum> operator&(Enum lhs, Flags<Enum> rhs)
+{
+    rhs &= lhs;
+    return rhs;
+}
+
+template <typename Enum>
+constexpr Flags<Enum> operator^(Enum lhs, Enum rhs)
+{
+    using Underlying = std::underlying_type_t<Enum>;
+
+    return Flags<Enum>(
+        static_cast<Enum>(static_cast<Underlying>(lhs) ^ static_cast<Underlying>(rhs))
+    );
+}
+
+template <typename Enum>
+constexpr Flags<Enum> operator^(Flags<Enum> lhs, Enum rhs)
+{
+    lhs ^= rhs;
+    return lhs;
+}
+
+template <typename Enum>
+constexpr Flags<Enum> operator^(Enum lhs, Flags<Enum> rhs)
+{
+    rhs ^= lhs;
+    return rhs;
+}

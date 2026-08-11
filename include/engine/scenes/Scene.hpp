@@ -5,10 +5,15 @@
 #include <engine/core/events/Connections.hpp>
 #include <engine/core/events/EventBus.hpp>
 #include <engine/core/graphics/Renderer.hpp>
+#include <engine/core/helpers/Flags.hpp>
 #include <engine/core/string/StringHandle.hpp>
-#include <engine/entities/Entity.hpp>
-#include <engine/entities/EntityManager.hpp>
-#include <engine/systems/RenderSystem.hpp>
+#include <engine/ecs/registry/Registry.hpp>
+#include <engine/ecs/registry/entities/EntityId.hpp>
+#include <engine/ecs/registry/managers/SystemManager.hpp>
+#include <engine/ecs/registry/systems/SystemStage.hpp>
+#include <engine/ecs/systems/System.hpp>
+
+class Entity;
 
 class Scene
 {
@@ -24,9 +29,8 @@ public:
     void processLifecycle();
     void unload();
 
-    Entity *createEntity();
-    Entity *createEntity(std::unique_ptr<Entity> entityBlueprint);
-    void queueDestroyEntity(Entity *entity);
+    Entity createEntity();
+    void queueDestroyEntity(EntityId entity);
 
     template <typename EventType, typename Callback>
     EventConnection connectEvent(Callback &&callback)
@@ -46,10 +50,27 @@ public:
         eventBus.dispatch<EventType>(event);
     }
 
+    template <std::derived_from<System> T, typename... Args>
+    T &addSystem(Flags<SystemStage> stages, Args &&...args)
+    {
+        return systemManager.addSystem<T>(stages, std::forward<Args>(args)...);
+    }
+
+    template <typename T>
+    T *getSystem()
+    {
+        return systemManager.getSystem<T>();
+    }
+
+    Registry &getRegistry()
+    {
+        return registry;
+    }
+
     StringHandle name;
 
 private:
-    EntityManager entityManager{};
-    RenderSystem renderSystem{};
+    Registry registry{};
     EventBus eventBus{};
+    SystemManager systemManager{};
 };

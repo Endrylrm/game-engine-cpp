@@ -1,72 +1,61 @@
 #include "engine/scenes/Scene.hpp"
 
 #include <engine/core/log/Log.hpp>
+#include <engine/ecs/handle/Entity.hpp>
 
 void Scene::init()
 {
-    renderSystem.setEventBus(&eventBus);
-    entityManager.onInit();
-    renderSystem.onInit();
+    systemManager.init();
     LOG_DEBUG("Scene '{}' Loaded and Initialized!", name.text());
 }
 
 void Scene::physics(float fixedDeltaTime)
 {
-    entityManager.onPhysics(fixedDeltaTime);
+    systemManager.physics(fixedDeltaTime);
 }
 
 void Scene::preUpdate()
 {
     eventBus.processEvents();
-    entityManager.onPreUpdate();
+    systemManager.preUpdate();
 }
 
 void Scene::update(float deltaTime)
 {
-    entityManager.onUpdate(deltaTime);
+    systemManager.update(deltaTime);
 }
 
 void Scene::postUpdate()
 {
-    entityManager.onPostUpdate();
+    systemManager.postUpdate();
 }
 
 void Scene::render(Renderer &renderer)
 {
-    renderSystem.onRender(renderer);
+    systemManager.render(renderer);
 }
 
 void Scene::processLifecycle()
 {
     eventBus.removeDeletedEvents();
-    entityManager.removeDestroyedEntities();
-    entityManager.processPendingSpawns();
-    entityManager.processAwakeQueue();
-    entityManager.processStartQueue();
+    registry.processDestroyQueue();
 }
 
 void Scene::unload()
 {
-    entityManager.clear();
-    renderSystem.onUnload();
+    systemManager.unload();
     LOG_DEBUG("Scene '{}' Unloaded!", name.text());
 }
 
-Entity *Scene::createEntity()
+Entity Scene::createEntity()
 {
-    Entity *ptr = entityManager.create();
-    ptr->scene = this;
-    return ptr;
+    EntityId id = registry.createEntity();
+    Entity entity = {id, this};
+    LOG_DEBUG("Entity id: '{}', generation: {} created!", id.id, id.generation);
+    return entity;
 }
 
-Entity *Scene::createEntity(std::unique_ptr<Entity> entityBlueprint)
+void Scene::queueDestroyEntity(EntityId entity)
 {
-    Entity *ptr = entityManager.create(std::move(entityBlueprint));
-    ptr->scene = this;
-    return ptr;
-}
-
-void Scene::queueDestroyEntity(Entity *entity)
-{
-    entityManager.queueDestroy(entity);
+    registry.destroyEntity(entity);
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
 
-#include <engine/Game.hpp>
 #include <engine/assets/AssetDatabase.hpp>
 #include <engine/core/events/EventBus.hpp>
 #include <engine/core/graphics/Renderer.hpp>
@@ -10,6 +9,8 @@
 #include <engine/scenes/SceneManager.hpp>
 #include <engine/time/Time.hpp>
 #include <engine/time/TimerManager.hpp>
+
+#include "Game.hpp"
 
 class Engine
 {

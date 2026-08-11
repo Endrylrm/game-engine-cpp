@@ -45,7 +45,7 @@ void World::processLifecycle()
 
 void World::unload()
 {
-    systemManager.render(renderer);
+    systemManager.unload();
 }
 
 Entity World::createEntity()

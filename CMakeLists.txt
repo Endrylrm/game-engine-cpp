@@ -18,12 +18,12 @@ set(ENGINE_SOURCES
     src/engine/backend/SDL/window/SDLWindowManager.cpp
     src/engine/core/log/Logger.cpp
     src/engine/core/string/StringTable.cpp
-    src/engine/entities/components/SpriteRenderer.cpp
-    src/engine/entities/Entity.cpp
-    src/engine/entities/EntityManager.cpp
     src/engine/scenes/Scene.cpp
     src/engine/scenes/SceneManager.cpp
-    src/engine/systems/RenderSystem.cpp
+    src/engine/ecs/registry/managers/EntityManager.cpp
+    src/engine/ecs/registry/managers/SystemManager.cpp
+    src/engine/ecs/systems/RenderSystem.cpp
+    src/engine/ecs/world/World.cpp
     src/engine/time/Time.cpp
     src/engine/time/Timer.cpp
     src/engine/time/TimerManager.cpp
@@ -32,16 +32,6 @@ set(ENGINE_SOURCES
 set(GAME_SOURCES
     src/main.cpp
     src/game/SpaceShooterGame.cpp
-    src/game/components/bullet/BulletDeleter.cpp
-    src/game/components/bullet/BulletMove.cpp
-    src/game/components/common/ClampLR.cpp
-    src/game/components/common/ClampUD.cpp
-    src/game/components/common/Health.cpp
-    src/game/components/player/PlayerController.cpp
-    src/game/Factories/BulletFactory.cpp
-    src/game/Factories/DirectorFactory.cpp
-    src/game/Factories/PlayerFactory.cpp
-    src/game/managers/GameManager.cpp
     src/game/scenes/SceneFactory.cpp
 )
 

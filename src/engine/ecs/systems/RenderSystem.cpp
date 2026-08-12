@@ -2,13 +2,13 @@
 
 #include <engine/api/AssetsAPI.hpp>
 #include <engine/core/graphics/Texture.hpp>
+#include <engine/ecs/components/Renderable.hpp>
 #include <engine/ecs/components/SpriteRenderer.hpp>
 #include <engine/ecs/components/Transform.hpp>
-#include <engine/ecs/components/Visible.hpp>
 
 void RenderSystem::onRender(Renderer &renderer)
 {
-    for (auto [sprite, transform, v] : registry.view<SpriteRenderer, Transform, Visible>())
+    for (auto [sprite, transform, r] : registry.view<SpriteRenderer, Transform, Renderable>())
     {
         auto *texture = AssetsAPI::get<Texture>(sprite.textureId);
         auto position = transform.position;

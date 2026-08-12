@@ -15,6 +15,13 @@ public:
         return *this;
     }
 
+    template <typename T>
+    EntityBuilder &addComponent(T &&value)
+    {
+        entity.addComponent<T>(std::move(value));
+        return *this;
+    }
+
     Entity build()
     {
         return std::move(entity);

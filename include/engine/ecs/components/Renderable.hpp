@@ -1,5 +1,5 @@
 #pragma once
 
-struct Visible
+struct Renderable
 {
 };

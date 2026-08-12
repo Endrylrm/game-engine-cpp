@@ -22,6 +22,7 @@ set(ENGINE_SOURCES
     src/engine/scenes/SceneManager.cpp
     src/engine/ecs/registry/managers/EntityManager.cpp
     src/engine/ecs/registry/managers/SystemManager.cpp
+    src/engine/ecs/systems/MovementSystem.cpp
     src/engine/ecs/systems/RenderSystem.cpp
     src/engine/ecs/world/World.cpp
     src/engine/time/Time.cpp
@@ -32,6 +33,11 @@ set(ENGINE_SOURCES
 set(GAME_SOURCES
     src/main.cpp
     src/game/SpaceShooterGame.cpp
+    src/game/ecs/systems/common/ScreenClampSystem.cpp
+    src/game/ecs/systems/common/WeaponCooldownSystem.cpp
+    src/game/ecs/systems/player/PlayerInputSystem.cpp
+    src/game/ecs/systems/player/PlayerMoveSystem.cpp
+    src/game/ecs/systems/player/PlayerShootSystem.cpp
     src/game/scenes/SceneFactory.cpp
 )
 

@@ -20,6 +20,7 @@
 #include <game/ecs/components/common/ScreenClamp.hpp>
 #include <game/ecs/components/common/Weapon.hpp>
 #include <game/ecs/components/player/PlayerInput.hpp>
+#include <game/ecs/systems/common/OutOfBoundsSystem.hpp>
 #include <game/ecs/systems/common/ScreenClampSystem.hpp>
 #include <game/ecs/systems/common/WeaponCooldownSystem.hpp>
 #include <game/ecs/systems/player/PlayerInputSystem.hpp>
@@ -38,6 +39,7 @@ void SceneFactory::createGameplayScene(Scene &scene)
     scene.addSystem<PlayerMoveSystem>(SystemStage::Update, scene.getRegistry());
     scene.addSystem<WeaponCooldownSystem>(SystemStage::Update, scene.getRegistry());
     scene.addSystem<PlayerShootSystem>(SystemStage::Update, scene.getRegistry());
+    scene.addSystem<OutOfBoundsSystem>(SystemStage::Update, scene.getRegistry());
     scene.addSystem<ScreenClampSystem>(SystemStage::PostUpdate, scene.getRegistry());
     LOG_DEBUG("creating Gameplay Scene...");
     AssetHandle<Texture> sprite = AssetsAPI::load<Texture>("assets/player/playerShip1_blue.png");

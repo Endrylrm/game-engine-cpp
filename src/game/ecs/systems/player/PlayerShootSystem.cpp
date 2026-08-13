@@ -9,9 +9,9 @@
 #include <engine/ecs/components/SpriteRenderer.hpp>
 #include <engine/ecs/components/Transform.hpp>
 #include <engine/ecs/components/Velocity.hpp>
-#include <engine/ecs/entities/EntityBuilder.hpp>
 #include <engine/ecs/handle/Entity.hpp>
 
+#include <game/ecs/components/common/OutOfBounds.hpp>
 #include <game/ecs/components/common/Weapon.hpp>
 #include <game/ecs/components/player/PlayerInput.hpp>
 
@@ -39,4 +39,5 @@ void PlayerShootSystem::shoot(float x, float y)
     bulletVelocity.linear.y = -1.0f * 300.0f;
     bullet.addComponent<SpriteRenderer>(sprite);
     bullet.addComponent<Renderable>();
+    bullet.addComponent<OutOfBounds>();
 }

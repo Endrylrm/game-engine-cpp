@@ -33,6 +33,7 @@ set(ENGINE_SOURCES
 set(GAME_SOURCES
     src/main.cpp
     src/game/SpaceShooterGame.cpp
+    src/game/ecs/systems/common/OutOfBoundsSystem.cpp
     src/game/ecs/systems/common/ScreenClampSystem.cpp
     src/game/ecs/systems/common/WeaponCooldownSystem.cpp
     src/game/ecs/systems/player/PlayerInputSystem.cpp

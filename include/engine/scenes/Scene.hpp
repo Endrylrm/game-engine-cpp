@@ -16,12 +16,14 @@
 #include <engine/ecs/systems/RenderSystem.hpp>
 #include <engine/ecs/systems/System.hpp>
 
+#include "SceneId.hpp"
+
 class Entity;
 
 class Scene
 {
 public:
-    Scene()
+    Scene(SceneId id) : id(id)
     {
         systemManager.addSystem<LifetimeSystem>(SystemStage::Update, registry);
         systemManager.addSystem<MovementSystem>(SystemStage::Update, registry);
@@ -76,10 +78,14 @@ public:
         return registry;
     }
 
-    StringHandle name;
+    SceneId getId() const
+    {
+        return id;
+    }
 
 private:
     Registry registry{};
     EventBus eventBus{};
     SystemManager systemManager{};
+    SceneId id;
 };

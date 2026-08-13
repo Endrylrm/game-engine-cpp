@@ -1,6 +1,8 @@
 #pragma once
 #include <engine/core/string/StringHandle.hpp>
 
+#include "SceneId.hpp"
+
 enum class SceneCommandType
 {
     Load,
@@ -12,5 +14,5 @@ enum class SceneCommandType
 struct SceneCommand
 {
     SceneCommandType type;
-    StringHandle id;
+    SceneId id;
 };

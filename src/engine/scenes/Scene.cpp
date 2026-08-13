@@ -6,7 +6,7 @@
 void Scene::init()
 {
     systemManager.init();
-    LOG_DEBUG("Scene '{}' Loaded and Initialized!", name.text());
+    LOG_DEBUG("Scene '{}' Loaded and Initialized!", id.value);
 }
 
 void Scene::physics(float fixedDeltaTime)
@@ -44,7 +44,7 @@ void Scene::processLifecycle()
 void Scene::unload()
 {
     systemManager.unload();
-    LOG_DEBUG("Scene '{}' Unloaded!", name.text());
+    LOG_DEBUG("Scene '{}' Unloaded!", id.value);
 }
 
 Entity Scene::createEntity()

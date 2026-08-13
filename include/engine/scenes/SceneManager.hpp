@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <memory>
+#include <optional>
 #include <ranges>
 #include <string_view>
 #include <unordered_map>
@@ -11,6 +12,7 @@
 
 #include "Scene.hpp"
 #include "SceneCommand.hpp"
+#include "SceneId.hpp"
 
 using SceneBuilder = std::function<void(Scene &)>;
 
@@ -18,19 +20,33 @@ class SceneManager
 {
 public:
     template <typename Callback>
-    void registerScene(std::string_view id, Callback &&callback)
+    SceneId registerScene(std::string_view name, Callback &&callback)
     {
-        LOG_DEBUG("Registered Scene '{}'...", id);
-        scenes.try_emplace(StringHandle(id), std::forward<Callback>(callback));
+        const SceneId id{nextSceneId++};
+        LOG_DEBUG("Registered Scene '{}'...", id.value);
+
+        scenes.try_emplace(id, std::forward<Callback>(callback));
+        sceneIds.emplace(StringHandle(name), id);
+
+        return id;
     }
 
-    void loadScene(std::string_view id);
-    void loadSceneAdditive(std::string_view id);
-    void unloadScene(std::string_view id);
+    void loadScene(SceneId id);
+    void loadScene(std::string_view name);
+
+    void loadSceneAdditive(SceneId id);
+    void loadSceneAdditive(std::string_view name);
+
+    void unloadScene(SceneId id);
+    void unloadScene(std::string_view name);
+
     void unloadAllScenes();
 
-    Scene *getActiveScene(std::string_view id) const;
-    bool isActiveScene(std::string_view id) const;
+    Scene *getActiveScene(SceneId id) const;
+    Scene *getActiveScene(std::string_view name) const;
+
+    bool isActiveScene(SceneId id) const;
+    bool isActiveScene(std::string_view name) const;
 
     Scene *getMainScene();
 
@@ -44,9 +60,12 @@ public:
     void processCommands();
 
 private:
-    Scene *buildScene(std::string_view id);
+    Scene *buildScene(SceneId id);
+    std::optional<SceneId> findSceneId(std::string_view name) const;
 
-    std::unordered_map<StringHandle, SceneBuilder, StringHandleHash> scenes{};
+    uint32_t nextSceneId{0};
+    std::unordered_map<SceneId, SceneBuilder, SceneIdHash> scenes{};
+    std::unordered_map<StringHandle, SceneId, StringHandleHash> sceneIds{};
     std::vector<std::unique_ptr<Scene>> activeScenes{};
     std::vector<SceneCommand> pendingCommands{};
     Scene *mainScene{};

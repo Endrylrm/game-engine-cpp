@@ -22,6 +22,7 @@ set(ENGINE_SOURCES
     src/engine/scenes/SceneManager.cpp
     src/engine/ecs/registry/managers/EntityManager.cpp
     src/engine/ecs/registry/managers/SystemManager.cpp
+    src/engine/ecs/systems/LifetimeSystem.cpp
     src/engine/ecs/systems/MovementSystem.cpp
     src/engine/ecs/systems/RenderSystem.cpp
     src/engine/ecs/world/World.cpp

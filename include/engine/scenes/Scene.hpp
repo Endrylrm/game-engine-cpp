@@ -11,6 +11,7 @@
 #include <engine/ecs/registry/entities/EntityId.hpp>
 #include <engine/ecs/registry/managers/SystemManager.hpp>
 #include <engine/ecs/registry/systems/SystemStage.hpp>
+#include <engine/ecs/systems/LifetimeSystem.hpp>
 #include <engine/ecs/systems/MovementSystem.hpp>
 #include <engine/ecs/systems/RenderSystem.hpp>
 #include <engine/ecs/systems/System.hpp>
@@ -22,6 +23,7 @@ class Scene
 public:
     Scene()
     {
+        systemManager.addSystem<LifetimeSystem>(SystemStage::Update, registry);
         systemManager.addSystem<MovementSystem>(SystemStage::Update, registry);
         systemManager.addSystem<RenderSystem>(SystemStage::Render, registry);
     }

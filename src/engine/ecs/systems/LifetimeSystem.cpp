@@ -2,13 +2,13 @@
 
 #include <engine/ecs/components/Lifetime.hpp>
 
-void LifetimeSystem::onUpdate(float deltaTime)
+void LifetimeSystem::onUpdate(World &world, float deltaTime)
 {
-    for (auto [entity, lifetime] : registry.view<Lifetime>().withEntities())
+    for (auto [entity, lifetime] : world.view<Lifetime>().withEntities())
     {
         lifetime.remaining -= deltaTime;
 
         if (lifetime.remaining <= 0.0f)
-            registry.destroyEntity(entity);
+            world.destroyEntity(entity);
     }
 }

@@ -6,14 +6,14 @@
 
 #include <game/ecs/components/common/OutOfBounds.hpp>
 
-void OutOfBoundsSystem::onUpdate(float deltaTime)
+void OutOfBoundsSystem::onUpdate(World &world, float deltaTime)
 {
     for (auto [entity, transform, outOfBounds] :
-         registry.view<Transform, OutOfBounds>().withEntities())
+         world.view<Transform, OutOfBounds>().withEntities())
     {
         if (isOutOfBounds(transform.position, outOfBounds.margin))
         {
-            registry.destroyEntity(entity);
+            world.destroyEntity(entity);
             LOG_DEBUG(
                 "Queued destruction for Entity ID: {}, generation: {}", entity.id, entity.generation
             );

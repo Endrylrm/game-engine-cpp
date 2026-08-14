@@ -10,12 +10,15 @@
 #include <engine/ecs/registry/systems/SystemStage.hpp>
 #include <engine/ecs/registry/views/View.hpp>
 #include <engine/ecs/systems/System.hpp>
+#include <engine/scenes/SceneId.hpp>
 
 class Entity;
 
 class World
 {
 public:
+    World();
+
     void init();
     void events();
     void physics(float fixedDeltaTime);
@@ -27,7 +30,8 @@ public:
     void unload();
 
     Entity createEntity();
-    void queueDestroyEntity(EntityId entity);
+    void destroyEntity(EntityId entity);
+    void destroySceneEntities(SceneId id);
 
     template <typename T, typename... Args>
     T &addComponent(EntityId entity, Args &&...args)
@@ -91,6 +95,7 @@ public:
         return systemManager.getSystem<T>();
     }
 
+    Registry &getRegistry();
     EventBus &getEventBus();
 
 private:

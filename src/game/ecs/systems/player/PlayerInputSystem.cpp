@@ -4,9 +4,9 @@
 
 #include <game/ecs/components/player/PlayerInput.hpp>
 
-void PlayerInputSystem::onUpdate(float deltaTime)
+void PlayerInputSystem::onUpdate(World &world, float deltaTime)
 {
-    for (auto [input] : registry.view<PlayerInput>())
+    for (auto [input] : world.view<PlayerInput>())
     {
         input.move = {0.0f, 0.0f};
         input.shoot = false;

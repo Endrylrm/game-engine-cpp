@@ -4,9 +4,12 @@
 
 #include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/helpers/Flags.hpp>
+#include <engine/ecs/registry/systems/SystemEntry.hpp>
 #include <engine/ecs/registry/systems/SystemRegistry.hpp>
 #include <engine/ecs/registry/systems/SystemStage.hpp>
 #include <engine/ecs/systems/System.hpp>
+
+class World;
 
 class SystemManager
 {
@@ -23,11 +26,28 @@ public:
         if (id >= systems.size())
             systems.resize(id + 1);
 
+        if (systems[id].system)
+            removeSystem<T>();
+
         registerSystem(*system, stages);
 
-        systems[id] = std::move(system);
+        systems[id] = {std::move(system), stages};
 
         return systemRef;
+    }
+
+    template <typename T>
+    void removeSystem()
+    {
+        const auto id = SystemRegistry::getTypeId<T>();
+
+        if (id >= systems.size() || !systems[id].system)
+            return;
+
+        auto &entry = systems[id];
+        unregisterSystem(entry.system.get(), entry.stages);
+        entry.system.reset();
+        entry.stages.assign(SystemStage::None);
     }
 
     template <typename T>
@@ -38,21 +58,22 @@ public:
         if (id >= systems.size())
             return nullptr;
 
-        return static_cast<T *>(systems[id].get());
+        return static_cast<T *>(systems[id].system.get());
     }
 
-    void init();
-    void physics(float fixedDeltaTime);
-    void preUpdate();
-    void update(float deltaTime);
-    void postUpdate();
-    void render(Renderer &renderer);
-    void unload();
+    void init(World &world);
+    void physics(World &world, float fixedDeltaTime);
+    void preUpdate(World &world);
+    void update(World &world, float deltaTime);
+    void postUpdate(World &world);
+    void render(World &world, Renderer &renderer);
+    void unload(World &world);
 
 private:
     void registerSystem(System &system, Flags<SystemStage> stages);
+    void unregisterSystem(System *system, Flags<SystemStage> stages);
 
-    std::vector<std::unique_ptr<System>> systems{};
+    std::vector<SystemEntry> systems{};
     std::vector<System *> physicsSystems{};
     std::vector<System *> preUpdateSystems{};
     std::vector<System *> updateSystems{};

@@ -13,6 +13,7 @@
 #include <engine/api/TimeAPI.hpp>
 #include <engine/api/TimerAPI.hpp>
 #include <engine/api/WindowAPI.hpp>
+#include <engine/api/WorldAPI.hpp>
 #include <engine/backend/SDL/graphics/SDLRenderer.hpp>
 #include <engine/backend/SDL/input/SDLInputManager.hpp>
 #include <engine/backend/SDL/window/SDLWindowManager.hpp>
@@ -49,8 +50,9 @@ void Engine::initialize(const char *title, int width, int height)
     TimerAPI::setManager(&currentTimerManager);
     TimeAPI::setManager(&currentTime);
     EventsAPI::setManager(&eventBus);
+    WorldAPI::setManager(&currentWorld);
 
-    currentSceneManager.onInit();
+    currentWorld.init();
     game.onInit();
 }
 
@@ -64,40 +66,40 @@ void Engine::beginFrame()
 
 void Engine::physicsStep(float fixedDeltaTime)
 {
-    currentSceneManager.onPhysics(fixedDeltaTime);
+    currentWorld.physics(fixedDeltaTime);
     game.onPhysics(fixedDeltaTime);
 }
 
 void Engine::preUpdate()
 {
-    currentSceneManager.onPreUpdate();
+    currentWorld.preUpdate();
     game.onPreUpdate();
 }
 
 void Engine::update(float deltaTime)
 {
-    currentSceneManager.onUpdate(deltaTime);
+    currentWorld.update(deltaTime);
     currentTimerManager.onUpdate(deltaTime);
     game.onUpdate(deltaTime);
 }
 
 void Engine::postUpdate()
 {
-    currentSceneManager.onPostUpdate();
+    currentWorld.postUpdate();
     game.onPostUpdate();
 }
 
 void Engine::render()
 {
     currentRenderer->clear();
-    currentSceneManager.onRender(*currentRenderer);
+    currentWorld.render(*currentRenderer);
     game.onRender();
     currentRenderer->present();
 }
 
 void Engine::processLifeCycle()
 {
-    currentSceneManager.processLifecycle();
+    currentWorld.processLifecycle();
     eventBus.removeDeletedEvents();
     game.processLifecycle();
 }

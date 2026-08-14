@@ -1,7 +1,5 @@
 #include "game/scenes/SceneFactory.hpp"
 
-#include <random>
-
 #include <engine/api/AssetsAPI.hpp>
 #include <engine/assets/AssetHandle.hpp>
 #include <engine/core/graphics/Texture.hpp>
@@ -13,19 +11,11 @@
 #include <engine/ecs/components/Velocity.hpp>
 #include <engine/ecs/entities/EntityBuilder.hpp>
 #include <engine/ecs/handle/Entity.hpp>
-#include <engine/ecs/registry/systems/SystemStage.hpp>
-#include <engine/ecs/systems/System.hpp>
 
 #include <game/ecs/components/common/Health.hpp>
 #include <game/ecs/components/common/ScreenClamp.hpp>
 #include <game/ecs/components/common/Weapon.hpp>
 #include <game/ecs/components/player/PlayerInput.hpp>
-#include <game/ecs/systems/common/OutOfBoundsSystem.hpp>
-#include <game/ecs/systems/common/ScreenClampSystem.hpp>
-#include <game/ecs/systems/common/WeaponCooldownSystem.hpp>
-#include <game/ecs/systems/player/PlayerInputSystem.hpp>
-#include <game/ecs/systems/player/PlayerMoveSystem.hpp>
-#include <game/ecs/systems/player/PlayerShootSystem.hpp>
 
 void SceneFactory::createMenuScene(Scene &scene)
 {
@@ -35,12 +25,6 @@ void SceneFactory::createMenuScene(Scene &scene)
 
 void SceneFactory::createGameplayScene(Scene &scene)
 {
-    scene.addSystem<PlayerInputSystem>(SystemStage::Update, scene.getRegistry());
-    scene.addSystem<PlayerMoveSystem>(SystemStage::Update, scene.getRegistry());
-    scene.addSystem<WeaponCooldownSystem>(SystemStage::Update, scene.getRegistry());
-    scene.addSystem<PlayerShootSystem>(SystemStage::Update, scene.getRegistry());
-    scene.addSystem<OutOfBoundsSystem>(SystemStage::Update, scene.getRegistry());
-    scene.addSystem<ScreenClampSystem>(SystemStage::PostUpdate, scene.getRegistry());
     LOG_DEBUG("creating Gameplay Scene...");
     AssetHandle<Texture> sprite = AssetsAPI::load<Texture>("assets/player/playerShip1_blue.png");
     Entity player =

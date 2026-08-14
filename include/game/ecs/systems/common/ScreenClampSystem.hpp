@@ -1,13 +1,9 @@
 #pragma once
-#include <engine/ecs/registry/Registry.hpp>
 #include <engine/ecs/systems/System.hpp>
+#include <engine/ecs/world/World.hpp>
 
 class ScreenClampSystem : public System
 {
 public:
-    explicit ScreenClampSystem(Registry &registry) : registry(registry) {}
-    void onPostUpdate() override;
-
-private:
-    Registry &registry;
+    void onPostUpdate(World &world) override;
 };

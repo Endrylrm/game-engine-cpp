@@ -8,9 +8,9 @@
 
 #include <game/ecs/components/common/ScreenClamp.hpp>
 
-void ScreenClampSystem::onPostUpdate()
+void ScreenClampSystem::onPostUpdate(World &world)
 {
-    for (auto [transform, collider, clamp] : registry.view<Transform, BoxCollider, ScreenClamp>())
+    for (auto [transform, collider, clamp] : world.view<Transform, BoxCollider, ScreenClamp>())
     {
         if (clamp.horizontal)
             transform.position.x =

@@ -6,9 +6,9 @@
 #include <engine/ecs/components/SpriteRenderer.hpp>
 #include <engine/ecs/components/Transform.hpp>
 
-void RenderSystem::onRender(Renderer &renderer)
+void RenderSystem::onRender(World &world, Renderer &renderer)
 {
-    for (auto [sprite, transform, r] : registry.view<SpriteRenderer, Transform, Renderable>())
+    for (auto [sprite, transform, r] : world.view<SpriteRenderer, Transform, Renderable>())
     {
         auto *texture = AssetsAPI::get<Texture>(sprite.textureId);
         auto position = transform.position;

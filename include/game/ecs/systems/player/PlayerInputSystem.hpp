@@ -1,13 +1,9 @@
 #pragma once
-#include <engine/ecs/registry/Registry.hpp>
 #include <engine/ecs/systems/System.hpp>
+#include <engine/ecs/world/World.hpp>
 
 class PlayerInputSystem : public System
 {
 public:
-    explicit PlayerInputSystem(Registry &registry) : registry(registry) {}
-    void onUpdate(float deltaTime) override;
-
-private:
-    Registry &registry;
+    void onUpdate(World &world, float deltaTime) override;
 };

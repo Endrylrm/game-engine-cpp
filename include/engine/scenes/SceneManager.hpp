@@ -9,6 +9,7 @@
 #include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/log/Log.hpp>
 #include <engine/core/string/StringHandle.hpp>
+#include <engine/ecs/world/World.hpp>
 
 #include "Scene.hpp"
 #include "SceneCommand.hpp"
@@ -19,6 +20,7 @@ using SceneBuilder = std::function<void(Scene &)>;
 class SceneManager
 {
 public:
+    SceneManager(World &world) : world(world) {}
     template <typename Callback>
     SceneId registerScene(std::string_view name, Callback &&callback)
     {
@@ -50,13 +52,6 @@ public:
 
     Scene *getMainScene();
 
-    void onInit();
-    void onPhysics(float fixedDeltaTime);
-    void onPreUpdate();
-    void onUpdate(float deltaTime);
-    void onPostUpdate();
-    void onRender(Renderer &renderer);
-    void processLifecycle();
     void processCommands();
 
 private:
@@ -69,4 +64,5 @@ private:
     std::vector<std::unique_ptr<Scene>> activeScenes{};
     std::vector<SceneCommand> pendingCommands{};
     Scene *mainScene{};
+    World &world;
 };

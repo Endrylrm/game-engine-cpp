@@ -2,9 +2,9 @@
 
 #include <game/ecs/components/common/Weapon.hpp>
 
-void WeaponCooldownSystem::onUpdate(float deltaTime)
+void WeaponCooldownSystem::onUpdate(World &world, float deltaTime)
 {
-    for (auto [weapon] : registry.view<Weapon>())
+    for (auto [weapon] : world.view<Weapon>())
     {
         weapon.cooldownTimer -= deltaTime;
 

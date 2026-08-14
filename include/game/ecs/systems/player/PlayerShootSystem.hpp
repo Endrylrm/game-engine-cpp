@@ -1,14 +1,13 @@
 #pragma once
-#include <engine/ecs/registry/Registry.hpp>
+#include <engine/core/math/Vector2D.hpp>
 #include <engine/ecs/systems/System.hpp>
+#include <engine/ecs/world/World.hpp>
 
 class PlayerShootSystem : public System
 {
 public:
-    explicit PlayerShootSystem(Registry &registry) : registry(registry) {}
-    void onUpdate(float deltaTime) override;
+    void onUpdate(World &world, float deltaTime) override;
 
 private:
-    void shoot(float x, float y);
-    Registry &registry;
+    void shoot(Vector2D position);
 };

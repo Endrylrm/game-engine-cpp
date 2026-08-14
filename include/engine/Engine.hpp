@@ -6,6 +6,7 @@
 #include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/input/InputManager.hpp>
 #include <engine/core/window/WindowManager.hpp>
+#include <engine/ecs/world/World.hpp>
 #include <engine/scenes/SceneManager.hpp>
 #include <engine/time/Time.hpp>
 #include <engine/time/TimerManager.hpp>
@@ -42,7 +43,8 @@ private:
     std::unique_ptr<Renderer> currentRenderer{};
     std::unique_ptr<InputManager> currentInputManager{};
     AssetDatabase currentAssetDB{};
-    SceneManager currentSceneManager{};
+    SceneManager currentSceneManager{currentWorld};
+    World currentWorld{};
     TimerManager currentTimerManager{};
     Time currentTime{};
     EventBus eventBus{};

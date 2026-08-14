@@ -15,28 +15,27 @@
 #include <game/ecs/components/common/Weapon.hpp>
 #include <game/ecs/components/player/PlayerInput.hpp>
 
-void PlayerShootSystem::onUpdate(float deltaTime)
+void PlayerShootSystem::onUpdate(World &world, float deltaTime)
 {
-    for (auto [input, weapon, transform] : registry.view<PlayerInput, Weapon, Transform>())
+    for (auto [input, weapon, transform] : world.view<PlayerInput, Weapon, Transform>())
     {
         if (input.shoot && weapon.cooldownTimer <= 0.0f)
         {
-            shoot(transform.position.x, transform.position.y);
+            shoot(transform.position);
             LOG_DEBUG("Player shot.");
             weapon.cooldownTimer = weapon.cooldownTime;
         }
     }
 }
 
-void PlayerShootSystem::shoot(float x, float y)
+void PlayerShootSystem::shoot(Vector2D position)
 {
     AssetHandle<Texture> sprite = AssetsAPI::load<Texture>("assets/bullets/laserBlue01.png");
     Entity bullet = EntityAPI::createEntity();
     auto &bulletTransform = bullet.addComponent<Transform>();
-    bulletTransform.position.x = x + 45.0f;
-    bulletTransform.position.y = y - 55.0f;
+    bulletTransform.position = position + Vector2D{45.0f, -55.0f};
     auto &bulletVelocity = bullet.addComponent<Velocity>();
-    bulletVelocity.linear.y = -1.0f * 300.0f;
+    bulletVelocity.linear = Vector2D{0.0f, -300.0f};
     bullet.addComponent<SpriteRenderer>(sprite);
     bullet.addComponent<Renderable>();
     bullet.addComponent<OutOfBounds>();

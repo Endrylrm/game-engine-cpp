@@ -1,61 +1,19 @@
 #include "engine/scenes/Scene.hpp"
 
 #include <engine/core/log/Log.hpp>
+#include <engine/ecs/components/SceneTag.hpp>
 #include <engine/ecs/handle/Entity.hpp>
-
-void Scene::init()
-{
-    systemManager.init();
-    LOG_DEBUG("Scene '{}' Loaded and Initialized!", id.value);
-}
-
-void Scene::physics(float fixedDeltaTime)
-{
-    systemManager.physics(fixedDeltaTime);
-}
-
-void Scene::preUpdate()
-{
-    eventBus.processEvents();
-    systemManager.preUpdate();
-}
-
-void Scene::update(float deltaTime)
-{
-    systemManager.update(deltaTime);
-}
-
-void Scene::postUpdate()
-{
-    systemManager.postUpdate();
-}
-
-void Scene::render(Renderer &renderer)
-{
-    systemManager.render(renderer);
-}
-
-void Scene::processLifecycle()
-{
-    eventBus.removeDeletedEvents();
-    registry.processDestroyQueue();
-}
 
 void Scene::unload()
 {
-    systemManager.unload();
+    world.destroySceneEntities(id);
     LOG_DEBUG("Scene '{}' Unloaded!", id.value);
 }
 
 Entity Scene::createEntity()
 {
-    EntityId id = registry.createEntity();
-    Entity entity = {id, this};
-    LOG_DEBUG("Entity id: '{}', generation: {} created!", id.id, id.generation);
+    Entity entity = world.createEntity();
+    entity.addComponent<SceneTag>(id);
+    LOG_DEBUG("Entity handle created in Scene {}.", id.value);
     return entity;
-}
-
-void Scene::queueDestroyEntity(EntityId entity)
-{
-    registry.destroyEntity(entity);
 }

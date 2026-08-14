@@ -1,15 +1,11 @@
 #pragma once
 #include <engine/core/graphics/Renderer.hpp>
-#include <engine/ecs/registry/Registry.hpp>
+#include <engine/ecs/world/World.hpp>
 
 #include "System.hpp"
 
 class RenderSystem : public System
 {
 public:
-    explicit RenderSystem(Registry &registry) : registry(registry) {}
-    void onRender(Renderer &renderer) override;
-
-private:
-    Registry &registry;
+    void onRender(World &world, Renderer &renderer) override;
 };

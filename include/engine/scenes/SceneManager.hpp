@@ -51,6 +51,8 @@ public:
     bool isActiveScene(std::string_view name) const;
 
     Scene *getMainScene();
+    void setMainScene(SceneId id);
+    void setMainScene(std::string_view name);
 
     void processCommands();
 

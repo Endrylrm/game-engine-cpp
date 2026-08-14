@@ -138,6 +138,7 @@ void Engine::mainLoop()
         processCommands();
         processLifeCycle();
         render();
+
         endFrame();
 
         auto frameTime = std::chrono::steady_clock::now() - frameStart;

@@ -119,6 +119,16 @@ Scene *SceneManager::getMainScene()
     return mainScene;
 }
 
+void SceneManager::setMainScene(SceneId id)
+{
+    mainScene = getActiveScene(id);
+}
+
+void SceneManager::setMainScene(std::string_view name)
+{
+    mainScene = getActiveScene(name);
+}
+
 Scene *SceneManager::buildScene(SceneId id)
 {
     SceneBuilder builder = scenes.at(id);

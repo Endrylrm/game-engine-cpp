@@ -37,6 +37,11 @@ public:
         return getManager().isActiveScene(id);
     }
 
+    static void setMainScene(std::string_view id)
+    {
+        getManager().setMainScene(id);
+    }
+
     static Scene *getMainScene()
     {
         return getManager().getMainScene();

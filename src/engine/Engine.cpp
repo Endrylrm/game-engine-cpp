@@ -97,16 +97,16 @@ void Engine::render()
     currentRenderer->present();
 }
 
+void Engine::processCommands()
+{
+    currentSceneManager.processCommands();
+}
+
 void Engine::processLifeCycle()
 {
     currentWorld.processLifecycle();
     eventBus.removeDeletedEvents();
     game.processLifecycle();
-}
-
-void Engine::processCommands()
-{
-    currentSceneManager.processCommands();
 }
 
 void Engine::endFrame()
@@ -135,8 +135,8 @@ void Engine::mainLoop()
         preUpdate();
         update(currentTime.getDeltaTime());
         postUpdate();
-        processLifeCycle();
         processCommands();
+        processLifeCycle();
         render();
         endFrame();
 

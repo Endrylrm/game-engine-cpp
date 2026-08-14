@@ -34,8 +34,8 @@ private:
     void update(float deltaTime);
     void postUpdate();
     void render();
-    void processLifeCycle();
     void processCommands();
+    void processLifeCycle();
     void endFrame();
     void shutdown();
 

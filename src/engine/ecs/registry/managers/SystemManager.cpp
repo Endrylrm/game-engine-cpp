@@ -2,43 +2,43 @@
 
 #include "engine/ecs/world/World.hpp"
 
-void SystemManager::init(World &world)
+void SystemManager::init()
 {
     for (auto &entry : systems)
         entry.system->onInit(world);
 }
 
-void SystemManager::physics(World &world, float fixedDeltaTime)
+void SystemManager::physics(float fixedDeltaTime)
 {
     for (auto *system : physicsSystems)
         system->onPhysics(world, fixedDeltaTime);
 }
 
-void SystemManager::preUpdate(World &world)
+void SystemManager::preUpdate()
 {
     for (auto *system : preUpdateSystems)
         system->onPreUpdate(world);
 }
 
-void SystemManager::update(World &world, float deltaTime)
+void SystemManager::update(float deltaTime)
 {
     for (auto *system : updateSystems)
         system->onUpdate(world, deltaTime);
 }
 
-void SystemManager::postUpdate(World &world)
+void SystemManager::postUpdate()
 {
     for (auto *system : postUpdateSystems)
         system->onPostUpdate(world);
 }
 
-void SystemManager::render(World &world, Renderer &renderer)
+void SystemManager::render(Renderer &renderer)
 {
     for (auto *system : renderSystems)
         system->onRender(world, renderer);
 }
 
-void SystemManager::unload(World &world)
+void SystemManager::unload()
 {
     for (auto &entry : systems)
         entry.system->onUnload(world);

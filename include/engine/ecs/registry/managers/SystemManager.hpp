@@ -14,6 +14,8 @@ class World;
 class SystemManager
 {
 public:
+    explicit SystemManager(World &world) : world(world) {}
+
     template <std::derived_from<System> T, typename... Args>
     T &addSystem(Flags<SystemStage> stages, Args &&...args)
     {
@@ -61,17 +63,19 @@ public:
         return static_cast<T *>(systems[id].system.get());
     }
 
-    void init(World &world);
-    void physics(World &world, float fixedDeltaTime);
-    void preUpdate(World &world);
-    void update(World &world, float deltaTime);
-    void postUpdate(World &world);
-    void render(World &world, Renderer &renderer);
-    void unload(World &world);
+    void init();
+    void physics(float fixedDeltaTime);
+    void preUpdate();
+    void update(float deltaTime);
+    void postUpdate();
+    void render(Renderer &renderer);
+    void unload();
 
 private:
     void registerSystem(System &system, Flags<SystemStage> stages);
     void unregisterSystem(System *system, Flags<SystemStage> stages);
+
+    World &world;
 
     std::vector<SystemEntry> systems{};
     std::vector<System *> physicsSystems{};

@@ -101,5 +101,5 @@ public:
 private:
     EventBus eventBus{};
     Registry registry{};
-    SystemManager systemManager{};
+    SystemManager systemManager{*this};
 };

@@ -16,7 +16,7 @@ World::World()
 
 void World::init()
 {
-    systemManager.init(*this);
+    systemManager.init();
 }
 
 void World::events()
@@ -26,27 +26,27 @@ void World::events()
 
 void World::physics(float fixedDeltaTime)
 {
-    systemManager.physics(*this, fixedDeltaTime);
+    systemManager.physics(fixedDeltaTime);
 }
 
 void World::preUpdate()
 {
-    systemManager.preUpdate(*this);
+    systemManager.preUpdate();
 }
 
 void World::update(float deltaTime)
 {
-    systemManager.update(*this, deltaTime);
+    systemManager.update(deltaTime);
 }
 
 void World::postUpdate()
 {
-    systemManager.postUpdate(*this);
+    systemManager.postUpdate();
 }
 
 void World::render(Renderer &renderer)
 {
-    systemManager.render(*this, renderer);
+    systemManager.render(renderer);
 }
 
 void World::processLifecycle()
@@ -57,7 +57,7 @@ void World::processLifecycle()
 
 void World::unload()
 {
-    systemManager.unload(*this);
+    systemManager.unload();
 }
 
 Entity World::createEntity()

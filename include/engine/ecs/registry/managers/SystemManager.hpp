@@ -4,6 +4,8 @@
 
 #include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/helpers/Flags.hpp>
+#include <engine/core/log/Log.hpp>
+#include <engine/core/log/TypeName.hpp>
 #include <engine/ecs/registry/systems/SystemEntry.hpp>
 #include <engine/ecs/registry/systems/SystemRegistry.hpp>
 #include <engine/ecs/registry/systems/SystemStage.hpp>
@@ -32,6 +34,7 @@ public:
             removeSystem<T>();
 
         registerSystem(*system, stages);
+        LOG_DEBUG("System added: {}", getTypeName<T>());
 
         systems[id] = {std::move(system), stages};
 
@@ -48,6 +51,7 @@ public:
 
         auto &entry = systems[id];
         unregisterSystem(entry.system.get(), entry.stages);
+        LOG_DEBUG("System removed: {}", getTypeName<T>());
         entry.system.reset();
         entry.stages.assign(SystemStage::None);
     }
@@ -60,6 +64,7 @@ public:
         if (id >= systems.size())
             return nullptr;
 
+        LOG_DEBUG("got System: {}", getTypeName<T>());
         return static_cast<T *>(systems[id].system.get());
     }
 

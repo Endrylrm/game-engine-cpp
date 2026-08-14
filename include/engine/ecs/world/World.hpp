@@ -17,8 +17,6 @@ class Entity;
 class World
 {
 public:
-    World();
-
     void init();
     void events();
     void physics(float fixedDeltaTime);

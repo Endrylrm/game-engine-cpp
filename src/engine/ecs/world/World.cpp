@@ -7,15 +7,11 @@
 #include <engine/ecs/systems/MovementSystem.hpp>
 #include <engine/ecs/systems/RenderSystem.hpp>
 
-World::World()
+void World::init()
 {
     systemManager.addSystem<LifetimeSystem>(SystemStage::Update);
     systemManager.addSystem<MovementSystem>(SystemStage::Update);
     systemManager.addSystem<RenderSystem>(SystemStage::Render);
-}
-
-void World::init()
-{
     systemManager.init();
 }
 

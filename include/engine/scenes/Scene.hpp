@@ -1,6 +1,4 @@
 #pragma once
-#include <functional>
-
 #include <engine/ecs/world/World.hpp>
 
 #include "SceneId.hpp"
@@ -10,7 +8,7 @@ class Entity;
 class Scene
 {
 public:
-    using SceneCallback = std::function<void(Scene &)>;
+    using SceneCallback = void (*)(Scene &);
 
     Scene(SceneId id, World &world) : id(id), world(world) {}
     ~Scene() = default;
@@ -31,6 +29,6 @@ private:
     World &world;
     SceneId id;
 
-    SceneCallback onLoad;
-    SceneCallback onUnload;
+    SceneCallback onLoad = nullptr;
+    SceneCallback onUnload = nullptr;
 };

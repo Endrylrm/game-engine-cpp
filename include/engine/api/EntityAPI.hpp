@@ -12,12 +12,6 @@ class EntityAPI : public ManagerAPI<SceneManager>
 public:
     static Entity createEntity()
     {
-        return getMainScene()->createEntity();
-    }
-
-private:
-    static Scene *getMainScene()
-    {
-        return getManager().getMainScene();
+        return getManager().getMainScene()->createEntity();
     }
 };

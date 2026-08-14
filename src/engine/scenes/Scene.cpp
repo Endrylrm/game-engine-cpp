@@ -4,10 +4,41 @@
 #include <engine/ecs/components/SceneTag.hpp>
 #include <engine/ecs/handle/Entity.hpp>
 
+void Scene::load()
+{
+    if (onLoad)
+        onLoad(*this);
+
+    LOG_DEBUG("Scene '{}' Loaded!", id.value);
+}
+
 void Scene::unload()
 {
+    if (onUnload)
+        onUnload(*this);
+
     world.destroySceneEntities(id);
     LOG_DEBUG("Scene '{}' Unloaded!", id.value);
+}
+
+SceneId Scene::getId() const
+{
+    return id;
+}
+
+void Scene::setOnLoad(SceneCallback callback)
+{
+    onLoad = std::move(callback);
+}
+
+void Scene::setOnUnload(SceneCallback callback)
+{
+    onUnload = std::move(callback);
+}
+
+World &Scene::getWorld()
+{
+    return world;
 }
 
 Entity Scene::createEntity()

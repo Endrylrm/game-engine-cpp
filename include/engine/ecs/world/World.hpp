@@ -90,13 +90,16 @@ public:
     }
 
     template <typename T>
+    void removeSystem()
+    {
+        systemManager.removeSystem<T>();
+    }
+
+    template <typename T>
     T *getSystem()
     {
         return systemManager.getSystem<T>();
     }
-
-    Registry &getRegistry();
-    EventBus &getEventBus();
 
 private:
     EventBus eventBus{};

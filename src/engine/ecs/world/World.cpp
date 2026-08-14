@@ -86,13 +86,3 @@ void World::removeAllComponents(EntityId entity)
 {
     registry.removeAllComponents(entity);
 }
-
-Registry &World::getRegistry()
-{
-    return registry;
-}
-
-EventBus &World::getEventBus()
-{
-    return eventBus;
-}

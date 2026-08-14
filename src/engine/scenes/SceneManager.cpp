@@ -163,12 +163,14 @@ void SceneManager::processCommands()
             }
 
             mainScene = buildScene(command.id);
+            mainScene->load();
             LOG_INFO("Loaded Scene '{}'.", command.id.value);
             break;
         }
         case SceneCommandType::LoadAdditive:
         {
-            buildScene(command.id);
+            auto *scene = buildScene(command.id);
+            scene->load();
             LOG_INFO("Loaded Scene '{}' (Additive).", command.id.value);
             break;
         }

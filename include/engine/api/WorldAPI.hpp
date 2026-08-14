@@ -81,6 +81,12 @@ public:
     }
 
     template <typename T>
+    static void removeSystem()
+    {
+        getManager().removeSystem<T>();
+    }
+
+    template <typename T>
     static T *getSystem()
     {
         return getManager().getSystem<T>();

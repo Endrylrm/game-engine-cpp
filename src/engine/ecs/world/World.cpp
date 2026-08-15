@@ -1,7 +1,7 @@
 #include "engine/ecs/world/World.hpp"
 
 #include <engine/core/log/Log.hpp>
-#include <engine/ecs/components/SceneTag.hpp>
+#include <engine/ecs/components/Scoped.hpp>
 #include <engine/ecs/handle/Entity.hpp>
 #include <engine/ecs/systems/LifetimeSystem.hpp>
 #include <engine/ecs/systems/MovementSystem.hpp>
@@ -69,11 +69,11 @@ void World::destroyEntity(EntityId entity)
     registry.destroyEntity(entity);
 }
 
-void World::destroySceneEntities(SceneId id)
+void World::destroyScopedEntities(ScopeId scope)
 {
-    for (auto [entity, tag] : view<SceneTag>().withEntities())
+    for (auto [entity, scoped] : view<Scoped>().withEntities())
     {
-        if (tag.owner == id)
+        if (scoped.id == scope)
             registry.destroyEntity(entity);
     }
 }
@@ -81,4 +81,9 @@ void World::destroySceneEntities(SceneId id)
 void World::removeAllComponents(EntityId entity)
 {
     registry.removeAllComponents(entity);
+}
+
+bool World::isValidEntity(EntityId entity) const
+{
+    return registry.isValidEntity(entity);
 }

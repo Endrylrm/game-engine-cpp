@@ -1,7 +1,7 @@
 #include "engine/scenes/Scene.hpp"
 
 #include <engine/core/log/Log.hpp>
-#include <engine/ecs/components/SceneTag.hpp>
+#include <engine/ecs/components/Scoped.hpp>
 #include <engine/ecs/handle/Entity.hpp>
 
 void Scene::load()
@@ -17,7 +17,7 @@ void Scene::unload()
     if (onUnload)
         onUnload(*this);
 
-    world.destroySceneEntities(id);
+    world.destroyScopedEntities(id.value);
     LOG_DEBUG("Scene '{}' Unloaded!", id.value);
 }
 
@@ -44,7 +44,7 @@ World &Scene::getWorld()
 Entity Scene::createEntity()
 {
     Entity entity = world.createEntity();
-    entity.addComponent<SceneTag>(id);
+    entity.addComponent<Scoped>(id.value);
     LOG_DEBUG("Entity handle created in Scene {}.", id.value);
     return entity;
 }

@@ -2,5 +2,5 @@
 
 struct Damage
 {
-    int damage{};
+    int amount{};
 };

@@ -1,45 +1,46 @@
 #pragma once
 #include <engine/api/ManagerAPI.hpp>
 #include <engine/scenes/Scene.hpp>
+#include <engine/scenes/SceneId.hpp>
 #include <engine/scenes/SceneManager.hpp>
 
 class ScenesAPI : public ManagerAPI<SceneManager>
 {
 public:
     template <typename Callback>
-    static void registerScene(std::string_view id, Callback &&callback)
+    static SceneId registerScene(std::string_view name, Callback &&callback)
     {
-        getManager().registerScene(id, std::forward<Callback>(callback));
+        return getManager().registerScene(name, std::forward<Callback>(callback));
     }
 
-    static void loadScene(std::string_view id)
+    static void loadScene(std::string_view name)
     {
-        getManager().loadScene(id);
+        getManager().loadScene(name);
     }
 
-    static void loadSceneAdditive(std::string_view id)
+    static void loadSceneAdditive(std::string_view name)
     {
-        getManager().loadSceneAdditive(id);
+        getManager().loadSceneAdditive(name);
     }
 
-    static void unloadScene(std::string_view id)
+    static void unloadScene(std::string_view name)
     {
-        getManager().unloadScene(id);
+        getManager().unloadScene(name);
     }
 
-    static Scene *getActiveScene(std::string_view id)
+    static Scene *getActiveScene(std::string_view name)
     {
-        return getManager().getActiveScene(id);
+        return getManager().getActiveScene(name);
     }
 
-    static bool isActiveScene(std::string_view id)
+    static bool isActiveScene(std::string_view name)
     {
-        return getManager().isActiveScene(id);
+        return getManager().isActiveScene(name);
     }
 
-    static bool setMainScene(std::string_view id)
+    static bool setMainScene(std::string_view name)
     {
-        return getManager().setMainScene(id);
+        return getManager().setMainScene(name);
     }
 
     static Scene *getMainScene()

@@ -16,10 +16,13 @@ public:
 
     void destroyEntity(EntityId entity)
     {
+        if (!entityManager.valid(entity))
+            return;
+
         destroyQueue.push_back(entity);
     }
 
-    bool validEntity(EntityId entity) const
+    bool isValidEntity(EntityId entity) const
     {
         return entityManager.valid(entity);
     }

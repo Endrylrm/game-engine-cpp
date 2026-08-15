@@ -50,6 +50,17 @@ public:
         world->destroyEntity(id);
     }
 
+    bool isValid() const
+    {
+        return world != nullptr && world->isValidEntity(id);
+    }
+
+    EntityId getId()
+    {
+        return id;
+    }
+
+private:
     World *world;
     EntityId id{};
 };

@@ -1,10 +1,12 @@
 #pragma once
 #include <stdexcept>
 #include <string>
-#include <typeindex>
+
+#include <engine/core/log/TypeName.hpp>
 
 #include "AssetHandle.hpp"
 #include "AssetManager.hpp"
+#include "AssetManagerRegistry.hpp"
 
 class AssetDatabase
 {
@@ -12,7 +14,8 @@ public:
     template <typename T>
     void registerManager(typename AssetManager<T>::Loader loader)
     {
-        managers[typeid(T)] = std::make_unique<AssetManager<T>>(std::move(loader));
+        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+        managers[id] = std::make_unique<AssetManager<T>>(std::move(loader));
     }
 
     template <typename T>
@@ -30,13 +33,19 @@ public:
     template <typename T>
     AssetManager<T> &getManager()
     {
-        auto iter = managers.find(typeid(T));
+        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+
+        auto iter = managers.find(id);
         if (iter == managers.end())
-            throw std::runtime_error("AssetManager<T> not found: " + std::string(typeid(T).name()));
+        {
+            throw std::runtime_error(
+                std::string("AssetManager<T> not found: ").append(getTypeName<T>())
+            );
+        }
 
         return static_cast<AssetManager<T> &>(*iter->second);
     }
 
 private:
-    std::unordered_map<std::type_index, std::unique_ptr<BaseAssetManager>> managers{};
+    std::unordered_map<AssetManagerId, std::unique_ptr<BaseAssetManager>> managers{};
 };

@@ -4,6 +4,7 @@
 #include <engine/core/log/Log.hpp>
 #include <engine/ecs/components/Transform.hpp>
 
+#include <game/ecs/components/common/Dead.hpp>
 #include <game/ecs/components/common/OutOfBounds.hpp>
 
 void OutOfBoundsSystem::onUpdate(World &world, float deltaTime)
@@ -13,10 +14,7 @@ void OutOfBoundsSystem::onUpdate(World &world, float deltaTime)
     {
         if (isOutOfBounds(transform.position, outOfBounds.margin))
         {
-            world.destroyEntity(entity);
-            LOG_DEBUG(
-                "Queued destruction for Entity ID: {}, generation: {}", entity.id, entity.generation
-            );
+            world.addComponent<Dead>(entity);
         }
     }
 }

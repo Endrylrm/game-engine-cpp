@@ -17,6 +17,8 @@
 #include <game/ecs/components/common/ScreenClamp.hpp>
 #include <game/ecs/components/common/Weapon.hpp>
 #include <game/ecs/components/player/PlayerInput.hpp>
+#include <game/ecs/systems/common/DamageSystem.hpp>
+#include <game/ecs/systems/common/DeathSystem.hpp>
 #include <game/ecs/systems/common/OutOfBoundsSystem.hpp>
 #include <game/ecs/systems/common/ScreenClampSystem.hpp>
 #include <game/ecs/systems/common/WeaponCooldownSystem.hpp>
@@ -45,6 +47,8 @@ void SceneFactory::createGameplayScene(Scene &scene)
             scene.getWorld().addSystem<WeaponCooldownSystem>(SystemStage::Update);
             scene.getWorld().addSystem<PlayerShootSystem>(SystemStage::Update);
             scene.getWorld().addSystem<OutOfBoundsSystem>(SystemStage::Update);
+            scene.getWorld().addSystem<DamageSystem>(SystemStage::Update);
+            scene.getWorld().addSystem<DeathSystem>(SystemStage::Update);
             scene.getWorld().addSystem<ScreenClampSystem>(SystemStage::PostUpdate);
 
             LOG_DEBUG("creating Gameplay Scene...");
@@ -52,7 +56,7 @@ void SceneFactory::createGameplayScene(Scene &scene)
                 AssetsAPI::load<Texture>("assets/player/playerShip1_blue.png");
             Entity player =
                 EntityBuilder(scene)
-                    .addComponent<Transform>()
+                    .addComponent<Transform>(375.0f, 450.0f)
                     .addComponent<Velocity>()
                     .addComponent<SpriteRenderer>(sprite)
                     .addComponent<Renderable>()

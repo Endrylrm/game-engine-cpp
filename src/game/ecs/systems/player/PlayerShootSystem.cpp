@@ -35,7 +35,7 @@ void PlayerShootSystem::shoot(Vector2D position)
     auto &bulletTransform = bullet.addComponent<Transform>();
     bulletTransform.position = position + Vector2D{45.0f, -55.0f};
     auto &bulletVelocity = bullet.addComponent<Velocity>();
-    bulletVelocity.linear = Vector2D{0.0f, -300.0f};
+    bulletVelocity.linear = Vector2D{0.0f, -400.0f};
     bullet.addComponent<SpriteRenderer>(sprite);
     bullet.addComponent<Renderable>();
     bullet.addComponent<OutOfBounds>();

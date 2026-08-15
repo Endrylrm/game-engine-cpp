@@ -70,6 +70,7 @@ Scene *SceneManager::getActiveScene(SceneId id) const
 
     if (it == activeScenes.end())
     {
+        LOG_ERROR("Scene '{}' is not active.", id);
         return nullptr;
     }
 
@@ -82,7 +83,7 @@ Scene *SceneManager::getActiveScene(std::string_view name) const
 
     if (!id)
     {
-        LOG_ERROR("Scene '{}' is not active.", name);
+        LOG_ERROR("Scene '{}' is not registered.", name);
         return nullptr;
     }
 
@@ -95,6 +96,7 @@ bool SceneManager::isActiveScene(SceneId id) const
 
     if (it == activeScenes.end())
     {
+        LOG_ERROR("Scene '{}' is not active.", id);
         return false;
     }
 
@@ -107,7 +109,7 @@ bool SceneManager::isActiveScene(std::string_view name) const
 
     if (!id)
     {
-        LOG_ERROR("Scene '{}' is not active.", name);
+        LOG_ERROR("Scene '{}' is not registered.", name);
         return false;
     }
 
@@ -119,14 +121,30 @@ Scene *SceneManager::getMainScene()
     return mainScene;
 }
 
-void SceneManager::setMainScene(SceneId id)
+bool SceneManager::setMainScene(SceneId id)
 {
-    mainScene = getActiveScene(id);
+    Scene *scene = getActiveScene(id);
+
+    if (!scene)
+    {
+        return false;
+    }
+
+    mainScene = scene;
+    return true;
 }
 
-void SceneManager::setMainScene(std::string_view name)
+bool SceneManager::setMainScene(std::string_view name)
 {
-    mainScene = getActiveScene(name);
+    Scene *scene = getActiveScene(name);
+
+    if (!scene)
+    {
+        return false;
+    }
+
+    mainScene = scene;
+    return true;
 }
 
 Scene *SceneManager::buildScene(SceneId id)

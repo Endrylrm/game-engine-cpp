@@ -6,15 +6,15 @@
 #include <game/ecs/components/common/Dead.hpp>
 #include <game/ecs/components/common/Health.hpp>
 
-void DamageSystem::onUpdate(World &world, float deltaTime)
+void DamageSystem::onPostUpdate(World &world)
 {
     for (auto [entity, health, damage] : world.view<Health, Damage>().withEntities())
     {
-        health.currentHp -= damage.amount;
+        health.current -= damage.amount;
         LOG_DEBUG("Damaged Entity by {} damage", damage.amount);
-        LOG_DEBUG("Current Health is {}", health.currentHp);
+        LOG_DEBUG("Current Health is {}", health.current);
 
-        if (health.currentHp <= 0 && world.isValidEntity(entity))
+        if (health.current <= 0 && world.isValidEntity(entity))
         {
             world.addComponent<Dead>(entity);
         }

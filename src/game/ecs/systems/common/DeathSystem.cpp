@@ -4,7 +4,7 @@
 
 #include <game/ecs/components/common/Dead.hpp>
 
-void DeathSystem::onUpdate(World &world, float deltaTime)
+void DeathSystem::onPostUpdate(World &world)
 {
     for (auto [entity, d] : world.view<Dead>().withEntities())
     {

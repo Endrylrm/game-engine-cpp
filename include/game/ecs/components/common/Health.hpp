@@ -3,9 +3,9 @@
 struct Health
 {
     Health() = default;
-    Health(int hp) : currentHp(hp), maxHp(hp) {}
-    Health(int currentHp, int maxHp) : currentHp(currentHp), maxHp(maxHp) {}
+    Health(int hp) : current(hp), max(hp) {}
+    Health(int currentHp, int maxHp) : current(currentHp), max(maxHp) {}
 
-    int currentHp{};
-    int maxHp{};
+    int current{};
+    int max{};
 };

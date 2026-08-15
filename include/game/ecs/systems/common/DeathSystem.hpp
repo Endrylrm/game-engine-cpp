@@ -5,5 +5,5 @@
 class DeathSystem : public System
 {
 public:
-    void onUpdate(World &world, float deltaTime) override;
+    void onPostUpdate(World &world) override;
 };

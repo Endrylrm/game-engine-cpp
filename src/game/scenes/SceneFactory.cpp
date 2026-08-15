@@ -47,9 +47,9 @@ void SceneFactory::createGameplayScene(Scene &scene)
             scene.getWorld().addSystem<WeaponCooldownSystem>(SystemStage::Update);
             scene.getWorld().addSystem<PlayerShootSystem>(SystemStage::Update);
             scene.getWorld().addSystem<OutOfBoundsSystem>(SystemStage::Update);
-            scene.getWorld().addSystem<DamageSystem>(SystemStage::Update);
-            scene.getWorld().addSystem<DeathSystem>(SystemStage::Update);
             scene.getWorld().addSystem<ScreenClampSystem>(SystemStage::PostUpdate);
+            scene.getWorld().addSystem<DamageSystem>(SystemStage::PostUpdate);
+            scene.getWorld().addSystem<DeathSystem>(SystemStage::PostUpdate);
 
             LOG_DEBUG("creating Gameplay Scene...");
             AssetHandle<Texture> sprite =

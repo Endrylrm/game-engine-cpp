@@ -70,7 +70,7 @@ Scene *SceneManager::getActiveScene(SceneId id) const
 
     if (it == activeScenes.end())
     {
-        LOG_ERROR("Scene '{}' is not active.", id);
+        LOG_ERROR("Scene '{}' is not active.", id.value);
         return nullptr;
     }
 
@@ -96,7 +96,7 @@ bool SceneManager::isActiveScene(SceneId id) const
 
     if (it == activeScenes.end())
     {
-        LOG_ERROR("Scene '{}' is not active.", id);
+        LOG_ERROR("Scene '{}' is not active.", id.value);
         return false;
     }
 

@@ -80,6 +80,8 @@ void SceneFactory::createGameplayScene(Scene &scene)
             scene.getWorld().removeSystem<PlayerShootSystem>();
             scene.getWorld().removeSystem<OutOfBoundsSystem>();
             scene.getWorld().removeSystem<ScreenClampSystem>();
+            scene.getWorld().removeSystem<DamageSystem>();
+            scene.getWorld().removeSystem<DeathSystem>();
         }
     );
 }

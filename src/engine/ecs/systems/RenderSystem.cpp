@@ -8,7 +8,7 @@
 
 void RenderSystem::onRender(World &world, Renderer &renderer)
 {
-    for (auto [sprite, transform, r] : world.view<SpriteRenderer, Transform, Renderable>())
+    for (auto [sprite, transform, _] : world.view<SpriteRenderer, Transform, Renderable>())
     {
         auto *texture = AssetsAPI::get<Texture>(sprite.textureId);
         auto position = transform.position;

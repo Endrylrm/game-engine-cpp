@@ -6,7 +6,7 @@
 
 void DeathSystem::onPostUpdate(World &world)
 {
-    for (auto [entity, d] : world.view<Dead>().withEntities())
+    for (auto [entity, _] : world.view<Dead>().withEntities())
     {
         world.destroyEntity(entity);
         LOG_DEBUG(

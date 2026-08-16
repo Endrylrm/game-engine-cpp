@@ -1,5 +1,7 @@
 #include "engine/ecs/registry/managers/EntityManager.hpp"
 
+#include <engine/core/log/Log.hpp>
+
 EntityId EntityManager::create()
 {
     uint32_t index;
@@ -18,6 +20,7 @@ EntityId EntityManager::create()
         slots.push_back({0, true});
     }
 
+    LOG_DEBUG("Entity id: '{}', generation: {} created.", index, slots[index].generation);
     return {index, slots[index].generation};
 }
 
@@ -31,6 +34,7 @@ void EntityManager::destroy(EntityId entity)
     slot.generation++;
 
     freeIds.push_back(entity.id);
+    LOG_DEBUG("Entity destroyed: {}, {}.", entity.id, entity.generation);
 }
 
 bool EntityManager::valid(EntityId entity) const

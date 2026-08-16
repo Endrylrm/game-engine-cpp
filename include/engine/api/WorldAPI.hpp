@@ -16,6 +16,11 @@ public:
         return getManager().createEntity();
     }
 
+    static Entity getEntity(EntityId id)
+    {
+        return getManager().getEntity(id);
+    }
+
     static void destroyEntity(EntityId entity)
     {
         getManager().destroyEntity(entity);

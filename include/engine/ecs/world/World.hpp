@@ -28,6 +28,7 @@ public:
     void unload();
 
     Entity createEntity();
+    Entity getEntity(EntityId id);
     void destroyEntity(EntityId entity);
     void destroyScopedEntities(ScopeId scope);
     bool isValidEntity(EntityId entity) const;

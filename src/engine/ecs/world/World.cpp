@@ -59,9 +59,16 @@ void World::unload()
 Entity World::createEntity()
 {
     EntityId id = registry.createEntity();
-    Entity entity = {id, this};
     LOG_DEBUG("Entity id: '{}', generation: {} created!", id.id, id.generation);
+    Entity entity = {id, this};
+    LOG_DEBUG("Entity Handle created from entity: '{}', generation: {}.", id.id, id.generation);
     return entity;
+}
+
+Entity World::getEntity(EntityId id)
+{
+    LOG_DEBUG("Entity Handle created from entity: '{}', generation: {}.", id.id, id.generation);
+    return Entity{id, this};
 }
 
 void World::destroyEntity(EntityId entity)

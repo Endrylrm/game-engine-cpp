@@ -34,15 +34,19 @@ std::unique_ptr<Texture> SDLRenderer::loadTexture(const std::string &path)
 
 void SDLRenderer::drawTexture(Texture *texture, float x, float y)
 {
-    SDL_FRect dest{x, y, texture->getWidth(), texture->getHeight()};
-    SDL_Texture *nativeHandle = static_cast<SDL_Texture *>(texture->getNativeHandle());
+    auto *sdlTexture = static_cast<SDLTexture *>(texture);
+    float texWidth = static_cast<float>(sdlTexture->getWidth());
+    float texHeight = static_cast<float>(sdlTexture->getHeight());
+    SDL_FRect dest{x, y, texWidth, texHeight};
+    SDL_Texture *nativeHandle = sdlTexture->getNativeHandle();
     SDL_RenderTexture(renderer, nativeHandle, nullptr, &dest);
 }
 
 void SDLRenderer::drawTexture(Texture *texture, float x, float y, float w, float h)
 {
+    auto *sdlTexture = static_cast<SDLTexture *>(texture);
     SDL_FRect dest{x, y, w, h};
-    SDL_Texture *nativeHandle = static_cast<SDL_Texture *>(texture->getNativeHandle());
+    SDL_Texture *nativeHandle = sdlTexture->getNativeHandle();
     SDL_RenderTexture(renderer, nativeHandle, nullptr, &dest);
 }
 

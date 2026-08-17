@@ -12,16 +12,15 @@ public:
     SDLTexture(SDL_Renderer *renderer, const std::string &path);
     ~SDLTexture() override;
 
-    void *getNativeHandle() const override;
-    void bind(uint32_t slot = 0) const override;
+    SDL_Texture *getNativeHandle() const;
 
-    float getWidth() const override;
-    float getHeight() const override;
+    int getWidth() const override;
+    int getHeight() const override;
 
     bool isValid() const override;
 
 private:
     SDL_Texture *texture{};
-    float width;
-    float height;
+    int width;
+    int height;
 };

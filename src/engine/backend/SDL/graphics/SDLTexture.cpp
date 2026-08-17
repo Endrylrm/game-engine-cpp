@@ -16,8 +16,8 @@ SDLTexture::SDLTexture(SDL_Renderer *renderer, const std::string &path)
         throw std::runtime_error(SDL_GetError());
     }
 
-    width = static_cast<float>(surface->w);
-    height = static_cast<float>(surface->h);
+    width = surface->w;
+    height = surface->h;
 
     texture = SDL_CreateTextureFromSurface(renderer, surface);
 
@@ -32,24 +32,22 @@ SDLTexture::SDLTexture(SDL_Renderer *renderer, const std::string &path)
     LOG_DEBUG("SDL Texture Created.");
 }
 
-void SDLTexture::bind(uint32_t slot /* = 0 */) const {}
-
 bool SDLTexture::isValid() const
 {
     return texture != nullptr;
 }
 
-void *SDLTexture::getNativeHandle() const
+SDL_Texture *SDLTexture::getNativeHandle() const
 {
     return texture;
 }
 
-float SDLTexture::getWidth() const
+int SDLTexture::getWidth() const
 {
     return width;
 }
 
-float SDLTexture::getHeight() const
+int SDLTexture::getHeight() const
 {
     return height;
 }

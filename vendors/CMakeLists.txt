@@ -5,10 +5,11 @@ include(FetchContent)
 # =========================
 FetchContent_Declare(sdl3
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG release-3.4.10
+    GIT_TAG release-3.4.14
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
-    SYSTEM)
+    SYSTEM
+)
 FetchContent_MakeAvailable(sdl3)
 
 # =========================
@@ -19,7 +20,8 @@ FetchContent_Declare(sdl3_image
     GIT_TAG release-3.4.4
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
-    SYSTEM)
+    SYSTEM
+)
 FetchContent_MakeAvailable(sdl3_image)
 
 # =========================
@@ -30,7 +32,8 @@ FetchContent_Declare(sdl3_mixer
     GIT_TAG release-3.2.4
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
-    SYSTEM)
+    SYSTEM
+)
 FetchContent_MakeAvailable(sdl3_mixer)
 
 # =========================
@@ -42,7 +45,8 @@ FetchContent_Declare(sdl3_ttf
     GIT_TAG release-3.2.2
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
-    SYSTEM)
+    SYSTEM
+)
 FetchContent_MakeAvailable(sdl3_ttf)
 
 # =========================

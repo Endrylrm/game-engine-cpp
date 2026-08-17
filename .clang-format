@@ -19,9 +19,9 @@ SortIncludes:
   Enabled: true
   IgnoreCase: false
 IncludeCategories:
-  - Regex:           '^"engine/.*\.(h|hpp)"$'       # Engine Source header file
+  - Regex:           '^"engine/.*"$'                # Project-specific headers
     Priority:        1
-  - Regex:           '^"game/.*\.(h|hpp)"$'         # Game Source header file
+  - Regex:           '^"game/.*"$'                  # Game-specific headers
     Priority:        2
   - Regex:           '^<([a-z0-9_]+)>$'             # Standard C/C++ library headers
     Priority:        3
@@ -29,11 +29,7 @@ IncludeCategories:
     Priority:        4
   - Regex:           '^<engine/.*>$'                # Project-specific system headers
     Priority:        5
-  - Regex:           '^"engine/.*"$'                # Project-specific headers
-    Priority:        6
   - Regex:           '^<game/.*>$'                  # Game-specific System headers
-    Priority:        7
-  - Regex:           '^"game/.*"$'                  # Game-specific headers
-    Priority:        8
+    Priority:        6
   - Regex:           '^".*"'                        # local headers
-    Priority:        9
+    Priority:        7

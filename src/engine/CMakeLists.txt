@@ -25,6 +25,8 @@ set(LIBS
     SDL3_mixer::SDL3_mixer
     SDL3_ttf::SDL3_ttf
     glm::glm # math
+    nlohmann_json::nlohmann_json
+    glad::glad
 )
 
 add_library(Engine STATIC ${ENGINE_SOURCES})

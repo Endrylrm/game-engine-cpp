@@ -49,8 +49,8 @@ public:
     bool isActiveScene(std::string_view name) const;
 
     Scene *getMainScene();
-    bool setMainScene(SceneId id);
-    bool setMainScene(std::string_view name);
+    bool setActiveSceneAsMain(SceneId id);
+    bool setActiveSceneAsMain(std::string_view name);
 
     Scene *getPersistentScene();
 

@@ -54,9 +54,9 @@ public:
         return getManager().isActiveScene(name);
     }
 
-    static bool setMainScene(std::string_view name)
+    static bool setActiveSceneAsMain(std::string_view name)
     {
-        return getManager().setMainScene(name);
+        return getManager().setActiveSceneAsMain(name);
     }
 
     static Scene *getMainScene()

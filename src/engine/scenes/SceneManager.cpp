@@ -130,7 +130,7 @@ Scene *SceneManager::getMainScene()
     return mainScene;
 }
 
-bool SceneManager::setMainScene(SceneId id)
+bool SceneManager::setActiveSceneAsMain(SceneId id)
 {
     Scene *scene = getActiveScene(id);
 
@@ -143,7 +143,7 @@ bool SceneManager::setMainScene(SceneId id)
     return true;
 }
 
-bool SceneManager::setMainScene(std::string_view name)
+bool SceneManager::setActiveSceneAsMain(std::string_view name)
 {
     Scene *scene = getActiveScene(name);
 

@@ -6,4 +6,5 @@ class SceneFactory
 public:
     static void createMenuScene(Scene &scene);
     static void createGameplayScene(Scene &scene);
+    static void createPlayerScene(Scene &scene);
 };

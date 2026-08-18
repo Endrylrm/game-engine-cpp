@@ -1,9 +1,11 @@
 #pragma once
+#include <vector>
+
+#include <engine/ecs/handle/Entity.hpp>
+#include <engine/ecs/registry/entities/EntityId.hpp>
 #include <engine/ecs/world/World.hpp>
 
 #include "SceneId.hpp"
-
-class Entity;
 
 class Scene
 {
@@ -17,6 +19,7 @@ public:
     void unload();
 
     Entity createEntity();
+    std::vector<EntityId> getEntities();
 
     SceneId getId() const;
 
@@ -28,6 +31,8 @@ public:
 private:
     World &world;
     SceneId id;
+
+    std::vector<EntityId> entities{};
 
     SceneCallback onLoad = nullptr;
     SceneCallback onUnload = nullptr;

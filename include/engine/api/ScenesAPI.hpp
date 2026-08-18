@@ -2,6 +2,7 @@
 #include <engine/api/ManagerAPI.hpp>
 #include <engine/scenes/Scene.hpp>
 #include <engine/scenes/SceneId.hpp>
+#include <engine/scenes/SceneLoadMode.hpp>
 #include <engine/scenes/SceneManager.hpp>
 
 class ScenesAPI : public ManagerAPI<SceneManager>
@@ -15,17 +16,32 @@ public:
 
     static void loadScene(std::string_view name)
     {
-        getManager().loadScene(name);
+        getManager().loadScene(name, SceneLoadMode::Main);
     }
 
     static void loadSceneAdditive(std::string_view name)
     {
-        getManager().loadSceneAdditive(name);
+        getManager().loadScene(name, SceneLoadMode::Additive);
+    }
+
+    static void loadScenePersistent(std::string_view name)
+    {
+        getManager().loadScene(name, SceneLoadMode::Persistent);
     }
 
     static void unloadScene(std::string_view name)
     {
         getManager().unloadScene(name);
+    }
+
+    static void unloadNonPersistentScenes()
+    {
+        getManager().unloadNonPersistentScenes();
+    }
+
+    static void unloadAllScenes()
+    {
+        getManager().unloadAllScenes();
     }
 
     static Scene *getActiveScene(std::string_view name)

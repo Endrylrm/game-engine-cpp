@@ -1,8 +1,6 @@
 #include "engine/scenes/Scene.hpp"
 
 #include <engine/core/log/Log.hpp>
-#include <engine/ecs/components/Scoped.hpp>
-#include <engine/ecs/handle/Entity.hpp>
 
 void Scene::load()
 {
@@ -14,10 +12,16 @@ void Scene::load()
 
 void Scene::unload()
 {
+    for (EntityId id : entities)
+    {
+        world.destroyEntity(id);
+    }
+
+    entities.clear();
+
     if (onUnload)
         onUnload(*this);
 
-    world.destroyScopedEntities(id.value);
     LOG_DEBUG("Scene '{}' Unloaded!", id.value);
 }
 
@@ -36,15 +40,20 @@ void Scene::setOnUnload(SceneCallback callback)
     onUnload = std::move(callback);
 }
 
-World &Scene::getWorld()
-{
-    return world;
-}
-
 Entity Scene::createEntity()
 {
     Entity entity = world.createEntity();
-    entity.addComponent<Scoped>(id.value);
+    entities.push_back(entity.getId());
     LOG_DEBUG("Entity handle created in Scene {}.", id.value);
     return entity;
+}
+
+std::vector<EntityId> Scene::getEntities()
+{
+    return entities;
+}
+
+World &Scene::getWorld()
+{
+    return world;
 }

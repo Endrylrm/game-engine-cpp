@@ -10,7 +10,6 @@
 #include <engine/ecs/registry/systems/SystemStage.hpp>
 #include <engine/ecs/registry/views/View.hpp>
 #include <engine/ecs/systems/System.hpp>
-#include <engine/scopes/ScopeId.hpp>
 
 class Entity;
 
@@ -30,7 +29,6 @@ public:
     Entity createEntity();
     Entity getEntity(EntityId id);
     void destroyEntity(EntityId entity);
-    void destroyScopedEntities(ScopeId scope);
     bool isValidEntity(EntityId entity) const;
 
     template <typename T, typename... Args>

@@ -7,7 +7,9 @@ enum class SceneCommandType
 {
     Load,
     LoadAdditive,
+    LoadPersistent,
     Unload,
+    UnloadNonPersistent,
     UnloadAll
 };
 

@@ -1,7 +1,6 @@
 #include "engine/ecs/world/World.hpp"
 
 #include <engine/core/log/Log.hpp>
-#include <engine/ecs/components/Scoped.hpp>
 #include <engine/ecs/handle/Entity.hpp>
 #include <engine/ecs/systems/LifetimeSystem.hpp>
 #include <engine/ecs/systems/MovementSystem.hpp>
@@ -73,15 +72,6 @@ Entity World::getEntity(EntityId id)
 void World::destroyEntity(EntityId entity)
 {
     registry.destroyEntity(entity);
-}
-
-void World::destroyScopedEntities(ScopeId scope)
-{
-    for (auto [entity, scoped] : view<Scoped>().withEntities())
-    {
-        if (scoped.id == scope)
-            registry.destroyEntity(entity);
-    }
 }
 
 void World::removeAllComponents(EntityId entity)

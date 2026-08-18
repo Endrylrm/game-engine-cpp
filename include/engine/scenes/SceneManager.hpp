@@ -14,6 +14,7 @@
 #include "Scene.hpp"
 #include "SceneCommand.hpp"
 #include "SceneId.hpp"
+#include "SceneLoadMode.hpp"
 
 using SceneBuilder = std::function<void(Scene &)>;
 
@@ -33,15 +34,12 @@ public:
         return id;
     }
 
-    void loadScene(SceneId id);
-    void loadScene(std::string_view name);
-
-    void loadSceneAdditive(SceneId id);
-    void loadSceneAdditive(std::string_view name);
+    void loadScene(SceneId id, SceneLoadMode mode);
+    void loadScene(std::string_view name, SceneLoadMode mode);
 
     void unloadScene(SceneId id);
     void unloadScene(std::string_view name);
-
+    void unloadNonPersistentScenes();
     void unloadAllScenes();
 
     Scene *getActiveScene(SceneId id) const;
@@ -53,6 +51,8 @@ public:
     Scene *getMainScene();
     bool setMainScene(SceneId id);
     bool setMainScene(std::string_view name);
+
+    Scene *getPersistentScene();
 
     void processCommands();
 
@@ -66,5 +66,6 @@ private:
     std::vector<std::unique_ptr<Scene>> activeScenes{};
     std::vector<SceneCommand> pendingCommands{};
     Scene *mainScene{};
+    Scene *persistentScene{};
     World &world;
 };

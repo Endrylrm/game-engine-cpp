@@ -1,13 +1,35 @@
 #include "engine/scenes/SceneManager.hpp"
 
-void SceneManager::loadScene(SceneId id)
+void SceneManager::loadScene(SceneId id, SceneLoadMode mode)
 {
-    LOG_INFO("Queued Load Scene '{}'...", id.value);
-    unloadAllScenes();
-    pendingCommands.push_back({SceneCommandType::Load, id});
+    switch (mode)
+    {
+    case SceneLoadMode::Main:
+    {
+        unloadNonPersistentScenes();
+        pendingCommands.push_back({SceneCommandType::Load, id});
+        LOG_INFO("Queued Load Scene '{}'...", id.value);
+        break;
+    }
+    case SceneLoadMode::Additive:
+    {
+        pendingCommands.push_back({SceneCommandType::LoadAdditive, id});
+        LOG_INFO("Queued Load Scene '{}' (Additive)...", id.value);
+        break;
+    }
+    case SceneLoadMode::Persistent:
+    {
+        pendingCommands.push_back({SceneCommandType::LoadPersistent, id});
+        LOG_INFO("Queued Load Scene '{}' (Persistent)...", id.value);
+        break;
+    }
+    default:
+        LOG_ERROR("Unknown Scene command type...");
+        break;
+    }
 }
 
-void SceneManager::loadScene(std::string_view name)
+void SceneManager::loadScene(std::string_view name, SceneLoadMode mode)
 {
     auto id = findSceneId(name);
 
@@ -17,26 +39,7 @@ void SceneManager::loadScene(std::string_view name)
         return;
     }
 
-    loadScene(*id);
-}
-
-void SceneManager::loadSceneAdditive(SceneId id)
-{
-    LOG_INFO("Queued Load Scene '{}' (Additive)...", id.value);
-    pendingCommands.push_back({SceneCommandType::LoadAdditive, id});
-}
-
-void SceneManager::loadSceneAdditive(std::string_view name)
-{
-    auto id = findSceneId(name);
-
-    if (!id)
-    {
-        LOG_ERROR("Scene '{}' is not registered.", name);
-        return;
-    }
-
-    loadSceneAdditive(*id);
+    loadScene(*id, mode);
 }
 
 void SceneManager::unloadScene(SceneId id)
@@ -56,6 +59,12 @@ void SceneManager::unloadScene(std::string_view name)
     }
 
     unloadScene(*id);
+}
+
+void SceneManager::unloadNonPersistentScenes()
+{
+    LOG_INFO("Queued Unload All non persistent Scenes...");
+    pendingCommands.push_back({SceneCommandType::UnloadNonPersistent, {0}});
 }
 
 void SceneManager::unloadAllScenes()
@@ -147,6 +156,11 @@ bool SceneManager::setMainScene(std::string_view name)
     return true;
 }
 
+Scene *SceneManager::getPersistentScene()
+{
+    return persistentScene;
+}
+
 Scene *SceneManager::buildScene(SceneId id)
 {
     SceneBuilder builder = scenes.at(id);
@@ -181,15 +195,6 @@ void SceneManager::processCommands()
         {
         case SceneCommandType::Load:
         {
-            if (!activeScenes.empty())
-            {
-                for (auto &scene : activeScenes)
-                {
-                    scene->unload();
-                }
-                activeScenes.clear();
-            }
-
             mainScene = buildScene(command.id);
             mainScene->load();
             LOG_INFO("Loaded Scene '{}'.", command.id.value);
@@ -202,16 +207,59 @@ void SceneManager::processCommands()
             LOG_INFO("Loaded Scene '{}' (Additive).", command.id.value);
             break;
         }
+        case SceneCommandType::LoadPersistent:
+        {
+            if (persistentScene)
+                persistentScene->unload();
+
+            std::erase_if(
+                activeScenes,
+                [&](const auto &scenePtr) { return scenePtr.get() == persistentScene; }
+            );
+
+            persistentScene = buildScene(command.id);
+            persistentScene->load();
+            LOG_INFO("Loaded Scene '{}' (Persistent).", command.id.value);
+            break;
+        }
         case SceneCommandType::Unload:
         {
             auto *scene = getActiveScene(command.id);
+
+            if (!scene)
+            {
+                LOG_WARNING("Scene '{}' is not loaded.", command.id.value);
+                break;
+            }
+
             if (mainScene == scene)
                 mainScene = nullptr;
+
+            if (persistentScene == scene)
+                persistentScene = nullptr;
+
             scene->unload();
+
             std::erase_if(
                 activeScenes, [scene](const auto &scenePtr) { return scenePtr.get() == scene; }
             );
+
             LOG_INFO("Unloaded Scene '{}'.", command.id.value);
+            break;
+        }
+        case SceneCommandType::UnloadNonPersistent:
+        {
+            for (auto &scene : activeScenes)
+            {
+                if (scene.get() != persistentScene)
+                    scene->unload();
+            }
+
+            std::erase_if(
+                activeScenes,
+                [&](const auto &scenePtr) { return scenePtr.get() != persistentScene; }
+            );
+            LOG_INFO("Unloaded All non persistent Scenes...");
             break;
         }
         case SceneCommandType::UnloadAll:
@@ -220,6 +268,7 @@ void SceneManager::processCommands()
             {
                 scene->unload();
             }
+
             activeScenes.clear();
             LOG_INFO("Unloaded All Scenes...");
             break;

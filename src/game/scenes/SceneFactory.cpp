@@ -42,6 +42,7 @@ void SceneFactory::createGameplayScene(Scene &scene)
     scene.setOnLoad(
         [](Scene &scene)
         {
+            LOG_DEBUG("creating Gameplay Scene...");
             scene.getWorld().addSystem<PlayerInputSystem>(SystemStage::Update);
             scene.getWorld().addSystem<PlayerMoveSystem>(SystemStage::Update);
             scene.getWorld().addSystem<WeaponCooldownSystem>(SystemStage::Update);
@@ -50,8 +51,30 @@ void SceneFactory::createGameplayScene(Scene &scene)
             scene.getWorld().addSystem<ScreenClampSystem>(SystemStage::PostUpdate);
             scene.getWorld().addSystem<DamageSystem>(SystemStage::PostUpdate);
             scene.getWorld().addSystem<DeathSystem>(SystemStage::PostUpdate);
+        }
+    );
 
-            LOG_DEBUG("creating Gameplay Scene...");
+    scene.setOnUnload(
+        [](Scene &scene)
+        {
+            scene.getWorld().removeSystem<PlayerInputSystem>();
+            scene.getWorld().removeSystem<PlayerMoveSystem>();
+            scene.getWorld().removeSystem<WeaponCooldownSystem>();
+            scene.getWorld().removeSystem<PlayerShootSystem>();
+            scene.getWorld().removeSystem<OutOfBoundsSystem>();
+            scene.getWorld().removeSystem<ScreenClampSystem>();
+            scene.getWorld().removeSystem<DamageSystem>();
+            scene.getWorld().removeSystem<DeathSystem>();
+        }
+    );
+}
+
+void SceneFactory::createPlayerScene(Scene &scene)
+{
+    scene.setOnLoad(
+        [](Scene &scene)
+        {
+            LOG_DEBUG("creating Player Scene...");
             AssetHandle<Texture> sprite =
                 AssetsAPI::load<Texture>("assets/player/playerShip1_blue.png");
             Entity player =
@@ -68,20 +91,6 @@ void SceneFactory::createGameplayScene(Scene &scene)
                     .build();
 
             LOG_DEBUG("Player has Sprite Renderer: {}", player.hasComponent<SpriteRenderer>());
-        }
-    );
-
-    scene.setOnUnload(
-        [](Scene &scene)
-        {
-            scene.getWorld().removeSystem<PlayerInputSystem>();
-            scene.getWorld().removeSystem<PlayerMoveSystem>();
-            scene.getWorld().removeSystem<WeaponCooldownSystem>();
-            scene.getWorld().removeSystem<PlayerShootSystem>();
-            scene.getWorld().removeSystem<OutOfBoundsSystem>();
-            scene.getWorld().removeSystem<ScreenClampSystem>();
-            scene.getWorld().removeSystem<DamageSystem>();
-            scene.getWorld().removeSystem<DeathSystem>();
         }
     );
 }

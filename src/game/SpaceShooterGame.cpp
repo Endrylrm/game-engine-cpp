@@ -8,7 +8,9 @@ void SpaceShooterGame::onInit()
 {
     ScenesAPI::registerScene("Menu", SceneFactory::createMenuScene);
     ScenesAPI::registerScene("Gameplay", SceneFactory::createGameplayScene);
+    ScenesAPI::registerScene("Player", SceneFactory::createPlayerScene);
     ScenesAPI::loadScene("Gameplay");
+    ScenesAPI::loadScenePersistent("Player");
 }
 
 void SpaceShooterGame::onShutdown() {}

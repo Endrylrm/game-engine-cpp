@@ -14,9 +14,13 @@
 #include <engine/api/TimerAPI.hpp>
 #include <engine/api/WindowAPI.hpp>
 #include <engine/api/WorldAPI.hpp>
+#ifdef RENDERER_OPENGL
+#include <engine/backend/OpenGL/graphics/OpenGLRenderer.hpp>
+#elif defined(RENDERER_SDL)
 #include <engine/backend/SDL/graphics/SDLRenderer.hpp>
+#endif
 #include <engine/backend/SDL/input/SDLInputManager.hpp>
-#include <engine/backend/SDL/window/SDLWindowManager.hpp>
+#include <engine/backend/SDL/window/SDLWindow.hpp>
 #include <engine/core/graphics/Texture.hpp>
 #include <engine/core/log/Logger.hpp>
 
@@ -26,24 +30,35 @@ void Engine::initialize(const char *title, int width, int height)
 
     Logger::get().init();
 
-    currentWindowManager = std::make_unique<SDLWindowManager>(title, width, height);
-    if (!currentWindowManager->onInit())
+    currentWindow = std::make_unique<SDLWindow>(title, width, height);
+    SDLWindow *windowPtr = static_cast<SDLWindow *>(currentWindow.get());
+    if (!windowPtr->onInit())
     {
         return;
     }
 
-    currentRenderer = std::make_unique<SDLRenderer>(currentWindowManager->getWindowHandle());
-    if (!currentRenderer->onInit())
+#ifdef RENDERER_SDL
+    currentRenderer = std::make_unique<SDLRenderer>(windowPtr->getWindowHandle());
+    SDLRenderer *rendererPtr = static_cast<SDLRenderer *>(currentRenderer.get());
+    if (!rendererPtr->onInit())
     {
         return;
     }
+#elif defined(RENDERER_OPENGL)
+    currentRenderer = std::make_unique<OpenGLRenderer>(windowPtr->getWindowHandle());
+    OpenGLRenderer *rendererPtr = static_cast<OpenGLRenderer *>(currentRenderer.get());
+    if (!rendererPtr->onInit())
+    {
+        return;
+    }
+#endif
 
     currentInputManager = std::make_unique<SDLInputManager>(&running);
     currentAssetDB.registerManager<Texture>([this](const std::string &path)
                                             { return currentRenderer->loadTexture(path); });
 
     InputAPI::setManager(currentInputManager.get());
-    WindowAPI::setManager(currentWindowManager.get());
+    WindowAPI::setManager(currentWindow.get());
     ScenesAPI::setManager(&currentSceneManager);
     EntityAPI::setManager(&currentSceneManager);
     AssetsAPI::setManager(&currentAssetDB);

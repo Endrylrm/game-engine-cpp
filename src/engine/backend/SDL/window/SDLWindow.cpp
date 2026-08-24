@@ -1,15 +1,26 @@
-#include "engine/backend/SDL/window/SDLWindowManager.hpp"
+#include "engine/backend/SDL/window/SDLWindow.hpp"
 
 #include <engine/core/log/Log.hpp>
 
-SDLWindowManager::SDLWindowManager(std::string newTitle, int newWidth, int newHeight)
+SDLWindow::SDLWindow(std::string newTitle, int newWidth, int newHeight)
 {
     title = newTitle;
     width = newWidth;
     height = newHeight;
 }
 
-bool SDLWindowManager::onInit()
+SDLWindow::~SDLWindow()
+{
+    if (window)
+    {
+        SDL_DestroyWindow(window);
+        window = nullptr;
+    }
+    SDL_Quit();
+    LOG_DEBUG("SDL Window Destroyed.");
+}
+
+bool SDLWindow::onInit()
 {
     // Initialize video and audio subsystem
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
@@ -18,7 +29,11 @@ bool SDLWindowManager::onInit()
         return false;
     }
 
+#ifdef RENDERER_SDL
     window = SDL_CreateWindow(title.c_str(), width, height, 0);
+#elif defined(RENDERER_OPENGL)
+    window = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_OPENGL);
+#endif
 
     if (!window)
     {
@@ -31,39 +46,28 @@ bool SDLWindowManager::onInit()
     return true;
 }
 
-int SDLWindowManager::getWidth() const
+int SDLWindow::getWidth() const
 {
     return width;
 }
 
-int SDLWindowManager::getHeight() const
+int SDLWindow::getHeight() const
 {
     return height;
 }
 
-std::string SDLWindowManager::getTitle() const
+std::string SDLWindow::getTitle() const
 {
     return title;
 }
 
-void *SDLWindowManager::getWindowHandle() const
+SDL_Window *SDLWindow::getWindowHandle() const
 {
     return window;
 }
 
-void SDLWindowManager::quitGame()
+void SDLWindow::quitGame()
 {
     SDL_Event quit_event = {.type = SDL_EVENT_QUIT};
     SDL_PushEvent(&quit_event);
-}
-
-SDLWindowManager::~SDLWindowManager()
-{
-    if (window)
-    {
-        SDL_DestroyWindow(window);
-        window = nullptr;
-    }
-    SDL_Quit();
-    LOG_DEBUG("SDL Window Destroyed.");
 }

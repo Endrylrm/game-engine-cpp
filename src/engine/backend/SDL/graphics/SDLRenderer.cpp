@@ -1,9 +1,28 @@
 #include "engine/backend/SDL/graphics/SDLRenderer.hpp"
 
+#include <SDL3_image/SDL_image.h>
+
 #include <engine/backend/SDL/graphics/SDLTexture.hpp>
 #include <engine/core/log/Log.hpp>
 
-SDLRenderer::SDLRenderer(void *windowHandle) : window(static_cast<SDL_Window *>(windowHandle)) {}
+SDLRenderer::SDLRenderer(SDL_Window *windowHandle) : window(windowHandle) {}
+
+SDLRenderer::~SDLRenderer()
+{
+    if (font)
+    {
+        TTF_CloseFont(font);
+    }
+    TTF_Quit();
+
+    if (renderer)
+    {
+        SDL_DestroyRenderer(renderer);
+        renderer = nullptr;
+    }
+
+    LOG_DEBUG("SDL Renderer destroyed.");
+}
 
 bool SDLRenderer::onInit()
 {
@@ -12,14 +31,12 @@ bool SDLRenderer::onInit()
     if (!renderer)
     {
         LOG_ERROR("Failed to create Renderer: {}", SDL_GetError());
-        SDL_Quit();
         return false;
     }
 
     if (!TTF_Init())
     {
         LOG_ERROR("Couldn't initialize SDL_ttf: {}", SDL_GetError());
-        SDL_Quit();
         return false;
     }
 
@@ -29,25 +46,49 @@ bool SDLRenderer::onInit()
 
 std::unique_ptr<Texture> SDLRenderer::loadTexture(const std::string &path)
 {
-    return std::make_unique<SDLTexture>(renderer, path);
+    SDL_Surface *surface = IMG_Load(path.c_str());
+
+    if (!surface)
+    {
+        LOG_ERROR("Unable to create surface: {}", SDL_GetError());
+        return nullptr;
+    }
+
+    int width = surface->w;
+    int height = surface->h;
+
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_DestroySurface(surface);
+
+    if (!texture)
+    {
+        LOG_ERROR("Unable to create texture: {}", SDL_GetError());
+        return nullptr;
+    }
+
+    LOG_DEBUG("SDL Texture Created.");
+
+    return std::make_unique<SDLTexture>(texture, width, height);
 }
 
 void SDLRenderer::drawTexture(Texture *texture, float x, float y)
 {
-    auto *sdlTexture = static_cast<SDLTexture *>(texture);
-    float texWidth = static_cast<float>(sdlTexture->getWidth());
-    float texHeight = static_cast<float>(sdlTexture->getHeight());
-    SDL_FRect dest{x, y, texWidth, texHeight};
-    SDL_Texture *nativeHandle = sdlTexture->getNativeHandle();
-    SDL_RenderTexture(renderer, nativeHandle, nullptr, &dest);
+    drawTexture(
+        texture,
+        x,
+        y,
+        static_cast<float>(texture->getWidth()),
+        static_cast<float>(texture->getHeight())
+    );
 }
 
 void SDLRenderer::drawTexture(Texture *texture, float x, float y, float w, float h)
 {
     auto *sdlTexture = static_cast<SDLTexture *>(texture);
     SDL_FRect dest{x, y, w, h};
-    SDL_Texture *nativeHandle = sdlTexture->getNativeHandle();
-    SDL_RenderTexture(renderer, nativeHandle, nullptr, &dest);
+    SDL_Texture *handle = sdlTexture->getNativeHandle();
+    SDL_RenderTexture(renderer, handle, nullptr, &dest);
 }
 
 void SDLRenderer::drawTexture(Texture *texture, Rect2D rect)
@@ -80,24 +121,7 @@ void SDLRenderer::present()
     SDL_RenderPresent(renderer);
 }
 
-void *SDLRenderer::getNativeRenderer() const
+SDL_Renderer *SDLRenderer::getNativeHandle() const
 {
     return renderer;
-}
-
-SDLRenderer::~SDLRenderer()
-{
-    if (font)
-    {
-        TTF_CloseFont(font);
-    }
-    TTF_Quit();
-
-    if (renderer)
-    {
-        SDL_DestroyRenderer(renderer);
-        renderer = nullptr;
-    }
-
-    LOG_DEBUG("SDL Renderer destroyed.");
 }

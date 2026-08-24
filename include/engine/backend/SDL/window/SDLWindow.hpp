@@ -4,18 +4,18 @@
 
 #include <SDL3/SDL.h>
 
-#include <engine/core/window/WindowManager.hpp>
+#include <engine/core/window/Window.hpp>
 
-class SDLWindowManager : public WindowManager
+class SDLWindow : public Window
 {
 public:
-    SDLWindowManager(std::string newTitle, int newWidth, int newHeight);
-    ~SDLWindowManager() override;
+    SDLWindow(std::string newTitle, int newWidth, int newHeight);
+    ~SDLWindow() override;
     bool onInit() override;
     int getWidth() const override;
     int getHeight() const override;
     std::string getTitle() const override;
-    void *getWindowHandle() const override;
+    SDL_Window *getWindowHandle() const;
     void quitGame() override;
 
 private:

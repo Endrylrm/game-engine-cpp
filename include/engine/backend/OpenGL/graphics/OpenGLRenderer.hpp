@@ -4,17 +4,17 @@
 #include <unordered_map>
 
 #include <SDL3/SDL.h>
-#include <SDL3_ttf/SDL_ttf.h>
+#include <glad/gl.h>
 
 #include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/graphics/Texture.hpp>
 #include <engine/core/math/Rect2D.hpp>
 
-class SDLRenderer : public Renderer
+class OpenGLRenderer : public Renderer
 {
 public:
-    SDLRenderer(SDL_Window *windowHandle);
-    ~SDLRenderer() override;
+    OpenGLRenderer(SDL_Window *windowHandle);
+    ~OpenGLRenderer() override;
     bool onInit() override;
     std::unique_ptr<Texture> loadTexture(const std::string &path) override;
     void drawTexture(Texture *texture, float x, float y) override;
@@ -27,10 +27,18 @@ public:
     void clear() override;
     void present() override;
 
-    SDL_Renderer *getNativeHandle() const;
-
 private:
+    bool initGlad();
+    bool initViewport();
+    bool initTrianglePipeline();
+    bool initQuadPipeline();
+    bool initTexturePipeline();
+    bool initOpenGLState();
+
     SDL_Window *window{};
-    SDL_Renderer *renderer{};
-    TTF_Font *font{};
+    SDL_GLContext context{};
+    GLuint vao{};
+    GLuint vbo{};
+    GLuint ebo{};
+    GLuint shaderProgram{};
 };

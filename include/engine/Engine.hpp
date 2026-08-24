@@ -5,7 +5,7 @@
 #include <engine/core/events/EventBus.hpp>
 #include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/input/InputManager.hpp>
-#include <engine/core/window/WindowManager.hpp>
+#include <engine/core/window/Window.hpp>
 #include <engine/ecs/world/World.hpp>
 #include <engine/scenes/SceneManager.hpp>
 #include <engine/time/Time.hpp>
@@ -39,7 +39,7 @@ private:
     void endFrame();
     void shutdown();
 
-    std::unique_ptr<WindowManager> currentWindowManager{};
+    std::unique_ptr<Window> currentWindow{};
     std::unique_ptr<Renderer> currentRenderer{};
     std::unique_ptr<InputManager> currentInputManager{};
     AssetDatabase currentAssetDB{};

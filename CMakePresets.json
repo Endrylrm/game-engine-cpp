@@ -14,7 +14,10 @@
       "hidden": true,
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "CMAKE_CONFIGURATION_TYPES": "Debug;Release;RelWithDebInfo;MinSizeRel"
+        "CMAKE_CONFIGURATION_TYPES": "Debug;Release;RelWithDebInfo;MinSizeRel",
+        "ENABLE_DEBUG": "ON",
+        "RENDERER_SDL": "OFF",
+        "RENDERER_OPENGL": "ON"
       }
     },
     {

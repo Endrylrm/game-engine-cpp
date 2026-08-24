@@ -2,9 +2,9 @@
 #include <string>
 
 #include <engine/api/ManagerAPI.hpp>
-#include <engine/core/window/WindowManager.hpp>
+#include <engine/core/window/Window.hpp>
 
-class WindowAPI : public ManagerAPI<WindowManager>
+class WindowAPI : public ManagerAPI<Window>
 {
 public:
     static int getWidth()

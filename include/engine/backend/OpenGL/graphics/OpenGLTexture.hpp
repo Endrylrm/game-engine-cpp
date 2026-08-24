@@ -3,16 +3,17 @@
 #include <string>
 
 #include <SDL3/SDL.h>
+#include <glad/gl.h>
 
 #include <engine/core/graphics/Texture.hpp>
 
-class SDLTexture : public Texture
+class OpenGLTexture : public Texture
 {
 public:
-    SDLTexture(SDL_Texture *texture, int width, int height);
-    ~SDLTexture() override;
+    OpenGLTexture(GLuint texture, int width, int height);
+    ~OpenGLTexture() override;
 
-    SDL_Texture *getNativeHandle() const;
+    GLuint getNativeHandle() const;
 
     int getWidth() const override;
     int getHeight() const override;
@@ -20,7 +21,7 @@ public:
     bool isValid() const override;
 
 private:
-    SDL_Texture *texture{};
+    GLuint texture{};
     int width{};
     int height{};
 };

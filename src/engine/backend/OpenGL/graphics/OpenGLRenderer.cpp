@@ -1,11 +1,14 @@
 #include "engine/backend/OpenGL/graphics/OpenGLRenderer.hpp"
 
+#include <string>
+
 #include <SDL3_image/SDL_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <engine/backend/OpenGL/graphics/OpenGLTexture.hpp>
+#include <engine/core/graphics/MeshData.hpp>
 #include <engine/core/log/Log.hpp>
 
 OpenGLRenderer::OpenGLRenderer(SDL_Window *windowHandle) : window(windowHandle) {}
@@ -58,13 +61,11 @@ bool OpenGLRenderer::onInit()
     if (!initTexturePipeline())
         return false;
 
-    /*
     if (!initTrianglePipeline())
-        return false; */
+        return false;
 
-    /*
-    if (!initQuadPipeline())
-        return false; */
+    if (!initRectPipeline())
+        return false;
 
     if (!initOpenGLState())
         return false;
@@ -107,23 +108,13 @@ bool OpenGLRenderer::initViewport()
 
 bool OpenGLRenderer::initTexturePipeline()
 {
-    glGenBuffers(1, &vbo);
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &ebo);
-
-    if (!vbo || !vao || !ebo)
-    {
-        LOG_ERROR("Failed to create OpenGL texture buffers.");
-        return false;
-    }
-
     // clang-format off
     constexpr float vertices[] = {
-        // positions        // colors           // UV
-        0.0f, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // top left
-        1.0f, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // top right
-        1.0f, 1.0f, 0.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,   // bottom right
-        0.0f, 1.0f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f    // bottom left 
+        // positions        // UV
+        0.0f, 0.0f, 0.0f,   1.0f, 0.0f,   // top left
+        1.0f, 0.0f, 0.0f,   0.0f, 0.0f,   // top right
+        1.0f, 1.0f, 0.0f,   0.0f, 1.0f,   // bottom right
+        0.0f, 1.0f, 0.0f,   1.0f, 1.0f    // bottom left 
     };
     // clang-format on
 
@@ -134,38 +125,27 @@ bool OpenGLRenderer::initTexturePipeline()
     };
     // clang-format on
 
-    glBindVertexArray(vao);
+    VertexAttribute position = {.type = VertexType::Float, .location = 0, .count = 3, .offset = 0};
+    VertexAttribute uv = {
+        .type = VertexType::Float, .location = 1, .count = 2, .offset = 3 * sizeof(float)
+    };
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    VertexLayout layout{
+        .attributes{position, uv},
+        .stride = 5 * sizeof(float)
+    };
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    MeshData data = makeMeshData<float>(vertices, indices, layout, PrimitiveType::Triangles);
 
-    // Position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), nullptr);
-    glEnableVertexAttribArray(0);
+    if (!textureMesh.init(data))
+        return false;
 
-    // Color
-    glVertexAttribPointer(
-        1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float))
-    );
-    glEnableVertexAttribArray(1);
-
-    // Texture coordinates
-    glVertexAttribPointer(
-        2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float))
-    );
-    glEnableVertexAttribArray(2);
-
-    const char *vertexShaderSource = R"(
+    const std::string vertexShaderSource = R"(
     #version 460 core
     layout (location = 0) in vec3 aPosition;
-    layout (location = 1) in vec3 aColor;
-    layout (location = 2) in vec2 aTexCoord;
+    layout (location = 1) in vec2 aTexCoord;
 
-    out vec3 ourColor;
-    out vec2 TexCoord;
+    out vec2 texCoord;
 
     uniform mat4 projection;
     uniform mat4 transform;
@@ -173,76 +153,27 @@ bool OpenGLRenderer::initTexturePipeline()
     void main()
     {
         gl_Position = projection * transform * vec4(aPosition, 1.0);
-        ourColor = aColor;
-        TexCoord = aTexCoord;
+        texCoord = aTexCoord;
     }
     )";
 
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    GLint success;
-    GLchar infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        LOG_ERROR("Vertex Shader compilation failed:\n{}", infoLog);
-        glDeleteShader(vertexShader);
-        return false;
-    }
-
-    const char *fragmentShaderSource = R"(
+    const std::string fragmentShaderSource = R"(
     #version 460 core
-    out vec4 FragColor;
+    out vec4 fragColor;
   
-    in vec3 ourColor;
-    in vec2 TexCoord;
+    in vec2 texCoord;
 
+    uniform vec4 texColor;
     uniform sampler2D ourTexture;
 
     void main()
     {
-        FragColor = texture(ourTexture, TexCoord) * vec4(ourColor, 1.0);
+        fragColor = texture(ourTexture, texCoord) * texColor;
     }
     )";
 
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        LOG_ERROR("Fragment Shader compilation failed:\n{}", infoLog);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
+    if (!textureShader.init(vertexShaderSource, fragmentShaderSource))
         return false;
-    }
-
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success)
-    {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        LOG_ERROR("Linking Shaders failed:\n{}", infoLog);
-
-        glDeleteProgram(shaderProgram);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-        return false;
-    }
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
 
     LOG_DEBUG("OpenGL Pipeline: Texture Pipeline Initialized.");
     return true;
@@ -250,15 +181,6 @@ bool OpenGLRenderer::initTexturePipeline()
 
 bool OpenGLRenderer::initTrianglePipeline()
 {
-    glGenBuffers(1, &vbo);
-    glGenVertexArrays(1, &vao);
-
-    if (!vbo || !vao)
-    {
-        LOG_ERROR("Failed to create OpenGL triangle buffers.");
-        return false;
-    }
-
     // clang-format off
     constexpr float vertices[] = {
         // positions   // colors
@@ -268,20 +190,28 @@ bool OpenGLRenderer::initTrianglePipeline()
     };
     // clang-format on
 
-    glBindVertexArray(vao);
+    // clang-format off
+    constexpr uint32_t indices[] = {
+        0, 1, 2
+    };
+    // clang-format on
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    VertexAttribute position = {.type = VertexType::Float, .location = 0, .count = 2, .offset = 0};
+    VertexAttribute color = {
+        .type = VertexType::Float, .location = 1, .count = 3, .offset = 2 * sizeof(float)
+    };
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
-    glEnableVertexAttribArray(0);
+    VertexLayout layout{
+        .attributes{position, color},
+        .stride = 5 * sizeof(float)
+    };
 
-    glVertexAttribPointer(
-        1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(2 * sizeof(float))
-    );
-    glEnableVertexAttribArray(1);
+    MeshData data = makeMeshData<float>(vertices, indices, layout, PrimitiveType::Triangles);
 
-    const char *vertexShaderSource = R"(
+    if (!triangleMesh.init(data))
+        return false;
+
+    const std::string vertexShaderSource = R"(
     #version 460 core
     layout (location = 0) in vec2 aPosition;
     layout (location = 1) in vec3 aColor;
@@ -295,23 +225,7 @@ bool OpenGLRenderer::initTrianglePipeline()
     }
     )";
 
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    GLint success;
-    GLchar infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        LOG_ERROR("Vertex Shader compilation failed:\n{}", infoLog);
-        glDeleteShader(vertexShader);
-        return false;
-    }
-
-    const char *fragmentShaderSource = R"(
+    const std::string fragmentShaderSource = R"(
     #version 460 core
     out vec4 fragColor;
     in vec3 triangleColor;
@@ -322,156 +236,69 @@ bool OpenGLRenderer::initTrianglePipeline()
     }
     )";
 
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        LOG_ERROR("Fragment Shader compilation failed:\n{}", infoLog);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
+    if (!triangleShader.init(vertexShaderSource, fragmentShaderSource))
         return false;
-    }
-
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success)
-    {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        LOG_ERROR("Linking Shaders failed:\n{}", infoLog);
-
-        glDeleteProgram(shaderProgram);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-        return false;
-    }
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
 
     LOG_DEBUG("OpenGL Pipeline: Triangle Pipeline Initialized.");
     return true;
 }
 
-bool OpenGLRenderer::initQuadPipeline()
+bool OpenGLRenderer::initRectPipeline()
 {
-    glGenBuffers(1, &vbo);
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &ebo);
-
-    if (!vbo || !vao || !ebo)
-    {
-        LOG_ERROR("Failed to create OpenGL triangle buffers.");
-        return false;
-    }
-
     // clang-format off
     constexpr float vertices[] = {
-         0.5f,  0.5f, // top right
-         0.5f, -0.5f, // bottom right
-        -0.5f, -0.5f, // bottom left
-        -0.5f,  0.5f  // top left
+         1.0f,  1.0f, // bottom right
+         1.0f,  0.0f, // top right
+         0.0f,  0.0f, // top left
+         0.0f,  1.0f  // bottom left
     };
     // clang-format on
 
     // clang-format off
-    constexpr GLuint indices[] = {
+    constexpr uint32_t indices[] = {
         0, 1, 3,
         1, 2, 3
     };
     // clang-format on
 
-    glBindVertexArray(vao);
+    VertexAttribute position = {.type = VertexType::Float, .location = 0, .count = 2, .offset = 0};
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    VertexLayout layout{.attributes{position}, .stride = 2 * sizeof(float)};
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    MeshData data = makeMeshData<float>(vertices, indices, layout, PrimitiveType::Triangles);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), nullptr);
-    glEnableVertexAttribArray(0);
+    if (!rectMesh.init(data))
+        return false;
 
-    const char *vertexShaderSource = R"(
+    const std::string vertexShaderSource = R"(
     #version 460 core
     layout (location = 0) in vec2 aPosition;
 
+    uniform mat4 projection;
+    uniform mat4 transform;
+
     void main()
     {
-        gl_Position = vec4(aPosition, 0.0, 1.0);
+        gl_Position = projection * transform * vec4(aPosition, 0.0, 1.0);
     }
     )";
 
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    GLint success;
-    GLchar infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        LOG_ERROR("Vertex Shader compilation failed:\n{}", infoLog);
-        glDeleteShader(vertexShader);
-        return false;
-    }
-
-    const char *fragmentShaderSource = R"(
+    const std::string fragmentShaderSource = R"(
     #version 460 core
-    out vec4 quadColor;
+    out vec4 fragColor;
+
+    uniform vec4 rectColor;
 
     void main()
     {
-        quadColor = vec4(0.0, 0.0, 1.0, 1.0);
+        fragColor = rectColor;
     }
     )";
 
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        LOG_ERROR("Fragment Shader compilation failed:\n{}", infoLog);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
+    if (!rectShader.init(vertexShaderSource, fragmentShaderSource))
         return false;
-    }
 
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success)
-    {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        LOG_ERROR("Linking Shaders failed:\n{}", infoLog);
-
-        glDeleteProgram(shaderProgram);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-        return false;
-    }
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    LOG_DEBUG("OpenGL Pipeline: Quad Pipeline Initialized.");
+    LOG_DEBUG("OpenGL Pipeline: Rectangle Pipeline Initialized.");
     return true;
 }
 
@@ -555,20 +382,20 @@ void OpenGLRenderer::drawTexture(Texture *texture, float x, float y, float w, fl
 
     GLuint handle = glTexture->getNativeHandle();
 
-    glm::mat4 transform = glm::mat4(1.0f);
+    glm::vec4 texColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+    glm::mat4 transform(1.0f);
     transform = glm::translate(transform, glm::vec3(x, y, 0.0f));
     transform = glm::scale(transform, glm::vec3(w, h, 1.0f));
 
     glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 
-    glUseProgram(shaderProgram);
-    GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-    GLint projectionLoc = glGetUniformLocation(shaderProgram, "projection");
-    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    textureShader.use();
+    textureShader.setMat4("transform", transform);
+    textureShader.setMat4("projection", projection);
+    textureShader.setVec4("texColor", texColor);
     glBindTexture(GL_TEXTURE_2D, handle);
-    glBindVertexArray(vao);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    textureMesh.draw();
 }
 
 void OpenGLRenderer::drawTexture(Texture *texture, Rect2D rect)
@@ -580,9 +407,30 @@ void OpenGLRenderer::drawRect(
     float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b, uint8_t a
 )
 {
+    glm::mat4 transform(1.0f);
+    transform = glm::translate(transform, glm::vec3(x, y, 0.0f));
+    transform = glm::scale(transform, glm::vec3(w, h, 1.0f));
+
+    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+
+    glm::vec4 rectColor(
+        static_cast<float>(r) / 255.0f,
+        static_cast<float>(g) / 255.0f,
+        static_cast<float>(b) / 255.0f,
+        static_cast<float>(a) / 255.0f
+    );
+
+    rectShader.use();
+    rectShader.setMat4("transform", transform);
+    rectShader.setMat4("projection", projection);
+    rectShader.setVec4("rectColor", rectColor);
+    rectMesh.draw();
 }
 
-void OpenGLRenderer::drawRect(Rect2D rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {}
+void OpenGLRenderer::drawRect(Rect2D rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+{
+    drawRect(rect.x, rect.y, rect.w, rect.h, r, g, b, a);
+}
 
 void OpenGLRenderer::clear()
 {

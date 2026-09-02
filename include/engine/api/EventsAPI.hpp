@@ -1,6 +1,4 @@
 #pragma once
-#include <functional>
-
 #include <engine/api/ManagerAPI.hpp>
 #include <engine/core/events/Connections.hpp>
 #include <engine/core/events/EventBus.hpp>

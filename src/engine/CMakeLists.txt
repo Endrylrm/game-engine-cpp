@@ -19,7 +19,9 @@ set(ENGINE_SOURCES
 
 if(RENDERER_OPENGL)
     list(APPEND ENGINE_SOURCES
+        backend/OpenGL/graphics/OpenGLMesh.cpp
         backend/OpenGL/graphics/OpenGLRenderer.cpp
+        backend/OpenGL/graphics/OpenGLShader.cpp
         backend/OpenGL/graphics/OpenGLTexture.cpp
     )
 elseif(RENDERER_SDL)

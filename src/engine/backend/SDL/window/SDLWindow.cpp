@@ -1,5 +1,7 @@
 #include "engine/backend/SDL/window/SDLWindow.hpp"
 
+#include <SDL3/SDL_video.h>
+
 #include <engine/core/log/Log.hpp>
 
 SDLWindow::SDLWindow(std::string newTitle, int newWidth, int newHeight)
@@ -29,11 +31,13 @@ bool SDLWindow::onInit()
         return false;
     }
 
-#ifdef RENDERER_SDL
-    window = SDL_CreateWindow(title.c_str(), width, height, 0);
-#elif defined(RENDERER_OPENGL)
-    window = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_OPENGL);
+    SDL_WindowFlags flags = SDL_WINDOW_HIGH_PIXEL_DENSITY;
+
+#ifdef RENDERER_OPENGL
+    flags |= SDL_WINDOW_OPENGL;
 #endif
+
+    window = SDL_CreateWindow(title.c_str(), width, height, flags);
 
     if (!window)
     {

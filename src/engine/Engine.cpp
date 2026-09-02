@@ -1,7 +1,6 @@
 #include "engine/Engine.hpp"
 
 #include <chrono>
-#include <iostream>
 #include <string>
 #include <thread>
 

@@ -24,7 +24,8 @@ void TimerManager::onUpdate(float deltaTime)
     }
 
     std::erase_if(
-        timers, [](const std::unique_ptr<Timer> &timer)
+        timers,
+        [](const std::unique_ptr<Timer> &timer)
         { return timer->isOneShot() && !timer->isRunning(); }
     );
 }

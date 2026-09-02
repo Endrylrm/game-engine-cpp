@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
 #include <string>
-#include <unordered_map>
 
 #include <SDL3/SDL.h>
 #include <glad/gl.h>
@@ -9,6 +8,9 @@
 #include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/graphics/Texture.hpp>
 #include <engine/core/math/Rect2D.hpp>
+
+#include "OpenGLMesh.hpp"
+#include "OpenGLShader.hpp"
 
 class OpenGLRenderer : public Renderer
 {
@@ -31,12 +33,22 @@ private:
     bool initGlad();
     bool initViewport();
     bool initTrianglePipeline();
-    bool initQuadPipeline();
+    bool initRectPipeline();
     bool initTexturePipeline();
     bool initOpenGLState();
 
     SDL_Window *window{};
     SDL_GLContext context{};
+
+    OpenGLMesh textureMesh;
+    OpenGLShader textureShader;
+
+    OpenGLMesh triangleMesh;
+    OpenGLShader triangleShader;
+
+    OpenGLMesh rectMesh;
+    OpenGLShader rectShader;
+
     GLuint vao{};
     GLuint vbo{};
     GLuint ebo{};

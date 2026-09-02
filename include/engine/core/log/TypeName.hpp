@@ -1,4 +1,5 @@
 #pragma once
+#include <string_view>
 
 template <typename T>
 constexpr std::string_view getTypeName()

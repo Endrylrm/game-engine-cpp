@@ -97,7 +97,7 @@
       "name": "release",
       "displayName": "Build Release",
       "inherits": "default-build",
-      "configuration": "release"
+      "configuration": "Release"
     },
     {
       "name": "relwithdebinfo",

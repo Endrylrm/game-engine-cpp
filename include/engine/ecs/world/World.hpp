@@ -1,7 +1,4 @@
 #pragma once
-#include <functional>
-#include <memory>
-
 #include <engine/core/events/EventBus.hpp>
 #include <engine/core/graphics/Renderer.hpp>
 #include <engine/ecs/registry/Registry.hpp>

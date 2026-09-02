@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <functional>
 #include <memory>
-#include <typeindex>
 #include <unordered_map>
 #include <vector>
 

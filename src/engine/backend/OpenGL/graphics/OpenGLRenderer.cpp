@@ -15,27 +15,10 @@ OpenGLRenderer::OpenGLRenderer(SDL_Window *windowHandle) : window(windowHandle) 
 
 OpenGLRenderer::~OpenGLRenderer()
 {
-    if (shaderProgram)
-        glDeleteProgram(shaderProgram);
-
-    if (ebo)
-        glDeleteBuffers(1, &ebo);
-
-    if (vbo)
-        glDeleteBuffers(1, &vbo);
-
-    if (vao)
-        glDeleteVertexArrays(1, &vao);
-
     if (context)
         SDL_GL_DestroyContext(context);
 
     LOG_DEBUG("OpenGL Renderer destroyed.");
-
-    shaderProgram = 0;
-    ebo = 0;
-    vbo = 0;
-    vao = 0;
 }
 
 bool OpenGLRenderer::onInit()

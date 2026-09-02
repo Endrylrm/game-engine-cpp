@@ -48,9 +48,4 @@ private:
 
     OpenGLMesh rectMesh;
     OpenGLShader rectShader;
-
-    GLuint vao{};
-    GLuint vbo{};
-    GLuint ebo{};
-    GLuint shaderProgram{};
 };

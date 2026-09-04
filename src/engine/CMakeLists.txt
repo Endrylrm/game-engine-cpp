@@ -31,6 +31,14 @@ elseif(RENDERER_SDL)
     )
 endif()
 
+find_package(SDL3 CONFIG REQUIRED)
+find_package(SDL3_image CONFIG REQUIRED)
+find_package(SDL3_mixer CONFIG REQUIRED)
+find_package(SDL3_ttf CONFIG REQUIRED)
+
+find_package(glm CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+
 set(LIBS
     SDL3::SDL3
     SDL3_image::SDL3_image

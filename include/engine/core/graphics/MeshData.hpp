@@ -24,7 +24,7 @@ struct VertexLayout
     uint32_t stride;
 };
 
-enum class PrimitiveType
+enum class PrimitiveType : uint8_t
 {
     Points,
     Lines,

@@ -377,7 +377,9 @@ void OpenGLRenderer::drawTexture(Texture *texture, float x, float y, float w, fl
     textureShader.setMat4("transform", transform);
     textureShader.setMat4("projection", projection);
     textureShader.setVec4("texColor", texColor);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, handle);
+    textureShader.setInt("ourTexture", 0);
     textureMesh.draw();
 }
 

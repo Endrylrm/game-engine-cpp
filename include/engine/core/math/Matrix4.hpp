@@ -2,6 +2,7 @@
 #include <cstdint>
 
 #include "Matrix3.hpp"
+#include "Quaternion.hpp"
 #include "Vector3D.hpp"
 #include "Vector4D.hpp"
 
@@ -26,6 +27,7 @@ public:
     // Transformations
     static Matrix4 translation(const Vector3D &position);
     static Matrix4 rotation(float angle, const Vector3D &axis);
+    static Matrix4 rotation(const Quaternion &quat);
     static Matrix4 rotationX(float angle);
     static Matrix4 rotationY(float angle);
     static Matrix4 rotationZ(float angle);

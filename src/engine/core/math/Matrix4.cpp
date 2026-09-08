@@ -228,6 +228,38 @@ Matrix4 Matrix4::rotation(float angle, const Vector3D &axis)
     return result;
 }
 
+Matrix4 Matrix4::rotation(const Quaternion &quat)
+{
+    Quaternion n = quat.normalized();
+    Matrix4 result(1.0f);
+
+    const float xx = n.x * n.x;
+    const float yy = n.y * n.y;
+    const float zz = n.z * n.z;
+
+    const float xy = n.x * n.y;
+    const float xz = n.x * n.z;
+    const float yz = n.y * n.z;
+
+    const float wx = n.w * n.x;
+    const float wy = n.w * n.y;
+    const float wz = n.w * n.z;
+
+    result[0][0] = 1.0f - 2.0f * (yy + zz);
+    result[0][1] = 2.0f * (xy - wz);
+    result[0][2] = 2.0f * (xz + wy);
+
+    result[1][0] = 2.0f * (xy + wz);
+    result[1][1] = 1.0f - 2.0f * (xx + zz);
+    result[1][2] = 2.0f * (yz - wx);
+
+    result[2][0] = 2.0f * (xz - wy);
+    result[2][1] = 2.0f * (yz + wx);
+    result[2][2] = 1.0f - 2.0f * (xx + yy);
+
+    return result;
+}
+
 Matrix4 Matrix4::rotationX(float angle)
 {
     Matrix4 result = Matrix4::identity();

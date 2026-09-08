@@ -1,8 +1,6 @@
 #include "engine/core/math/Quaternion.hpp"
 
 #include <engine/core/math/Math.hpp>
-#include <engine/core/math/Matrix3.hpp>
-#include <engine/core/math/Matrix4.hpp>
 #include <engine/core/math/Vector3D.hpp>
 
 constexpr Quaternion Quaternion::identity()
@@ -252,70 +250,6 @@ Quaternion Quaternion::slerp(const Quaternion &a, const Quaternion &b, float t)
         q1.z * factorA + q2.z * factorB,
         q1.w * factorA + q2.w * factorB
     };
-}
-
-Matrix3 Quaternion::toMatrix3() const
-{
-    const Quaternion q = normalized();
-
-    const float xx = q.x * q.x;
-    const float yy = q.y * q.y;
-    const float zz = q.z * q.z;
-
-    const float xy = q.x * q.y;
-    const float xz = q.x * q.z;
-    const float yz = q.y * q.z;
-
-    const float wx = q.w * q.x;
-    const float wy = q.w * q.y;
-    const float wz = q.w * q.z;
-
-    Matrix3 result;
-
-    result[0][0] = 1.0f - 2.0f * (yy + zz);
-    result[0][1] = 2.0f * (xy - wz);
-    result[0][2] = 2.0f * (xz + wy);
-
-    result[1][0] = 2.0f * (xy + wz);
-    result[1][1] = 1.0f - 2.0f * (xx + zz);
-    result[1][2] = 2.0f * (yz - wx);
-
-    result[2][0] = 2.0f * (xz - wy);
-    result[2][1] = 2.0f * (yz + wx);
-    result[2][2] = 1.0f - 2.0f * (xx + yy);
-
-    return result;
-}
-
-Matrix4 Quaternion::toMatrix4() const
-{
-    Matrix4 result = Matrix4::identity();
-
-    const float xx = x * x;
-    const float yy = y * y;
-    const float zz = z * z;
-
-    const float xy = x * y;
-    const float xz = x * z;
-    const float yz = y * z;
-
-    const float wx = w * x;
-    const float wy = w * y;
-    const float wz = w * z;
-
-    result[0][0] = 1.0f - 2.0f * (yy + zz);
-    result[0][1] = 2.0f * (xy - wz);
-    result[0][2] = 2.0f * (xz + wy);
-
-    result[1][0] = 2.0f * (xy + wz);
-    result[1][1] = 1.0f - 2.0f * (xx + zz);
-    result[1][2] = 2.0f * (yz - wx);
-
-    result[2][0] = 2.0f * (xz - wy);
-    result[2][1] = 2.0f * (yz + wx);
-    result[2][2] = 1.0f - 2.0f * (xx + yy);
-
-    return result;
 }
 
 Quaternion Quaternion::operator+(const Quaternion &other) const

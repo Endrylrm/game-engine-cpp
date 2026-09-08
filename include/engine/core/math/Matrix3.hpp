@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 
+#include "Quaternion.hpp"
 #include "Vector2D.hpp"
 #include "Vector3D.hpp"
 
@@ -22,6 +23,7 @@ public:
     // Transformations
     Matrix3 translation(const Vector2D &position);
     static Matrix3 rotation(float angle);
+    static Matrix3 rotation(const Quaternion &quat);
     static Matrix3 scale(const Vector2D &scale);
 
     Vector2D transformPoint(const Vector2D &point) const;

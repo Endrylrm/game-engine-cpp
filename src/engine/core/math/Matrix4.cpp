@@ -231,6 +231,7 @@ Matrix4 Matrix4::rotation(float angle, const Vector3D &axis)
 Matrix4 Matrix4::rotation(const Quaternion &quat)
 {
     Quaternion n = quat.normalized();
+
     Matrix4 result(1.0f);
 
     const float xx = n.x * n.x;

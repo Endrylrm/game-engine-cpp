@@ -3,6 +3,10 @@ set(ENGINE_SOURCES
     backend/SDL/input/SDLInputManager.cpp
     backend/SDL/window/SDLWindow.cpp
     core/log/Logger.cpp
+    core/math/conversions/GLMConverter.cpp
+    core/math/Quaternion.cpp
+    core/math/Vector2D.cpp
+    core/math/Vector3D.cpp
     core/string/StringTable.cpp
     scenes/Scene.cpp
     scenes/SceneManager.cpp

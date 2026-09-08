@@ -1,6 +1,9 @@
 #include "engine/core/math/Vector3D.hpp"
 
 #include <engine/core/math/Math.hpp>
+#include <engine/core/math/Vector2D.hpp>
+
+Vector3D::Vector3D(Vector2D vec) : x(vec.x), y(vec.y), z(0.0f) {}
 
 Vector3D Vector3D::Zero()
 {
@@ -278,6 +281,15 @@ Vector3D Vector3D::operator/(float scalar) const
 Vector3D &Vector3D::operator/=(float scalar)
 {
     *this = *this / scalar;
+    return *this;
+}
+
+Vector3D &Vector3D::operator=(const Vector2D &other)
+{
+    x = other.x;
+    y = other.y;
+    z = 0.0f;
+
     return *this;
 }
 

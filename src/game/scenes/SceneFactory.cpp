@@ -79,7 +79,7 @@ void SceneFactory::createPlayerScene(Scene &scene)
                 AssetsAPI::load<Texture>("assets/player/playerShip1_blue.png");
             Entity player =
                 EntityBuilder(scene)
-                    .addComponent<Transform>(375.0f, 450.0f)
+                    .addComponent<Transform>(375.0f, 450.0f, 0.0f)
                     .addComponent<Velocity>()
                     .addComponent<SpriteRenderer>(sprite)
                     .addComponent<Renderable>()

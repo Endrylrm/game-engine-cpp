@@ -1,5 +1,6 @@
 #pragma once
 #include <engine/core/math/Math.hpp>
+#include <engine/core/math/Matrix4.hpp>
 #include <engine/core/math/Quaternion.hpp>
 #include <engine/core/math/Vector2D.hpp>
 #include <engine/core/math/Vector3D.hpp>
@@ -20,4 +21,7 @@ struct GLMConverter
 
     static glm::quat toGLM(const Quaternion &quat);
     static Quaternion fromGLM(const glm::quat &quat);
+
+    static glm::mat4 toGLM(const Matrix4 &mat);
+    static Matrix4 fromGLM(const glm::mat4 &mat);
 };

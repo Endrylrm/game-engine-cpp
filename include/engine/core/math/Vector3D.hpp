@@ -39,7 +39,7 @@ public:
     float yaw() const;
     float yawDegrees() const;
 
-    Vector3D MoveTowards(const Vector3D &target, float maxDistanceDelta) const;
+    Vector3D moveTowards(const Vector3D &target, float maxDistanceDelta) const;
     Vector3D rotateTowards(const Vector3D &target, float maxRadiansDelta) const;
     Vector3D lerp(const Vector3D &target, float t) const;
     Vector3D project(const Vector3D &onto) const;

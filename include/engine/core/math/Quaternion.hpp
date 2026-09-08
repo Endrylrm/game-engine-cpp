@@ -1,5 +1,6 @@
 #pragma once
-#include "Vector3D.hpp"
+class Vector3D;
+class Matrix4;
 
 class Quaternion
 {
@@ -32,6 +33,8 @@ public:
 
     static Quaternion nlerp(const Quaternion &a, const Quaternion &b, float t);
     static Quaternion slerp(const Quaternion &a, const Quaternion &b, float t);
+
+    Matrix4 toMatrix4() const;
 
     Quaternion operator*(const Quaternion &other) const;
     Quaternion &operator*=(const Quaternion &other);

@@ -1,11 +1,6 @@
 #include "engine/core/math/Vector3D.hpp"
 
-#include <algorithm>
-#include <cmath>
-#include <numbers>
-
 #include <engine/core/math/Math.hpp>
-#include <engine/core/math/Vector2D.hpp>
 
 Vector3D Vector3D::Zero()
 {
@@ -152,7 +147,7 @@ float Vector3D::yawDegrees() const
     return std::atan2(y, x) * 180.0f / std::numbers::pi_v<float>;
 }
 
-Vector3D Vector3D::MoveTowards(const Vector3D &target, float maxDistanceDelta) const
+Vector3D Vector3D::moveTowards(const Vector3D &target, float maxDistanceDelta) const
 {
     Vector3D delta = target - *this;
 

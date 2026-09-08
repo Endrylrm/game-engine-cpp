@@ -1,8 +1,5 @@
 #include "engine/core/math/Vector2D.hpp"
 
-#include <cmath>
-#include <numbers>
-
 #include <engine/core/math/Math.hpp>
 #include <engine/core/math/conversions/GLMConverter.hpp>
 

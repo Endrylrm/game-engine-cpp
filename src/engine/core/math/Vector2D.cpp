@@ -2,8 +2,10 @@
 
 #include <engine/core/math/Math.hpp>
 #include <engine/core/math/Vector3D.hpp>
+#include <engine/core/math/Vector4D.hpp>
 
 Vector2D::Vector2D(Vector3D vec) : x(vec.x), y(vec.y) {}
+Vector2D::Vector2D(Vector4D vec) : x(vec.x), y(vec.y) {}
 
 Vector2D Vector2D::Zero()
 {
@@ -214,6 +216,14 @@ Vector2D &Vector2D::operator/=(float scalar)
 }
 
 Vector2D &Vector2D::operator=(const Vector3D &other)
+{
+    x = other.x;
+    y = other.y;
+
+    return *this;
+}
+
+Vector2D &Vector2D::operator=(const Vector4D &other)
 {
     x = other.x;
     y = other.y;

@@ -1,6 +1,11 @@
 #include "engine/core/math/Vector4D.hpp"
 
 #include <engine/core/math/Math.hpp>
+#include <engine/core/math/Vector2D.hpp>
+#include <engine/core/math/Vector3D.hpp>
+
+Vector4D::Vector4D(Vector2D vec) : x(vec.x), y(vec.y), z(0.0f), w(1.0f) {}
+Vector4D::Vector4D(Vector3D vec) : x(vec.x), y(vec.y), z(vec.z), w(1.0f) {}
 
 float Vector4D::length() const
 {
@@ -81,6 +86,26 @@ Vector4D Vector4D::operator/(float scalar) const
 Vector4D &Vector4D::operator/=(float scalar)
 {
     *this = *this / scalar;
+    return *this;
+}
+
+Vector4D &Vector4D::operator=(const Vector2D &other)
+{
+    x = other.x;
+    y = other.y;
+    z = 0.0f;
+    w = 1.0f;
+
+    return *this;
+}
+
+Vector4D &Vector4D::operator=(const Vector3D &other)
+{
+    x = other.x;
+    y = other.y;
+    z = other.z;
+    w = 1.0f;
+
     return *this;
 }
 

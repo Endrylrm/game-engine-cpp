@@ -1,5 +1,6 @@
 #pragma once
 class Vector2D;
+class Vector4D;
 
 class Vector3D
 {
@@ -7,7 +8,9 @@ public:
     Vector3D() = default;
     Vector3D(float all) : x(all), y(all), z(all) {}
     Vector3D(float x, float y, float z) : x(x), y(y), z(z) {}
+    Vector3D(const Vector3D &other) : x(other.x), y(other.y), z(other.z) {}
     Vector3D(Vector2D vec);
+    Vector3D(Vector4D vec);
 
     static Vector3D Zero();
     static Vector3D One();
@@ -67,6 +70,7 @@ public:
     Vector3D &operator/=(float scalar);
 
     Vector3D &operator=(const Vector2D &other);
+    Vector3D &operator=(const Vector4D &other);
 
     bool operator==(const Vector3D &other) const;
     bool operator!=(const Vector3D &other) const;

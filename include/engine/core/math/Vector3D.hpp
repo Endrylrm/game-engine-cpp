@@ -47,17 +47,25 @@ public:
     Vector3D clampMagnitude(float maxLength) const;
     Vector3D perpendicular() const;
 
-    Vector3D &operator+=(const Vector3D &other);
     Vector3D operator+(const Vector3D &other) const;
+    Vector3D &operator+=(const Vector3D &other);
 
-    Vector3D &operator-=(const Vector3D &other);
     Vector3D operator-(const Vector3D &other) const;
+    Vector3D &operator-=(const Vector3D &other);
 
-    Vector3D &operator*=(float scalar);
     Vector3D operator*(float scalar) const;
+    Vector3D &operator*=(float scalar);
 
-    Vector3D &operator/=(float scalar);
+    friend Vector3D operator*(float scalar, const Vector3D &vector);
+
+    Vector3D operator*(const Vector3D &other) const;
+    Vector3D &operator*=(const Vector3D &other);
+
     Vector3D operator/(float scalar) const;
+    Vector3D &operator/=(float scalar);
+
+    bool operator==(const Vector3D &other) const;
+    bool operator!=(const Vector3D &other) const;
 
     float x{};
     float y{};

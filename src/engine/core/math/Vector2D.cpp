@@ -1,7 +1,6 @@
 #include "engine/core/math/Vector2D.hpp"
 
 #include <engine/core/math/Math.hpp>
-#include <engine/core/math/conversions/GLMConverter.hpp>
 
 Vector2D Vector2D::Zero()
 {
@@ -57,7 +56,13 @@ void Vector2D::normalize()
 
 Vector2D Vector2D::normalized() const
 {
-    return GLMConverter::fromGLM(glm::normalize(GLMConverter::toGLM(*this)));
+    const float vectorLength = length();
+
+    if (vectorLength < Math::EPSILON)
+        return Vector2D{0.0f, 0.0f};
+
+    const float invLength = 1.0f / vectorLength;
+    return Vector2D{x * invLength, y * invLength};
 }
 
 float Vector2D::distance(const Vector2D &other) const
@@ -93,7 +98,7 @@ float Vector2D::angle() const
 
 float Vector2D::angleDegrees() const
 {
-    return std::atan2(y, x) * 180.0f / std::numbers::pi_v<float>;
+    return std::atan2(y, x) * 180.0f / Math::PI;
 }
 
 float Vector2D::angleTo(const Vector2D &other) const
@@ -161,58 +166,56 @@ Vector2D Vector2D::perpendicularRight() const
     return {y, -x};
 }
 
-Vector2D &Vector2D::operator+=(const Vector2D &other)
-{
-    this->x += other.x;
-    this->y += other.y;
-    return *this;
-}
-
 Vector2D Vector2D::operator+(const Vector2D &other) const
 {
-    Vector2D result = *this;
-    result += other;
-    return result;
+    return Vector2D{x + other.x, y + other.y};
 }
 
-Vector2D &Vector2D::operator-=(const Vector2D &other)
+Vector2D &Vector2D::operator+=(const Vector2D &other)
 {
-    this->x -= other.x;
-    this->y -= other.y;
+    *this = *this + other;
     return *this;
 }
 
 Vector2D Vector2D::operator-(const Vector2D &other) const
 {
-    Vector2D result = *this;
-    result -= other;
-    return result;
+    return Vector2D{x - other.x, y - other.y};
 }
 
-Vector2D &Vector2D::operator*=(float scalar)
+Vector2D &Vector2D::operator-=(const Vector2D &other)
 {
-    this->x *= scalar;
-    this->y *= scalar;
+    *this = *this - other;
     return *this;
 }
 
 Vector2D Vector2D::operator*(float scalar) const
 {
-    Vector2D result = *this;
-    result *= scalar;
-    return result;
+    return Vector2D{x * scalar, y * scalar};
 }
 
-Vector2D &Vector2D::operator/=(float scalar)
+Vector2D &Vector2D::operator*=(float scalar)
 {
-    this->x /= scalar;
-    this->y /= scalar;
+    *this = *this * scalar;
     return *this;
 }
 
 Vector2D Vector2D::operator/(float scalar) const
 {
-    Vector2D result = *this;
-    result /= scalar;
-    return result;
+    return Vector2D{x / scalar, y / scalar};
+}
+
+Vector2D &Vector2D::operator/=(float scalar)
+{
+    *this = *this / scalar;
+    return *this;
+}
+
+bool Vector2D::operator==(const Vector2D &other) const
+{
+    return Math::approximatelyEqual(x, other.x) && Math::approximatelyEqual(y, other.y);
+}
+
+bool Vector2D::operator!=(const Vector2D &other) const
+{
+    return !(*this == other);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 
+#include "Matrix3.hpp"
 #include "Vector3D.hpp"
 #include "Vector4D.hpp"
 
@@ -18,6 +19,9 @@ public:
     Matrix4 inverse() const;
     bool tryInverse(Matrix4 &result) const;
     Matrix4 transpose() const;
+
+    Matrix3 upperLeft3x3() const;
+    Matrix3 normalMatrix() const;
 
     // Transformations
     static Matrix4 translation(const Vector3D &position);
@@ -52,6 +56,7 @@ public:
     Vector4D operator*(const Vector4D &vector) const;
 
     bool operator==(const Matrix4 &other) const;
+    bool operator!=(const Matrix4 &other) const;
 
     float *operator[](size_t row);
     const float *operator[](size_t row) const;

@@ -1,7 +1,6 @@
 #include "engine/core/math/Matrix4.hpp"
 
 #include <engine/core/math/Math.hpp>
-#include <engine/core/math/conversions/GLMConverter.hpp>
 
 Matrix4::Matrix4(float diagonal) : data{}
 {
@@ -11,6 +10,7 @@ Matrix4::Matrix4(float diagonal) : data{}
     data[3][3] = diagonal;
 }
 
+// Matrix operations
 Matrix4 Matrix4::identity()
 {
     return Matrix4(1.0f);
@@ -18,12 +18,86 @@ Matrix4 Matrix4::identity()
 
 float Matrix4::determinant() const
 {
-    return glm::determinant(GLMConverter::toGLM(*this));
+    const float a = data[0][0];
+    const float b = data[0][1];
+    const float c = data[0][2];
+    const float d = data[0][3];
+
+    const float e = data[1][0];
+    const float f = data[1][1];
+    const float g = data[1][2];
+    const float h = data[1][3];
+
+    const float i = data[2][0];
+    const float j = data[2][1];
+    const float k = data[2][2];
+    const float l = data[2][3];
+
+    const float m = data[3][0];
+    const float n = data[3][1];
+    const float o = data[3][2];
+    const float p = data[3][3];
+
+    const float det0 = f * (k * p - l * o) - g * (j * p - l * n) + h * (j * o - k * n);
+    const float det1 = e * (k * p - l * o) - g * (i * p - l * m) + h * (i * o - k * m);
+    const float det2 = e * (j * p - l * n) - f * (i * p - l * m) + h * (i * n - j * m);
+    const float det3 = e * (j * o - k * n) - f * (i * o - k * m) + g * (i * n - j * m);
+
+    return a * det0 - b * det1 + c * det2 - d * det3;
 }
 
 Matrix4 Matrix4::inverse() const
 {
-    return GLMConverter::fromGLM(glm::inverse(GLMConverter::toGLM(*this)));
+    const float det = determinant();
+
+    if (std::abs(det) < Math::EPSILON)
+        return Matrix4::identity();
+
+    const float invDet = 1.0f / det;
+
+    Matrix4 result;
+
+    const float a = data[0][0];
+    const float b = data[0][1];
+    const float c = data[0][2];
+    const float d = data[0][3];
+
+    const float e = data[1][0];
+    const float f = data[1][1];
+    const float g = data[1][2];
+    const float h = data[1][3];
+
+    const float i = data[2][0];
+    const float j = data[2][1];
+    const float k = data[2][2];
+    const float l = data[2][3];
+
+    const float m = data[3][0];
+    const float n = data[3][1];
+    const float o = data[3][2];
+    const float p = data[3][3];
+
+    result[0][0] = (f * (k * p - l * o) - g * (j * p - l * n) + h * (j * o - k * n)) * invDet;
+    result[0][1] = -(b * (k * p - l * o) - c * (j * p - l * n) + d * (j * o - k * n)) * invDet;
+    result[0][2] = (b * (g * l - h * k) - c * (f * l - h * j) + d * (f * k - g * j)) * invDet;
+    result[0][3] = -(b * (g * o - h * n) - c * (f * o - h * m) + d * (f * n - g * m)) * invDet;
+
+    result[1][0] = -(e * (k * p - l * o) - g * (i * p - l * m) + h * (i * o - k * m)) * invDet;
+    result[1][1] = (a * (k * p - l * o) - c * (i * p - l * m) + d * (i * o - k * m)) * invDet;
+    result[1][2] = -(a * (g * p - h * o) - c * (e * p - h * m) + d * (e * o - g * m)) * invDet;
+    result[1][3] = (a * (g * o - h * n) - c * (e * o - h * m) + d * (e * n - g * m)) * invDet;
+
+    result[2][0] = (e * (j * p - l * n) - f * (i * p - l * m) + h * (i * n - j * m)) * invDet;
+    result[2][1] = -(a * (j * p - l * n) - b * (i * p - l * m) + d * (i * n - j * m)) * invDet;
+    result[2][2] = (a * (f * p - h * n) - b * (e * p - h * m) + d * (e * n - f * m)) * invDet;
+    result[2][3] = -(a * (f * o - g * n) - b * (e * o - g * m) + c * (e * n - f * m)) * invDet;
+
+    result[3][0] = -(e * (j * o - k * n) - f * (i * o - k * m) + g * (i * n - j * m)) * invDet;
+    result[3][1] = (a * (j * o - k * n) - b * (i * o - k * m) + c * (i * n - j * m)) * invDet;
+    result[3][2] = -(a * (f * o - g * n) - b * (e * o - g * m) + c * (e * n - f * m)) * invDet;
+    result[3][3] = (a * (f * k - g * j) - b * (e * k - g * i) + c * (e * j - f * i)) * invDet;
+
+    return result;
 }
 
 bool Matrix4::tryInverse(Matrix4 &result) const
@@ -33,7 +107,48 @@ bool Matrix4::tryInverse(Matrix4 &result) const
     if (std::abs(det) < Math::EPSILON)
         return false;
 
-    result = GLMConverter::fromGLM(glm::inverse(GLMConverter::toGLM(*this)));
+    const float invDet = 1.0f / det;
+
+    const float a = data[0][0];
+    const float b = data[0][1];
+    const float c = data[0][2];
+    const float d = data[0][3];
+
+    const float e = data[1][0];
+    const float f = data[1][1];
+    const float g = data[1][2];
+    const float h = data[1][3];
+
+    const float i = data[2][0];
+    const float j = data[2][1];
+    const float k = data[2][2];
+    const float l = data[2][3];
+
+    const float m = data[3][0];
+    const float n = data[3][1];
+    const float o = data[3][2];
+    const float p = data[3][3];
+
+    result[0][0] = (f * (k * p - l * o) - g * (j * p - l * n) + h * (j * o - k * n)) * invDet;
+    result[0][1] = -(b * (k * p - l * o) - c * (j * p - l * n) + d * (j * o - k * n)) * invDet;
+    result[0][2] = (b * (g * l - h * k) - c * (f * l - h * j) + d * (f * k - g * j)) * invDet;
+    result[0][3] = -(b * (g * o - h * n) - c * (f * o - h * m) + d * (f * n - g * m)) * invDet;
+
+    result[1][0] = -(e * (k * p - l * o) - g * (i * p - l * m) + h * (i * o - k * m)) * invDet;
+    result[1][1] = (a * (k * p - l * o) - c * (i * p - l * m) + d * (i * o - k * m)) * invDet;
+    result[1][2] = -(a * (g * p - h * o) - c * (e * p - h * m) + d * (e * o - g * m)) * invDet;
+    result[1][3] = (a * (g * o - h * n) - c * (e * o - h * m) + d * (e * n - g * m)) * invDet;
+
+    result[2][0] = (e * (j * p - l * n) - f * (i * p - l * m) + h * (i * n - j * m)) * invDet;
+    result[2][1] = -(a * (j * p - l * n) - b * (i * p - l * m) + d * (i * n - j * m)) * invDet;
+    result[2][2] = (a * (f * p - h * n) - b * (e * p - h * m) + d * (e * n - f * m)) * invDet;
+    result[2][3] = -(a * (f * o - g * n) - b * (e * o - g * m) + c * (e * n - f * m)) * invDet;
+
+    result[3][0] = -(e * (j * o - k * n) - f * (i * o - k * m) + g * (i * n - j * m)) * invDet;
+    result[3][1] = (a * (j * o - k * n) - b * (i * o - k * m) + c * (i * n - j * m)) * invDet;
+    result[3][2] = -(a * (f * o - g * n) - b * (e * o - g * m) + c * (e * n - f * m)) * invDet;
+    result[3][3] = (a * (f * k - g * j) - b * (e * k - g * i) + c * (e * j - f * i)) * invDet;
+
     return true;
 }
 
@@ -50,6 +165,26 @@ Matrix4 Matrix4::transpose() const
     }
 
     return result;
+}
+
+Matrix3 Matrix4::upperLeft3x3() const
+{
+    Matrix3 result;
+
+    for (size_t row = 0; row < 3; ++row)
+    {
+        for (size_t column = 0; column < 3; ++column)
+        {
+            result[row][column] = data[row][column];
+        }
+    }
+
+    return result;
+}
+
+Matrix3 Matrix4::normalMatrix() const
+{
+    return upperLeft3x3().inverse().transpose();
 }
 
 // Transformations
@@ -205,9 +340,7 @@ Matrix4 Matrix4::perspective(float fov, float aspect, float near, float far)
 Matrix4 Matrix4::lookAt(const Vector3D &eye, const Vector3D &target, const Vector3D &up)
 {
     const Vector3D forward = (target - eye).normalized();
-
     const Vector3D right = forward.cross(up).normalized();
-
     const Vector3D cameraUp = right.cross(forward);
 
     Matrix4 result = Matrix4::identity();
@@ -230,6 +363,7 @@ Matrix4 Matrix4::lookAt(const Vector3D &eye, const Vector3D &target, const Vecto
     return result;
 }
 
+// Operators
 Matrix4 Matrix4::operator+(const Matrix4 &other) const
 {
     Matrix4 result;
@@ -247,14 +381,7 @@ Matrix4 Matrix4::operator+(const Matrix4 &other) const
 
 Matrix4 &Matrix4::operator+=(const Matrix4 &other)
 {
-    for (size_t row = 0; row < 4; ++row)
-    {
-        for (size_t column = 0; column < 4; ++column)
-        {
-            data[row][column] += other[row][column];
-        }
-    }
-
+    *this = *this + other;
     return *this;
 }
 
@@ -331,13 +458,10 @@ Vector4D Matrix4::operator*(const Vector4D &vector) const
     return Vector4D{
         data[0][0] * vector.x + data[0][1] * vector.y + data[0][2] * vector.z +
             data[0][3] * vector.w,
-
         data[1][0] * vector.x + data[1][1] * vector.y + data[1][2] * vector.z +
             data[1][3] * vector.w,
-
         data[2][0] * vector.x + data[2][1] * vector.y + data[2][2] * vector.z +
             data[2][3] * vector.w,
-
         data[3][0] * vector.x + data[3][1] * vector.y + data[3][2] * vector.z +
             data[3][3] * vector.w
     };
@@ -357,6 +481,11 @@ bool Matrix4::operator==(const Matrix4 &other) const
     }
 
     return true;
+}
+
+bool Matrix4::operator!=(const Matrix4 &other) const
+{
+    return !(*this == other);
 }
 
 float *Matrix4::operator[](size_t row)

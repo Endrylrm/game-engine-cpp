@@ -40,17 +40,20 @@ public:
     Vector2D perpendicularLeft() const;
     Vector2D perpendicularRight() const;
 
-    Vector2D &operator+=(const Vector2D &other);
     Vector2D operator+(const Vector2D &other) const;
+    Vector2D &operator+=(const Vector2D &other);
 
-    Vector2D &operator-=(const Vector2D &other);
     Vector2D operator-(const Vector2D &other) const;
+    Vector2D &operator-=(const Vector2D &other);
 
-    Vector2D &operator*=(float scalar);
     Vector2D operator*(float scalar) const;
+    Vector2D &operator*=(float scalar);
 
-    Vector2D &operator/=(float scalar);
     Vector2D operator/(float scalar) const;
+    Vector2D &operator/=(float scalar);
+
+    bool operator==(const Vector2D &other) const;
+    bool operator!=(const Vector2D &other) const;
 
     float x{};
     float y{};

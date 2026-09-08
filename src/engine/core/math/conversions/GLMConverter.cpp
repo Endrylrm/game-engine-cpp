@@ -40,6 +40,36 @@ Quaternion GLMConverter::fromGLM(const glm::quat &quat)
     return {quat.x, quat.y, quat.z, quat.w};
 }
 
+glm::mat3 GLMConverter::toGLM(const Matrix3 &mat)
+{
+    glm::mat3 result{};
+
+    for (int row = 0; row < 3; ++row)
+    {
+        for (int column = 0; column < 3; ++column)
+        {
+            result[column][row] = mat[row][column];
+        }
+    }
+
+    return result;
+}
+
+Matrix3 GLMConverter::fromGLM(const glm::mat3 &mat)
+{
+    Matrix3 result{};
+
+    for (int row = 0; row < 3; ++row)
+    {
+        for (int column = 0; column < 3; ++column)
+        {
+            result[row][column] = mat[column][row];
+        }
+    }
+
+    return result;
+}
+
 glm::mat4 GLMConverter::toGLM(const Matrix4 &mat)
 {
     glm::mat4 result{};

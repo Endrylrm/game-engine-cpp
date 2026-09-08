@@ -1,8 +1,7 @@
 #include "game/ecs/systems/common/ScreenClampSystem.hpp"
 
-#include <algorithm>
-
 #include <engine/api/WindowAPI.hpp>
+#include <engine/core/math/Math.hpp>
 #include <engine/ecs/components/BoxCollider.hpp>
 #include <engine/ecs/components/Transform.hpp>
 
@@ -14,9 +13,9 @@ void ScreenClampSystem::onPostUpdate(World &world)
     {
         if (clamp.horizontal)
             transform.position.x =
-                std::clamp(transform.position.x, 0.0f, WindowAPI::getWidth() - collider.size.x);
+                Math::clamp(transform.position.x, 0.0f, WindowAPI::getWidth() - collider.size.x);
         if (clamp.vertical)
             transform.position.y =
-                std::clamp(transform.position.y, 0.0f, WindowAPI::getHeight() - collider.size.y);
+                Math::clamp(transform.position.y, 0.0f, WindowAPI::getHeight() - collider.size.y);
     }
 }

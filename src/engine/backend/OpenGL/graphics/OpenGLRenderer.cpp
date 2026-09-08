@@ -3,13 +3,14 @@
 #include <string>
 
 #include <SDL3_image/SDL_image.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 #include <engine/backend/OpenGL/graphics/OpenGLTexture.hpp>
 #include <engine/core/graphics/MeshData.hpp>
 #include <engine/core/log/Log.hpp>
+#include <engine/core/math/Matrix4.hpp>
+#include <engine/core/math/Vector3D.hpp>
+#include <engine/core/math/Vector4D.hpp>
+#include <engine/core/math/conversions/GLMConverter.hpp>
 
 OpenGLRenderer::OpenGLRenderer(SDL_Window *windowHandle) : window(windowHandle) {}
 
@@ -365,18 +366,17 @@ void OpenGLRenderer::drawTexture(Texture *texture, float x, float y, float w, fl
 
     GLuint handle = glTexture->getNativeHandle();
 
-    glm::vec4 texColor(1.0f, 1.0f, 1.0f, 1.0f);
+    Vector4D texColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-    glm::mat4 transform(1.0f);
-    transform = glm::translate(transform, glm::vec3(x, y, 0.0f));
-    transform = glm::scale(transform, glm::vec3(w, h, 1.0f));
+    Matrix4 transform =
+        Matrix4::translation(Vector3D(x, y, 0.0f)) * Matrix4::scale(Vector3D(w, h, 1.0f));
 
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+    Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 
     textureShader.use();
-    textureShader.setMat4("transform", transform);
-    textureShader.setMat4("projection", projection);
-    textureShader.setVec4("texColor", texColor);
+    textureShader.setMat4("transform", GLMConverter::toGLM(transform));
+    textureShader.setMat4("projection", GLMConverter::toGLM(projection));
+    textureShader.setVec4("texColor", GLMConverter::toGLM(texColor));
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, handle);
     textureShader.setInt("ourTexture", 0);
@@ -392,13 +392,12 @@ void OpenGLRenderer::drawRect(
     float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b, uint8_t a
 )
 {
-    glm::mat4 transform(1.0f);
-    transform = glm::translate(transform, glm::vec3(x, y, 0.0f));
-    transform = glm::scale(transform, glm::vec3(w, h, 1.0f));
+    Matrix4 transform =
+        Matrix4::translation(Vector3D(x, y, 0.0f)) * Matrix4::scale(Vector3D(w, h, 1.0f));
 
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+    Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 
-    glm::vec4 rectColor(
+    Vector4D rectColor(
         static_cast<float>(r) / 255.0f,
         static_cast<float>(g) / 255.0f,
         static_cast<float>(b) / 255.0f,
@@ -406,9 +405,9 @@ void OpenGLRenderer::drawRect(
     );
 
     rectShader.use();
-    rectShader.setMat4("transform", transform);
-    rectShader.setMat4("projection", projection);
-    rectShader.setVec4("rectColor", rectColor);
+    rectShader.setMat4("transform", GLMConverter::toGLM(transform));
+    rectShader.setMat4("projection", GLMConverter::toGLM(projection));
+    rectShader.setVec4("rectColor", GLMConverter::toGLM(rectColor));
     rectMesh.draw();
 }
 

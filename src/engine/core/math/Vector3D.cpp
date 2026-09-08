@@ -44,7 +44,7 @@ Vector3D Vector3D::Back()
 
 bool Vector3D::isZero() const
 {
-    return lengthSquared() < std::numeric_limits<float>::epsilon();
+    return lengthSquared() < Math::EPSILON;
 }
 
 float Vector3D::length() const
@@ -74,7 +74,7 @@ Vector3D Vector3D::normalized() const
 {
     float vectorLength = length();
 
-    if (vectorLength < std::numeric_limits<float>::epsilon())
+    if (vectorLength < Math::EPSILON)
         return {0.0f, 0.0f, 0.0f};
 
     return {x / vectorLength, y / vectorLength, z / vectorLength};
@@ -114,7 +114,7 @@ float Vector3D::angle(const Vector3D &other) const
 {
     float lengths = length() * other.length();
 
-    if (lengths <= std::numeric_limits<float>::epsilon())
+    if (lengths <= Math::EPSILON)
         return 0.0f;
 
     float cosine = dot(other) / lengths;
@@ -124,7 +124,7 @@ float Vector3D::angle(const Vector3D &other) const
 
 float Vector3D::angleDegrees(const Vector3D &other) const
 {
-    return angle(other) * 180.0f / std::numbers::pi_v<float>;
+    return angle(other) * 180.0f / Math::PI;
 }
 
 float Vector3D::pitch() const
@@ -134,7 +134,7 @@ float Vector3D::pitch() const
 
 float Vector3D::pitchDegrees() const
 {
-    return std::atan2(z, std::hypot(x * x, y * y)) * 180.0f / std::numbers::pi_v<float>;
+    return std::atan2(z, std::hypot(x * x, y * y)) * 180.0f / Math::PI;
 }
 
 float Vector3D::yaw() const
@@ -144,7 +144,7 @@ float Vector3D::yaw() const
 
 float Vector3D::yawDegrees() const
 {
-    return std::atan2(y, x) * 180.0f / std::numbers::pi_v<float>;
+    return std::atan2(y, x) * 180.0f / Math::PI;
 }
 
 Vector3D Vector3D::moveTowards(const Vector3D &target, float maxDistanceDelta) const
@@ -153,7 +153,7 @@ Vector3D Vector3D::moveTowards(const Vector3D &target, float maxDistanceDelta) c
 
     float distance = delta.length();
 
-    if (distance <= maxDistanceDelta || distance < std::numeric_limits<float>::epsilon())
+    if (distance <= maxDistanceDelta || distance < Math::EPSILON)
         return target;
 
     return *this + delta / distance * maxDistanceDelta;
@@ -170,7 +170,7 @@ Vector3D Vector3D::rotateTowards(const Vector3D &target, float maxRadiansDelta) 
 
     float angle = std::acos(dotProduct);
 
-    if (angle < std::numeric_limits<float>::epsilon())
+    if (angle < Math::EPSILON)
         return target;
 
     float t = std::min(1.0f, maxRadiansDelta / angle);
@@ -221,62 +221,73 @@ Vector3D Vector3D::perpendicular() const
     return cross(Vector3D(0, 1, 0)).normalized();
 }
 
-Vector3D &Vector3D::operator+=(const Vector3D &other)
-{
-    this->x += other.x;
-    this->y += other.y;
-    this->z += other.z;
-    return *this;
-}
-
 Vector3D Vector3D::operator+(const Vector3D &other) const
 {
-    Vector3D result = *this;
-    result += other;
-    return result;
+    return Vector3D{x + other.x, y + other.y, z + other.z};
 }
 
-Vector3D &Vector3D::operator-=(const Vector3D &other)
+Vector3D &Vector3D::operator+=(const Vector3D &other)
 {
-    this->x -= other.x;
-    this->y -= other.y;
-    this->z -= other.z;
+    *this = *this + other;
     return *this;
 }
 
 Vector3D Vector3D::operator-(const Vector3D &other) const
 {
-    Vector3D result = *this;
-    result -= other;
-    return result;
+    return Vector3D{x - other.x, y - other.y, z - other.z};
 }
 
-Vector3D &Vector3D::operator*=(float scalar)
+Vector3D &Vector3D::operator-=(const Vector3D &other)
 {
-    this->x *= scalar;
-    this->y *= scalar;
-    this->z *= scalar;
+    *this = *this - other;
     return *this;
 }
 
 Vector3D Vector3D::operator*(float scalar) const
 {
-    Vector3D result = *this;
-    result *= scalar;
-    return result;
+    return Vector3D{x * scalar, y * scalar, z * scalar};
 }
 
-Vector3D &Vector3D::operator/=(float scalar)
+Vector3D &Vector3D::operator*=(float scalar)
 {
-    this->x /= scalar;
-    this->y /= scalar;
-    this->z /= scalar;
+    *this = *this * scalar;
+    return *this;
+}
+
+Vector3D operator*(float scalar, const Vector3D &vector)
+{
+    return vector * scalar;
+}
+
+Vector3D Vector3D::operator*(const Vector3D &other) const
+{
+    return Vector3D{x * other.x, y * other.y, z * other.z};
+}
+
+Vector3D &Vector3D::operator*=(const Vector3D &other)
+{
+    *this = *this * other;
     return *this;
 }
 
 Vector3D Vector3D::operator/(float scalar) const
 {
-    Vector3D result = *this;
-    result /= scalar;
-    return result;
+    return Vector3D{x / scalar, y / scalar, z / scalar};
+}
+
+Vector3D &Vector3D::operator/=(float scalar)
+{
+    *this = *this / scalar;
+    return *this;
+}
+
+bool Vector3D::operator==(const Vector3D &other) const
+{
+    return Math::approximatelyEqual(x, other.x) && Math::approximatelyEqual(y, other.y) &&
+           Math::approximatelyEqual(z, other.z);
+}
+
+bool Vector3D::operator!=(const Vector3D &other) const
+{
+    return !(*this == other);
 }

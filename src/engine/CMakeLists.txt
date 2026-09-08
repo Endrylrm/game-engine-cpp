@@ -4,6 +4,7 @@ set(ENGINE_SOURCES
     backend/SDL/window/SDLWindow.cpp
     core/log/Logger.cpp
     core/math/conversions/GLMConverter.cpp
+    core/math/Matrix3.cpp
     core/math/Matrix4.cpp
     core/math/Quaternion.cpp
     core/math/Vector2D.cpp

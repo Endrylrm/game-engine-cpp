@@ -132,11 +132,11 @@ bool OpenGLRenderer::initTexturePipeline()
     out vec2 texCoord;
 
     uniform mat4 projection;
-    uniform mat4 transform;
+    uniform mat4 model;
 
     void main()
     {
-        gl_Position = projection * transform * vec4(aPosition, 1.0);
+        gl_Position = projection * model * vec4(aPosition, 1.0);
         texCoord = aTexCoord;
     }
     )";
@@ -259,11 +259,11 @@ bool OpenGLRenderer::initRectPipeline()
     layout (location = 0) in vec2 aPosition;
 
     uniform mat4 projection;
-    uniform mat4 transform;
+    uniform mat4 model;
 
     void main()
     {
-        gl_Position = projection * transform * vec4(aPosition, 0.0, 1.0);
+        gl_Position = projection * model * vec4(aPosition, 0.0, 1.0);
     }
     )";
 
@@ -368,13 +368,13 @@ void OpenGLRenderer::drawTexture(Texture *texture, float x, float y, float w, fl
 
     Vector4D texColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-    Matrix4 transform =
+    Matrix4 model =
         Matrix4::translation(Vector3D(x, y, 0.0f)) * Matrix4::scale(Vector3D(w, h, 1.0f));
 
     Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 
     textureShader.use();
-    textureShader.setMat4("transform", GLMConverter::toGLM(transform));
+    textureShader.setMat4("model", GLMConverter::toGLM(model));
     textureShader.setMat4("projection", GLMConverter::toGLM(projection));
     textureShader.setVec4("texColor", GLMConverter::toGLM(texColor));
     glActiveTexture(GL_TEXTURE0);
@@ -392,7 +392,7 @@ void OpenGLRenderer::drawRect(
     float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b, uint8_t a
 )
 {
-    Matrix4 transform =
+    Matrix4 model =
         Matrix4::translation(Vector3D(x, y, 0.0f)) * Matrix4::scale(Vector3D(w, h, 1.0f));
 
     Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
@@ -405,7 +405,7 @@ void OpenGLRenderer::drawRect(
     );
 
     rectShader.use();
-    rectShader.setMat4("transform", GLMConverter::toGLM(transform));
+    rectShader.setMat4("model", GLMConverter::toGLM(model));
     rectShader.setMat4("projection", GLMConverter::toGLM(projection));
     rectShader.setVec4("rectColor", GLMConverter::toGLM(rectColor));
     rectMesh.draw();

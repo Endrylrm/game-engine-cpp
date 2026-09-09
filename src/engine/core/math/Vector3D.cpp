@@ -19,12 +19,12 @@ Vector3D Vector3D::One()
 
 Vector3D Vector3D::Up()
 {
-    return {0.0f, 1.0f, 0.0f};
+    return {0.0f, -1.0f, 0.0f};
 }
 
 Vector3D Vector3D::Down()
 {
-    return {0.0f, -1.0f, 0.0f};
+    return {0.0f, 1.0f, 0.0f};
 }
 
 Vector3D Vector3D::Left()

@@ -19,12 +19,12 @@ Vector2D Vector2D::One()
 
 Vector2D Vector2D::Up()
 {
-    return {0.0f, 1.0f};
+    return {0.0f, -1.0f};
 }
 
 Vector2D Vector2D::Down()
 {
-    return {0.0f, -1.0f};
+    return {0.0f, 1.0f};
 }
 
 Vector2D Vector2D::Left()

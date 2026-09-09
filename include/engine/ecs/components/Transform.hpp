@@ -8,6 +8,7 @@ struct Transform
     Transform() = default;
     Transform(Vector3D position) : position(position) {}
     Transform(Vector3D position, Quaternion rotation) : position(position), rotation(rotation) {}
+    Transform(Vector3D position, Vector3D scale) : position(position), scale(scale) {}
     Transform(Vector3D position, Quaternion rotation, Vector3D scale)
         : position(position), rotation(rotation), scale(scale)
     {

@@ -500,6 +500,12 @@ Vector4D Matrix4::operator*(const Vector4D &vector) const
     };
 }
 
+Vector4D &Matrix4::operator*=(const Vector4D &vector)
+{
+    Vector4D result = *this * vector;
+    return result;
+}
+
 bool Matrix4::operator==(const Matrix4 &other) const
 {
     for (size_t row = 0; row < 4; ++row)

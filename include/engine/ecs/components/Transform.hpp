@@ -1,4 +1,5 @@
 #pragma once
+#include <engine/core/math/Matrix4.hpp>
 #include <engine/core/math/Quaternion.hpp>
 #include <engine/core/math/Vector3D.hpp>
 
@@ -44,6 +45,11 @@ struct Transform
           rotation{rotationX, rotationY, rotationZ, rotationW},
           scale{scaleX, scaleY, scaleZ}
     {
+    }
+
+    Matrix4 toMatrix() const
+    {
+        return Matrix4::translation(position) * Matrix4::rotation(rotation) * Matrix4::scale(scale);
     }
 
     Vector3D position{};

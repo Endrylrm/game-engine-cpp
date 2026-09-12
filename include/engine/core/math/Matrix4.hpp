@@ -56,7 +56,6 @@ public:
     Matrix4 &operator*=(float scalar);
 
     Vector4D operator*(const Vector4D &vector) const;
-    Vector4D &operator*=(const Vector4D &vector);
 
     bool operator==(const Matrix4 &other) const;
     bool operator!=(const Matrix4 &other) const;

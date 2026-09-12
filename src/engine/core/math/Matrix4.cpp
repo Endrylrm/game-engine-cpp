@@ -232,7 +232,7 @@ Matrix4 Matrix4::rotation(const Quaternion &quat)
 {
     Quaternion n = quat.normalized();
 
-    Matrix4 result(1.0f);
+    Matrix4 result = Matrix4::identity();
 
     const float xx = n.x * n.x;
     const float yy = n.y * n.y;
@@ -498,12 +498,6 @@ Vector4D Matrix4::operator*(const Vector4D &vector) const
         data[3][0] * vector.x + data[3][1] * vector.y + data[3][2] * vector.z +
             data[3][3] * vector.w
     };
-}
-
-Vector4D &Matrix4::operator*=(const Vector4D &vector)
-{
-    Vector4D result = *this * vector;
-    return result;
 }
 
 bool Matrix4::operator==(const Matrix4 &other) const

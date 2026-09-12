@@ -5,6 +5,7 @@
 #include <SDL3/SDL.h>
 
 #include <engine/core/graphics/Texture.hpp>
+#include <engine/core/math/Vector2DInt.hpp>
 
 class SDLTexture : public Texture
 {
@@ -14,13 +15,11 @@ public:
 
     SDL_Texture *getNativeHandle() const;
 
-    int getWidth() const override;
-    int getHeight() const override;
+    Vector2DInt getSize() const override;
 
     bool isValid() const override;
 
 private:
     SDL_Texture *texture{};
-    int width{};
-    int height{};
+    Vector2DInt size{};
 };

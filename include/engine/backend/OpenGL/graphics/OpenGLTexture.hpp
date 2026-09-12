@@ -6,6 +6,7 @@
 #include <glad/gl.h>
 
 #include <engine/core/graphics/Texture.hpp>
+#include <engine/core/math/Vector2DInt.hpp>
 
 class OpenGLTexture : public Texture
 {
@@ -15,13 +16,11 @@ public:
 
     GLuint getNativeHandle() const;
 
-    int getWidth() const override;
-    int getHeight() const override;
+    Vector2DInt getSize() const override;
 
     bool isValid() const override;
 
 private:
     GLuint texture{};
-    int width{};
-    int height{};
+    Vector2DInt size{};
 };

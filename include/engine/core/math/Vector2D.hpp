@@ -54,6 +54,8 @@ public:
     Vector2D operator*(float scalar) const;
     Vector2D &operator*=(float scalar);
 
+    friend Vector2D operator*(float scalar, const Vector2D &vector);
+
     Vector2D operator/(float scalar) const;
     Vector2D &operator/=(float scalar);
 

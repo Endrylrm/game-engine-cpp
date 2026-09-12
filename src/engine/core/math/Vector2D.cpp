@@ -204,6 +204,11 @@ Vector2D &Vector2D::operator*=(float scalar)
     return *this;
 }
 
+Vector2D operator*(float scalar, const Vector2D &vector)
+{
+    return vector * scalar;
+}
+
 Vector2D Vector2D::operator/(float scalar) const
 {
     return Vector2D{x / scalar, y / scalar};

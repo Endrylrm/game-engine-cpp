@@ -3,7 +3,7 @@
 #include <engine/core/log/Log.hpp>
 
 SDLTexture::SDLTexture(SDL_Texture *texture, int width, int height)
-    : texture(texture), width(width), height(height)
+    : texture(texture), size(width, height)
 {
 }
 
@@ -16,22 +16,17 @@ SDLTexture::~SDLTexture()
     }
 }
 
-bool SDLTexture::isValid() const
-{
-    return texture != nullptr;
-}
-
 SDL_Texture *SDLTexture::getNativeHandle() const
 {
     return texture;
 }
 
-int SDLTexture::getWidth() const
+Vector2DInt SDLTexture::getSize() const
 {
-    return width;
+    return size;
 }
 
-int SDLTexture::getHeight() const
+bool SDLTexture::isValid() const
 {
-    return height;
+    return texture != nullptr;
 }

@@ -8,7 +8,9 @@ set(ENGINE_SOURCES
     core/math/Matrix4.cpp
     core/math/Quaternion.cpp
     core/math/Vector2D.cpp
+    core/math/Vector2DInt.cpp
     core/math/Vector3D.cpp
+    core/math/Vector3DInt.cpp
     core/math/Vector4D.cpp
     core/string/StringTable.cpp
     scenes/Scene.cpp

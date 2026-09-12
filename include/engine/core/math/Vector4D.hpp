@@ -31,6 +31,8 @@ public:
     Vector4D operator*(float scalar) const;
     Vector4D &operator*=(float scalar);
 
+    friend Vector4D operator*(float scalar, const Vector4D &vector);
+
     Vector4D operator/(float scalar) const;
     Vector4D &operator/=(float scalar);
 

@@ -80,6 +80,11 @@ Vector4D &Vector4D::operator*=(float scalar)
     return *this;
 }
 
+Vector4D operator*(float scalar, const Vector4D &vector)
+{
+    return vector * scalar;
+}
+
 Vector4D Vector4D::operator/(float scalar) const
 {
     return Vector4D{x / scalar, y / scalar, z / scalar, w / scalar};

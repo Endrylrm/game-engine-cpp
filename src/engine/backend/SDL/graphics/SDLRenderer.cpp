@@ -78,8 +78,8 @@ void SDLRenderer::drawTexture(Texture *texture, float x, float y)
         texture,
         x,
         y,
-        static_cast<float>(texture->getWidth()),
-        static_cast<float>(texture->getHeight())
+        static_cast<float>(texture->getSize().x),
+        static_cast<float>(texture->getSize().y)
     );
 }
 

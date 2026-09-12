@@ -1,7 +1,7 @@
 #include "engine/backend/OpenGL/graphics/OpenGLTexture.hpp"
 
 OpenGLTexture::OpenGLTexture(GLuint texture, int width, int height)
-    : texture(texture), width(width), height(height)
+    : texture(texture), size(width, height)
 {
 }
 
@@ -19,14 +19,9 @@ GLuint OpenGLTexture::getNativeHandle() const
     return texture;
 }
 
-int OpenGLTexture::getWidth() const
+Vector2DInt OpenGLTexture::getSize() const
 {
-    return width;
-}
-
-int OpenGLTexture::getHeight() const
-{
-    return height;
+    return size;
 }
 
 bool OpenGLTexture::isValid() const

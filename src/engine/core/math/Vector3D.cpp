@@ -4,8 +4,9 @@
 #include <engine/core/math/Vector2D.hpp>
 #include <engine/core/math/Vector4D.hpp>
 
-Vector3D::Vector3D(Vector2D vec) : x(vec.x), y(vec.y), z(0.0f) {}
-Vector3D::Vector3D(Vector4D vec) : x(vec.x), y(vec.y), z(vec.z) {}
+Vector3D::Vector3D(Vector2D vec) : Vector3D(vec.x, vec.y, 0.0f) {}
+Vector3D::Vector3D(Vector2D vec, float z) : Vector3D(vec.x, vec.y, z) {}
+Vector3D::Vector3D(Vector4D vec) : Vector3D(vec.x, vec.y, vec.z) {}
 
 Vector3D Vector3D::Zero()
 {

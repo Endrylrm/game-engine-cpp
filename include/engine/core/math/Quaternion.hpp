@@ -4,8 +4,8 @@ class Vector3D;
 class Quaternion
 {
 public:
-    constexpr Quaternion() = default;
-    constexpr Quaternion(float all) : x(all), y(all), z(all), w(all) {}
+    constexpr Quaternion() : Quaternion(0.0f) {}
+    constexpr Quaternion(float all) : Quaternion(all, all, all, all) {}
     constexpr Quaternion(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
     static constexpr Quaternion identity();

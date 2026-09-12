@@ -5,10 +5,10 @@ class Vector4D;
 class Vector2D
 {
 public:
-    Vector2D() = default;
-    Vector2D(float all) : x(all), y(all) {}
+    Vector2D() : Vector2D(0.0f) {}
+    Vector2D(float all) : Vector2D(all, all) {}
     Vector2D(float x, float y) : x(x), y(y) {}
-    Vector2D(const Vector2D &other) : x(other.x), y(other.y) {}
+    Vector2D(const Vector2D &other) : Vector2D(other.x, other.y) {}
     Vector2D(Vector3D vec);
     Vector2D(Vector4D vec);
 

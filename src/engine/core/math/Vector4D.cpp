@@ -4,8 +4,10 @@
 #include <engine/core/math/Vector2D.hpp>
 #include <engine/core/math/Vector3D.hpp>
 
-Vector4D::Vector4D(Vector2D vec) : x(vec.x), y(vec.y), z(0.0f), w(1.0f) {}
-Vector4D::Vector4D(Vector3D vec) : x(vec.x), y(vec.y), z(vec.z), w(1.0f) {}
+Vector4D::Vector4D(Vector2D vec) : Vector4D(vec.x, vec.y, 0.0f, 1.0f) {}
+Vector4D::Vector4D(Vector2D vec, float z, float w) : Vector4D(vec.x, vec.y, z, w) {}
+Vector4D::Vector4D(Vector3D vec) : Vector4D(vec.x, vec.y, vec.z, 1.0f) {}
+Vector4D::Vector4D(Vector3D vec, float w) : Vector4D(vec.x, vec.y, vec.z, w) {}
 
 float Vector4D::length() const
 {

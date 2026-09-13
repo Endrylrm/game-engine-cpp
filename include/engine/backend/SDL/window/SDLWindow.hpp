@@ -5,7 +5,7 @@
 
 #include <engine/core/window/Window.hpp>
 
-class SDLWindow : public Window
+class SDLWindow final : public Window
 {
 public:
     SDLWindow(std::string newTitle, int newWidth, int newHeight);

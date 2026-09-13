@@ -2,7 +2,7 @@
 #include <engine/ecs/systems/System.hpp>
 #include <engine/ecs/world/World.hpp>
 
-class LifetimeSystem : public System
+class LifetimeSystem final : public System
 {
 public:
     void onUpdate(World &world, float deltaTime) override;

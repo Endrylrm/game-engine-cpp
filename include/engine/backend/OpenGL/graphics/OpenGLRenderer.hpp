@@ -12,7 +12,7 @@
 #include "OpenGLMesh.hpp"
 #include "OpenGLShader.hpp"
 
-class OpenGLRenderer : public Renderer
+class OpenGLRenderer final : public Renderer
 {
 public:
     OpenGLRenderer(SDL_Window *windowHandle);

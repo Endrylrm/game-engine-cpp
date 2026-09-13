@@ -2,7 +2,7 @@
 #include <engine/ecs/systems/System.hpp>
 #include <engine/ecs/world/World.hpp>
 
-class WeaponCooldownSystem : public System
+class WeaponCooldownSystem final : public System
 {
 public:
     void onUpdate(World &world, float deltaTime) override;

@@ -7,7 +7,7 @@
 #include <engine/core/graphics/Texture.hpp>
 #include <engine/core/math/Vector2DInt.hpp>
 
-class SDLTexture : public Texture
+class SDLTexture final : public Texture
 {
 public:
     SDLTexture(SDL_Texture *texture, int width, int height);

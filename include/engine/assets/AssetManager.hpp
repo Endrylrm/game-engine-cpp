@@ -15,7 +15,7 @@ struct BaseAssetManager
 };
 
 template <typename T>
-class AssetManager : public BaseAssetManager
+class AssetManager final : public BaseAssetManager
 {
 public:
     using Loader = std::function<std::unique_ptr<T>(const std::string &path)>;

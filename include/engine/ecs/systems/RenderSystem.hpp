@@ -4,7 +4,7 @@
 
 #include "System.hpp"
 
-class RenderSystem : public System
+class RenderSystem final : public System
 {
 public:
     void onRender(World &world, Renderer &renderer) override;

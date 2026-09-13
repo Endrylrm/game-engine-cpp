@@ -9,7 +9,7 @@
 #include <engine/core/graphics/Texture.hpp>
 #include <engine/core/math/Rect2D.hpp>
 
-class SDLRenderer : public Renderer
+class SDLRenderer final : public Renderer
 {
 public:
     SDLRenderer(SDL_Window *windowHandle);

@@ -9,7 +9,7 @@
 #include <engine/core/input/MouseState.hpp>
 #include <engine/core/math/Vector2D.hpp>
 
-class SDLInputManager : public InputManager
+class SDLInputManager final : public InputManager
 {
 public:
     SDLInputManager(bool *isRunning);

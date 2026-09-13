@@ -8,7 +8,7 @@
 #include <engine/core/graphics/Texture.hpp>
 #include <engine/core/math/Vector2DInt.hpp>
 
-class OpenGLTexture : public Texture
+class OpenGLTexture final : public Texture
 {
 public:
     OpenGLTexture(GLuint texture, int width, int height);

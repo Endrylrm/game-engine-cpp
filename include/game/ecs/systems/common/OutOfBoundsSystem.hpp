@@ -3,7 +3,7 @@
 #include <engine/ecs/systems/System.hpp>
 #include <engine/ecs/world/World.hpp>
 
-class OutOfBoundsSystem : public System
+class OutOfBoundsSystem final : public System
 {
 public:
     void onUpdate(World &world, float deltaTime) override;

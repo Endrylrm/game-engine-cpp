@@ -2,14 +2,13 @@
 #include <glad/gl.h>
 
 #include <engine/core/graphics/Mesh.hpp>
-#include <engine/core/graphics/MeshData.hpp>
 
-class OpenGLMesh : public Mesh
+class OpenGLMesh
 {
 public:
-    ~OpenGLMesh() override;
-    bool init(const MeshData &data) override;
-    bool isValid() const override;
+    ~OpenGLMesh();
+    bool init(const Mesh &mesh);
+    bool isValid() const;
 
     void bind() const;
     void unbind() const;

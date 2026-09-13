@@ -14,7 +14,7 @@ OpenGLMesh::~OpenGLMesh()
         glDeleteVertexArrays(1, &vao);
 }
 
-bool OpenGLMesh::init(const MeshData &data)
+bool OpenGLMesh::init(const Mesh &mesh)
 {
     glGenBuffers(1, &vbo);
     glGenVertexArrays(1, &vao);
@@ -26,61 +26,61 @@ bool OpenGLMesh::init(const MeshData &data)
         return false;
     }
 
-    indexCount = static_cast<GLsizei>(data.indexCount());
-    primitiveType = convertPrimitiveType(data.primitiveType);
+    indexCount = static_cast<GLsizei>(mesh.indices.size());
+    primitiveType = convertPrimitiveType(mesh.primitiveType);
 
     glBindVertexArray(vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, data.vertices.size(), data.vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, mesh.vertices.size(), mesh.vertices.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
     glBufferData(
         GL_ELEMENT_ARRAY_BUFFER,
-        data.indices.size() * sizeof(uint32_t),
-        data.indices.data(),
+        mesh.indices.size() * sizeof(uint32_t),
+        mesh.indices.data(),
         GL_STATIC_DRAW
     );
 
-    for (VertexAttribute attrib : data.vertexLayout.attributes)
+    size_t stride = mesh.vertexLayout.getStride();
+
+    GLuint location = 0;
+
+    for (VertexAttribute attrib : mesh.vertexLayout.attributes)
     {
         switch (attrib.type)
         {
         case VertexType::Float:
             glVertexAttribPointer(
-                attrib.location,
+                location,
                 attrib.count,
                 GL_FLOAT,
                 GL_FALSE,
-                data.vertexLayout.stride,
+                stride,
                 reinterpret_cast<void *>(attrib.offset)
             );
-            glEnableVertexAttribArray(attrib.location);
             break;
         case VertexType::Int:
             glVertexAttribIPointer(
-                attrib.location,
-                attrib.count,
-                GL_INT,
-                data.vertexLayout.stride,
-                reinterpret_cast<void *>(attrib.offset)
+                location, attrib.count, GL_INT, stride, reinterpret_cast<void *>(attrib.offset)
             );
-            glEnableVertexAttribArray(attrib.location);
             break;
         case VertexType::UInt:
             glVertexAttribIPointer(
-                attrib.location,
+                location,
                 attrib.count,
                 GL_UNSIGNED_INT,
-                data.vertexLayout.stride,
+                stride,
                 reinterpret_cast<void *>(attrib.offset)
             );
-            glEnableVertexAttribArray(attrib.location);
             break;
         default:
             LOG_ERROR("Unsupported vertex attribute type.");
             return false;
         }
+
+        glEnableVertexAttribArray(location);
+        ++location;
     }
 
     glBindVertexArray(0);

@@ -5,7 +5,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include <engine/backend/OpenGL/graphics/OpenGLTexture.hpp>
-#include <engine/core/graphics/MeshData.hpp>
+#include <engine/core/graphics/Mesh.hpp>
 #include <engine/core/log/Log.hpp>
 #include <engine/core/math/Matrix4.hpp>
 #include <engine/core/math/Vector3D.hpp>
@@ -109,19 +109,16 @@ bool OpenGLRenderer::initTexturePipeline()
     };
     // clang-format on
 
-    VertexAttribute position = {.type = VertexType::Float, .location = 0, .count = 3, .offset = 0};
-    VertexAttribute uv = {
-        .type = VertexType::Float, .location = 1, .count = 2, .offset = 3 * sizeof(float)
-    };
+    VertexAttribute position = {.type = VertexType::Float, .count = 3, .offset = 0};
+    VertexAttribute uv = {.type = VertexType::Float, .count = 2, .offset = 3 * sizeof(float)};
 
     VertexLayout layout{
-        .attributes{position, uv},
-        .stride = 5 * sizeof(float)
+        .attributes{position, uv}
     };
 
-    MeshData data = makeMeshData<float>(vertices, indices, layout, PrimitiveType::Triangles);
+    Mesh mesh = makeMesh<float>(vertices, indices, layout, PrimitiveType::Triangles);
 
-    if (!textureMesh.init(data))
+    if (!textureMesh.init(mesh))
         return false;
 
     const std::string vertexShaderSource = R"(
@@ -180,19 +177,16 @@ bool OpenGLRenderer::initTrianglePipeline()
     };
     // clang-format on
 
-    VertexAttribute position = {.type = VertexType::Float, .location = 0, .count = 2, .offset = 0};
-    VertexAttribute color = {
-        .type = VertexType::Float, .location = 1, .count = 3, .offset = 2 * sizeof(float)
-    };
+    VertexAttribute position = {.type = VertexType::Float, .count = 2, .offset = 0};
+    VertexAttribute color = {.type = VertexType::Float, .count = 3, .offset = 2 * sizeof(float)};
 
     VertexLayout layout{
-        .attributes{position, color},
-        .stride = 5 * sizeof(float)
+        .attributes{position, color}
     };
 
-    MeshData data = makeMeshData<float>(vertices, indices, layout, PrimitiveType::Triangles);
+    Mesh mesh = makeMesh<float>(vertices, indices, layout, PrimitiveType::Triangles);
 
-    if (!triangleMesh.init(data))
+    if (!triangleMesh.init(mesh))
         return false;
 
     const std::string vertexShaderSource = R"(
@@ -245,13 +239,13 @@ bool OpenGLRenderer::initRectPipeline()
     };
     // clang-format on
 
-    VertexAttribute position = {.type = VertexType::Float, .location = 0, .count = 2, .offset = 0};
+    VertexAttribute position = {.type = VertexType::Float, .count = 2, .offset = 0};
 
-    VertexLayout layout{.attributes{position}, .stride = 2 * sizeof(float)};
+    VertexLayout layout{.attributes{position}};
 
-    MeshData data = makeMeshData<float>(vertices, indices, layout, PrimitiveType::Triangles);
+    Mesh mesh = makeMesh<float>(vertices, indices, layout, PrimitiveType::Triangles);
 
-    if (!rectMesh.init(data))
+    if (!rectMesh.init(mesh))
         return false;
 
     const std::string vertexShaderSource = R"(

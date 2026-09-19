@@ -7,32 +7,32 @@
 Vector2D::Vector2D(Vector3D vec) : Vector2D(vec.x, vec.y) {}
 Vector2D::Vector2D(Vector4D vec) : Vector2D(vec.x, vec.y) {}
 
-Vector2D Vector2D::Zero()
+Vector2D Vector2D::zero()
 {
     return Vector2D{0.0f, 0.0f};
 }
 
-Vector2D Vector2D::One()
+Vector2D Vector2D::one()
 {
     return Vector2D{1.0f, 1.0f};
 }
 
-Vector2D Vector2D::Up()
+Vector2D Vector2D::up()
 {
     return {0.0f, -1.0f};
 }
 
-Vector2D Vector2D::Down()
+Vector2D Vector2D::down()
 {
     return {0.0f, 1.0f};
 }
 
-Vector2D Vector2D::Left()
+Vector2D Vector2D::left()
 {
     return {-1.0f, 0.0f};
 }
 
-Vector2D Vector2D::Right()
+Vector2D Vector2D::right()
 {
     return {1.0f, 0.0f};
 }
@@ -163,12 +163,12 @@ Vector2D Vector2D::clampMagnitude(float maxLength) const
 
 Vector2D Vector2D::perpendicularLeft() const
 {
-    return {-y, x};
+    return {y, -x};
 }
 
 Vector2D Vector2D::perpendicularRight() const
 {
-    return {y, -x};
+    return {-y, x};
 }
 
 Vector2D Vector2D::operator+(const Vector2D &other) const
@@ -180,6 +180,11 @@ Vector2D &Vector2D::operator+=(const Vector2D &other)
 {
     *this = *this + other;
     return *this;
+}
+
+Vector2D Vector2D::operator-() const
+{
+    return Vector2D{-x, -y};
 }
 
 Vector2D Vector2D::operator-(const Vector2D &other) const

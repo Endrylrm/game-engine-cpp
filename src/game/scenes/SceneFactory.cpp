@@ -76,7 +76,8 @@ void SceneFactory::createPlayerScene(Scene &scene)
         {
             LOG_DEBUG("creating Player Scene...");
             AssetHandle<Texture> sprite =
-                AssetsAPI::load<Texture>("assets/player/playerShip1_blue.png");
+                AssetsAPI::findOrRegister<Texture>("assets/player/playerShip1_blue.png");
+            AssetsAPI::load<Texture>(sprite);
             Entity player =
                 EntityBuilder(scene)
                     .addComponent<Transform>(375.0f, 450.0f, 0.0f)

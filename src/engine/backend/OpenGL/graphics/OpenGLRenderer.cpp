@@ -129,11 +129,12 @@ bool OpenGLRenderer::initTexturePipeline()
     out vec2 texCoord;
 
     uniform mat4 projection;
+    uniform mat4 view;
     uniform mat4 model;
 
     void main()
     {
-        gl_Position = projection * model * vec4(aPosition, 1.0);
+        gl_Position = projection * view * model * vec4(aPosition, 1.0);
         texCoord = aTexCoord;
     }
     )";
@@ -253,11 +254,12 @@ bool OpenGLRenderer::initRectPipeline()
     layout (location = 0) in vec2 aPosition;
 
     uniform mat4 projection;
+    uniform mat4 view;
     uniform mat4 model;
 
     void main()
     {
-        gl_Position = projection * model * vec4(aPosition, 0.0, 1.0);
+        gl_Position = projection * view * model * vec4(aPosition, 0.0, 1.0);
     }
     )";
 
@@ -340,18 +342,12 @@ std::unique_ptr<Texture> OpenGLRenderer::loadTexture(const std::string &path)
     return std::make_unique<OpenGLTexture>(textureId, width, height);
 }
 
-void OpenGLRenderer::drawTexture(Texture *texture, float x, float y)
+void OpenGLRenderer::drawTexture(Texture *texture, Vector2D position)
 {
-    drawTexture(
-        texture,
-        x,
-        y,
-        static_cast<float>(texture->getSize().x),
-        static_cast<float>(texture->getSize().y)
-    );
+    drawTexture(texture, position, texture->getSize());
 }
 
-void OpenGLRenderer::drawTexture(Texture *texture, float x, float y, float w, float h)
+void OpenGLRenderer::drawTexture(Texture *texture, Vector2D position, Vector2D size)
 {
     auto *glTexture = static_cast<OpenGLTexture *>(texture);
 
@@ -362,13 +358,15 @@ void OpenGLRenderer::drawTexture(Texture *texture, float x, float y, float w, fl
 
     Vector4D texColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-    Matrix4 model =
-        Matrix4::translation(Vector3D(x, y, 0.0f)) * Matrix4::scale(Vector3D(w, h, 1.0f));
+    Matrix4 model = Matrix4::translation(Vector3D(position.x, position.y, 0.0f)) *
+                    Matrix4::scale(Vector3D(size.x, size.y, 1.0f));
 
     Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+    Matrix4 view = Matrix4::identity();
 
     textureShader.use();
     textureShader.setMat4("model", GLMConverter::toGLM(model));
+    textureShader.setMat4("view", GLMConverter::toGLM(view));
     textureShader.setMat4("projection", GLMConverter::toGLM(projection));
     textureShader.setVec4("texColor", GLMConverter::toGLM(texColor));
     glActiveTexture(GL_TEXTURE0);
@@ -379,35 +377,30 @@ void OpenGLRenderer::drawTexture(Texture *texture, float x, float y, float w, fl
 
 void OpenGLRenderer::drawTexture(Texture *texture, Rect2D rect)
 {
-    drawTexture(texture, rect.x, rect.y, rect.w, rect.h);
+    drawTexture(texture, Vector2D{rect.x, rect.y}, Vector2D{rect.w, rect.h});
 }
 
-void OpenGLRenderer::drawRect(
-    float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b, uint8_t a
-)
+void OpenGLRenderer::drawRect(Vector2D position, Vector2D size, Color color)
 {
-    Matrix4 model =
-        Matrix4::translation(Vector3D(x, y, 0.0f)) * Matrix4::scale(Vector3D(w, h, 1.0f));
+    Matrix4 model = Matrix4::translation(Vector3D(position.x, position.y, 0.0f)) *
+                    Matrix4::scale(Vector3D(size.x, size.y, 1.0f));
 
     Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+    Matrix4 view = Matrix4::identity();
 
-    Vector4D rectColor(
-        static_cast<float>(r) / 255.0f,
-        static_cast<float>(g) / 255.0f,
-        static_cast<float>(b) / 255.0f,
-        static_cast<float>(a) / 255.0f
-    );
+    Vector4D rectColor(color.r, color.g, color.b, color.a);
 
     rectShader.use();
     rectShader.setMat4("model", GLMConverter::toGLM(model));
+    rectShader.setMat4("view", GLMConverter::toGLM(view));
     rectShader.setMat4("projection", GLMConverter::toGLM(projection));
     rectShader.setVec4("rectColor", GLMConverter::toGLM(rectColor));
     rectMesh.draw();
 }
 
-void OpenGLRenderer::drawRect(Rect2D rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+void OpenGLRenderer::drawRect(Rect2D rect, Color color)
 {
-    drawRect(rect.x, rect.y, rect.w, rect.h, r, g, b, a);
+    drawRect(Vector2D{rect.x, rect.y}, Vector2D{rect.w, rect.h}, color);
 }
 
 void OpenGLRenderer::clear()

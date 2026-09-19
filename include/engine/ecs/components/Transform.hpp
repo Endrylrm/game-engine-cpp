@@ -55,5 +55,5 @@ struct Transform
 
     Vector3D position{};
     Quaternion rotation{};
-    Vector3D scale{Vector3D::One()};
+    Vector3D scale{Vector3D::one()};
 };

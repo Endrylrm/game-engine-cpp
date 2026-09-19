@@ -13,14 +13,14 @@ public:
     Vector3D(Vector2D vec, float z);
     Vector3D(Vector4D vec);
 
-    static Vector3D Zero();
-    static Vector3D One();
-    static Vector3D Up();
-    static Vector3D Down();
-    static Vector3D Left();
-    static Vector3D Right();
-    static Vector3D Forward();
-    static Vector3D Back();
+    static Vector3D zero();
+    static Vector3D one();
+    static Vector3D up();
+    static Vector3D down();
+    static Vector3D left();
+    static Vector3D right();
+    static Vector3D forward();
+    static Vector3D back();
 
     bool isZero() const;
 
@@ -56,6 +56,7 @@ public:
     Vector3D operator+(const Vector3D &other) const;
     Vector3D &operator+=(const Vector3D &other);
 
+    Vector3D operator-() const;
     Vector3D operator-(const Vector3D &other) const;
     Vector3D &operator-=(const Vector3D &other);
 

@@ -8,7 +8,11 @@ public:
     constexpr Quaternion(float all) : Quaternion(all, all, all, all) {}
     constexpr Quaternion(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
-    static constexpr Quaternion identity();
+    inline static constexpr Quaternion identity()
+    {
+        return Quaternion{0.0f, 0.0f, 0.0f, 1.0f};
+    }
+
     static Quaternion fromAxisAngle(const Vector3D &axis, float radians);
     static Quaternion fromEuler(float pitchX, float yawY, float rollZ);
     static Quaternion fromToRotation(const Vector3D &from, const Vector3D &to);
@@ -36,9 +40,9 @@ public:
     Quaternion operator+(const Quaternion &other) const;
     Quaternion &operator+=(const Quaternion &other);
 
+    Quaternion operator-() const;
     Quaternion operator-(const Quaternion &other) const;
     Quaternion &operator-=(const Quaternion &other);
-    Quaternion operator-() const;
 
     Quaternion operator*(const Quaternion &other) const;
     Quaternion &operator*=(const Quaternion &other);

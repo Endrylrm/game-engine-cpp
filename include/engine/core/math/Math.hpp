@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <numbers>
 
 namespace Math
@@ -11,6 +12,12 @@ constexpr float EPSILON_SQUARED = EPSILON * EPSILON;
 
 constexpr float PI = 3.14159265358979323846f;
 constexpr float TAU = 2.0f * PI;
+
+// for RGBA4444
+constexpr uint8_t MAX_UINT4 = 0xF;
+constexpr uint8_t MAX_UINT8 = std::numeric_limits<uint8_t>::max();
+constexpr uint16_t MAX_UINT16 = std::numeric_limits<uint16_t>::max();
+constexpr uint32_t MAX_UINT32 = std::numeric_limits<uint32_t>::max();
 
 // float comparison
 constexpr bool approximatelyEqual(float a, float b)

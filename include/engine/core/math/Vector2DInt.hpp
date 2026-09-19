@@ -1,17 +1,19 @@
 #pragma once
+class Vector2D;
 
 struct Vector2DInt
 {
-    static Vector2DInt Zero();
-    static Vector2DInt One();
-    static Vector2DInt Up();
-    static Vector2DInt Down();
-    static Vector2DInt Left();
-    static Vector2DInt Right();
+    static Vector2DInt zero();
+    static Vector2DInt one();
+    static Vector2DInt up();
+    static Vector2DInt down();
+    static Vector2DInt left();
+    static Vector2DInt right();
 
     Vector2DInt operator+(const Vector2DInt &other) const;
     Vector2DInt &operator+=(const Vector2DInt &other);
 
+    Vector2DInt operator-() const;
     Vector2DInt operator-(const Vector2DInt &other) const;
     Vector2DInt &operator-=(const Vector2DInt &other);
 
@@ -22,6 +24,8 @@ struct Vector2DInt
 
     Vector2DInt operator/(int scalar) const;
     Vector2DInt &operator/=(int scalar);
+
+    operator Vector2D() const;
 
     int x{};
     int y{};

@@ -373,8 +373,8 @@ Matrix4 Matrix4::perspective(float fov, float aspect, float near, float far)
 Matrix4 Matrix4::lookAt(const Vector3D &eye, const Vector3D &target, const Vector3D &up)
 {
     const Vector3D forward = (target - eye).normalized();
-    const Vector3D right = forward.cross(up).normalized();
-    const Vector3D cameraUp = right.cross(forward);
+    const Vector3D right = up.cross(forward).normalized();
+    const Vector3D cameraUp = forward.cross(right);
 
     Matrix4 result = Matrix4::identity();
 

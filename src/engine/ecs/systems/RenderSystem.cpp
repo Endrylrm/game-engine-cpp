@@ -11,8 +11,7 @@ void RenderSystem::onRender(World &world, Renderer &renderer)
     for (auto [sprite, transform, _] : world.view<SpriteRenderer, Transform, Renderable>())
     {
         auto *texture = AssetsAPI::get<Texture>(sprite.textureId);
-        auto position = transform.position;
 
-        renderer.drawTexture(texture, position.x, position.y);
+        renderer.drawTexture(texture, transform.position);
     }
 }

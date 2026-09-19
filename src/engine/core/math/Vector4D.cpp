@@ -58,6 +58,11 @@ Vector4D &Vector4D::operator+=(const Vector4D &other)
     return *this;
 }
 
+Vector4D Vector4D::operator-() const
+{
+    return Vector4D{-x, -y, -z, -w};
+}
+
 Vector4D Vector4D::operator-(const Vector4D &other) const
 {
     return Vector4D{x - other.x, y - other.y, z - other.z, w - other.w};

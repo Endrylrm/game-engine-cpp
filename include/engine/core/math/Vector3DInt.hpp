@@ -1,19 +1,21 @@
 #pragma once
+class Vector3D;
 
 struct Vector3DInt
 {
-    static Vector3DInt Zero();
-    static Vector3DInt One();
-    static Vector3DInt Up();
-    static Vector3DInt Down();
-    static Vector3DInt Left();
-    static Vector3DInt Right();
-    static Vector3DInt Forward();
-    static Vector3DInt Back();
+    static Vector3DInt zero();
+    static Vector3DInt one();
+    static Vector3DInt up();
+    static Vector3DInt down();
+    static Vector3DInt left();
+    static Vector3DInt right();
+    static Vector3DInt forward();
+    static Vector3DInt back();
 
     Vector3DInt operator+(const Vector3DInt &other) const;
     Vector3DInt &operator+=(const Vector3DInt &other);
 
+    Vector3DInt operator-() const;
     Vector3DInt operator-(const Vector3DInt &other) const;
     Vector3DInt &operator-=(const Vector3DInt &other);
 
@@ -27,6 +29,8 @@ struct Vector3DInt
 
     Vector3DInt operator/(int scalar) const;
     Vector3DInt &operator/=(int scalar);
+
+    operator Vector3D() const;
 
     int x{};
     int y{};

@@ -30,7 +30,9 @@ void PlayerShootSystem::onUpdate(World &world, float deltaTime)
 
 void PlayerShootSystem::shoot(Vector2D position)
 {
-    AssetHandle<Texture> sprite = AssetsAPI::load<Texture>("assets/bullets/laserBlue01.png");
+    AssetHandle<Texture> sprite =
+        AssetsAPI::findOrRegister<Texture>("assets/bullets/laserBlue01.png");
+    AssetsAPI::load<Texture>(sprite);
     Entity bullet = EntityAPI::createEntity();
     auto &bulletTransform = bullet.addComponent<Transform>();
     bulletTransform.position = position + Vector2D{45.0f, -55.0f};

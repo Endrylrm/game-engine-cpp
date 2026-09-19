@@ -7,14 +7,32 @@ class AssetsAPI : public ManagerAPI<AssetDatabase>
 {
 public:
     template <typename T>
-    static AssetHandle<T> load(const std::string &path)
+    static AssetHandle<T> findOrRegister(const std::string &path)
     {
-        return getManager().load<T>(path);
+        return getManager().findOrRegister<T>(path);
     }
 
     template <typename T>
-    static T *get(AssetHandle<T> id)
+    static T *load(AssetHandle<T> handle)
     {
-        return getManager().get<T>(id);
+        return getManager().load<T>(handle);
+    }
+
+    template <typename T>
+    static T *get(AssetHandle<T> handle)
+    {
+        return getManager().get<T>(handle);
+    }
+
+    template <typename T>
+    static bool isLoaded(AssetHandle<T> handle)
+    {
+        return getManager().isLoaded<T>(handle);
+    }
+
+    template <typename T>
+    static void unload(AssetHandle<T> handle)
+    {
+        return getManager().unload<T>(handle);
     }
 };

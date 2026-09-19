@@ -25,6 +25,7 @@ public:
     Vector4D operator+(const Vector4D &other) const;
     Vector4D &operator+=(const Vector4D &other);
 
+    Vector4D operator-() const;
     Vector4D operator-(const Vector4D &other) const;
     Vector4D &operator-=(const Vector4D &other);
 

@@ -7,36 +7,79 @@
 #include "AssetHandle.hpp"
 #include "AssetManager.hpp"
 #include "AssetManagerRegistry.hpp"
+#include "ResourceManager.hpp"
 
 class AssetDatabase
 {
 public:
     template <typename T>
-    void registerManager(typename AssetManager<T>::Loader loader)
+    void registerAssetManager()
     {
         AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
-        managers[id] = std::make_unique<AssetManager<T>>(std::move(loader));
+        assetManagers[id] = std::make_unique<AssetManager<T>>();
     }
 
     template <typename T>
-    AssetHandle<T> load(const std::string &path)
+    void registerResourceManager(typename ResourceManager<T>::Loader loader)
     {
-        return getManager<T>().load(path);
+        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+        resourceManagers[id] = std::make_unique<ResourceManager<T>>(std::move(loader));
+    }
+
+    // create both the Asset Manager and Resource Manager.
+    template <typename T>
+    void registerAssetType(typename ResourceManager<T>::Loader loader)
+    {
+        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+        assetManagers[id] = std::make_unique<AssetManager<T>>();
+        resourceManagers[id] = std::make_unique<ResourceManager<T>>(std::move(loader));
+    }
+
+    template <typename T>
+    AssetHandle<T> findOrRegister(const std::string &path)
+    {
+        return getAssetManager<T>().load(path);
+    }
+
+    template <typename T>
+    T *load(AssetHandle<T> handle)
+    {
+        if (!isLoaded<T>(handle))
+        {
+            auto &asset = getAssetManager<T>().get(handle);
+            return getResourceManager<T>().load(handle, asset.path);
+        }
+
+        return getResourceManager<T>().get(handle);
     }
 
     template <typename T>
     T *get(AssetHandle<T> handle)
     {
-        return getManager<T>().get(handle);
+        return getResourceManager<T>().get(handle);
     }
 
     template <typename T>
-    AssetManager<T> &getManager()
+    bool isLoaded(AssetHandle<T> handle) const
+    {
+        return getResourceManager<T>().isLoaded(handle);
+    }
+
+    template <typename T>
+    void unload(AssetHandle<T> handle)
+    {
+        getResourceManager<T>().unload(handle);
+    }
+
+private:
+    template <typename T>
+    AssetManager<T> &getAssetManager()
     {
         AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
 
-        auto iter = managers.find(id);
-        if (iter == managers.end())
+        auto iter = assetManagers.find(id);
+
+        if (iter == assetManagers.end())
         {
             throw std::runtime_error(
                 std::string("AssetManager<T> not found: ").append(getTypeName<T>())
@@ -46,6 +89,57 @@ public:
         return static_cast<AssetManager<T> &>(*iter->second);
     }
 
-private:
-    std::unordered_map<AssetManagerId, std::unique_ptr<BaseAssetManager>> managers{};
+    template <typename T>
+    const AssetManager<T> &getAssetManager() const
+    {
+        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+
+        auto iter = assetManagers.find(id);
+
+        if (iter == assetManagers.end())
+        {
+            throw std::runtime_error(
+                std::string("AssetManager<T> not found: ").append(getTypeName<T>())
+            );
+        }
+
+        return static_cast<AssetManager<T> &>(*iter->second);
+    }
+
+    template <typename T>
+    ResourceManager<T> &getResourceManager()
+    {
+        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+
+        auto iter = resourceManagers.find(id);
+
+        if (iter == resourceManagers.end())
+        {
+            throw std::runtime_error(
+                std::string("ResourceManager<T> not found: ").append(getTypeName<T>())
+            );
+        }
+
+        return static_cast<ResourceManager<T> &>(*iter->second);
+    }
+
+    template <typename T>
+    const ResourceManager<T> &getResourceManager() const
+    {
+        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+
+        auto iter = resourceManagers.find(id);
+
+        if (iter == resourceManagers.end())
+        {
+            throw std::runtime_error(
+                std::string("ResourceManager<T> not found: ").append(getTypeName<T>())
+            );
+        }
+
+        return static_cast<ResourceManager<T> &>(*iter->second);
+    }
+
+    std::unordered_map<AssetManagerId, std::unique_ptr<BaseAssetManager>> assetManagers{};
+    std::unordered_map<AssetManagerId, std::unique_ptr<BaseResourceManager>> resourceManagers{};
 };

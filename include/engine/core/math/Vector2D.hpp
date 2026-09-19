@@ -12,12 +12,12 @@ public:
     Vector2D(Vector3D vec);
     Vector2D(Vector4D vec);
 
-    static Vector2D Zero();
-    static Vector2D One();
-    static Vector2D Up();
-    static Vector2D Down();
-    static Vector2D Left();
-    static Vector2D Right();
+    static Vector2D zero();
+    static Vector2D one();
+    static Vector2D up();
+    static Vector2D down();
+    static Vector2D left();
+    static Vector2D right();
 
     float length() const;
     float lengthSquared() const;
@@ -48,6 +48,7 @@ public:
     Vector2D operator+(const Vector2D &other) const;
     Vector2D &operator+=(const Vector2D &other);
 
+    Vector2D operator-() const;
     Vector2D operator-(const Vector2D &other) const;
     Vector2D &operator-=(const Vector2D &other);
 

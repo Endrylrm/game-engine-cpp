@@ -72,42 +72,35 @@ std::unique_ptr<Texture> SDLRenderer::loadTexture(const std::string &path)
     return std::make_unique<SDLTexture>(texture, width, height);
 }
 
-void SDLRenderer::drawTexture(Texture *texture, float x, float y)
+void SDLRenderer::drawTexture(Texture *texture, Vector2D position)
 {
-    drawTexture(
-        texture,
-        x,
-        y,
-        static_cast<float>(texture->getSize().x),
-        static_cast<float>(texture->getSize().y)
-    );
+    drawTexture(texture, position, texture->getSize());
 }
 
-void SDLRenderer::drawTexture(Texture *texture, float x, float y, float w, float h)
+void SDLRenderer::drawTexture(Texture *texture, Vector2D position, Vector2D size)
 {
     auto *sdlTexture = static_cast<SDLTexture *>(texture);
-    SDL_FRect dest{x, y, w, h};
+    SDL_FRect dest{position.x, position.y, size.x, size.y};
     SDL_Texture *handle = sdlTexture->getNativeHandle();
     SDL_RenderTexture(renderer, handle, nullptr, &dest);
 }
 
 void SDLRenderer::drawTexture(Texture *texture, Rect2D rect)
 {
-    drawTexture(texture, rect.x, rect.y, rect.w, rect.h);
+    drawTexture(texture, Vector2D{rect.x, rect.y}, Vector2D{rect.w, rect.h});
 }
 
-void SDLRenderer::drawRect(
-    float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b, uint8_t a
-)
+void SDLRenderer::drawRect(Vector2D position, Vector2D size, Color color)
 {
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_FRect rectangle{x, y, w, h};
-    SDL_RenderFillRect(renderer, &rectangle);
+    RGBA32 rgbaColor = color.toRGBA32();
+    SDL_SetRenderDrawColor(renderer, rgbaColor.r, rgbaColor.g, rgbaColor.b, rgbaColor.a);
+    SDL_FRect dest{position.x, position.y, size.x, size.y};
+    SDL_RenderFillRect(renderer, &dest);
 }
 
-void SDLRenderer::drawRect(Rect2D rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+void SDLRenderer::drawRect(Rect2D rect, Color color)
 {
-    drawRect(rect.x, rect.y, rect.w, rect.h, r, g, b, a);
+    drawRect(Vector2D{rect.x, rect.y}, Vector2D{rect.w, rect.h}, color);
 }
 
 void SDLRenderer::clear()

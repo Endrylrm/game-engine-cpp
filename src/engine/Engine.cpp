@@ -53,8 +53,8 @@ void Engine::initialize(const char *title, int width, int height)
 #endif
 
     currentInputManager = std::make_unique<SDLInputManager>(&running);
-    currentAssetDB.registerManager<Texture>([this](const std::string &path)
-                                            { return currentRenderer->loadTexture(path); });
+    currentAssetDB.registerAssetType<Texture>([this](const std::string &path)
+                                              { return currentRenderer->loadTexture(path); });
 
     InputAPI::setManager(currentInputManager.get());
     WindowAPI::setManager(currentWindow.get());

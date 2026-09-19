@@ -8,42 +8,42 @@ Vector3D::Vector3D(Vector2D vec) : Vector3D(vec.x, vec.y, 0.0f) {}
 Vector3D::Vector3D(Vector2D vec, float z) : Vector3D(vec.x, vec.y, z) {}
 Vector3D::Vector3D(Vector4D vec) : Vector3D(vec.x, vec.y, vec.z) {}
 
-Vector3D Vector3D::Zero()
+Vector3D Vector3D::zero()
 {
     return Vector3D{0.0f, 0.0f, 0.0f};
 }
 
-Vector3D Vector3D::One()
+Vector3D Vector3D::one()
 {
     return Vector3D{1.0f, 1.0f, 1.0f};
 }
 
-Vector3D Vector3D::Up()
+Vector3D Vector3D::up()
 {
     return {0.0f, -1.0f, 0.0f};
 }
 
-Vector3D Vector3D::Down()
+Vector3D Vector3D::down()
 {
     return {0.0f, 1.0f, 0.0f};
 }
 
-Vector3D Vector3D::Left()
+Vector3D Vector3D::left()
 {
     return {-1.0f, 0.0f, 0.0f};
 }
 
-Vector3D Vector3D::Right()
+Vector3D Vector3D::right()
 {
     return {1.0f, 0.0f, 0.0f};
 }
 
-Vector3D Vector3D::Forward()
+Vector3D Vector3D::forward()
 {
     return {0.0f, 0.0f, 1.0f};
 }
 
-Vector3D Vector3D::Back()
+Vector3D Vector3D::back()
 {
     return {0.0f, 0.0f, -1.0f};
 }
@@ -221,10 +221,17 @@ Vector3D Vector3D::clampMagnitude(float maxLength) const
 
 Vector3D Vector3D::perpendicular() const
 {
-    if (std::abs(x) < std::abs(y))
-        return cross(Vector3D(1, 0, 0)).normalized();
+    const float absX = std::abs(x);
+    const float absY = std::abs(y);
+    const float absZ = std::abs(z);
 
-    return cross(Vector3D(0, 1, 0)).normalized();
+    if (absX <= absY && absX <= absZ)
+        return cross(Vector3D::right()).normalized();
+
+    if (absY <= absZ)
+        return cross(Vector3D::down()).normalized();
+
+    return cross(Vector3D::forward()).normalized();
 }
 
 Vector3D Vector3D::operator+(const Vector3D &other) const
@@ -236,6 +243,11 @@ Vector3D &Vector3D::operator+=(const Vector3D &other)
 {
     *this = *this + other;
     return *this;
+}
+
+Vector3D Vector3D::operator-() const
+{
+    return Vector3D{-x, -y, -z};
 }
 
 Vector3D Vector3D::operator-(const Vector3D &other) const

@@ -2,8 +2,10 @@ set(ENGINE_SOURCES
     Engine.cpp
     backend/SDL/input/SDLInputManager.cpp
     backend/SDL/window/SDLWindow.cpp
+    core/graphics/Camera.cpp
     core/log/Logger.cpp
     core/math/conversions/GLMConverter.cpp
+    core/math/Color.cpp
     core/math/Matrix3.cpp
     core/math/Matrix4.cpp
     core/math/Quaternion.cpp

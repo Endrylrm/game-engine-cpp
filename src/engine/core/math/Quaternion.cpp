@@ -3,11 +3,6 @@
 #include <engine/core/math/Math.hpp>
 #include <engine/core/math/Vector3D.hpp>
 
-constexpr Quaternion Quaternion::identity()
-{
-    return Quaternion{0.0f, 0.0f, 0.0f, 1.0f};
-}
-
 Quaternion Quaternion::fromAxisAngle(const Vector3D &axis, float radians)
 {
     const Vector3D normalizedAxis = axis.normalized();
@@ -54,36 +49,22 @@ Quaternion Quaternion::fromToRotation(const Vector3D &from, const Vector3D &to)
     const Vector3D f = from.normalized();
     const Vector3D t = to.normalized();
 
-    const float dot = f.dot(t);
+    const float dotProduct = f.dot(t);
 
     // Same direction.
-    if (dot > 1.0f - Math::EPSILON)
+    if (dotProduct > 1.0f - Math::EPSILON)
         return identity();
 
     // Opposite direction.
-    if (dot < -1.0f + Math::EPSILON)
+    if (dotProduct < -1.0f + Math::EPSILON)
     {
-        Vector3D axis;
-
         // Pick an axis perpendicular to 'f'.
-        if (std::abs(f.x) < std::abs(f.y) && std::abs(f.x) < std::abs(f.z))
-        {
-            axis = f.cross(Vector3D{1.0f, 0.0f, 0.0f});
-        }
-        else if (std::abs(f.y) < std::abs(f.z))
-        {
-            axis = f.cross(Vector3D{0.0f, 1.0f, 0.0f});
-        }
-        else
-        {
-            axis = f.cross(Vector3D{0.0f, 0.0f, 1.0f});
-        }
-
+        Vector3D axis = f.perpendicular();
         return fromAxisAngle(axis.normalized(), Math::PI);
     }
 
-    const Vector3D cross = f.cross(t);
-    Quaternion result{cross.x, cross.y, cross.z, 1.0f + dot};
+    const Vector3D crossProduct = f.cross(t);
+    Quaternion result{crossProduct.x, crossProduct.y, crossProduct.z, 1.0f + dotProduct};
     return result.normalized();
 }
 
@@ -202,9 +183,9 @@ Vector3D Quaternion::toEuler() const
 
 Quaternion Quaternion::nlerp(const Quaternion &a, const Quaternion &b, float t)
 {
-    const float qDot = dot(a, b);
-    Quaternion bAdj = (qDot < 0.0f) ? -b : b;
-    return (a * (1.0f - t) + bAdj * t).normalized();
+    const float dotProduct = dot(a, b);
+    const Quaternion target = (dotProduct < 0.0f) ? -b : b;
+    return (a * (1.0f - t) + target * t).normalized();
 }
 
 Quaternion Quaternion::slerp(const Quaternion &a, const Quaternion &b, float t)
@@ -212,20 +193,20 @@ Quaternion Quaternion::slerp(const Quaternion &a, const Quaternion &b, float t)
     Quaternion q1 = a.normalized();
     Quaternion q2 = b.normalized();
 
-    float qDot = dot(q1, q2);
+    float dotProduct = dot(q1, q2);
 
     // Take the shortest path.
-    if (qDot < 0.0f)
+    if (dotProduct < 0.0f)
     {
         q2 = -q2;
-        qDot = -qDot;
+        dotProduct = -dotProduct;
     }
 
-    qDot = Math::clamp(qDot, -1.0f, 1.0f);
+    dotProduct = Math::clamp(dotProduct, -1.0f, 1.0f);
 
     // If the quaternions are very close,
     // use linear interpolation to avoid numerical instability.
-    if (qDot > 1.0f - Math::EPSILON)
+    if (dotProduct > 1.0f - Math::EPSILON)
     {
         Quaternion result{
             q1.x + t * (q2.x - q1.x),
@@ -237,7 +218,7 @@ Quaternion Quaternion::slerp(const Quaternion &a, const Quaternion &b, float t)
         return result.normalized();
     }
 
-    const float angle = std::acos(qDot);
+    const float angle = std::acos(dotProduct);
     const float sinAngle = std::sin(angle);
 
     const float factorA = std::sin((1.0f - t) * angle) / sinAngle;
@@ -263,6 +244,11 @@ Quaternion &Quaternion::operator+=(const Quaternion &other)
     return *this;
 }
 
+Quaternion Quaternion::operator-() const
+{
+    return {-x, -y, -z, -w};
+}
+
 Quaternion Quaternion::operator-(const Quaternion &other) const
 {
     return {x - other.x, y - other.y, z - other.z, w - other.w};
@@ -272,11 +258,6 @@ Quaternion &Quaternion::operator-=(const Quaternion &other)
 {
     *this = *this - other;
     return *this;
-}
-
-Quaternion Quaternion::operator-() const
-{
-    return {-x, -y, -z, -w};
 }
 
 Quaternion Quaternion::operator*(const Quaternion &other) const

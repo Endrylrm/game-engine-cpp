@@ -7,7 +7,9 @@
 
 #include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/graphics/Texture.hpp>
+#include <engine/core/math/Color.hpp>
 #include <engine/core/math/Rect2D.hpp>
+#include <engine/core/math/Vector2D.hpp>
 
 #include "OpenGLMesh.hpp"
 #include "OpenGLShader.hpp"
@@ -19,13 +21,11 @@ public:
     ~OpenGLRenderer() override;
     bool onInit() override;
     std::unique_ptr<Texture> loadTexture(const std::string &path) override;
-    void drawTexture(Texture *texture, float x, float y) override;
-    void drawTexture(Texture *texture, float x, float y, float w, float h) override;
+    void drawTexture(Texture *texture, Vector2D position) override;
+    void drawTexture(Texture *texture, Vector2D position, Vector2D size) override;
     void drawTexture(Texture *texture, Rect2D rect) override;
-    void drawRect(
-        float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b, uint8_t a
-    ) override;
-    void drawRect(Rect2D rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a) override;
+    void drawRect(Vector2D position, Vector2D size, Color color) override;
+    void drawRect(Rect2D rect, Color color) override;
     void clear() override;
     void present() override;
 

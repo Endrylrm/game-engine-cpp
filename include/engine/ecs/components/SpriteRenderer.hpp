@@ -1,6 +1,6 @@
 #pragma once
 #include <engine/assets/AssetHandle.hpp>
-#include <engine/core/graphics/Texture.hpp>
+#include <engine/renderer/resources/Texture.hpp>
 
 struct SpriteRenderer
 {

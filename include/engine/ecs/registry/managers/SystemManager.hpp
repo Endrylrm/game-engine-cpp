@@ -2,7 +2,6 @@
 #include <memory>
 #include <vector>
 
-#include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/helpers/Flags.hpp>
 #include <engine/core/log/Log.hpp>
 #include <engine/core/log/TypeName.hpp>
@@ -10,6 +9,7 @@
 #include <engine/ecs/registry/systems/SystemRegistry.hpp>
 #include <engine/ecs/registry/systems/SystemStage.hpp>
 #include <engine/ecs/systems/System.hpp>
+#include <engine/renderer/Renderer.hpp>
 
 class World;
 

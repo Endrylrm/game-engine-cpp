@@ -2,7 +2,6 @@
 
 #include <engine/api/AssetsAPI.hpp>
 #include <engine/assets/AssetHandle.hpp>
-#include <engine/core/graphics/Texture.hpp>
 #include <engine/core/log/Log.hpp>
 #include <engine/ecs/components/BoxCollider.hpp>
 #include <engine/ecs/components/Renderable.hpp>
@@ -12,6 +11,7 @@
 #include <engine/ecs/entities/EntityBuilder.hpp>
 #include <engine/ecs/handle/Entity.hpp>
 #include <engine/ecs/registry/systems/SystemStage.hpp>
+#include <engine/renderer/resources/Texture.hpp>
 
 #include <game/ecs/components/common/Health.hpp>
 #include <game/ecs/components/common/ScreenClamp.hpp>

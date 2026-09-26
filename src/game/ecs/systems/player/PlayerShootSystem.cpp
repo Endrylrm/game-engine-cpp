@@ -3,13 +3,13 @@
 #include <engine/api/AssetsAPI.hpp>
 #include <engine/api/EntityAPI.hpp>
 #include <engine/assets/AssetHandle.hpp>
-#include <engine/core/graphics/Texture.hpp>
 #include <engine/core/log/Log.hpp>
 #include <engine/ecs/components/Renderable.hpp>
 #include <engine/ecs/components/SpriteRenderer.hpp>
 #include <engine/ecs/components/Transform.hpp>
 #include <engine/ecs/components/Velocity.hpp>
 #include <engine/ecs/handle/Entity.hpp>
+#include <engine/renderer/resources/Texture.hpp>
 
 #include <game/ecs/components/common/OutOfBounds.hpp>
 #include <game/ecs/components/common/Weapon.hpp>

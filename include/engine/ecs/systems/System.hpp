@@ -1,5 +1,5 @@
 #pragma once
-#include <engine/core/graphics/Renderer.hpp>
+#include <engine/renderer/Renderer.hpp>
 
 class World;
 

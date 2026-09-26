@@ -1,8 +1,6 @@
 set(ENGINE_SOURCES
     Engine.cpp
-    backend/SDL/input/SDLInputManager.cpp
-    backend/SDL/window/SDLWindow.cpp
-    core/graphics/Camera.cpp
+    camera/Camera.cpp
     core/log/Logger.cpp
     core/math/conversions/GLMConverter.cpp
     core/math/Color.cpp
@@ -23,22 +21,24 @@ set(ENGINE_SOURCES
     ecs/systems/MovementSystem.cpp
     ecs/systems/RenderSystem.cpp
     ecs/world/World.cpp
+    input/SDL/SDLInputManager.cpp
     time/Time.cpp
     time/Timer.cpp
     time/TimerManager.cpp
+    window/SDL/SDLWindow.cpp
 )
 
 if(RENDERER_OPENGL)
     list(APPEND ENGINE_SOURCES
-        backend/OpenGL/graphics/OpenGLMesh.cpp
-        backend/OpenGL/graphics/OpenGLRenderer.cpp
-        backend/OpenGL/graphics/OpenGLShader.cpp
-        backend/OpenGL/graphics/OpenGLTexture.cpp
+        renderer/OpenGL/OpenGLRenderer.cpp
+        renderer/OpenGL/resources/OpenGLMesh.cpp
+        renderer/OpenGL/resources/OpenGLShader.cpp
+        renderer/OpenGL/resources/OpenGLTexture.cpp
     )
 elseif(RENDERER_SDL)
     list(APPEND ENGINE_SOURCES
-        backend/SDL/graphics/SDLRenderer.cpp
-        backend/SDL/graphics/SDLTexture.cpp
+        renderer/SDL/SDLRenderer.cpp
+        renderer/SDL/resources/SDLTexture.cpp
     )
 endif()
 

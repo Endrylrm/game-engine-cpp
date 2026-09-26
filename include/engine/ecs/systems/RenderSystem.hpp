@@ -1,6 +1,6 @@
 #pragma once
-#include <engine/core/graphics/Renderer.hpp>
 #include <engine/ecs/world/World.hpp>
+#include <engine/renderer/Renderer.hpp>
 
 #include "System.hpp"
 

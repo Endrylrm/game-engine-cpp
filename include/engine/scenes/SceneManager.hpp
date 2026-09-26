@@ -5,7 +5,6 @@
 #include <string_view>
 #include <unordered_map>
 
-#include <engine/core/graphics/Renderer.hpp>
 #include <engine/core/log/Log.hpp>
 #include <engine/core/string/StringHandle.hpp>
 #include <engine/ecs/world/World.hpp>

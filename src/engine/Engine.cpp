@@ -14,14 +14,14 @@
 #include <engine/api/WindowAPI.hpp>
 #include <engine/api/WorldAPI.hpp>
 #ifdef RENDERER_OPENGL
-#include <engine/backend/OpenGL/graphics/OpenGLRenderer.hpp>
+#include <engine/renderer/OpenGL/OpenGLRenderer.hpp>
 #elif defined(RENDERER_SDL)
-#include <engine/backend/SDL/graphics/SDLRenderer.hpp>
+#include <engine/renderer/SDL/SDLRenderer.hpp>
 #endif
-#include <engine/backend/SDL/input/SDLInputManager.hpp>
-#include <engine/backend/SDL/window/SDLWindow.hpp>
-#include <engine/core/graphics/Texture.hpp>
 #include <engine/core/log/Logger.hpp>
+#include <engine/input/SDL/SDLInputManager.hpp>
+#include <engine/renderer/resources/Texture.hpp>
+#include <engine/window/SDL/SDLWindow.hpp>
 
 void Engine::initialize(const char *title, int width, int height)
 {

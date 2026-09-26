@@ -2,7 +2,7 @@
 #include <string>
 
 #include <engine/api/ManagerAPI.hpp>
-#include <engine/core/window/Window.hpp>
+#include <engine/window/Window.hpp>
 
 class WindowAPI : public ManagerAPI<Window>
 {

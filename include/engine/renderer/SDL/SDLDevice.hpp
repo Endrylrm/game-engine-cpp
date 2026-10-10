@@ -20,6 +20,7 @@ public:
     bool init() override;
     void clear(Color color) override;
     void present() override;
+    void setViewport(Rect2D rect) override;
 
     std::unique_ptr<Texture> createTexture(const std::string &path) override;
 

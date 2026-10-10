@@ -100,6 +100,12 @@ void SDLDevice::present()
     SDL_RenderPresent(renderer);
 }
 
+void SDLDevice::setViewport(Rect2D rect)
+{
+    SDL_FRect viewport = {rect.x, rect.y, rect.w, rect.h};
+    SDL_RenderSetViewport(renderer, &viewport);
+}
+
 SDL_Renderer *SDLDevice::getNativeHandle() const
 {
     return renderer;

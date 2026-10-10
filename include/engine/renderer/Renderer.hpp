@@ -12,56 +12,20 @@
 class Renderer
 {
 public:
-    bool init(RenderDevice *newDevice)
-    {
-        device = newDevice;
-        return device->init();
-    }
+    bool init(RenderDevice *newDevice);
 
-    std::unique_ptr<Texture> loadTexture(const std::string &path)
-    {
-        return device->createTexture(path);
-    }
+    std::unique_ptr<Texture> loadTexture(const std::string &path);
 
-    void drawTexture(Texture *texture, Vector2D position)
-    {
-        drawTexture(texture, Rect2D{position, texture->getSize()});
-    }
+    void drawTexture(Texture *texture, Vector2D position);
+    void drawTexture(Texture *tex, Vector2D position, Vector2D size);
+    void drawTexture(Texture *tex, Rect2D rect);
+    void drawRect(Vector2D position, Vector2D size, Color color);
+    void drawRect(Rect2D rect, Color color);
 
-    void drawTexture(Texture *tex, Vector2D position, Vector2D size)
-    {
-        drawTexture(tex, Rect2D{position, size});
-    }
+    void clear();
+    void setClearColor(Color color);
 
-    void drawTexture(Texture *tex, Rect2D rect)
-    {
-        device->drawTexture(tex, rect);
-    }
-
-    void drawRect(Vector2D position, Vector2D size, Color color)
-    {
-        drawRect(Rect2D{position, size}, color);
-    }
-
-    void drawRect(Rect2D rect, Color color)
-    {
-        device->drawRect(rect, color);
-    }
-
-    void clear()
-    {
-        device->clear(clearColor);
-    }
-
-    void present()
-    {
-        device->present();
-    }
-
-    void setClearColor(Color color)
-    {
-        clearColor = color;
-    }
+    void present();
 
 private:
     RenderDevice *device = nullptr;

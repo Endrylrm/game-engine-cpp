@@ -30,14 +30,14 @@ set(ENGINE_SOURCES
 
 if(RENDERER_OPENGL)
     list(APPEND ENGINE_SOURCES
-        renderer/OpenGL/OpenGLRenderer.cpp
+        renderer/OpenGL/OpenGLDevice.cpp
         renderer/OpenGL/resources/OpenGLMesh.cpp
         renderer/OpenGL/resources/OpenGLShader.cpp
         renderer/OpenGL/resources/OpenGLTexture.cpp
     )
 elseif(RENDERER_SDL)
     list(APPEND ENGINE_SOURCES
-        renderer/SDL/SDLRenderer.cpp
+        renderer/SDL/SDLDevice.cpp
         renderer/SDL/resources/SDLTexture.cpp
     )
 endif()

@@ -7,26 +7,26 @@
 
 #include <engine/core/math/Color.hpp>
 #include <engine/core/math/Rect2D.hpp>
-#include <engine/core/math/Vector2D.hpp>
 #include <engine/renderer/OpenGL/resources/OpenGLMesh.hpp>
 #include <engine/renderer/OpenGL/resources/OpenGLShader.hpp>
-#include <engine/renderer/Renderer.hpp>
+#include <engine/renderer/RenderDevice.hpp>
 #include <engine/renderer/resources/Texture.hpp>
 
-class OpenGLRenderer final : public Renderer
+class OpenGLDevice final : public RenderDevice
 {
 public:
-    OpenGLRenderer(SDL_Window *windowHandle);
-    ~OpenGLRenderer() override;
-    bool onInit() override;
-    std::unique_ptr<Texture> loadTexture(const std::string &path) override;
-    void drawTexture(Texture *texture, Vector2D position) override;
-    void drawTexture(Texture *texture, Vector2D position, Vector2D size) override;
-    void drawTexture(Texture *texture, Rect2D rect) override;
-    void drawRect(Vector2D position, Vector2D size, Color color) override;
-    void drawRect(Rect2D rect, Color color) override;
-    void clear() override;
+    OpenGLDevice(SDL_Window *windowHandle);
+    ~OpenGLDevice() override;
+
+    bool init() override;
+    void clear(Color color) override;
     void present() override;
+    void setViewport(Rect2D rect) override;
+
+    std::unique_ptr<Texture> createTexture(const std::string &path) override;
+
+    void drawTexture(Texture *texture, Rect2D rect) override;
+    void drawRect(Rect2D rect, Color color) override;
 
 private:
     bool initGlad();

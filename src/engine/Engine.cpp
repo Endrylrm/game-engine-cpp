@@ -14,9 +14,9 @@
 #include <engine/api/WindowAPI.hpp>
 #include <engine/api/WorldAPI.hpp>
 #ifdef RENDERER_OPENGL
-#include <engine/renderer/OpenGL/OpenGLRenderer.hpp>
+#include <engine/renderer/OpenGL/OpenGLDevice.hpp>
 #elif defined(RENDERER_SDL)
-#include <engine/renderer/SDL/SDLRenderer.hpp>
+#include <engine/renderer/SDL/SDLDevice.hpp>
 #endif
 #include <engine/core/log/Logger.hpp>
 #include <engine/input/SDL/SDLInputManager.hpp>
@@ -37,24 +37,21 @@ void Engine::initialize(const char *title, int width, int height)
     }
 
 #ifdef RENDERER_SDL
-    currentRenderer = std::make_unique<SDLRenderer>(windowPtr->getWindowHandle());
-    SDLRenderer *rendererPtr = static_cast<SDLRenderer *>(currentRenderer.get());
-    if (!rendererPtr->onInit())
-    {
-        return;
-    }
+    currentRenderDevice = std::make_unique<SDLDevice>(windowPtr->getWindowHandle());
+    SDLDevice *devicePtr = static_cast<SDLDevice *>(currentRenderDevice.get());
 #elif defined(RENDERER_OPENGL)
-    currentRenderer = std::make_unique<OpenGLRenderer>(windowPtr->getWindowHandle());
-    OpenGLRenderer *rendererPtr = static_cast<OpenGLRenderer *>(currentRenderer.get());
-    if (!rendererPtr->onInit())
+    currentRenderDevice = std::make_unique<OpenGLDevice>(windowPtr->getWindowHandle());
+    OpenGLDevice *devicePtr = static_cast<OpenGLDevice *>(currentRenderDevice.get());
+#endif
+
+    if (!currentRenderer.init(devicePtr))
     {
         return;
     }
-#endif
 
     currentInputManager = std::make_unique<SDLInputManager>(&running);
     currentAssetDB.registerAssetType<Texture>([this](const std::string &path)
-                                              { return currentRenderer->loadTexture(path); });
+                                              { return currentRenderer.loadTexture(path); });
 
     InputAPI::setManager(currentInputManager.get());
     WindowAPI::setManager(currentWindow.get());
@@ -105,10 +102,10 @@ void Engine::postUpdate()
 
 void Engine::render()
 {
-    currentRenderer->clear();
-    currentWorld.render(*currentRenderer);
+    currentRenderer.clear();
+    currentWorld.render(currentRenderer);
     game.onRender();
-    currentRenderer->present();
+    currentRenderer.present();
 }
 
 void Engine::processCommands()

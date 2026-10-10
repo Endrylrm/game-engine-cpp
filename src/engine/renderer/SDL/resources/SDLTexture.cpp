@@ -16,9 +16,9 @@ SDLTexture::~SDLTexture()
     }
 }
 
-SDL_Texture *SDLTexture::getNativeHandle() const
+bool SDLTexture::isValid() const
 {
-    return texture;
+    return texture != nullptr;
 }
 
 Vector2DInt SDLTexture::getSize() const
@@ -26,7 +26,7 @@ Vector2DInt SDLTexture::getSize() const
     return size;
 }
 
-bool SDLTexture::isValid() const
+SDL_Texture *SDLTexture::getNativeHandle() const
 {
-    return texture != nullptr;
+    return texture;
 }

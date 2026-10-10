@@ -4,9 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+#include <engine/assets/AssetHandle.hpp>
 #include <engine/core/log/Log.hpp>
-
-#include "AssetHandle.hpp"
 
 template <typename T>
 struct AssetRecord

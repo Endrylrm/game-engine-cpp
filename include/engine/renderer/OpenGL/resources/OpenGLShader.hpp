@@ -5,19 +5,18 @@
 #include <glm/glm.hpp>
 
 #include <engine/renderer/descriptions/Shader.hpp>
+#include <engine/renderer/resources/Shader.hpp>
 
-class OpenGLShader
+class OpenGLShader final : public Shader
 {
 public:
-    OpenGLShader() = default;
-    ~OpenGLShader();
+    ~OpenGLShader() override;
 
     bool init(const ShaderDescription &desc);
-
     void use() const;
 
     GLuint get() const;
-    bool isValid() const;
+    bool isValid() const override;
 
     void set(const std::string &name, const glm::mat3 &value) const;
     void set(const std::string &name, const glm::mat4 &value) const;

@@ -5,6 +5,7 @@
 #include <engine/core/events/EventBus.hpp>
 #include <engine/ecs/world/World.hpp>
 #include <engine/input/InputManager.hpp>
+#include <engine/renderer/RenderDevice.hpp>
 #include <engine/renderer/Renderer.hpp>
 #include <engine/scenes/SceneManager.hpp>
 #include <engine/time/Time.hpp>
@@ -40,8 +41,9 @@ private:
     void shutdown();
 
     std::unique_ptr<Window> currentWindow{};
-    std::unique_ptr<Renderer> currentRenderer{};
+    std::unique_ptr<RenderDevice> currentRenderDevice{};
     std::unique_ptr<InputManager> currentInputManager{};
+    Renderer currentRenderer{};
     AssetDatabase currentAssetDB{};
     SceneManager currentSceneManager{currentWorld};
     World currentWorld{};

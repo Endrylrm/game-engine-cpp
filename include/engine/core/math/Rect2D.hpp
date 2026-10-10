@@ -1,7 +1,14 @@
 #pragma once
+#include "Vector2D.hpp"
 
 struct Rect2D
 {
+    Rect2D() : Rect2D(0.0f) {}
+    Rect2D(float all) : x(all), y(all), w(all), h(all) {}
+    Rect2D(float x, float y, float w, float h) : x(x), y(y), w(w), h(h) {}
+
+    Rect2D(Vector2D position, Vector2D size) : Rect2D(position.x, position.y, size.x, size.y) {}
+
     float x{};
     float y{};
     float w{1.0f};

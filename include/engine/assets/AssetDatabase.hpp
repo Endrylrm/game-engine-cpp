@@ -2,12 +2,12 @@
 #include <stdexcept>
 #include <string>
 
+#include <engine/assets/managers/AssetManager.hpp>
+#include <engine/assets/managers/ResourceManager.hpp>
 #include <engine/core/log/TypeName.hpp>
 
 #include "AssetHandle.hpp"
-#include "AssetManager.hpp"
 #include "AssetManagerRegistry.hpp"
-#include "ResourceManager.hpp"
 
 class AssetDatabase
 {

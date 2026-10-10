@@ -1,6 +1,4 @@
-#include "engine/renderer/OpenGL/OpenGLRenderer.hpp"
-
-#include <string>
+#include "engine/renderer/OpenGL/OpenGLDevice.hpp"
 
 #include <SDL3_image/SDL_image.h>
 
@@ -13,17 +11,15 @@
 #include <engine/renderer/descriptions/Mesh.hpp>
 #include <engine/renderer/descriptions/Shader.hpp>
 
-OpenGLRenderer::OpenGLRenderer(SDL_Window *windowHandle) : window(windowHandle) {}
+OpenGLDevice::OpenGLDevice(SDL_Window *windowHandle) : window(windowHandle) {}
 
-OpenGLRenderer::~OpenGLRenderer()
+OpenGLDevice::~OpenGLDevice()
 {
     if (context)
         SDL_GL_DestroyContext(context);
-
-    LOG_DEBUG("OpenGL Renderer destroyed.");
 }
 
-bool OpenGLRenderer::onInit()
+bool OpenGLDevice::init()
 {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
@@ -38,9 +34,6 @@ bool OpenGLRenderer::onInit()
     }
 
     if (!initGlad())
-        return false;
-
-    if (!initViewport())
         return false;
 
     if (!initTexturePipeline())
@@ -58,7 +51,121 @@ bool OpenGLRenderer::onInit()
     return true;
 }
 
-bool OpenGLRenderer::initGlad()
+void OpenGLDevice::clear(Color color)
+{
+    glClearColor(color.r, color.b, color.g, color.a);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void OpenGLDevice::present()
+{
+    SDL_GL_SwapWindow(window);
+}
+
+void OpenGLDevice::setViewport(Rect2D rect)
+{
+    glViewport(rect.x, rect.y, rect.w, rect.h);
+}
+
+std::unique_ptr<Texture> OpenGLDevice::createTexture(const std::string &path)
+{
+    SDL_Surface *surface = IMG_Load(path.c_str());
+
+    if (!surface)
+    {
+        LOG_ERROR("Unable to create surface: {}", SDL_GetError());
+        return nullptr;
+    }
+
+    SDL_Surface *rgbaSurface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
+    SDL_DestroySurface(surface);
+
+    if (!rgbaSurface)
+    {
+        LOG_ERROR("Unable to create surface: {}", SDL_GetError());
+        return nullptr;
+    }
+
+    int width = rgbaSurface->w;
+    int height = rgbaSurface->h;
+
+    GLuint textureId;
+    glGenTextures(1, &textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    glTexImage2D(
+        GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, rgbaSurface->pixels
+    );
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    SDL_DestroySurface(rgbaSurface);
+
+    if (textureId == 0)
+    {
+        LOG_ERROR("Unable to create texture from image in path: '{}'", path);
+        return nullptr;
+    }
+
+    LOG_DEBUG("OpenGL Texture Created.");
+
+    return std::make_unique<OpenGLTexture>(textureId, width, height);
+}
+
+void OpenGLDevice::drawTexture(Texture *texture, Rect2D rect)
+{
+    auto *glTexture = static_cast<OpenGLTexture *>(texture);
+
+    if (!glTexture || !glTexture->isValid())
+        return;
+
+    GLuint handle = glTexture->getNativeHandle();
+
+    Vector4D texColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+    Matrix4 model = Matrix4::translation(Vector3D(rect.x, rect.y, 0.0f)) *
+                    Matrix4::scale(Vector3D(rect.w, rect.h, 1.0f));
+
+    Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+    Matrix4 view = Matrix4::identity();
+
+    textureShader.use();
+    textureShader.set("model", GLMConverter::toGLM(model));
+    textureShader.set("view", GLMConverter::toGLM(view));
+    textureShader.set("projection", GLMConverter::toGLM(projection));
+    textureShader.set("texColor", GLMConverter::toGLM(texColor));
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, handle);
+    textureShader.set("ourTexture", 0);
+    textureMesh.draw();
+}
+
+void OpenGLDevice::drawRect(Rect2D rect, Color color)
+{
+    Matrix4 model = Matrix4::translation(Vector3D(rect.x, rect.y, 0.0f)) *
+                    Matrix4::scale(Vector3D(rect.w, rect.h, 1.0f));
+
+    Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+    Matrix4 view = Matrix4::identity();
+
+    Vector4D rectColor(color.r, color.g, color.b, color.a);
+
+    rectShader.use();
+    rectShader.set("model", GLMConverter::toGLM(model));
+    rectShader.set("view", GLMConverter::toGLM(view));
+    rectShader.set("projection", GLMConverter::toGLM(projection));
+    rectShader.set("rectColor", GLMConverter::toGLM(rectColor));
+    rectMesh.draw();
+}
+
+bool OpenGLDevice::initGlad()
 {
     int version = gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
 
@@ -76,22 +183,14 @@ bool OpenGLRenderer::initGlad()
     return true;
 }
 
-bool OpenGLRenderer::initViewport()
+bool OpenGLDevice::initOpenGLState()
 {
-    int width;
-    int height;
-
-    if (!SDL_GetWindowSize(window, &width, &height))
-    {
-        LOG_ERROR("Unable to get Window Size: {}", SDL_GetError());
-        return false;
-    }
-
-    glViewport(0, 0, width, height);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     return true;
 }
 
-bool OpenGLRenderer::initTexturePipeline()
+bool OpenGLDevice::initTexturePipeline()
 {
     // clang-format off
     constexpr float vertices[] = {
@@ -170,7 +269,7 @@ bool OpenGLRenderer::initTexturePipeline()
     return true;
 }
 
-bool OpenGLRenderer::initTrianglePipeline()
+bool OpenGLDevice::initTrianglePipeline()
 {
     // clang-format off
     constexpr float vertices[] = {
@@ -239,7 +338,7 @@ bool OpenGLRenderer::initTrianglePipeline()
     return true;
 }
 
-bool OpenGLRenderer::initRectPipeline()
+bool OpenGLDevice::initRectPipeline()
 {
     // clang-format off
     constexpr float vertices[] = {
@@ -305,136 +404,4 @@ bool OpenGLRenderer::initRectPipeline()
 
     LOG_DEBUG("OpenGL Pipeline: Rectangle Pipeline Initialized.");
     return true;
-}
-
-bool OpenGLRenderer::initOpenGLState()
-{
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    return true;
-}
-
-std::unique_ptr<Texture> OpenGLRenderer::loadTexture(const std::string &path)
-{
-    SDL_Surface *surface = IMG_Load(path.c_str());
-
-    if (!surface)
-    {
-        LOG_ERROR("Unable to create surface: {}", SDL_GetError());
-        return nullptr;
-    }
-
-    SDL_Surface *rgbaSurface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
-    SDL_DestroySurface(surface);
-
-    if (!rgbaSurface)
-    {
-        LOG_ERROR("Unable to create surface: {}", SDL_GetError());
-        return nullptr;
-    }
-
-    int width = rgbaSurface->w;
-    int height = rgbaSurface->h;
-
-    GLuint textureId;
-    glGenTextures(1, &textureId);
-    glBindTexture(GL_TEXTURE_2D, textureId);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-    glTexImage2D(
-        GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, rgbaSurface->pixels
-    );
-    glGenerateMipmap(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    SDL_DestroySurface(rgbaSurface);
-
-    if (textureId == 0)
-    {
-        LOG_ERROR("Unable to create texture from image in path: '{}'", path);
-        return nullptr;
-    }
-
-    LOG_DEBUG("OpenGL Texture Created.");
-
-    return std::make_unique<OpenGLTexture>(textureId, width, height);
-}
-
-void OpenGLRenderer::drawTexture(Texture *texture, Vector2D position)
-{
-    drawTexture(texture, position, texture->getSize());
-}
-
-void OpenGLRenderer::drawTexture(Texture *texture, Vector2D position, Vector2D size)
-{
-    auto *glTexture = static_cast<OpenGLTexture *>(texture);
-
-    if (!glTexture || !glTexture->isValid())
-        return;
-
-    GLuint handle = glTexture->getNativeHandle();
-
-    Vector4D texColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-    Matrix4 model = Matrix4::translation(Vector3D(position.x, position.y, 0.0f)) *
-                    Matrix4::scale(Vector3D(size.x, size.y, 1.0f));
-
-    Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
-    Matrix4 view = Matrix4::identity();
-
-    textureShader.use();
-    textureShader.set("model", GLMConverter::toGLM(model));
-    textureShader.set("view", GLMConverter::toGLM(view));
-    textureShader.set("projection", GLMConverter::toGLM(projection));
-    textureShader.set("texColor", GLMConverter::toGLM(texColor));
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, handle);
-    textureShader.set("ourTexture", 0);
-    textureMesh.draw();
-}
-
-void OpenGLRenderer::drawTexture(Texture *texture, Rect2D rect)
-{
-    drawTexture(texture, Vector2D{rect.x, rect.y}, Vector2D{rect.w, rect.h});
-}
-
-void OpenGLRenderer::drawRect(Vector2D position, Vector2D size, Color color)
-{
-    Matrix4 model = Matrix4::translation(Vector3D(position.x, position.y, 0.0f)) *
-                    Matrix4::scale(Vector3D(size.x, size.y, 1.0f));
-
-    Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
-    Matrix4 view = Matrix4::identity();
-
-    Vector4D rectColor(color.r, color.g, color.b, color.a);
-
-    rectShader.use();
-    rectShader.set("model", GLMConverter::toGLM(model));
-    rectShader.set("view", GLMConverter::toGLM(view));
-    rectShader.set("projection", GLMConverter::toGLM(projection));
-    rectShader.set("rectColor", GLMConverter::toGLM(rectColor));
-    rectMesh.draw();
-}
-
-void OpenGLRenderer::drawRect(Rect2D rect, Color color)
-{
-    drawRect(Vector2D{rect.x, rect.y}, Vector2D{rect.w, rect.h}, color);
-}
-
-void OpenGLRenderer::clear()
-{
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void OpenGLRenderer::present()
-{
-    SDL_GL_SwapWindow(window);
 }

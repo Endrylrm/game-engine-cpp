@@ -13,11 +13,10 @@ public:
     SDLTexture(SDL_Texture *texture, int width, int height);
     ~SDLTexture() override;
 
-    SDL_Texture *getNativeHandle() const;
+    bool isValid() const override;
 
     Vector2DInt getSize() const override;
-
-    bool isValid() const override;
+    SDL_Texture *getNativeHandle() const;
 
 private:
     SDL_Texture *texture{};

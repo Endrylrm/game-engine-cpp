@@ -1,13 +1,13 @@
-#include "engine/renderer/SDL/SDLRenderer.hpp"
+#include "engine/renderer/SDL/SDLDevice.hpp"
 
 #include <SDL3_image/SDL_image.h>
 
 #include <engine/core/log/Log.hpp>
 #include <engine/renderer/SDL/resources/SDLTexture.hpp>
 
-SDLRenderer::SDLRenderer(SDL_Window *windowHandle) : window(windowHandle) {}
+SDLDevice::SDLDevice(SDL_Window *windowHandle) : window(windowHandle) {}
 
-SDLRenderer::~SDLRenderer()
+SDLDevice::~SDLDevice()
 {
     if (font)
     {
@@ -24,7 +24,7 @@ SDLRenderer::~SDLRenderer()
     LOG_DEBUG("SDL Renderer destroyed.");
 }
 
-bool SDLRenderer::onInit()
+bool SDLDevice::init()
 {
     renderer = SDL_CreateRenderer(window, NULL);
 
@@ -44,7 +44,7 @@ bool SDLRenderer::onInit()
     return true;
 }
 
-std::unique_ptr<Texture> SDLRenderer::loadTexture(const std::string &path)
+std::unique_ptr<Texture> SDLDevice::createTexture(const std::string &path)
 {
     SDL_Surface *surface = IMG_Load(path.c_str());
 
@@ -72,49 +72,35 @@ std::unique_ptr<Texture> SDLRenderer::loadTexture(const std::string &path)
     return std::make_unique<SDLTexture>(texture, width, height);
 }
 
-void SDLRenderer::drawTexture(Texture *texture, Vector2D position)
-{
-    drawTexture(texture, position, texture->getSize());
-}
-
-void SDLRenderer::drawTexture(Texture *texture, Vector2D position, Vector2D size)
+void SDLDevice::drawTexture(Texture *texture, Rect2D rect)
 {
     auto *sdlTexture = static_cast<SDLTexture *>(texture);
-    SDL_FRect dest{position.x, position.y, size.x, size.y};
+    SDL_FRect dest{rect.x, rect.y, rect.w, rect.h};
     SDL_Texture *handle = sdlTexture->getNativeHandle();
     SDL_RenderTexture(renderer, handle, nullptr, &dest);
 }
 
-void SDLRenderer::drawTexture(Texture *texture, Rect2D rect)
-{
-    drawTexture(texture, Vector2D{rect.x, rect.y}, Vector2D{rect.w, rect.h});
-}
-
-void SDLRenderer::drawRect(Vector2D position, Vector2D size, Color color)
+void SDLDevice::drawRect(Rect2D rect, Color color)
 {
     RGBA32 rgbaColor = color.toRGBA32();
     SDL_SetRenderDrawColor(renderer, rgbaColor.r, rgbaColor.g, rgbaColor.b, rgbaColor.a);
-    SDL_FRect dest{position.x, position.y, size.x, size.y};
+    SDL_FRect dest{rect.x, rect.y, rect.w, rect.h};
     SDL_RenderFillRect(renderer, &dest);
 }
 
-void SDLRenderer::drawRect(Rect2D rect, Color color)
+void SDLDevice::clear(Color color)
 {
-    drawRect(Vector2D{rect.x, rect.y}, Vector2D{rect.w, rect.h}, color);
-}
-
-void SDLRenderer::clear()
-{
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    RGBA32 rgbaColor = color.toRGBA32();
+    SDL_SetRenderDrawColor(renderer, rgbaColor.r, rgbaColor.g, rgbaColor.b, rgbaColor.a);
     SDL_RenderClear(renderer);
 }
 
-void SDLRenderer::present()
+void SDLDevice::present()
 {
     SDL_RenderPresent(renderer);
 }
 
-SDL_Renderer *SDLRenderer::getNativeHandle() const
+SDL_Renderer *SDLDevice::getNativeHandle() const
 {
     return renderer;
 }

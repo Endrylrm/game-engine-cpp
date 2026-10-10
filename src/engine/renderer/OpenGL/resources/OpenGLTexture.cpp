@@ -14,9 +14,9 @@ OpenGLTexture::~OpenGLTexture()
     }
 }
 
-GLuint OpenGLTexture::getNativeHandle() const
+bool OpenGLTexture::isValid() const
 {
-    return texture;
+    return texture != 0;
 }
 
 Vector2DInt OpenGLTexture::getSize() const
@@ -24,7 +24,7 @@ Vector2DInt OpenGLTexture::getSize() const
     return size;
 }
 
-bool OpenGLTexture::isValid() const
+GLuint OpenGLTexture::getNativeHandle() const
 {
-    return texture != 0;
+    return texture;
 }

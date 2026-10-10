@@ -4,12 +4,12 @@
 #include <engine/renderer/descriptions/Mesh.hpp>
 #include <engine/renderer/resources/Mesh.hpp>
 
-class OpenGLMesh
+class OpenGLMesh final : public Mesh
 {
 public:
-    ~OpenGLMesh();
+    ~OpenGLMesh() override;
     bool init(const MeshDescription &desc);
-    bool isValid() const;
+    bool isValid() const override;
 
     void bind() const;
     void unbind() const;

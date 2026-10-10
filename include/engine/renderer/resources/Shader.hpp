@@ -3,6 +3,7 @@
 class Shader
 {
 public:
-    virtual ~Mesh() = default;
+    virtual ~Shader() = default;
+
     virtual bool isValid() const = 0;
 };

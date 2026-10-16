@@ -2,9 +2,9 @@
 #include <engine/assets/AssetHandle.hpp>
 #include <engine/renderer/resources/Texture.hpp>
 
-struct SpriteRenderer
+struct Sprite
 {
-    explicit SpriteRenderer(AssetHandle<Texture> texture) : textureId(texture) {}
+    explicit Sprite(AssetHandle<Texture> texture) : textureId(texture) {}
 
     AssetHandle<Texture> textureId;
 };

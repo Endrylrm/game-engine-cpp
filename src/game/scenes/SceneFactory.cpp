@@ -5,7 +5,7 @@
 #include <engine/core/log/Log.hpp>
 #include <engine/ecs/components/BoxCollider.hpp>
 #include <engine/ecs/components/Renderable.hpp>
-#include <engine/ecs/components/SpriteRenderer.hpp>
+#include <engine/ecs/components/Sprite.hpp>
 #include <engine/ecs/components/Transform.hpp>
 #include <engine/ecs/components/Velocity.hpp>
 #include <engine/ecs/entities/EntityBuilder.hpp>
@@ -82,7 +82,7 @@ void SceneFactory::createPlayerScene(Scene &scene)
                 EntityBuilder(scene)
                     .addComponent<Transform>(375.0f, 450.0f, 0.0f)
                     .addComponent<Velocity>()
-                    .addComponent<SpriteRenderer>(sprite)
+                    .addComponent<Sprite>(sprite)
                     .addComponent<Renderable>()
                     .addComponent<Health>(5)
                     .addComponent<Weapon>()
@@ -91,7 +91,7 @@ void SceneFactory::createPlayerScene(Scene &scene)
                     .addComponent<PlayerInput>()
                     .build();
 
-            LOG_DEBUG("Player has Sprite Renderer: {}", player.hasComponent<SpriteRenderer>());
+            LOG_DEBUG("Player has Sprite: {}", player.hasComponent<Sprite>());
         }
     );
 }

@@ -1,13 +1,13 @@
 #pragma once
-#include <cstdint>
 #include <memory>
 #include <string>
 
 #include <engine/core/math/Color.hpp>
-#include <engine/core/math/Rect2D.hpp>
-#include <engine/core/math/Vector2D.hpp>
 #include <engine/renderer/RenderDevice.hpp>
 #include <engine/renderer/resources/Texture.hpp>
+
+#include "ShapeRenderer.hpp"
+#include "SpriteRenderer.hpp"
 
 class Renderer
 {
@@ -16,11 +16,8 @@ public:
 
     std::unique_ptr<Texture> loadTexture(const std::string &path);
 
-    void drawTexture(Texture *texture, Vector2D position);
-    void drawTexture(Texture *tex, Vector2D position, Vector2D size);
-    void drawTexture(Texture *tex, Rect2D rect);
-    void drawRect(Vector2D position, Vector2D size, Color color);
-    void drawRect(Rect2D rect, Color color);
+    ShapeRenderer &getShapeRenderer() noexcept;
+    SpriteRenderer &getSpriteRenderer() noexcept;
 
     void clear();
     void setClearColor(Color color);
@@ -29,5 +26,7 @@ public:
 
 private:
     RenderDevice *device = nullptr;
+    ShapeRenderer shapeRenderer;
+    SpriteRenderer spriteRenderer;
     Color clearColor{0.0f, 0.0f, 0.0f, 1.0f};
 };

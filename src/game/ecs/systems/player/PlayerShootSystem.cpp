@@ -5,7 +5,7 @@
 #include <engine/assets/AssetHandle.hpp>
 #include <engine/core/log/Log.hpp>
 #include <engine/ecs/components/Renderable.hpp>
-#include <engine/ecs/components/SpriteRenderer.hpp>
+#include <engine/ecs/components/Sprite.hpp>
 #include <engine/ecs/components/Transform.hpp>
 #include <engine/ecs/components/Velocity.hpp>
 #include <engine/ecs/handle/Entity.hpp>
@@ -38,7 +38,7 @@ void PlayerShootSystem::shoot(Vector2D position)
     bulletTransform.position = position + Vector2D{45.0f, -55.0f};
     auto &bulletVelocity = bullet.addComponent<Velocity>();
     bulletVelocity.linear = Vector2D{0.0f, -400.0f};
-    bullet.addComponent<SpriteRenderer>(sprite);
+    bullet.addComponent<Sprite>(sprite);
     bullet.addComponent<Renderable>();
     bullet.addComponent<OutOfBounds>();
 }

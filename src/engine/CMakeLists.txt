@@ -23,6 +23,8 @@ set(ENGINE_SOURCES
     ecs/world/World.cpp
     input/SDL/SDLInputManager.cpp
     renderer/Renderer.cpp
+    renderer/ShapeRenderer.cpp
+    renderer/SpriteRenderer.cpp
     time/Time.cpp
     time/Timer.cpp
     time/TimerManager.cpp

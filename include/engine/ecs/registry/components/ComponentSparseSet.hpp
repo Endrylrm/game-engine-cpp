@@ -14,11 +14,11 @@ public:
     T &emplace(EntityId entity, Args &&...args)
     {
         if (contains(entity))
-            return dense[sparse[entity.id]];
+            return dense[sparse[entity.index]];
 
         ensureSparseSize(entity);
 
-        sparse[entity.id] = dense.size();
+        sparse[entity.index] = dense.size();
 
         denseEntities.push_back(entity);
         dense.emplace_back(std::forward<Args>(args)...);
@@ -28,7 +28,7 @@ public:
 
     bool contains(EntityId entity) const
     {
-        return entity.id < sparse.size() && sparse[entity.id] != INVALID;
+        return entity.index < sparse.size() && sparse[entity.index] != INVALID;
     }
 
     void erase(EntityId entity)
@@ -36,27 +36,27 @@ public:
         if (!contains(entity))
             return;
 
-        size_t index = sparse[entity.id];
+        size_t index = sparse[entity.index];
         size_t lastDenseIndex = dense.size() - 1;
         EntityId lastEntity = denseEntities[lastDenseIndex];
 
         dense[index] = std::move(dense[lastDenseIndex]);
         denseEntities[index] = lastEntity;
-        sparse[lastEntity.id] = index;
+        sparse[lastEntity.index] = index;
 
         dense.pop_back();
         denseEntities.pop_back();
-        sparse[entity.id] = INVALID;
+        sparse[entity.index] = INVALID;
     }
 
     T *find(EntityId entity)
     {
-        return contains(entity) ? &dense[sparse[entity.id]] : nullptr;
+        return contains(entity) ? &dense[sparse[entity.index]] : nullptr;
     }
 
     const T *find(EntityId entity) const
     {
-        return contains(entity) ? &dense[sparse[entity.id]] : nullptr;
+        return contains(entity) ? &dense[sparse[entity.index]] : nullptr;
     }
 
     T &at(EntityId entity)
@@ -64,7 +64,7 @@ public:
         if (!contains(entity))
             throw std::out_of_range("Entity don't exist in SparseSet!");
 
-        return dense[sparse[entity.id]];
+        return dense[sparse[entity.index]];
     }
 
     const T &at(EntityId entity) const
@@ -72,7 +72,7 @@ public:
         if (!contains(entity))
             throw std::out_of_range("Entity don't exist in SparseSet!");
 
-        return dense[sparse[entity.id]];
+        return dense[sparse[entity.index]];
     }
 
     T &at(size_t index)
@@ -120,13 +120,13 @@ public:
     T &operator[](EntityId entity)
     {
         assert(contains(entity));
-        return dense[sparse[entity.id]];
+        return dense[sparse[entity.index]];
     }
 
     const T &operator[](EntityId entity) const
     {
         assert(contains(entity));
-        return dense[sparse[entity.id]];
+        return dense[sparse[entity.index]];
     }
 
     auto begin()
@@ -152,7 +152,7 @@ public:
 private:
     void ensureSparseSize(EntityId entity)
     {
-        size_t index = static_cast<size_t>(entity.id);
+        size_t index = static_cast<size_t>(entity.index);
 
         if (index >= sparse.size())
         {

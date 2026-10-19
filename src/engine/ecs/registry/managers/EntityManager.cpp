@@ -29,20 +29,20 @@ void EntityManager::destroy(EntityId entity)
     if (!valid(entity))
         return;
 
-    auto &slot = slots[entity.id];
+    auto &slot = slots[entity.index];
     slot.alive = false;
     slot.generation++;
 
-    freeIds.push_back(entity.id);
-    LOG_DEBUG("Entity destroyed: {}, {}.", entity.id, entity.generation);
+    freeIds.push_back(entity.index);
+    LOG_DEBUG("Entity destroyed: {}, {}.", entity.index, entity.generation);
 }
 
 bool EntityManager::valid(EntityId entity) const
 {
-    if (entity.id >= slots.size())
+    if (entity.index >= slots.size())
         return false;
 
-    const auto &slot = slots[entity.id];
+    const auto &slot = slots[entity.index];
 
     return slot.alive && slot.generation == entity.generation;
 }

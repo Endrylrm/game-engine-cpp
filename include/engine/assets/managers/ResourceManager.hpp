@@ -63,6 +63,6 @@ public:
     }
 
 private:
-    std::unordered_map<AssetHandle<T>, std::unique_ptr<T>, AssetHandleHasher> resources;
+    std::unordered_map<AssetHandle<T>, std::unique_ptr<T>> resources;
     Loader loader;
 };

@@ -7,7 +7,7 @@ void Scene::load()
     if (onLoad)
         onLoad(*this);
 
-    LOG_DEBUG("Scene '{}' Loaded!", id.value);
+    LOG_DEBUG("Scene '{}' Loaded!", id.index);
 }
 
 void Scene::unload()
@@ -22,7 +22,7 @@ void Scene::unload()
     if (onUnload)
         onUnload(*this);
 
-    LOG_DEBUG("Scene '{}' Unloaded!", id.value);
+    LOG_DEBUG("Scene '{}' Unloaded!", id.index);
 }
 
 SceneId Scene::getId() const
@@ -44,7 +44,7 @@ Entity Scene::createEntity()
 {
     Entity entity = world.createEntity();
     entities.push_back(entity.getId());
-    LOG_DEBUG("Entity handle created in Scene {}.", id.value);
+    LOG_DEBUG("Entity handle created in Scene {}.", id.index);
     return entity;
 }
 

@@ -73,7 +73,7 @@ public:
     }
 
 private:
-    std::unordered_map<AssetHandle<T>, AssetRecord<T>, AssetHandleHasher> assets;
+    std::unordered_map<AssetHandle<T>, AssetRecord<T>> assets;
     std::unordered_map<std::string, AssetHandle<T>> pathToHandle;
     uint32_t nextID{1};
 };

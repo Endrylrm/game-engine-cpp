@@ -8,19 +8,19 @@ void SceneManager::loadScene(SceneId id, SceneLoadMode mode)
     {
         unloadNonPersistentScenes();
         pendingCommands.push_back({SceneCommandType::Load, id});
-        LOG_INFO("Queued Load Scene '{}'...", id.value);
+        LOG_INFO("Queued Load Scene '{}'...", id.index);
         break;
     }
     case SceneLoadMode::Additive:
     {
         pendingCommands.push_back({SceneCommandType::LoadAdditive, id});
-        LOG_INFO("Queued Load Scene '{}' (Additive)...", id.value);
+        LOG_INFO("Queued Load Scene '{}' (Additive)...", id.index);
         break;
     }
     case SceneLoadMode::Persistent:
     {
         pendingCommands.push_back({SceneCommandType::LoadPersistent, id});
-        LOG_INFO("Queued Load Scene '{}' (Persistent)...", id.value);
+        LOG_INFO("Queued Load Scene '{}' (Persistent)...", id.index);
         break;
     }
     default:
@@ -44,7 +44,7 @@ void SceneManager::loadScene(std::string_view name, SceneLoadMode mode)
 
 void SceneManager::unloadScene(SceneId id)
 {
-    LOG_INFO("Queued Unload Scene '{}'...", id.value);
+    LOG_INFO("Queued Unload Scene '{}'...", id.index);
     pendingCommands.push_back({SceneCommandType::Unload, id});
 }
 
@@ -79,7 +79,7 @@ Scene *SceneManager::getActiveScene(SceneId id) const
 
     if (it == activeScenes.end())
     {
-        LOG_ERROR("Scene '{}' is not active.", id.value);
+        LOG_ERROR("Scene '{}' is not active.", id.index);
         return nullptr;
     }
 
@@ -105,7 +105,7 @@ bool SceneManager::isActiveScene(SceneId id) const
 
     if (it == activeScenes.end())
     {
-        LOG_ERROR("Scene '{}' is not active.", id.value);
+        LOG_ERROR("Scene '{}' is not active.", id.index);
         return false;
     }
 
@@ -166,7 +166,7 @@ Scene *SceneManager::buildScene(SceneId id)
     SceneBuilder builder = scenes.at(id);
     auto scene = std::make_unique<Scene>(id, world);
     builder(*scene);
-    LOG_DEBUG("Created Scene instance '{}'.", id.value);
+    LOG_DEBUG("Created Scene instance '{}'.", id.index);
     Scene *scenePtr = scene.get();
     activeScenes.push_back(std::move(scene));
     return scenePtr;
@@ -197,14 +197,14 @@ void SceneManager::processCommands()
         {
             mainScene = buildScene(command.id);
             mainScene->load();
-            LOG_INFO("Loaded Scene '{}'.", command.id.value);
+            LOG_INFO("Loaded Scene '{}'.", command.id.index);
             break;
         }
         case SceneCommandType::LoadAdditive:
         {
             auto *scene = buildScene(command.id);
             scene->load();
-            LOG_INFO("Loaded Scene '{}' (Additive).", command.id.value);
+            LOG_INFO("Loaded Scene '{}' (Additive).", command.id.index);
             break;
         }
         case SceneCommandType::LoadPersistent:
@@ -219,7 +219,7 @@ void SceneManager::processCommands()
 
             persistentScene = buildScene(command.id);
             persistentScene->load();
-            LOG_INFO("Loaded Scene '{}' (Persistent).", command.id.value);
+            LOG_INFO("Loaded Scene '{}' (Persistent).", command.id.index);
             break;
         }
         case SceneCommandType::Unload:
@@ -228,7 +228,7 @@ void SceneManager::processCommands()
 
             if (!scene)
             {
-                LOG_WARNING("Scene '{}' is not loaded.", command.id.value);
+                LOG_WARNING("Scene '{}' is not loaded.", command.id.index);
                 break;
             }
 
@@ -244,7 +244,7 @@ void SceneManager::processCommands()
                 activeScenes, [scene](const auto &scenePtr) { return scenePtr.get() == scene; }
             );
 
-            LOG_INFO("Unloaded Scene '{}'.", command.id.value);
+            LOG_INFO("Unloaded Scene '{}'.", command.id.index);
             break;
         }
         case SceneCommandType::UnloadNonPersistent:

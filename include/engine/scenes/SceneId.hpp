@@ -1,17 +1,5 @@
 #pragma once
-#include <functional>
+#include <engine/core/handle/TypedIdentifier.hpp>
 
-struct SceneId
-{
-    uint32_t value{};
-
-    constexpr bool operator==(const SceneId &) const = default;
-};
-
-struct SceneIdHash
-{
-    size_t operator()(SceneId id) const noexcept
-    {
-        return std::hash<uint32_t>{}(id.value);
-    }
-};
+struct SceneTag;
+using SceneId = TypedIdentifier<SceneTag, uint32_t, UINT32_MAX>;

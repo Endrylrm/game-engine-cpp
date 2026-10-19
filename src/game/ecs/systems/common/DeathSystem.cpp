@@ -10,7 +10,7 @@ void DeathSystem::onPostUpdate(World &world)
     {
         world.destroyEntity(entity);
         LOG_DEBUG(
-            "Queued destruction for Entity ID: {}, generation: {}", entity.id, entity.generation
+            "Queued destruction for Entity ID: {}, generation: {}", entity.index, entity.generation
         );
     }
 }

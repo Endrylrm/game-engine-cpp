@@ -59,13 +59,13 @@ Entity World::createEntity()
 {
     EntityId id = registry.createEntity();
     Entity entity = {id, this};
-    LOG_DEBUG("Entity Handle created from entity: '{}', generation: {}.", id.id, id.generation);
+    LOG_DEBUG("Entity Handle created from entity: '{}', generation: {}.", id.index, id.generation);
     return entity;
 }
 
 Entity World::getEntity(EntityId id)
 {
-    LOG_DEBUG("Entity Handle created from entity: '{}', generation: {}.", id.id, id.generation);
+    LOG_DEBUG("Entity Handle created from entity: '{}', generation: {}.", id.index, id.generation);
     return Entity{id, this};
 }
 

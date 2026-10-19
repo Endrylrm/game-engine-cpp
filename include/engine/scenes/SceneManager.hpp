@@ -24,7 +24,7 @@ public:
     SceneId registerScene(std::string_view name, Callback &&callback)
     {
         const SceneId id{nextSceneId++};
-        LOG_DEBUG("Registered Scene '{}'...", id.value);
+        LOG_DEBUG("Registered Scene '{}'...", id.index);
 
         scenes.try_emplace(id, std::forward<Callback>(callback));
         sceneIds.emplace(StringHandle(name), id);
@@ -59,7 +59,7 @@ private:
     std::optional<SceneId> findSceneId(std::string_view name) const;
 
     uint32_t nextSceneId{0};
-    std::unordered_map<SceneId, SceneBuilder, SceneIdHash> scenes{};
+    std::unordered_map<SceneId, SceneBuilder> scenes{};
     std::unordered_map<StringHandle, SceneId, StringHandleHash> sceneIds{};
     std::vector<std::unique_ptr<Scene>> activeScenes{};
     std::vector<SceneCommand> pendingCommands{};

@@ -14,7 +14,7 @@ public:
     T &add(EntityId entity, Args &&...args)
     {
         T &component = getStorage<T>().emplace(entity, std::forward<Args>(args)...);
-        LOG_DEBUG("Added Component {} to Entity {}", getTypeName<T>(), entity.id);
+        LOG_DEBUG("Added Component {} to Entity {}", getTypeName<T>(), entity.index);
         return component;
     }
 
@@ -22,7 +22,7 @@ public:
     T &get(EntityId entity)
     {
         T &component = getStorage<T>().at(entity);
-        LOG_DEBUG("got Component {} to Entity {}", getTypeName<T>(), entity.id);
+        LOG_DEBUG("got Component {} to Entity {}", getTypeName<T>(), entity.index);
         return component;
     }
 
@@ -34,12 +34,12 @@ public:
         if (hasComponent)
         {
             T &component = get<T>(entity);
-            LOG_DEBUG("got Component {} from Entity {}", getTypeName<T>(), entity.id);
+            LOG_DEBUG("got Component {} from Entity {}", getTypeName<T>(), entity.index);
             return component;
         }
 
         T &component = add<T>(entity, std::forward<Args>(args)...);
-        LOG_DEBUG("added Component {} to Entity {}", getTypeName<T>(), entity.id);
+        LOG_DEBUG("added Component {} to Entity {}", getTypeName<T>(), entity.index);
         return component;
     }
 
@@ -48,9 +48,9 @@ public:
     {
         T *component = getStorage<T>().find(entity);
         if (component)
-            LOG_DEBUG("got Component {} from Entity {}", getTypeName<T>(), entity.id);
+            LOG_DEBUG("got Component {} from Entity {}", getTypeName<T>(), entity.index);
         else
-            LOG_DEBUG("has no Component {} in Entity {}", getTypeName<T>(), entity.id);
+            LOG_DEBUG("has no Component {} in Entity {}", getTypeName<T>(), entity.index);
         return component;
     }
 
@@ -58,7 +58,7 @@ public:
     bool has(EntityId entity)
     {
         bool hasComponent = getStorage<T>().contains(entity);
-        LOG_DEBUG("Entity {} has component: {}", entity.id, getTypeName<T>());
+        LOG_DEBUG("Entity {} has component: {}", entity.index, getTypeName<T>());
         return hasComponent;
     }
 
@@ -66,7 +66,7 @@ public:
     void remove(EntityId entity)
     {
         getStorage<T>().erase(entity);
-        LOG_DEBUG("Erased Component {} from Entity {}", getTypeName<T>(), entity.id);
+        LOG_DEBUG("Erased Component {} from Entity {}", getTypeName<T>(), entity.index);
     }
 
     void removeAll(EntityId entity)
@@ -75,7 +75,7 @@ public:
         {
             storage->erase(entity);
         }
-        LOG_DEBUG("Erased all Components from Entity {}", entity.id);
+        LOG_DEBUG("Erased all Components from Entity {}", entity.index);
     }
 
     template <typename T>

@@ -1,11 +1,11 @@
 #pragma once
 #include <memory>
 
-#include <engine/core/log/Log.hpp>
-#include <engine/core/log/TypeName.hpp>
-#include <engine/ecs/registry/components/ComponentRegistry.hpp>
-#include <engine/ecs/registry/components/ComponentStorage.hpp>
-#include <engine/ecs/registry/entities/EntityId.hpp>
+#include "engine/core/log/Log.hpp"
+#include "engine/core/log/TypeName.hpp"
+#include "engine/ecs/registry/components/ComponentRegistry.hpp"
+#include "engine/ecs/registry/components/ComponentStorage.hpp"
+#include "engine/ecs/registry/entities/EntityId.hpp"
 
 class ComponentManager
 {

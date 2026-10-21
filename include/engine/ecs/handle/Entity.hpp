@@ -1,6 +1,6 @@
 #pragma once
-#include <engine/ecs/registry/entities/EntityId.hpp>
-#include <engine/ecs/world/World.hpp>
+#include "engine/ecs/registry/entities/EntityId.hpp"
+#include "engine/ecs/world/World.hpp"
 
 class Entity
 {

@@ -1,6 +1,6 @@
 #include "engine/core/math/Vector2DInt.hpp"
 
-#include <engine/core/math/Vector2D.hpp>
+#include "engine/core/math/Vector2D.hpp"
 
 Vector2DInt Vector2DInt::zero()
 {

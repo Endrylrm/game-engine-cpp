@@ -4,6 +4,7 @@ void Timer::start(float newWaitTime /* = -1.0f */)
 {
     if (newWaitTime >= 0.0f)
         waitTime = newWaitTime;
+
     timeLeft = waitTime;
     running = true;
     paused = false;

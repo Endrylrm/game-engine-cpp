@@ -1,6 +1,6 @@
 #pragma once
-#include <engine/assets/AssetHandle.hpp>
-#include <engine/renderer/resources/Texture.hpp>
+#include "engine/assets/AssetHandle.hpp"
+#include "engine/renderer/resources/Texture.hpp"
 
 struct Sprite
 {

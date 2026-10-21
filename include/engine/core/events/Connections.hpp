@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-#include <engine/core/log/Log.hpp>
+#include "engine/core/log/Log.hpp"
 
 #include "EventRegistry.hpp"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include <engine/core/handle/TypedHandle.hpp>
+#include "engine/core/handle/TypedHandle.hpp"
 
 struct BufferTag;
 using BufferHandle = TypedHandle<BufferTag>;

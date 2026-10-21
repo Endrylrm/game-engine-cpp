@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 
-#include <engine/ecs/components/scripts/Script.hpp>
+#include "Script.hpp"
 
 struct ScriptComponent
 {

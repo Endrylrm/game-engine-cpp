@@ -1,12 +1,12 @@
 #pragma once
+#include "engine/core/math/Vector2DInt.hpp"
+#include "engine/renderer/resources/Texture.hpp"
+
 #include <cstdint>
 #include <string>
 
 #include <SDL3/SDL.h>
 #include <glad/gl.h>
-
-#include <engine/core/math/Vector2DInt.hpp>
-#include <engine/renderer/resources/Texture.hpp>
 
 class OpenGLTexture final : public Texture
 {

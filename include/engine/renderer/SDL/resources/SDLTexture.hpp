@@ -4,8 +4,8 @@
 
 #include <SDL3/SDL.h>
 
-#include <engine/core/math/Vector2DInt.hpp>
-#include <engine/renderer/resources/Texture.hpp>
+#include "engine/core/math/Vector2DInt.hpp"
+#include "engine/renderer/resources/Texture.hpp"
 
 class SDLTexture final : public Texture
 {

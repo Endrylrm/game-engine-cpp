@@ -2,9 +2,9 @@
 #include <memory>
 #include <string>
 
-#include <engine/core/math/Color.hpp>
-#include <engine/renderer/RenderDevice.hpp>
-#include <engine/renderer/resources/Texture.hpp>
+#include "engine/core/math/Color.hpp"
+#include "engine/renderer/RenderDevice.hpp"
+#include "engine/renderer/resources/Texture.hpp"
 
 #include "ShapeRenderer.hpp"
 #include "SpriteRenderer.hpp"

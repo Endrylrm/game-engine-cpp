@@ -1,6 +1,6 @@
 #pragma once
-#include <engine/ecs/systems/System.hpp>
-#include <engine/ecs/world/World.hpp>
+#include "engine/ecs/systems/System.hpp"
+#include "engine/ecs/world/World.hpp"
 
 class DeathSystem final : public System
 {

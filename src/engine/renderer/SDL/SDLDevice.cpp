@@ -2,8 +2,8 @@
 
 #include <SDL3_image/SDL_image.h>
 
-#include <engine/core/log/Log.hpp>
-#include <engine/renderer/SDL/resources/SDLTexture.hpp>
+#include "engine/core/log/Log.hpp"
+#include "engine/renderer/SDL/resources/SDLTexture.hpp"
 
 SDLDevice::SDLDevice(SDL_Window *windowHandle) : window(windowHandle) {}
 

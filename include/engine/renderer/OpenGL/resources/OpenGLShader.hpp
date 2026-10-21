@@ -4,8 +4,8 @@
 #include <glad/gl.h>
 #include <glm/glm.hpp>
 
-#include <engine/renderer/descriptions/Shader.hpp>
-#include <engine/renderer/resources/Shader.hpp>
+#include "engine/renderer/descriptions/Shader.hpp"
+#include "engine/renderer/resources/Shader.hpp"
 
 class OpenGLShader final : public Shader
 {

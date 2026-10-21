@@ -1,8 +1,8 @@
 #pragma once
 #include <glad/gl.h>
 
-#include <engine/renderer/descriptions/Mesh.hpp>
-#include <engine/renderer/resources/Mesh.hpp>
+#include "engine/renderer/descriptions/Mesh.hpp"
+#include "engine/renderer/resources/Mesh.hpp"
 
 class OpenGLMesh final : public Mesh
 {

@@ -1,10 +1,10 @@
 #include "game/ecs/systems/common/DamageSystem.hpp"
 
-#include <engine/core/log/Log.hpp>
+#include "engine/core/log/Log.hpp"
 
-#include <game/ecs/components/common/Damage.hpp>
-#include <game/ecs/components/common/Dead.hpp>
-#include <game/ecs/components/common/Health.hpp>
+#include "game/ecs/components/common/Damage.hpp"
+#include "game/ecs/components/common/Dead.hpp"
+#include "game/ecs/components/common/Health.hpp"
 
 void DamageSystem::onPostUpdate(World &world)
 {

@@ -1,8 +1,8 @@
 #include "game/ecs/systems/player/PlayerMoveSystem.hpp"
 
-#include <engine/ecs/components/Velocity.hpp>
+#include "engine/ecs/components/Velocity.hpp"
 
-#include <game/ecs/components/player/PlayerInput.hpp>
+#include "game/ecs/components/player/PlayerInput.hpp"
 
 void PlayerMoveSystem::onUpdate(World &world, float deltaTime)
 {

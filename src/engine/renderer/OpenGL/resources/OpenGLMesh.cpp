@@ -1,6 +1,6 @@
 #include "engine/renderer/OpenGL/resources/OpenGLMesh.hpp"
 
-#include <engine/core/log/Log.hpp>
+#include "engine/core/log/Log.hpp"
 
 OpenGLMesh::~OpenGLMesh()
 {

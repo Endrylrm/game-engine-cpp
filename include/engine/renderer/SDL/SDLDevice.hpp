@@ -5,11 +5,11 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include <engine/core/math/Color.hpp>
-#include <engine/core/math/Rect2D.hpp>
-#include <engine/core/math/Vector2D.hpp>
-#include <engine/renderer/RenderDevice.hpp>
-#include <engine/renderer/resources/Texture.hpp>
+#include "engine/core/math/Color.hpp"
+#include "engine/core/math/Rect2D.hpp"
+#include "engine/core/math/Vector2D.hpp"
+#include "engine/renderer/RenderDevice.hpp"
+#include "engine/renderer/resources/Texture.hpp"
 
 class SDLDevice final : public RenderDevice
 {

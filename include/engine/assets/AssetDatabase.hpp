@@ -2,9 +2,9 @@
 #include <stdexcept>
 #include <string>
 
-#include <engine/assets/managers/AssetManager.hpp>
-#include <engine/assets/managers/ResourceManager.hpp>
-#include <engine/core/log/TypeName.hpp>
+#include "engine/assets/managers/AssetManager.hpp"
+#include "engine/assets/managers/ResourceManager.hpp"
+#include "engine/core/log/TypeName.hpp"
 
 #include "AssetHandle.hpp"
 #include "AssetManagerRegistry.hpp"

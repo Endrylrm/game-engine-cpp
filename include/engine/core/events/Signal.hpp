@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 
-#include <engine/core/log/Log.hpp>
+#include "engine/core/log/Log.hpp"
 
 #include "ConnectionSlot.hpp"
 #include "Connections.hpp"

@@ -1,7 +1,7 @@
 #include "engine/core/math/Quaternion.hpp"
 
-#include <engine/core/math/Math.hpp>
-#include <engine/core/math/Vector3D.hpp>
+#include "engine/core/math/Math.hpp"
+#include "engine/core/math/Vector3D.hpp"
 
 Quaternion Quaternion::fromAxisAngle(const Vector3D &axis, float radians)
 {

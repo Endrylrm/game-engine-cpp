@@ -2,14 +2,14 @@
 
 #include <SDL3_image/SDL_image.h>
 
-#include <engine/core/log/Log.hpp>
-#include <engine/core/math/Matrix4.hpp>
-#include <engine/core/math/Vector3D.hpp>
-#include <engine/core/math/Vector4D.hpp>
-#include <engine/core/math/conversions/GLMConverter.hpp>
-#include <engine/renderer/OpenGL/resources/OpenGLTexture.hpp>
-#include <engine/renderer/descriptions/Mesh.hpp>
-#include <engine/renderer/descriptions/Shader.hpp>
+#include "engine/core/log/Log.hpp"
+#include "engine/core/math/Matrix4.hpp"
+#include "engine/core/math/Vector3D.hpp"
+#include "engine/core/math/Vector4D.hpp"
+#include "engine/core/math/conversions/GLMConverter.hpp"
+#include "engine/renderer/OpenGL/resources/OpenGLTexture.hpp"
+#include "engine/renderer/descriptions/Mesh.hpp"
+#include "engine/renderer/descriptions/Shader.hpp"
 
 OpenGLDevice::OpenGLDevice(SDL_Window *windowHandle) : window(windowHandle) {}
 

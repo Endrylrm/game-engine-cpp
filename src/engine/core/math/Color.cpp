@@ -1,8 +1,8 @@
 #include "engine/core/math/Color.hpp"
 
-#include <engine/core/math/Math.hpp>
+#include "engine/core/math/Math.hpp"
 
-Color::Color() : r(0), g(0), b(0), a(1) {}
+Color::Color() : r(0.0f), g(0.0f), b(0.0f), a(1.0f) {}
 
 Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
 

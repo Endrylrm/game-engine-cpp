@@ -4,7 +4,7 @@
 
 #include <glad/gl.h>
 
-#include <engine/core/log/Log.hpp>
+#include "engine/core/log/Log.hpp"
 
 OpenGLShader::~OpenGLShader()
 {

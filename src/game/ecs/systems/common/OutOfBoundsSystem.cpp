@@ -1,11 +1,11 @@
 #include "game/ecs/systems/common/OutOfBoundsSystem.hpp"
 
-#include <engine/api/WindowAPI.hpp>
-#include <engine/core/log/Log.hpp>
-#include <engine/ecs/components/Transform.hpp>
+#include "engine/api/WindowAPI.hpp"
+#include "engine/core/log/Log.hpp"
+#include "engine/ecs/components/Transform.hpp"
 
-#include <game/ecs/components/common/Dead.hpp>
-#include <game/ecs/components/common/OutOfBounds.hpp>
+#include "game/ecs/components/common/Dead.hpp"
+#include "game/ecs/components/common/OutOfBounds.hpp"
 
 void OutOfBoundsSystem::onUpdate(World &world, float deltaTime)
 {

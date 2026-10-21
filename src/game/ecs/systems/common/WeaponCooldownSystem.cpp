@@ -1,6 +1,6 @@
 #include "game/ecs/systems/common/WeaponCooldownSystem.hpp"
 
-#include <game/ecs/components/common/Weapon.hpp>
+#include "game/ecs/components/common/Weapon.hpp"
 
 void WeaponCooldownSystem::onUpdate(World &world, float deltaTime)
 {

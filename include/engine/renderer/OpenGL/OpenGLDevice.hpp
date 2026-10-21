@@ -5,12 +5,12 @@
 #include <SDL3/SDL.h>
 #include <glad/gl.h>
 
-#include <engine/core/math/Color.hpp>
-#include <engine/core/math/Rect2D.hpp>
-#include <engine/renderer/OpenGL/resources/OpenGLMesh.hpp>
-#include <engine/renderer/OpenGL/resources/OpenGLShader.hpp>
-#include <engine/renderer/RenderDevice.hpp>
-#include <engine/renderer/resources/Texture.hpp>
+#include "engine/core/math/Color.hpp"
+#include "engine/core/math/Rect2D.hpp"
+#include "engine/renderer/OpenGL/resources/OpenGLMesh.hpp"
+#include "engine/renderer/OpenGL/resources/OpenGLShader.hpp"
+#include "engine/renderer/RenderDevice.hpp"
+#include "engine/renderer/resources/Texture.hpp"
 
 class OpenGLDevice final : public RenderDevice
 {

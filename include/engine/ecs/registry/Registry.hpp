@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
 
-#include <engine/ecs/registry/entities/EntityId.hpp>
-#include <engine/ecs/registry/managers/ComponentManager.hpp>
-#include <engine/ecs/registry/managers/EntityManager.hpp>
-#include <engine/ecs/registry/views/View.hpp>
+#include "engine/ecs/registry/entities/EntityId.hpp"
+#include "engine/ecs/registry/managers/ComponentManager.hpp"
+#include "engine/ecs/registry/managers/EntityManager.hpp"
+#include "engine/ecs/registry/views/View.hpp"
 
 class Registry
 {

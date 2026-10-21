@@ -1,9 +1,9 @@
 #pragma once
-#include <engine/api/ManagerAPI.hpp>
-#include <engine/core/math/Vector2D.hpp>
-#include <engine/input/InputManager.hpp>
-#include <engine/input/KeyInput.hpp>
-#include <engine/input/MouseInput.hpp>
+#include "engine/api/ManagerAPI.hpp"
+#include "engine/core/math/Vector2D.hpp"
+#include "engine/input/InputManager.hpp"
+#include "engine/input/KeyInput.hpp"
+#include "engine/input/MouseInput.hpp"
 
 class InputAPI : public ManagerAPI<InputManager>
 {

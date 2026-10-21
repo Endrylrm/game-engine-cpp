@@ -1,6 +1,6 @@
 #include "engine/core/math/Matrix4.hpp"
 
-#include <engine/core/math/Math.hpp>
+#include "engine/core/math/Math.hpp"
 
 Matrix4::Matrix4(float diagonal) : data{}
 {

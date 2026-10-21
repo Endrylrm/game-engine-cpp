@@ -1,6 +1,6 @@
 #include "engine/ecs/systems/LifetimeSystem.hpp"
 
-#include <engine/ecs/components/Lifetime.hpp>
+#include "engine/ecs/components/Lifetime.hpp"
 
 void LifetimeSystem::onUpdate(World &world, float deltaTime)
 {

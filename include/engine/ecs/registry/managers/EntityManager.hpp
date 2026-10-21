@@ -2,8 +2,8 @@
 #include <cstdint>
 #include <vector>
 
-#include <engine/ecs/registry/entities/EntityId.hpp>
-#include <engine/ecs/registry/entities/EntitySlot.hpp>
+#include "engine/ecs/registry/entities/EntityId.hpp"
+#include "engine/ecs/registry/entities/EntitySlot.hpp"
 
 class EntityManager
 {

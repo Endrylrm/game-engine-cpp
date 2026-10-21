@@ -1,6 +1,7 @@
 #pragma once
-#include <engine/ecs/registry/components/ComponentSparseSet.hpp>
-#include <engine/ecs/registry/entities/EntityId.hpp>
+#include "engine/ecs/registry/entities/EntityId.hpp"
+
+#include "ComponentSparseSet.hpp"
 
 class BaseComponentStorage
 {

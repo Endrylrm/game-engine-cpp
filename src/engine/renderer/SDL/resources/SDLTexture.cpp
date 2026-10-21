@@ -1,6 +1,6 @@
 #include "engine/renderer/SDL/resources/SDLTexture.hpp"
 
-#include <engine/core/log/Log.hpp>
+#include "engine/core/log/Log.hpp"
 
 SDLTexture::SDLTexture(SDL_Texture *texture, int width, int height)
     : texture(texture), size(width, height)

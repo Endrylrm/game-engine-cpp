@@ -1,8 +1,8 @@
 #include "game/ecs/systems/player/PlayerInputSystem.hpp"
 
-#include <engine/api/InputAPI.hpp>
+#include "engine/api/InputAPI.hpp"
 
-#include <game/ecs/components/player/PlayerInput.hpp>
+#include "game/ecs/components/player/PlayerInput.hpp"
 
 void PlayerInputSystem::onUpdate(World &world, float deltaTime)
 {

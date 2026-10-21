@@ -6,9 +6,9 @@
 template <typename Tag>
 struct TypedHandle : public Handle
 {
+    constexpr TypedHandle() = default;
     constexpr TypedHandle(Handle handle) : Handle(handle) {}
     constexpr TypedHandle(uint32_t id, uint32_t generation) : Handle{id, generation} {}
-    constexpr TypedHandle() : Handle{0, 0} {}
 };
 
 template <typename Tag>

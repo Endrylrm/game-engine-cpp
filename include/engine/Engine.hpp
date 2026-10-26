@@ -26,30 +26,30 @@ public:
     Engine &operator=(Engine &&) = delete;
 
     void initialize(const char *title, int width, int height);
-    void mainLoop();
+    void main_loop();
 
 private:
-    void beginFrame();
-    void physicsStep(float fixedDeltaTime);
-    void preUpdate();
+    void begin_frame();
+    void physics_step(float fixedDeltaTime);
+    void pre_update();
     void update(float deltaTime);
-    void postUpdate();
+    void post_update();
     void render();
-    void processCommands();
-    void processLifeCycle();
-    void endFrame();
+    void process_commands();
+    void process_lifecycle();
+    void end_frame();
     void shutdown();
 
-    std::unique_ptr<Window> currentWindow{};
-    std::unique_ptr<RenderDevice> currentRenderDevice{};
-    std::unique_ptr<InputManager> currentInputManager{};
-    Renderer currentRenderer{};
-    AssetDatabase currentAssetDB{};
-    SceneManager currentSceneManager{currentWorld};
-    World currentWorld{};
-    TimerManager currentTimerManager{};
-    Time currentTime{};
-    EventBus eventBus{};
+    std::unique_ptr<Window> window{};
+    std::unique_ptr<RenderDevice> render_device{};
+    std::unique_ptr<InputManager> input_manager{};
+    Renderer renderer{};
+    AssetDatabase asset_db{};
+    SceneManager scene_manager{world};
+    World world{};
+    TimerManager timer_manager{};
+    Time time{};
+    EventBus event_bus{};
     Game &game;
     bool running{true};
 };

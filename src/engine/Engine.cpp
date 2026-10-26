@@ -29,134 +29,134 @@ void Engine::initialize(const char *title, int width, int height)
 
     Logger::get().init();
 
-    currentWindow = std::make_unique<SDLWindow>(title, width, height);
-    SDLWindow *windowPtr = static_cast<SDLWindow *>(currentWindow.get());
+    window = std::make_unique<SDLWindow>(title, width, height);
+    SDLWindow *windowPtr = static_cast<SDLWindow *>(window.get());
     if (!windowPtr->onInit())
     {
         return;
     }
 
 #ifdef RENDERER_SDL
-    currentRenderDevice = std::make_unique<SDLDevice>(windowPtr->getWindowHandle());
-    SDLDevice *devicePtr = static_cast<SDLDevice *>(currentRenderDevice.get());
+    render_device = std::make_unique<SDLDevice>(windowPtr->getWindowHandle());
+    SDLDevice *devicePtr = static_cast<SDLDevice *>(render_device.get());
 #elif defined(RENDERER_OPENGL)
-    currentRenderDevice = std::make_unique<OpenGLDevice>(windowPtr->getWindowHandle());
-    OpenGLDevice *devicePtr = static_cast<OpenGLDevice *>(currentRenderDevice.get());
+    render_device = std::make_unique<OpenGLDevice>(windowPtr->getWindowHandle());
+    OpenGLDevice *devicePtr = static_cast<OpenGLDevice *>(render_device.get());
 #endif
 
-    if (!currentRenderer.init(devicePtr))
+    if (!renderer.init(devicePtr))
     {
         return;
     }
 
-    currentInputManager = std::make_unique<SDLInputManager>(&running);
-    currentAssetDB.registerAssetType<Texture>([this](const std::string &path)
-                                              { return currentRenderer.loadTexture(path); });
+    input_manager = std::make_unique<SDLInputManager>(&running);
+    asset_db.registerAssetType<Texture>([this](const std::string &path)
+                                        { return renderer.loadTexture(path); });
 
-    InputAPI::setManager(currentInputManager.get());
-    WindowAPI::setManager(currentWindow.get());
-    ScenesAPI::setManager(&currentSceneManager);
-    EntityAPI::setManager(&currentSceneManager);
-    AssetsAPI::setManager(&currentAssetDB);
-    TimerAPI::setManager(&currentTimerManager);
-    TimeAPI::setManager(&currentTime);
-    EventsAPI::setManager(&eventBus);
-    WorldAPI::setManager(&currentWorld);
+    InputAPI::setManager(input_manager.get());
+    WindowAPI::setManager(window.get());
+    ScenesAPI::setManager(&scene_manager);
+    EntityAPI::setManager(&scene_manager);
+    AssetsAPI::setManager(&asset_db);
+    TimerAPI::setManager(&timer_manager);
+    TimeAPI::setManager(&time);
+    EventsAPI::setManager(&event_bus);
+    WorldAPI::setManager(&world);
 
-    currentWorld.init();
+    world.init();
     game.onInit();
 }
 
-void Engine::beginFrame()
+void Engine::begin_frame()
 {
-    currentInputManager->beginFrame();
-    currentInputManager->processEvent();
-    eventBus.processEvents();
+    input_manager->beginFrame();
+    input_manager->processEvent();
+    event_bus.processEvents();
     game.onBeginFrame();
 }
 
-void Engine::physicsStep(float fixedDeltaTime)
+void Engine::physics_step(float fixedDeltaTime)
 {
-    currentWorld.physics(fixedDeltaTime);
+    world.physics(fixedDeltaTime);
     game.onPhysics(fixedDeltaTime);
 }
 
-void Engine::preUpdate()
+void Engine::pre_update()
 {
-    currentWorld.preUpdate();
+    world.preUpdate();
     game.onPreUpdate();
 }
 
 void Engine::update(float deltaTime)
 {
-    currentWorld.update(deltaTime);
-    currentTimerManager.onUpdate(deltaTime);
+    world.update(deltaTime);
+    timer_manager.onUpdate(deltaTime);
     game.onUpdate(deltaTime);
 }
 
-void Engine::postUpdate()
+void Engine::post_update()
 {
-    currentWorld.postUpdate();
+    world.postUpdate();
     game.onPostUpdate();
 }
 
 void Engine::render()
 {
-    currentRenderer.clear();
-    currentWorld.render(currentRenderer);
+    renderer.clear();
+    world.render(renderer);
     game.onRender();
-    currentRenderer.present();
+    renderer.present();
 }
 
-void Engine::processCommands()
+void Engine::process_commands()
 {
-    currentSceneManager.processCommands();
+    scene_manager.processCommands();
 }
 
-void Engine::processLifeCycle()
+void Engine::process_lifecycle()
 {
-    currentWorld.processLifecycle();
-    eventBus.removeDeletedEvents();
+    world.processLifecycle();
+    event_bus.removeDeletedEvents();
     game.processLifecycle();
 }
 
-void Engine::endFrame()
+void Engine::end_frame()
 {
     game.onEndFrame();
 }
 
-void Engine::mainLoop()
+void Engine::main_loop()
 {
-    const float fixedDeltaTime = currentTime.getFixedDeltaTime();
-    std::chrono::duration<float> targetFrameTime = currentTime.getTargetFrameTime();
+    const float fixed_delta_time = time.getFixedDeltaTime();
+    std::chrono::duration<float> target_frame_time = time.getTargetFrameTime();
 
     while (running)
     {
-        auto frameStart = std::chrono::steady_clock::now();
-        currentTime.tick();
+        auto frame_start = std::chrono::steady_clock::now();
+        time.tick();
 
-        beginFrame();
+        begin_frame();
 
-        int fixedSteps = currentTime.consumeFixedSteps();
-        for (int i = 0; i < fixedSteps; i++)
+        int fixed_steps = time.consumeFixedSteps();
+        for (int i = 0; i < fixed_steps; i++)
         {
-            physicsStep(fixedDeltaTime);
+            physics_step(fixed_delta_time);
         }
 
-        preUpdate();
-        update(currentTime.getDeltaTime());
-        postUpdate();
-        processCommands();
-        processLifeCycle();
+        pre_update();
+        update(time.getDeltaTime());
+        post_update();
+        process_commands();
+        process_lifecycle();
         render();
 
-        endFrame();
+        end_frame();
 
-        auto frameTime = std::chrono::steady_clock::now() - frameStart;
+        auto frame_time = std::chrono::steady_clock::now() - frame_start;
 
-        if (frameTime < targetFrameTime)
+        if (frame_time < target_frame_time)
         {
-            std::this_thread::sleep_for(targetFrameTime - frameTime);
+            std::this_thread::sleep_for(target_frame_time - frame_time);
         }
     }
 

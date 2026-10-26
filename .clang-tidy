@@ -1,4 +1,3 @@
-
 Checks: '-*,readability-identifier-naming'
 WarningsAsErrors: ''
 HeaderFilterRegex: '.*[/\\](engine|game)[/\\].*'

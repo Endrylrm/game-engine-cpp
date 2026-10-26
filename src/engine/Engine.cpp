@@ -30,21 +30,21 @@ void Engine::initialize(const char *title, int width, int height)
     Logger::get().init();
 
     window = std::make_unique<SDLWindow>(title, width, height);
-    SDLWindow *windowPtr = static_cast<SDLWindow *>(window.get());
-    if (!windowPtr->onInit())
+    SDLWindow *window_ptr = static_cast<SDLWindow *>(window.get());
+    if (!window_ptr->onInit())
     {
         return;
     }
 
 #ifdef RENDERER_SDL
-    render_device = std::make_unique<SDLDevice>(windowPtr->getWindowHandle());
-    SDLDevice *devicePtr = static_cast<SDLDevice *>(render_device.get());
+    render_device = std::make_unique<SDLDevice>(window_ptr->getWindowHandle());
+    SDLDevice *device_ptr = static_cast<SDLDevice *>(render_device.get());
 #elif defined(RENDERER_OPENGL)
-    render_device = std::make_unique<OpenGLDevice>(windowPtr->getWindowHandle());
-    OpenGLDevice *devicePtr = static_cast<OpenGLDevice *>(render_device.get());
+    render_device = std::make_unique<OpenGLDevice>(window_ptr->getWindowHandle());
+    OpenGLDevice *device_ptr = static_cast<OpenGLDevice *>(render_device.get());
 #endif
 
-    if (!renderer.init(devicePtr))
+    if (!renderer.init(device_ptr))
     {
         return;
     }
@@ -75,10 +75,10 @@ void Engine::begin_frame()
     game.onBeginFrame();
 }
 
-void Engine::physics_step(float fixedDeltaTime)
+void Engine::physics_step(float fixed_delta_time)
 {
-    world.physics(fixedDeltaTime);
-    game.onPhysics(fixedDeltaTime);
+    world.physics(fixed_delta_time);
+    game.onPhysics(fixed_delta_time);
 }
 
 void Engine::pre_update()
@@ -87,11 +87,11 @@ void Engine::pre_update()
     game.onPreUpdate();
 }
 
-void Engine::update(float deltaTime)
+void Engine::update(float delta_time)
 {
-    world.update(deltaTime);
-    timer_manager.onUpdate(deltaTime);
-    game.onUpdate(deltaTime);
+    world.update(delta_time);
+    timer_manager.onUpdate(delta_time);
+    game.onUpdate(delta_time);
 }
 
 void Engine::post_update()
@@ -127,7 +127,7 @@ void Engine::end_frame()
 
 void Engine::main_loop()
 {
-    const float fixed_delta_time = time.getFixedDeltaTime();
+    const float FIXED_DELTA_TIME = time.getFixedDeltaTime();
     std::chrono::duration<float> target_frame_time = time.getTargetFrameTime();
 
     while (running)
@@ -140,7 +140,7 @@ void Engine::main_loop()
         int fixed_steps = time.consumeFixedSteps();
         for (int i = 0; i < fixed_steps; i++)
         {
-            physics_step(fixed_delta_time);
+            physics_step(FIXED_DELTA_TIME);
         }
 
         pre_update();

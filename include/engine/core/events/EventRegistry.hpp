@@ -9,8 +9,8 @@ public:
     template <typename T>
     static EventTypeId get_type_id()
     {
-        static const EventTypeId id = next_id++;
-        return id;
+        static const EventTypeId ID = next_id++;
+        return ID;
     }
 
 private:

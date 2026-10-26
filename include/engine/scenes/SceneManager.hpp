@@ -23,13 +23,13 @@ public:
     template <typename Callback>
     SceneId register_scene(std::string_view name, Callback &&callback)
     {
-        const SceneId id{next_scene_id++};
-        LOG_DEBUG("Registered Scene '{}'...", id.index);
+        const SceneId ID{next_scene_id++};
+        LOG_DEBUG("Registered Scene '{}'...", ID.index);
 
-        scenes.try_emplace(id, std::forward<Callback>(callback));
-        scene_ids.emplace(StringHandle(name), id);
+        scenes.try_emplace(ID, std::forward<Callback>(callback));
+        scene_ids.emplace(StringHandle(name), ID);
 
-        return id;
+        return ID;
     }
 
     void load_scene(SceneId id, SceneLoadMode mode);

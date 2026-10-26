@@ -9,8 +9,8 @@ public:
     template <typename T>
     static SystemTypeId get_type_id()
     {
-        static const SystemTypeId id = next_id++;
-        return id;
+        static const SystemTypeId ID = next_id++;
+        return ID;
     }
 
 private:

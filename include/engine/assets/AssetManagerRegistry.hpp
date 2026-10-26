@@ -9,8 +9,8 @@ public:
     template <typename T>
     static AssetManagerId get_type_id()
     {
-        static const AssetManagerId id = next_id++;
-        return id;
+        static const AssetManagerId ID = next_id++;
+        return ID;
     }
 
 private:

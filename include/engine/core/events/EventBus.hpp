@@ -93,7 +93,7 @@ public:
 
     void remove_deleted_events()
     {
-        for (auto &[type, list] : listeners_map)
+        for (auto &[TYPE, list] : listeners_map)
         {
             std::erase_if(
                 list,

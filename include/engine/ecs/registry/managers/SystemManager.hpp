@@ -23,33 +23,33 @@ public:
     {
         auto system = std::make_unique<T>(std::forward<Args>(args)...);
 
-        T &systemRef = *system;
+        T &system_ref = *system;
 
-        const auto id = SystemRegistry::get_type_id<T>();
+        const auto ID = SystemRegistry::get_type_id<T>();
 
-        if (id >= systems.size())
-            systems.resize(id + 1);
+        if (ID >= systems.size())
+            systems.resize(ID + 1);
 
-        if (systems[id].system)
+        if (systems[ID].system)
             remove_system<T>();
 
         register_system(*system, stages);
         LOG_DEBUG("System added: {}", get_type_name<T>());
 
-        systems[id] = {std::move(system), stages};
+        systems[ID] = {std::move(system), stages};
 
-        return systemRef;
+        return system_ref;
     }
 
     template <typename T>
     void remove_system()
     {
-        const auto id = SystemRegistry::get_type_id<T>();
+        const auto ID = SystemRegistry::get_type_id<T>();
 
-        if (id >= systems.size() || !systems[id].system)
+        if (ID >= systems.size() || !systems[ID].system)
             return;
 
-        auto &entry = systems[id];
+        auto &entry = systems[ID];
         unregister_system(entry.system.get(), entry.stages);
         LOG_DEBUG("System removed: {}", get_type_name<T>());
         entry.system.reset();
@@ -59,13 +59,13 @@ public:
     template <typename T>
     T *get_system()
     {
-        const auto id = SystemRegistry::get_type_id<T>();
+        const auto ID = SystemRegistry::get_type_id<T>();
 
-        if (id >= systems.size())
+        if (ID >= systems.size())
             return nullptr;
 
         LOG_DEBUG("got System: {}", get_type_name<T>());
-        return static_cast<T *>(systems[id].system.get());
+        return static_cast<T *>(systems[ID].system.get());
     }
 
     void init();

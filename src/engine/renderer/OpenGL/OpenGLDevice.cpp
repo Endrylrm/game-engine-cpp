@@ -45,7 +45,7 @@ bool OpenGLDevice::init()
     if (!init_rect_pipeline())
         return false;
 
-    if (!init_open_gl_state())
+    if (!init_opengl_state())
         return false;
 
     return true;
@@ -191,7 +191,7 @@ bool OpenGLDevice::init_glad()
     return true;
 }
 
-bool OpenGLDevice::init_open_gl_state()
+bool OpenGLDevice::init_opengl_state()
 {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

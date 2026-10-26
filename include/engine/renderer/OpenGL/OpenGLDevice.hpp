@@ -34,7 +34,7 @@ private:
     bool init_triangle_pipeline();
     bool init_rect_pipeline();
     bool init_texture_pipeline();
-    bool init_open_gl_state();
+    bool init_opengl_state();
 
     SDL_Window *window{};
     SDL_GLContext context{};

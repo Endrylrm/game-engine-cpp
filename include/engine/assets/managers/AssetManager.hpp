@@ -26,21 +26,21 @@ public:
 
     AssetHandle<T> load(const std::string &path)
     {
-        if (auto iter = pathToHandle.find(path); iter != pathToHandle.end())
+        if (auto iter = path_to_handle.find(path); iter != path_to_handle.end())
             return iter->second;
 
-        AssetHandle<T> handle(nextID++);
+        AssetHandle<T> handle(next_id++);
         assets.emplace(handle, AssetRecord<T>{.path = path});
-        pathToHandle.emplace(path, handle);
+        path_to_handle.emplace(path, handle);
         LOG_INFO("loaded Asset: {}", path);
         return handle;
     }
 
     AssetHandle<T> find(const std::string &path) const
     {
-        auto iter = pathToHandle.find(path);
+        auto iter = path_to_handle.find(path);
 
-        if (iter == pathToHandle.end())
+        if (iter == path_to_handle.end())
             return {};
 
         return iter->second;
@@ -68,12 +68,12 @@ public:
         if (iter == assets.end())
             return;
 
-        pathToHandle.erase(iter->second.path);
+        path_to_handle.erase(iter->second.path);
         assets.erase(iter);
     }
 
 private:
     std::unordered_map<AssetHandle<T>, AssetRecord<T>> assets;
-    std::unordered_map<std::string, AssetHandle<T>> pathToHandle;
-    uint32_t nextID{1};
+    std::unordered_map<std::string, AssetHandle<T>> path_to_handle;
+    uint32_t next_id{1};
 };

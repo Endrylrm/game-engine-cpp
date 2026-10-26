@@ -5,6 +5,6 @@ class SpaceShooterGame final : public Game
 {
 public:
     ~SpaceShooterGame() override = default;
-    void onInit() override;
-    void onShutdown() override;
+    void on_init() override;
+    void on_shutdown() override;
 };

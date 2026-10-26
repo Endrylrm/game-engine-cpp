@@ -2,7 +2,7 @@
 
 struct Weapon
 {
-    float cooldownTime{0.5f};
-    float cooldownTimer{0.0f};
+    float cooldown_time{0.5f};
+    float cooldown_timer{0.0f};
     int damage{1};
 };

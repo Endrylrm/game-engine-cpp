@@ -11,35 +11,35 @@ Vector4D::Vector4D(Vector3D vec, float w) : Vector4D(vec.x, vec.y, vec.z, w) {}
 
 float Vector4D::length() const
 {
-    return std::sqrt(lengthSquared());
+    return std::sqrt(length_squared());
 }
 
-float Vector4D::lengthSquared() const
+float Vector4D::length_squared() const
 {
     return x * x + y * y + z * z + w * w;
 }
 
 Vector4D Vector4D::normalized() const
 {
-    const float vectorLength = length();
+    const float VECTOR_LENGTH = length();
 
-    if (vectorLength == 0.0f)
+    if (VECTOR_LENGTH == 0.0f)
         return Vector4D{};
 
-    return *this / vectorLength;
+    return *this / VECTOR_LENGTH;
 }
 
 void Vector4D::normalize()
 {
-    const float vectorLength = length();
+    const float VECTOR_LENGTH = length();
 
-    if (vectorLength == 0.0f)
+    if (VECTOR_LENGTH == 0.0f)
         return;
 
-    x /= vectorLength;
-    y /= vectorLength;
-    z /= vectorLength;
-    w /= vectorLength;
+    x /= VECTOR_LENGTH;
+    y /= VECTOR_LENGTH;
+    z /= VECTOR_LENGTH;
+    w /= VECTOR_LENGTH;
 }
 
 float Vector4D::dot(const Vector4D &other) const
@@ -123,8 +123,8 @@ Vector4D &Vector4D::operator=(const Vector3D &other)
 
 bool Vector4D::operator==(const Vector4D &other) const
 {
-    return Math::approximatelyEqual(x, other.x) && Math::approximatelyEqual(y, other.y) &&
-           Math::approximatelyEqual(z, other.z) && Math::approximatelyEqual(w, other.w);
+    return Math::approximately_equal(x, other.x) && Math::approximately_equal(y, other.y) &&
+           Math::approximately_equal(z, other.z) && Math::approximately_equal(w, other.w);
 }
 
 bool Vector4D::operator!=(const Vector4D &other) const

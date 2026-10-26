@@ -6,17 +6,17 @@
 class EventConnectionGroup
 {
 public:
-    void addConnection(EventConnection connection)
+    void add_connection(EventConnection connection)
     {
         connections.push_back(std::move(connection));
     }
 
-    void disconnectAll()
+    void disconnect_all()
     {
         connections.clear();
     }
 
-    void setConnectionsEnabled(bool enabled)
+    void set_connections_enabled(bool enabled)
     {
         for (auto &connection : connections)
         {

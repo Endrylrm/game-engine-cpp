@@ -2,43 +2,43 @@
 
 #include "engine/core/math/Rect2D.hpp"
 
-bool Renderer::init(RenderDevice *newDevice)
+bool Renderer::init(RenderDevice *new_device)
 {
-    device = newDevice;
+    device = new_device;
 
     if (!device->init())
         return false;
 
-    shapeRenderer.init(device);
-    spriteRenderer.init(device);
+    shape_renderer.init(device);
+    sprite_renderer.init(device);
 
-    device->setViewport(Rect2D{0.0f, 0.0f, 800.0f, 600.0f});
+    device->set_viewport(Rect2D{0.0f, 0.0f, 800.0f, 600.0f});
     return true;
 }
 
-std::unique_ptr<Texture> Renderer::loadTexture(const std::string &path)
+std::unique_ptr<Texture> Renderer::load_texture(const std::string &path)
 {
-    return device->createTexture(path);
+    return device->create_texture(path);
 }
 
-ShapeRenderer &Renderer::getShapeRenderer() noexcept
+ShapeRenderer &Renderer::get_shape_renderer() noexcept
 {
-    return shapeRenderer;
+    return shape_renderer;
 }
 
-SpriteRenderer &Renderer::getSpriteRenderer() noexcept
+SpriteRenderer &Renderer::get_sprite_renderer() noexcept
 {
-    return spriteRenderer;
+    return sprite_renderer;
 }
 
 void Renderer::clear()
 {
-    device->clear(clearColor);
+    device->clear(clear_color);
 }
 
-void Renderer::setClearColor(Color color)
+void Renderer::set_clear_color(Color color)
 {
-    clearColor = color;
+    clear_color = color;
 }
 
 void Renderer::present()

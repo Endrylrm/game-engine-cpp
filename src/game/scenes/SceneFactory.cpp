@@ -26,72 +26,72 @@
 #include "game/ecs/systems/player/PlayerMoveSystem.hpp"
 #include "game/ecs/systems/player/PlayerShootSystem.hpp"
 
-void SceneFactory::createMenuScene(Scene &scene)
+void SceneFactory::create_menu_scene(Scene &scene)
 {
-    scene.setOnLoad(
+    scene.set_on_load(
         [](Scene &scene)
         {
             LOG_DEBUG("creating Menu Scene...");
-            scene.createEntity();
+            scene.create_entity();
         }
     );
 }
 
-void SceneFactory::createGameplayScene(Scene &scene)
+void SceneFactory::create_gameplay_scene(Scene &scene)
 {
-    scene.setOnLoad(
+    scene.set_on_load(
         [](Scene &scene)
         {
             LOG_DEBUG("creating Gameplay Scene...");
-            scene.getWorld().addSystem<PlayerInputSystem>(SystemStage::Update);
-            scene.getWorld().addSystem<PlayerMoveSystem>(SystemStage::Update);
-            scene.getWorld().addSystem<WeaponCooldownSystem>(SystemStage::Update);
-            scene.getWorld().addSystem<PlayerShootSystem>(SystemStage::Update);
-            scene.getWorld().addSystem<OutOfBoundsSystem>(SystemStage::Update);
-            scene.getWorld().addSystem<ScreenClampSystem>(SystemStage::PostUpdate);
-            scene.getWorld().addSystem<DamageSystem>(SystemStage::PostUpdate);
-            scene.getWorld().addSystem<DeathSystem>(SystemStage::PostUpdate);
+            scene.get_world().add_system<PlayerInputSystem>(SystemStage::Update);
+            scene.get_world().add_system<PlayerMoveSystem>(SystemStage::Update);
+            scene.get_world().add_system<WeaponCooldownSystem>(SystemStage::Update);
+            scene.get_world().add_system<PlayerShootSystem>(SystemStage::Update);
+            scene.get_world().add_system<OutOfBoundsSystem>(SystemStage::Update);
+            scene.get_world().add_system<ScreenClampSystem>(SystemStage::PostUpdate);
+            scene.get_world().add_system<DamageSystem>(SystemStage::PostUpdate);
+            scene.get_world().add_system<DeathSystem>(SystemStage::PostUpdate);
         }
     );
 
-    scene.setOnUnload(
+    scene.set_on_unload(
         [](Scene &scene)
         {
-            scene.getWorld().removeSystem<PlayerInputSystem>();
-            scene.getWorld().removeSystem<PlayerMoveSystem>();
-            scene.getWorld().removeSystem<WeaponCooldownSystem>();
-            scene.getWorld().removeSystem<PlayerShootSystem>();
-            scene.getWorld().removeSystem<OutOfBoundsSystem>();
-            scene.getWorld().removeSystem<ScreenClampSystem>();
-            scene.getWorld().removeSystem<DamageSystem>();
-            scene.getWorld().removeSystem<DeathSystem>();
+            scene.get_world().remove_system<PlayerInputSystem>();
+            scene.get_world().remove_system<PlayerMoveSystem>();
+            scene.get_world().remove_system<WeaponCooldownSystem>();
+            scene.get_world().remove_system<PlayerShootSystem>();
+            scene.get_world().remove_system<OutOfBoundsSystem>();
+            scene.get_world().remove_system<ScreenClampSystem>();
+            scene.get_world().remove_system<DamageSystem>();
+            scene.get_world().remove_system<DeathSystem>();
         }
     );
 }
 
-void SceneFactory::createPlayerScene(Scene &scene)
+void SceneFactory::create_player_scene(Scene &scene)
 {
-    scene.setOnLoad(
+    scene.set_on_load(
         [](Scene &scene)
         {
             LOG_DEBUG("creating Player Scene...");
             AssetHandle<Texture> sprite =
-                AssetsAPI::findOrRegister<Texture>("assets/player/playerShip1_blue.png");
+                AssetsAPI::find_or_register<Texture>("assets/player/playerShip1_blue.png");
             AssetsAPI::load<Texture>(sprite);
             Entity player =
                 EntityBuilder(scene)
-                    .addComponent<Transform>(375.0f, 450.0f, 0.0f)
-                    .addComponent<Velocity>()
-                    .addComponent<Sprite>(sprite)
-                    .addComponent<Renderable>()
-                    .addComponent<Health>(5)
-                    .addComponent<Weapon>()
-                    .addComponent<BoxCollider>(Vector2D{99.0f, 75.0f}, Vector2D{0.0f, 0.0f}, false)
-                    .addComponent<ScreenClamp>(true, true)
-                    .addComponent<PlayerInput>()
+                    .add_component<Transform>(375.0f, 450.0f, 0.0f)
+                    .add_component<Velocity>()
+                    .add_component<Sprite>(sprite)
+                    .add_component<Renderable>()
+                    .add_component<Health>(5)
+                    .add_component<Weapon>()
+                    .add_component<BoxCollider>(Vector2D{99.0f, 75.0f}, Vector2D{0.0f, 0.0f}, false)
+                    .add_component<ScreenClamp>(true, true)
+                    .add_component<PlayerInput>()
                     .build();
 
-            LOG_DEBUG("Player has Sprite: {}", player.hasComponent<Sprite>());
+            LOG_DEBUG("Player has Sprite: {}", player.has_component<Sprite>());
         }
     );
 }

@@ -9,96 +9,96 @@
 class Registry
 {
 public:
-    EntityId createEntity()
+    EntityId create_entity()
     {
-        return entityManager.create();
+        return entity_manager.create();
     }
 
-    void destroyEntity(EntityId entity)
+    void destroy_entity(EntityId entity)
     {
-        if (!entityManager.valid(entity))
+        if (!entity_manager.valid(entity))
             return;
 
-        destroyQueue.push_back(entity);
+        destroy_queue.push_back(entity);
     }
 
-    bool isValidEntity(EntityId entity) const
+    bool is_valid_entity(EntityId entity) const
     {
-        return entityManager.valid(entity);
+        return entity_manager.valid(entity);
     }
 
-    void processDestroyQueue()
+    void process_destroy_queue()
     {
-        for (auto entity : destroyQueue)
+        for (auto entity : destroy_queue)
         {
-            if (entityManager.valid(entity))
-                destroyImmediate(entity);
+            if (entity_manager.valid(entity))
+                destroy_immediate(entity);
         }
 
-        destroyQueue.clear();
+        destroy_queue.clear();
     }
 
     template <typename T, typename... Args>
-    T &addComponent(EntityId entity, Args &&...args)
+    T &add_component(EntityId entity, Args &&...args)
     {
-        return componentManager.add<T>(entity, std::forward<Args>(args)...);
+        return component_manager.add<T>(entity, std::forward<Args>(args)...);
     }
 
     template <typename T>
-    T &addComponent(EntityId entity, T &&value)
+    T &add_component(EntityId entity, T &&value)
     {
-        return componentManager.add<T>(entity, std::move(value));
+        return component_manager.add<T>(entity, std::move(value));
     }
 
     template <typename T>
-    T &getComponent(EntityId entity)
+    T &get_component(EntityId entity)
     {
-        return componentManager.get<T>(entity);
+        return component_manager.get<T>(entity);
     }
 
     template <typename T>
-    T &getOrAddComponent(EntityId entity)
+    T &get_or_add_component(EntityId entity)
     {
-        return componentManager.getOrAdd<T>(entity);
+        return component_manager.get_or_add<T>(entity);
     }
 
     template <typename T>
-    T *tryGetComponent(EntityId entity)
+    T *try_get_component(EntityId entity)
     {
-        return componentManager.tryGet<T>(entity);
+        return component_manager.try_get<T>(entity);
     }
 
     template <typename T>
-    bool hasComponent(EntityId entity)
+    bool has_component(EntityId entity)
     {
-        return componentManager.has<T>(entity);
+        return component_manager.has<T>(entity);
     }
 
     template <typename T>
-    void removeComponent(EntityId entity)
+    void remove_component(EntityId entity)
     {
-        componentManager.remove<T>(entity);
+        component_manager.remove<T>(entity);
     }
 
-    void removeAllComponents(EntityId entity)
+    void remove_all_components(EntityId entity)
     {
-        componentManager.removeAll(entity);
+        component_manager.remove_all(entity);
     }
 
     template <typename... Components>
     View<Components...> view()
     {
-        return View<Components...>(componentManager.getStorageRef<Components>()...);
+        return View<Components...>(component_manager.get_storage_ref<Components>()...);
     }
 
 private:
-    void destroyImmediate(EntityId entity)
+    void destroy_immediate(EntityId entity)
     {
-        componentManager.removeAll(entity);
-        entityManager.destroy(entity);
+        component_manager.remove_all(entity);
+        entity_manager.destroy(entity);
     }
 
-    EntityManager entityManager{};
-    ComponentManager componentManager{};
-    std::vector<EntityId> destroyQueue{};
+    EntityManager entity_manager{};
+    ComponentManager component_manager{};
+    std::vector<EntityId> destroy_queue{};
 };

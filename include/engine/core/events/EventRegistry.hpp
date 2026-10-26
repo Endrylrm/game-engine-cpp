@@ -7,12 +7,12 @@ class EventRegistry
 {
 public:
     template <typename T>
-    static EventTypeId getTypeId()
+    static EventTypeId get_type_id()
     {
-        static const EventTypeId id = nextId++;
+        static const EventTypeId id = next_id++;
         return id;
     }
 
 private:
-    inline static EventTypeId nextId{};
+    inline static EventTypeId next_id{};
 };

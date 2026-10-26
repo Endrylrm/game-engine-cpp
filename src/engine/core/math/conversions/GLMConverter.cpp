@@ -1,46 +1,46 @@
 #include "engine/core/math/conversions/GLMConverter.hpp"
 
-glm::vec2 GLMConverter::toGLM(const Vector2D &vec)
+glm::vec2 GLMConverter::to_glm(const Vector2D &vec)
 {
     return {vec.x, vec.y};
 }
 
-Vector2D GLMConverter::fromGLM(const glm::vec2 &vec)
+Vector2D GLMConverter::from_glm(const glm::vec2 &vec)
 {
     return {vec.x, vec.y};
 }
 
-glm::vec3 GLMConverter::toGLM(const Vector3D &vec)
+glm::vec3 GLMConverter::to_glm(const Vector3D &vec)
 {
     return {vec.x, vec.y, vec.z};
 }
 
-Vector3D GLMConverter::fromGLM(const glm::vec3 &vec)
+Vector3D GLMConverter::from_glm(const glm::vec3 &vec)
 {
     return {vec.x, vec.y, vec.z};
 }
 
-glm::vec4 GLMConverter::toGLM(const Vector4D &vec)
+glm::vec4 GLMConverter::to_glm(const Vector4D &vec)
 {
     return {vec.x, vec.y, vec.z, vec.w};
 }
 
-Vector4D GLMConverter::fromGLM(const glm::vec4 &vec)
+Vector4D GLMConverter::from_glm(const glm::vec4 &vec)
 {
     return {vec.x, vec.y, vec.z, vec.w};
 }
 
-glm::quat GLMConverter::toGLM(const Quaternion &quat)
+glm::quat GLMConverter::to_glm(const Quaternion &quat)
 {
     return {quat.x, quat.y, quat.z, quat.w};
 }
 
-Quaternion GLMConverter::fromGLM(const glm::quat &quat)
+Quaternion GLMConverter::from_glm(const glm::quat &quat)
 {
     return {quat.x, quat.y, quat.z, quat.w};
 }
 
-glm::mat3 GLMConverter::toGLM(const Matrix3 &mat)
+glm::mat3 GLMConverter::to_glm(const Matrix3 &mat)
 {
     glm::mat3 result{};
 
@@ -55,7 +55,7 @@ glm::mat3 GLMConverter::toGLM(const Matrix3 &mat)
     return result;
 }
 
-Matrix3 GLMConverter::fromGLM(const glm::mat3 &mat)
+Matrix3 GLMConverter::from_glm(const glm::mat3 &mat)
 {
     Matrix3 result{};
 
@@ -70,7 +70,7 @@ Matrix3 GLMConverter::fromGLM(const glm::mat3 &mat)
     return result;
 }
 
-glm::mat4 GLMConverter::toGLM(const Matrix4 &mat)
+glm::mat4 GLMConverter::to_glm(const Matrix4 &mat)
 {
     glm::mat4 result{};
 
@@ -85,7 +85,7 @@ glm::mat4 GLMConverter::toGLM(const Matrix4 &mat)
     return result;
 }
 
-Matrix4 GLMConverter::fromGLM(const glm::mat4 &mat)
+Matrix4 GLMConverter::from_glm(const glm::mat4 &mat)
 {
     Matrix4 result{};
 

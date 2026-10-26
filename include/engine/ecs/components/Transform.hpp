@@ -13,42 +13,42 @@ struct Transform
         : position(position), rotation(rotation), scale(scale)
     {
     }
-    Transform(float positionX, float positionY, float positionZ)
-        : position{positionX, positionY, positionZ}
+    Transform(float position_x, float position_y, float position_z)
+        : position{position_x, position_y, position_z}
     {
     }
     Transform(
-        float positionX,
-        float positionY,
-        float positionZ,
-        float rotationX,
-        float rotationY,
-        float rotationZ,
-        float rotationW
+        float position_x,
+        float position_y,
+        float position_z,
+        float rotation_x,
+        float rotation_y,
+        float rotation_z,
+        float rotation_w
     )
-        : position{positionX, positionY, positionZ},
-          rotation{rotationX, rotationY, rotationZ, rotationW}
+        : position{position_x, position_y, position_z},
+          rotation{rotation_x, rotation_y, rotation_z, rotation_w}
     {
     }
     Transform(
-        float positionX,
-        float positionY,
-        float positionZ,
-        float rotationX,
-        float rotationY,
-        float rotationZ,
-        float rotationW,
-        float scaleX,
-        float scaleY,
-        float scaleZ
+        float position_x,
+        float position_y,
+        float position_z,
+        float rotation_x,
+        float rotation_y,
+        float rotation_z,
+        float rotation_w,
+        float scale_x,
+        float scale_y,
+        float scale_z
     )
-        : position{positionX, positionY, positionZ},
-          rotation{rotationX, rotationY, rotationZ, rotationW},
-          scale{scaleX, scaleY, scaleZ}
+        : position{position_x, position_y, position_z},
+          rotation{rotation_x, rotation_y, rotation_z, rotation_w},
+          scale{scale_x, scale_y, scale_z}
     {
     }
 
-    Matrix4 toMatrix() const
+    Matrix4 to_matrix() const
     {
         return Matrix4::translation(position) * Matrix4::rotation(rotation) * Matrix4::scale(scale);
     }

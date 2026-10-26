@@ -5,19 +5,19 @@
 class EntityBuilder
 {
 public:
-    EntityBuilder(Scene &scene) : entity(scene.createEntity()) {}
+    EntityBuilder(Scene &scene) : entity(scene.create_entity()) {}
 
     template <typename T, typename... Args>
-    EntityBuilder &addComponent(Args &&...args)
+    EntityBuilder &add_component(Args &&...args)
     {
-        entity.addComponent<T>(std::forward<Args>(args)...);
+        entity.add_component<T>(std::forward<Args>(args)...);
         return *this;
     }
 
     template <typename T>
-    EntityBuilder &addComponent(T &&value)
+    EntityBuilder &add_component(T &&value)
     {
-        entity.addComponent<T>(std::move(value));
+        entity.add_component<T>(std::move(value));
         return *this;
     }
 

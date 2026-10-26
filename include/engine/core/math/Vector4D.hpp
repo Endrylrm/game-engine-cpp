@@ -15,7 +15,7 @@ public:
     Vector4D(Vector3D vec, float w);
 
     float length() const;
-    float lengthSquared() const;
+    float length_squared() const;
 
     Vector4D normalized() const;
     void normalize();

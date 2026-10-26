@@ -19,22 +19,22 @@ public:
     explicit SystemManager(World &world) : world(world) {}
 
     template <std::derived_from<System> T, typename... Args>
-    T &addSystem(Flags<SystemStage> stages, Args &&...args)
+    T &add_system(Flags<SystemStage> stages, Args &&...args)
     {
         auto system = std::make_unique<T>(std::forward<Args>(args)...);
 
         T &systemRef = *system;
 
-        const auto id = SystemRegistry::getTypeId<T>();
+        const auto id = SystemRegistry::get_type_id<T>();
 
         if (id >= systems.size())
             systems.resize(id + 1);
 
         if (systems[id].system)
-            removeSystem<T>();
+            remove_system<T>();
 
-        registerSystem(*system, stages);
-        LOG_DEBUG("System added: {}", getTypeName<T>());
+        register_system(*system, stages);
+        LOG_DEBUG("System added: {}", get_type_name<T>());
 
         systems[id] = {std::move(system), stages};
 
@@ -42,50 +42,50 @@ public:
     }
 
     template <typename T>
-    void removeSystem()
+    void remove_system()
     {
-        const auto id = SystemRegistry::getTypeId<T>();
+        const auto id = SystemRegistry::get_type_id<T>();
 
         if (id >= systems.size() || !systems[id].system)
             return;
 
         auto &entry = systems[id];
-        unregisterSystem(entry.system.get(), entry.stages);
-        LOG_DEBUG("System removed: {}", getTypeName<T>());
+        unregister_system(entry.system.get(), entry.stages);
+        LOG_DEBUG("System removed: {}", get_type_name<T>());
         entry.system.reset();
         entry.stages.assign(SystemStage::None);
     }
 
     template <typename T>
-    T *getSystem()
+    T *get_system()
     {
-        const auto id = SystemRegistry::getTypeId<T>();
+        const auto id = SystemRegistry::get_type_id<T>();
 
         if (id >= systems.size())
             return nullptr;
 
-        LOG_DEBUG("got System: {}", getTypeName<T>());
+        LOG_DEBUG("got System: {}", get_type_name<T>());
         return static_cast<T *>(systems[id].system.get());
     }
 
     void init();
-    void physics(float fixedDeltaTime);
-    void preUpdate();
-    void update(float deltaTime);
-    void postUpdate();
+    void physics(float fixed_delta_time);
+    void pre_update();
+    void update(float delta_time);
+    void post_update();
     void render(Renderer &renderer);
     void unload();
 
 private:
-    void registerSystem(System &system, Flags<SystemStage> stages);
-    void unregisterSystem(System *system, Flags<SystemStage> stages);
+    void register_system(System &system, Flags<SystemStage> stages);
+    void unregister_system(System *system, Flags<SystemStage> stages);
 
     World &world;
 
     std::vector<SystemEntry> systems{};
-    std::vector<System *> physicsSystems{};
-    std::vector<System *> preUpdateSystems{};
-    std::vector<System *> updateSystems{};
-    std::vector<System *> postUpdateSystems{};
-    std::vector<System *> renderSystems{};
+    std::vector<System *> physics_systems{};
+    std::vector<System *> pre_update_systems{};
+    std::vector<System *> update_systems{};
+    std::vector<System *> post_update_systems{};
+    std::vector<System *> render_systems{};
 };

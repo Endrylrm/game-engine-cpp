@@ -4,7 +4,7 @@
 
 #include "game/ecs/components/player/PlayerInput.hpp"
 
-void PlayerMoveSystem::onUpdate(World &world, float deltaTime)
+void PlayerMoveSystem::on_update(World &world, float delta_time)
 {
     for (auto [input, velocity] : world.view<PlayerInput, Velocity>())
     {

@@ -22,35 +22,35 @@ public:
     static Vector3D forward();
     static Vector3D back();
 
-    bool isZero() const;
+    bool is_zero() const;
 
     float length() const;
-    float lengthSquared() const;
+    float length_squared() const;
 
     void normalize();
     Vector3D normalized() const;
 
     float distance(const Vector3D &other) const;
-    float distanceSquared(const Vector3D &other) const;
+    float distance_squared(const Vector3D &other) const;
 
     float dot(const Vector3D &other) const;
     Vector3D cross(const Vector3D &other) const;
 
     float angle(const Vector3D &other) const;
-    float angleDegrees(const Vector3D &other) const;
+    float angle_degrees(const Vector3D &other) const;
 
     float pitch() const;
-    float pitchDegrees() const;
+    float pitch_degrees() const;
 
     float yaw() const;
-    float yawDegrees() const;
+    float yaw_degrees() const;
 
-    Vector3D moveTowards(const Vector3D &target, float maxDistanceDelta) const;
-    Vector3D rotateTowards(const Vector3D &target, float maxRadiansDelta) const;
+    Vector3D move_towards(const Vector3D &target, float max_distance_delta) const;
+    Vector3D rotate_towards(const Vector3D &target, float max_radians_delta) const;
     Vector3D lerp(const Vector3D &target, float t) const;
     Vector3D project(const Vector3D &onto) const;
     Vector3D reflect(const Vector3D &normal) const;
-    Vector3D clampMagnitude(float maxLength) const;
+    Vector3D clamp_magnitude(float max_length) const;
     Vector3D perpendicular() const;
 
     Vector3D operator+(const Vector3D &other) const;

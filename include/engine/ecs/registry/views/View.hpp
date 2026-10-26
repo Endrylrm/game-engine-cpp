@@ -15,10 +15,10 @@ class View
 public:
     explicit View(ComponentStorage<Components> &...storages) : storages(storages...)
     {
-        createSnapshot();
+        create_snapshot();
     }
 
-    ViewEntity<Components...> withEntities()
+    ViewEntity<Components...> with_entities()
     {
         return ViewEntity<Components...>(*this);
     }
@@ -33,32 +33,32 @@ public:
         return ViewIterator<Components...>(snapshot.end(), snapshot.end(), storages);
     }
 
-    ViewEntityIterator<Components...> beginEntity()
+    ViewEntityIterator<Components...> begin_entity()
     {
         return ViewEntityIterator<Components...>(snapshot.begin(), snapshot.end(), storages);
     }
 
-    ViewEntityIterator<Components...> endEntity()
+    ViewEntityIterator<Components...> end_entity()
     {
         return ViewEntityIterator<Components...>(snapshot.end(), snapshot.end(), storages);
     }
 
 private:
-    void createSnapshot()
+    void create_snapshot()
     {
-        const auto &pivot = pivotEntities();
+        const auto &pivot = pivot_entities();
         snapshot = pivot;
     }
 
-    const std::vector<EntityId> &pivotEntities() const
+    const std::vector<EntityId> &pivot_entities() const
     {
         const std::vector<EntityId> *smallest = nullptr;
-        auto checkStorageSize = [&](const auto &storage)
+        auto check_storage_size = [&](const auto &storage)
         {
             if (!smallest || storage.entities().size() < smallest->size())
                 smallest = &storage.entities();
         };
-        std::apply([&](auto &...storage) { (checkStorageSize(storage), ...); }, storages);
+        std::apply([&](auto &...storage) { (check_storage_size(storage), ...); }, storages);
         return *smallest;
     }
 

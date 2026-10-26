@@ -7,5 +7,5 @@
 class RenderSystem final : public System
 {
 public:
-    void onRender(World &world, Renderer &renderer) override;
+    void on_render(World &world, Renderer &renderer) override;
 };

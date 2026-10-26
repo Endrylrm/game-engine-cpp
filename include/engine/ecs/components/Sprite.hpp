@@ -4,7 +4,7 @@
 
 struct Sprite
 {
-    explicit Sprite(AssetHandle<Texture> texture) : textureId(texture) {}
+    explicit Sprite(AssetHandle<Texture> texture) : texture_id(texture) {}
 
-    AssetHandle<Texture> textureId;
+    AssetHandle<Texture> texture_id;
 };

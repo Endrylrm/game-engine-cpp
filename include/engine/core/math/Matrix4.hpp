@@ -18,29 +18,29 @@ public:
     // Matrix operations
     float determinant() const;
     Matrix4 inverse() const;
-    bool tryInverse(Matrix4 &result) const;
+    bool try_inverse(Matrix4 &result) const;
     Matrix4 transpose() const;
 
-    Matrix3 upperLeft3x3() const;
-    Matrix3 normalMatrix() const;
+    Matrix3 upper_left3x3() const;
+    Matrix3 normal_matrix() const;
 
     // Transformations
     static Matrix4 translation(const Vector3D &position);
     static Matrix4 rotation(float angle, const Vector3D &axis);
     static Matrix4 rotation(const Quaternion &quat);
-    static Matrix4 rotationX(float angle);
-    static Matrix4 rotationY(float angle);
-    static Matrix4 rotationZ(float angle);
+    static Matrix4 rotation_x(float angle);
+    static Matrix4 rotation_y(float angle);
+    static Matrix4 rotation_z(float angle);
     static Matrix4 scale(const Vector3D &scale);
 
-    Vector3D transformPoint(const Vector3D &point) const;
-    Vector3D transformDirection(const Vector3D &direction) const;
+    Vector3D transform_point(const Vector3D &point) const;
+    Vector3D transform_direction(const Vector3D &direction) const;
 
     // Projection
     static Matrix4
     orthographic(float left, float right, float bottom, float top, float near, float far);
     static Matrix4 perspective(float fov, float aspect, float near, float far);
-    static Matrix4 lookAt(const Vector3D &eye, const Vector3D &target, const Vector3D &up);
+    static Matrix4 look_at(const Vector3D &eye, const Vector3D &target, const Vector3D &up);
 
     // Operators
     Matrix4 operator+(const Matrix4 &other) const;

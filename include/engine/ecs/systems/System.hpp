@@ -8,11 +8,11 @@ class System
 public:
     virtual ~System() = default;
 
-    virtual void onInit(World &world) {}
-    virtual void onPhysics(World &world, float fixedDeltaTime) {}
-    virtual void onPreUpdate(World &world) {}
-    virtual void onUpdate(World &world, float deltaTime) {}
-    virtual void onPostUpdate(World &world) {}
-    virtual void onRender(World &world, Renderer &renderer) {}
-    virtual void onUnload(World &world) {}
+    virtual void on_init(World &world) {}
+    virtual void on_physics(World &world, float fixed_delta_time) {}
+    virtual void on_pre_update(World &world) {}
+    virtual void on_update(World &world, float delta_time) {}
+    virtual void on_post_update(World &world) {}
+    virtual void on_render(World &world, Renderer &renderer) {}
+    virtual void on_unload(World &world) {}
 };

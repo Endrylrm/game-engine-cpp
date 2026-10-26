@@ -2,13 +2,13 @@
 
 #include "engine/ecs/components/Lifetime.hpp"
 
-void LifetimeSystem::onUpdate(World &world, float deltaTime)
+void LifetimeSystem::on_update(World &world, float delta_time)
 {
-    for (auto [entity, lifetime] : world.view<Lifetime>().withEntities())
+    for (auto [entity, lifetime] : world.view<Lifetime>().with_entities())
     {
-        lifetime.remaining -= deltaTime;
+        lifetime.remaining -= delta_time;
 
         if (lifetime.remaining <= 0.0f)
-            world.destroyEntity(entity);
+            world.destroy_entity(entity);
     }
 }

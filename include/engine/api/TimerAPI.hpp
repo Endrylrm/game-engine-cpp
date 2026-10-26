@@ -6,13 +6,13 @@
 class TimerAPI : public ManagerAPI<TimerManager>
 {
 public:
-    static Timer *createTimer(float waitTime, bool oneShot = false, bool autostart = false)
+    static Timer *create_timer(float wait_time, bool one_shot = false, bool autostart = false)
     {
-        return getManager().createTimer(waitTime, oneShot, autostart);
+        return get_manager().create_timer(wait_time, one_shot, autostart);
     }
 
     static Timer *after(float seconds, Timer::TimeoutCallback callback)
     {
-        return getManager().after(seconds, std::move(callback));
+        return get_manager().after(seconds, std::move(callback));
     }
 };

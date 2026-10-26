@@ -1,16 +1,16 @@
 #include "engine/renderer/ShapeRenderer.hpp"
 
-void ShapeRenderer::init(RenderDevice *newDevice)
+void ShapeRenderer::init(RenderDevice *new_device)
 {
-    device = newDevice;
+    device = new_device;
 }
 
-void ShapeRenderer::drawRect(Vector2D position, Vector2D size, Color color)
+void ShapeRenderer::draw_rect(Vector2D position, Vector2D size, Color color)
 {
-    drawRect(Rect2D{position, size}, color);
+    draw_rect(Rect2D{position, size}, color);
 }
 
-void ShapeRenderer::drawRect(Rect2D rect, Color color)
+void ShapeRenderer::draw_rect(Rect2D rect, Color color)
 {
-    device->drawRect(rect, color);
+    device->draw_rect(rect, color);
 }

@@ -18,7 +18,7 @@ struct LogLevelInfo
     std::string_view color;
 };
 
-constexpr std::array<LogLevelInfo, 7> LogLevels{
+constexpr std::array<LogLevelInfo, 7> LOG_LEVELS{
     {{"TRACE", "\033[90m"},
      {"DEBUG", "\033[36m"},
      {"INFO", "\033[37m"},

@@ -67,30 +67,30 @@ struct Color
     static Color transparent();
 
     // Converts a Hexadecimal 0xRRGGBBAA to a Color.
-    static Color fromHex(uint32_t hexCode);
-    uint32_t toHex() const;
+    static Color from_hex(uint32_t hex_code);
+    uint32_t to_hex() const;
 
     // Converts a RGBA4444 to a Color.
-    static Color fromRGBA16(const RGBA16 &color);
-    RGBA16 toRGBA16() const;
+    static Color from_rgba_16(const RGBA16 &color);
+    RGBA16 to_rgba_16() const;
 
     // Converts a RGBA8888 to a Color.
-    static Color fromRGBA32(const RGBA32 &color);
-    RGBA32 toRGBA32() const;
+    static Color from_rgba_32(const RGBA32 &color);
+    RGBA32 to_rgba_32() const;
 
     // Converts a RGBA16161616 to a Color.
-    static Color fromRGBA64(const RGBA64 &color);
-    RGBA64 toRGBA64() const;
+    static Color from_rgba_64(const RGBA64 &color);
+    RGBA64 to_rgba_64() const;
 
     // Converts a unsigned integer RGBA32323232 to a Color.
-    static Color fromRGBA128UI(const RGBA128UI &color);
-    RGBA128UI toRGBA128UI() const;
+    static Color from_rgba_128_ui(const RGBA128UI &color);
+    RGBA128UI to_rgba_128_ui() const;
 
-    static Color fromHSL(const HSL &hsl);
-    HSL toHSL() const;
+    static Color from_hsl(const HSL &hsl);
+    HSL to_hsl() const;
 
-    static Color fromHSV(const HSV &hsv);
-    HSV toHSV() const;
+    static Color from_hsv(const HSV &hsv);
+    HSV to_hsv() const;
 
     Color clamped() const;
     static Color lerp(const Color &a, const Color &b, float t);

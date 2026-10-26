@@ -10,29 +10,29 @@ class InputManager
 public:
     virtual ~InputManager() = default;
 
-    virtual void processEvent() = 0;
-    virtual void beginFrame() = 0;
+    virtual void process_event() = 0;
+    virtual void begin_frame() = 0;
 
-    virtual bool isKeyDown(KeyInput key) const = 0;
-    virtual bool isKeyPressed(KeyInput key) const = 0;
-    virtual bool isKeyReleased(KeyInput key) const = 0;
+    virtual bool is_key_down(KeyInput key) const = 0;
+    virtual bool is_key_pressed(KeyInput key) const = 0;
+    virtual bool is_key_released(KeyInput key) const = 0;
 
-    virtual bool isMouseButtonDown(MouseInput key) const = 0;
-    virtual bool isMouseButtonPressed(MouseInput key) const = 0;
-    virtual bool isMouseButtonReleased(MouseInput key) const = 0;
+    virtual bool is_mouse_button_down(MouseInput key) const = 0;
+    virtual bool is_mouse_button_pressed(MouseInput key) const = 0;
+    virtual bool is_mouse_button_released(MouseInput key) const = 0;
 
-    virtual float getMouseX() const = 0;
-    virtual float getMouseY() const = 0;
-    virtual Vector2D getMouse() const = 0;
+    virtual float get_mouse_x() const = 0;
+    virtual float get_mouse_y() const = 0;
+    virtual Vector2D get_mouse() const = 0;
 
-    virtual float getMouseDeltaX() const = 0;
-    virtual float getMouseDeltaY() const = 0;
-    virtual Vector2D getMouseDelta() const = 0;
+    virtual float get_mouse_delta_x() const = 0;
+    virtual float get_mouse_delta_y() const = 0;
+    virtual Vector2D get_mouse_delta() const = 0;
 
-    virtual float getMouseScrollX() const = 0;
-    virtual float getMouseScrollY() const = 0;
-    virtual Vector2D getMouseScroll() const = 0;
+    virtual float get_mouse_scroll_x() const = 0;
+    virtual float get_mouse_scroll_y() const = 0;
+    virtual Vector2D get_mouse_scroll() const = 0;
 
 protected:
-    MouseState mouseState{};
+    MouseState mouse_state{};
 };

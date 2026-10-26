@@ -8,7 +8,7 @@ struct TypedIdentifier
 {
     T index = InvalidValue;
 
-    constexpr bool isValid() const
+    constexpr bool is_valid() const
     {
         return index != InvalidValue;
     }

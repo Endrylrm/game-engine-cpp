@@ -8,11 +8,11 @@
 class SpriteRenderer
 {
 public:
-    void init(RenderDevice *newDevice);
+    void init(RenderDevice *new_device);
 
-    void drawTexture(Texture *texture, Vector2D position);
-    void drawTexture(Texture *tex, Vector2D position, Vector2D size);
-    void drawTexture(Texture *tex, Rect2D rect);
+    void draw_texture(Texture *texture, Vector2D position);
+    void draw_texture(Texture *tex, Vector2D position, Vector2D size);
+    void draw_texture(Texture *tex, Rect2D rect);
 
 private:
     RenderDevice *device = nullptr;

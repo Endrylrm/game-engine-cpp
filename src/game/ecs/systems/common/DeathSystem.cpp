@@ -4,11 +4,11 @@
 
 #include "game/ecs/components/common/Dead.hpp"
 
-void DeathSystem::onPostUpdate(World &world)
+void DeathSystem::on_post_update(World &world)
 {
-    for (auto [entity, _] : world.view<Dead>().withEntities())
+    for (auto [entity, _] : world.view<Dead>().with_entities())
     {
-        world.destroyEntity(entity);
+        world.destroy_entity(entity);
         LOG_DEBUG(
             "Queued destruction for Entity ID: {}, generation: {}", entity.index, entity.generation
         );

@@ -7,18 +7,18 @@
 class TimeAPI : public ManagerAPI<Time>
 {
 public:
-    static float getDeltaTime()
+    static float get_delta_time()
     {
-        return getManager().getDeltaTime();
+        return get_manager().get_delta_time();
     }
 
-    static float getFixedDeltaTime()
+    static float get_fixed_delta_time()
     {
-        return getManager().getFixedDeltaTime();
+        return get_manager().get_fixed_delta_time();
     }
 
-    static uint32_t getFPS()
+    static uint32_t get_fps()
     {
-        return getManager().getFPS();
+        return get_manager().get_fps();
     }
 };

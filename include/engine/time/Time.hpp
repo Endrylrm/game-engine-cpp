@@ -5,25 +5,25 @@
 class Time
 {
 public:
-    std::chrono::duration<float> getTargetFrameTime() const;
-    void setTargetFPS(const uint32_t FPS);
+    std::chrono::duration<float> get_target_frame_time() const;
+    void set_target_fps(const uint32_t fps);
 
     void tick();
 
-    int consumeFixedSteps();
-    float getDeltaTime() const;
-    float getFixedDeltaTime() const;
-    uint32_t getFPS() const;
+    int consume_fixed_steps();
+    float get_delta_time() const;
+    float get_fixed_delta_time() const;
+    uint32_t get_fps() const;
 
 private:
     using Clock = std::chrono::steady_clock;
-    Clock::time_point lastTime = Clock::now();
+    Clock::time_point last_time = Clock::now();
 
-    float deltaTime{0.0f};
-    float fixedDeltaTime{1.0f / 60.0f};
+    float delta_time{0.0f};
+    float fixed_delta_time{1.0f / 60.0f};
     float accumulator{0.0f};
-    float maxAccumulator{0.25f};
-    uint32_t currentFPS{60};
+    float max_accumulator{0.25f};
+    uint32_t current_fps{60};
 
-    std::chrono::duration<float> targetFrameTime{std::chrono::duration<float>(1.0 / 60.0)};
+    std::chrono::duration<float> target_frame_time{std::chrono::duration<float>(1.0 / 60.0)};
 };

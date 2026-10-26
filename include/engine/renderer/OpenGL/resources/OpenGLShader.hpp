@@ -16,7 +16,7 @@ public:
     void use() const;
 
     GLuint get() const;
-    bool isValid() const override;
+    bool is_valid() const override;
 
     void set(const std::string &name, const glm::mat3 &value) const;
     void set(const std::string &name, const glm::mat4 &value) const;
@@ -30,7 +30,7 @@ public:
 
 private:
     GLuint compile(GLenum type, const std::string &source);
-    GLenum convertShaderStage(ShaderStage stage);
+    GLenum convert_shader_stage(ShaderStage stage);
 
     GLuint program{};
 };

@@ -7,23 +7,23 @@
 class WindowAPI : public ManagerAPI<Window>
 {
 public:
-    static int getWidth()
+    static int get_width()
     {
-        return getManager().getWidth();
+        return get_manager().get_width();
     }
 
-    static int getHeight()
+    static int get_height()
     {
-        return getManager().getHeight();
+        return get_manager().get_height();
     }
 
-    static std::string getTitle()
+    static std::string get_title()
     {
-        return getManager().getTitle();
+        return get_manager().get_title();
     }
 
     static void quit()
     {
-        getManager().quitGame();
+        get_manager().quit_game();
     }
 };

@@ -4,5 +4,5 @@ struct MouseState
 {
     float x, y;
     float dx, dy;
-    float scrollX, scrollY;
+    float scroll_x, scroll_y;
 };

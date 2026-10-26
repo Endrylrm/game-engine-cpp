@@ -12,21 +12,21 @@
 class Renderer
 {
 public:
-    bool init(RenderDevice *newDevice);
+    bool init(RenderDevice *new_device);
 
-    std::unique_ptr<Texture> loadTexture(const std::string &path);
+    std::unique_ptr<Texture> load_texture(const std::string &path);
 
-    ShapeRenderer &getShapeRenderer() noexcept;
-    SpriteRenderer &getSpriteRenderer() noexcept;
+    ShapeRenderer &get_shape_renderer() noexcept;
+    SpriteRenderer &get_sprite_renderer() noexcept;
 
     void clear();
-    void setClearColor(Color color);
+    void set_clear_color(Color color);
 
     void present();
 
 private:
     RenderDevice *device = nullptr;
-    ShapeRenderer shapeRenderer;
-    SpriteRenderer spriteRenderer;
-    Color clearColor{0.0f, 0.0f, 0.0f, 1.0f};
+    ShapeRenderer shape_renderer;
+    SpriteRenderer sprite_renderer;
+    Color clear_color{0.0f, 0.0f, 0.0f, 1.0f};
 };

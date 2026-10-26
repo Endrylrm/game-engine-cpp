@@ -6,7 +6,7 @@ class Texture
 public:
     virtual ~Texture() = default;
 
-    virtual bool isValid() const = 0;
+    virtual bool is_valid() const = 0;
 
-    virtual Vector2DInt getSize() const = 0;
+    virtual Vector2DInt get_size() const = 0;
 };

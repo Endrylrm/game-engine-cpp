@@ -57,7 +57,7 @@ include/
 │    │    │    │    ├─── ConnectionSlot.hpp
 │    │    │    │    ├─── Connections.hpp
 │    │    │    │    ├─── Event.hpp
-│    │    │    │    ├─── EventBus.hpp
+│    │    │    │    ├─── event_bus.hpp
 │    │    │    │    ├─── EventConnectionGroup.hpp
 │    │    │    │    ├─── EventRegistry.hpp
 │    │    │    │    ├─── Listener.hpp

@@ -3,28 +3,28 @@
 
 enum class TextureFormat
 {
-    R8_UNORM,
-    RG8_UNORM,
-    RGB8_UNORM,
-    RGBA8_UNORM,
+    R8Unorm,
+    RG8Unorm,
+    RgB8Unorm,
+    RgbA8Unorm,
 
-    R16_UNORM,
-    RG16_UNORM,
-    RGB16_UNORM,
-    RGBA16_UNORM,
+    R16Unorm,
+    RG16Unorm,
+    RgB16Unorm,
+    RgbA16Unorm,
 
-    R16_FLOAT,
-    RG16_FLOAT,
-    RGB16_FLOAT,
-    RGBA16_FLOAT,
+    R16Float,
+    RG16Float,
+    RgB16Float,
+    RgbA16Float,
 
-    R32_FLOAT,
-    RG32_FLOAT,
-    RGB32_FLOAT,
-    RGBA32_FLOAT,
+    R32Float,
+    RG32Float,
+    RgB32Float,
+    RgbA32Float,
 
     Depth24Stencil8,
-    Depth32_FLOAT,
+    Depth32Float,
 };
 
 enum class TextureDimension
@@ -49,7 +49,7 @@ struct TextureData
 {
     const void *data = nullptr;
     size_t size = 0;
-    uint32_t rowPitch = 0;
+    uint32_t row_pitch = 0;
 };
 
 struct TextureDescription
@@ -57,9 +57,9 @@ struct TextureDescription
     uint32_t width = 0;
     uint32_t height = 0;
     uint32_t depth = 0;
-    uint32_t mipLevels = 1;
+    uint32_t mip_levels = 1;
 
-    TextureFormat format = TextureFormat::RGBA8_UNORM;
+    TextureFormat format = TextureFormat::RgbA8Unorm;
     TextureDimension dimension = TextureDimension::Texture2D;
     TextureUsage usage = TextureUsage::Sampled;
 

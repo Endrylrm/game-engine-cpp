@@ -10,7 +10,7 @@ enum class VertexType
     UInt
 };
 
-constexpr size_t getVertexTypeSize(VertexType type)
+constexpr size_t get_vertex_type_size(VertexType type)
 {
     switch (type)
     {
@@ -31,9 +31,9 @@ struct VertexAttribute
     uint32_t count;
     size_t offset;
 
-    constexpr size_t getSize() const
+    constexpr size_t get_size() const
     {
-        return getVertexTypeSize(type) * count;
+        return get_vertex_type_size(type) * count;
     }
 };
 
@@ -41,13 +41,13 @@ struct VertexLayout
 {
     std::vector<VertexAttribute> attributes;
 
-    size_t getStride() const
+    size_t get_stride() const
     {
         size_t stride = 0;
 
         for (const auto &attribute : attributes)
         {
-            stride = std::max(stride, attribute.offset + attribute.getSize());
+            stride = std::max(stride, attribute.offset + attribute.get_size());
         }
 
         return stride;
@@ -70,12 +70,12 @@ struct MeshDescription
 {
     std::vector<std::byte> vertices;
     std::vector<uint32_t> indices;
-    VertexLayout vertexLayout;
-    PrimitiveType primitiveType;
+    VertexLayout vertex_layout;
+    PrimitiveType primitive_type;
 };
 
 template <typename T>
-MeshDescription makeMeshDescription(
+MeshDescription make_mesh_description(
     std::span<const T> vertices,
     std::span<const uint32_t> indices,
     VertexLayout layout,
@@ -88,8 +88,8 @@ MeshDescription makeMeshDescription(
 
     desc.vertices.assign(bytes.begin(), bytes.end());
     desc.indices.assign(indices.begin(), indices.end());
-    desc.vertexLayout = std::move(layout);
-    desc.primitiveType = type;
+    desc.vertex_layout = std::move(layout);
+    desc.primitive_type = type;
 
     return desc;
 }

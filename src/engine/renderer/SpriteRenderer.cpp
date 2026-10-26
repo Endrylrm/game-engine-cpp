@@ -1,21 +1,21 @@
 #include "engine/renderer/SpriteRenderer.hpp"
 
-void SpriteRenderer::init(RenderDevice *newDevice)
+void SpriteRenderer::init(RenderDevice *new_device)
 {
-    device = newDevice;
+    device = new_device;
 }
 
-void SpriteRenderer::drawTexture(Texture *texture, Vector2D position)
+void SpriteRenderer::draw_texture(Texture *texture, Vector2D position)
 {
-    drawTexture(texture, Rect2D{position, texture->getSize()});
+    draw_texture(texture, Rect2D{position, texture->get_size()});
 }
 
-void SpriteRenderer::drawTexture(Texture *tex, Vector2D position, Vector2D size)
+void SpriteRenderer::draw_texture(Texture *tex, Vector2D position, Vector2D size)
 {
-    drawTexture(tex, Rect2D{position, size});
+    draw_texture(tex, Rect2D{position, size});
 }
 
-void SpriteRenderer::drawTexture(Texture *tex, Rect2D rect)
+void SpriteRenderer::draw_texture(Texture *tex, Rect2D rect)
 {
-    device->drawTexture(tex, rect);
+    device->draw_texture(tex, rect);
 }

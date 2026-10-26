@@ -11,89 +11,89 @@
 class WorldAPI : public ManagerAPI<World>
 {
 public:
-    static Entity createEntity()
+    static Entity create_entity()
     {
-        return getManager().createEntity();
+        return get_manager().create_entity();
     }
 
-    static Entity getEntity(EntityId id)
+    static Entity get_entity(EntityId id)
     {
-        return getManager().getEntity(id);
+        return get_manager().get_entity(id);
     }
 
-    static void destroyEntity(EntityId entity)
+    static void destroy_entity(EntityId entity)
     {
-        getManager().destroyEntity(entity);
+        get_manager().destroy_entity(entity);
     }
 
     template <typename T, typename... Args>
-    static T &addComponent(EntityId entity, Args &&...args)
+    static T &add_component(EntityId entity, Args &&...args)
     {
-        return getManager().addComponent<T>(entity, std::forward<Args>(args)...);
+        return get_manager().add_component<T>(entity, std::forward<Args>(args)...);
     }
 
     template <typename T>
-    static T &addComponent(EntityId entity, T &&value)
+    static T &add_component(EntityId entity, T &&value)
     {
-        return getManager().addComponent<T>(entity, std::move(value));
+        return get_manager().add_component<T>(entity, std::move(value));
     }
 
     template <typename T>
-    static T &getComponent(EntityId entity)
+    static T &get_component(EntityId entity)
     {
-        return getManager().getComponent<T>(entity);
+        return get_manager().get_component<T>(entity);
     }
 
     template <typename T>
-    static T &getOrAddComponent(EntityId entity)
+    static T &get_or_add_component(EntityId entity)
     {
-        return getManager().getOrAddComponent<T>(entity);
+        return get_manager().get_or_add_component<T>(entity);
     }
 
     template <typename T>
-    static T *tryGetComponent(EntityId entity)
+    static T *try_get_component(EntityId entity)
     {
-        return getManager().tryGetComponent<T>(entity);
+        return get_manager().try_get_component<T>(entity);
     }
 
     template <typename T>
-    static bool hasComponent(EntityId entity)
+    static bool has_component(EntityId entity)
     {
-        return getManager().hasComponent<T>(entity);
+        return get_manager().has_component<T>(entity);
     }
 
     template <typename T>
-    static void removeComponent(EntityId entity)
+    static void remove_component(EntityId entity)
     {
-        getManager().removeComponent<T>(entity);
+        get_manager().remove_component<T>(entity);
     }
 
-    static void removeAllComponents(EntityId entity)
+    static void remove_all_components(EntityId entity)
     {
-        getManager().removeAllComponents(entity);
+        get_manager().remove_all_components(entity);
     }
 
     template <typename... Components>
     static View<Components...> view()
     {
-        return getManager().view<Components...>();
+        return get_manager().view<Components...>();
     }
 
     template <std::derived_from<System> T, typename... Args>
-    static T &addSystem(Flags<SystemStage> stages, Args &&...args)
+    static T &add_system(Flags<SystemStage> stages, Args &&...args)
     {
-        return getManager().addSystem<T>(stages, std::forward<Args>(args)...);
+        return get_manager().add_system<T>(stages, std::forward<Args>(args)...);
     }
 
     template <typename T>
-    static void removeSystem()
+    static void remove_system()
     {
-        getManager().removeSystem<T>();
+        get_manager().remove_system<T>();
     }
 
     template <typename T>
-    static T *getSystem()
+    static T *get_system()
     {
-        return getManager().getSystem<T>();
+        return get_manager().get_system<T>();
     }
 };

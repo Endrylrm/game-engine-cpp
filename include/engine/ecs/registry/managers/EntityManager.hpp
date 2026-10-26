@@ -16,5 +16,5 @@ public:
 
 private:
     std::vector<EntitySlot> slots;
-    std::vector<uint32_t> freeIds;
+    std::vector<uint32_t> free_ids;
 };

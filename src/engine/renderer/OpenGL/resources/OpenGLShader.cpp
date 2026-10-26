@@ -25,7 +25,8 @@ bool OpenGLShader::init(const ShaderDescription &desc)
 
     for (const auto &shaderSource : desc.sources)
     {
-        const GLuint shader = compile(convertShaderStage(shaderSource.stage), shaderSource.source);
+        const GLuint shader =
+            compile(convert_shader_stage(shaderSource.stage), shaderSource.source);
 
         if (!shader)
         {
@@ -53,9 +54,9 @@ bool OpenGLShader::init(const ShaderDescription &desc)
 
     if (!success)
     {
-        GLchar infoLog[512];
-        glGetProgramInfoLog(program, 512, NULL, infoLog);
-        LOG_ERROR("Linking Shaders failed:\n{}", infoLog);
+        GLchar info_log[512];
+        glGetProgramInfoLog(program, 512, NULL, info_log);
+        LOG_ERROR("Linking Shaders failed:\n{}", info_log);
         glDeleteProgram(program);
         program = 0;
         return false;
@@ -74,7 +75,7 @@ GLuint OpenGLShader::get() const
     return program;
 }
 
-bool OpenGLShader::isValid() const
+bool OpenGLShader::is_valid() const
 {
     return program != 0;
 }
@@ -128,9 +129,9 @@ GLuint OpenGLShader::compile(GLenum type, const std::string &source)
 {
     GLuint shader = glCreateShader(type);
 
-    const char *sourcePtr = source.c_str();
+    const char *source_ptr = source.c_str();
 
-    glShaderSource(shader, 1, &sourcePtr, nullptr);
+    glShaderSource(shader, 1, &source_ptr, nullptr);
 
     glCompileShader(shader);
 
@@ -139,9 +140,9 @@ GLuint OpenGLShader::compile(GLenum type, const std::string &source)
 
     if (!success)
     {
-        GLchar infoLog[512];
-        glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        LOG_ERROR("Shader compilation failed:\n{}", infoLog);
+        GLchar info_log[512];
+        glGetShaderInfoLog(shader, 512, NULL, info_log);
+        LOG_ERROR("Shader compilation failed:\n{}", info_log);
         glDeleteShader(shader);
         return 0;
     }
@@ -149,7 +150,7 @@ GLuint OpenGLShader::compile(GLenum type, const std::string &source)
     return shader;
 }
 
-GLenum OpenGLShader::convertShaderStage(ShaderStage stage)
+GLenum OpenGLShader::convert_shader_stage(ShaderStage stage)
 {
     switch (stage)
     {

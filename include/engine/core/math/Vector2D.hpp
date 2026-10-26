@@ -20,30 +20,30 @@ public:
     static Vector2D right();
 
     float length() const;
-    float lengthSquared() const;
+    float length_squared() const;
 
     void normalize();
     Vector2D normalized() const;
 
     float distance(const Vector2D &other) const;
-    float distanceSquared(const Vector2D &other) const;
+    float distance_squared(const Vector2D &other) const;
 
     float dot(const Vector2D &other) const;
     float cross(const Vector2D &other) const;
 
     float angle() const;
-    float angleDegrees() const;
-    float angleTo(const Vector2D &other) const;
+    float angle_degrees() const;
+    float angle_to(const Vector2D &other) const;
 
-    Vector2D MoveTowards(const Vector2D &target, float maxDistanceDelta) const;
+    Vector2D move_towards(const Vector2D &target, float max_distance_delta) const;
     Vector2D rotate(float radians) const;
     Vector2D lerp(const Vector2D &target, float t) const;
     Vector2D project(const Vector2D &onto) const;
     Vector2D reflect(const Vector2D &normal) const;
-    Vector2D clampMagnitude(float maxLength) const;
+    Vector2D clamp_magnitude(float max_length) const;
 
-    Vector2D perpendicularLeft() const;
-    Vector2D perpendicularRight() const;
+    Vector2D perpendicular_left() const;
+    Vector2D perpendicular_right() const;
 
     Vector2D operator+(const Vector2D &other) const;
     Vector2D &operator+=(const Vector2D &other);

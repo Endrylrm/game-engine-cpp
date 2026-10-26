@@ -13,63 +13,63 @@ public:
     template <typename T, typename... Args>
     T &add(EntityId entity, Args &&...args)
     {
-        T &component = getStorage<T>().emplace(entity, std::forward<Args>(args)...);
-        LOG_DEBUG("Added Component {} to Entity {}", getTypeName<T>(), entity.index);
+        T &component = get_storage<T>().emplace(entity, std::forward<Args>(args)...);
+        LOG_DEBUG("Added Component {} to Entity {}", get_type_name<T>(), entity.index);
         return component;
     }
 
     template <typename T>
     T &get(EntityId entity)
     {
-        T &component = getStorage<T>().at(entity);
-        LOG_DEBUG("got Component {} to Entity {}", getTypeName<T>(), entity.index);
+        T &component = get_storage<T>().at(entity);
+        LOG_DEBUG("got Component {} to Entity {}", get_type_name<T>(), entity.index);
         return component;
     }
 
     template <typename T, typename... Args>
-    T &getOrAdd(EntityId entity, Args &&...args)
+    T &get_or_add(EntityId entity, Args &&...args)
     {
-        bool hasComponent = getStorage<T>().contains(entity);
+        bool has_component = get_storage<T>().contains(entity);
 
-        if (hasComponent)
+        if (has_component)
         {
             T &component = get<T>(entity);
-            LOG_DEBUG("got Component {} from Entity {}", getTypeName<T>(), entity.index);
+            LOG_DEBUG("got Component {} from Entity {}", get_type_name<T>(), entity.index);
             return component;
         }
 
         T &component = add<T>(entity, std::forward<Args>(args)...);
-        LOG_DEBUG("added Component {} to Entity {}", getTypeName<T>(), entity.index);
+        LOG_DEBUG("added Component {} to Entity {}", get_type_name<T>(), entity.index);
         return component;
     }
 
     template <typename T>
-    T *tryGet(EntityId entity)
+    T *try_get(EntityId entity)
     {
-        T *component = getStorage<T>().find(entity);
+        T *component = get_storage<T>().find(entity);
         if (component)
-            LOG_DEBUG("got Component {} from Entity {}", getTypeName<T>(), entity.index);
+            LOG_DEBUG("got Component {} from Entity {}", get_type_name<T>(), entity.index);
         else
-            LOG_DEBUG("has no Component {} in Entity {}", getTypeName<T>(), entity.index);
+            LOG_DEBUG("has no Component {} in Entity {}", get_type_name<T>(), entity.index);
         return component;
     }
 
     template <typename T>
     bool has(EntityId entity)
     {
-        bool hasComponent = getStorage<T>().contains(entity);
-        LOG_DEBUG("Entity {} has component: {}", entity.index, getTypeName<T>());
-        return hasComponent;
+        bool has_component = get_storage<T>().contains(entity);
+        LOG_DEBUG("Entity {} has component: {}", entity.index, get_type_name<T>());
+        return has_component;
     }
 
     template <typename T>
     void remove(EntityId entity)
     {
-        getStorage<T>().erase(entity);
-        LOG_DEBUG("Erased Component {} from Entity {}", getTypeName<T>(), entity.index);
+        get_storage<T>().erase(entity);
+        LOG_DEBUG("Erased Component {} from Entity {}", get_type_name<T>(), entity.index);
     }
 
-    void removeAll(EntityId entity)
+    void remove_all(EntityId entity)
     {
         for (auto &storage : storages)
         {
@@ -79,22 +79,22 @@ public:
     }
 
     template <typename T>
-    ComponentStorage<T> &getStorageRef()
+    ComponentStorage<T> &get_storage_ref()
     {
-        return getStorage<T>();
+        return get_storage<T>();
     }
 
     template <typename T>
-    const ComponentStorage<T> &getStorageRef() const
+    const ComponentStorage<T> &get_storage_ref() const
     {
-        return const_cast<ComponentManager *>(this)->getStorage<T>();
+        return const_cast<ComponentManager *>(this)->get_storage<T>();
     }
 
 private:
     template <typename T>
-    ComponentStorage<T> &getStorage()
+    ComponentStorage<T> &get_storage()
     {
-        ComponentId id = ComponentRegistry::getTypeId<T>();
+        ComponentId id = ComponentRegistry::get_type_id<T>();
 
         if (id >= storages.size())
             storages.resize(id + 1);

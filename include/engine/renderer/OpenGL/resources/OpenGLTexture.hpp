@@ -14,10 +14,10 @@ public:
     OpenGLTexture(GLuint texture, int width, int height);
     ~OpenGLTexture() override;
 
-    bool isValid() const override;
+    bool is_valid() const override;
 
-    Vector2DInt getSize() const override;
-    GLuint getNativeHandle() const;
+    Vector2DInt get_size() const override;
+    GLuint get_native_handle() const;
 
 private:
     GLuint texture{};

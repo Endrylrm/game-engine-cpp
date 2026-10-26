@@ -15,7 +15,7 @@ struct ViewEntityIterator
     )
         : iter(it), end(end), storages(storages)
     {
-        skipInvalid();
+        skip_invalid();
     }
 
     bool operator==(const ViewEntityIterator &other) const
@@ -31,7 +31,7 @@ struct ViewEntityIterator
     ViewEntityIterator &operator++()
     {
         ++iter;
-        skipInvalid();
+        skip_invalid();
         return *this;
     }
 
@@ -48,13 +48,13 @@ struct ViewEntityIterator
     }
 
 private:
-    void skipInvalid()
+    void skip_invalid()
     {
-        while (iter != end && !allContain(*iter))
+        while (iter != end && !all_contain(*iter))
             ++iter;
     }
 
-    bool allContain(EntityId entity) const
+    bool all_contain(EntityId entity) const
     {
         return (std::get<ComponentStorage<Components> &>(storages).contains(entity) && ...);
     }

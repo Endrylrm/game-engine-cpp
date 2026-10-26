@@ -7,12 +7,12 @@ class AssetManagerRegistry
 {
 public:
     template <typename T>
-    static AssetManagerId getTypeId()
+    static AssetManagerId get_type_id()
     {
-        static const AssetManagerId id = nextId++;
+        static const AssetManagerId id = next_id++;
         return id;
     }
 
 private:
-    inline static AssetManagerId nextId{};
+    inline static AssetManagerId next_id{};
 };

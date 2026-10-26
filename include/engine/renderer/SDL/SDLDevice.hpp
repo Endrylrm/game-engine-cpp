@@ -20,14 +20,14 @@ public:
     bool init() override;
     void clear(Color color) override;
     void present() override;
-    void setViewport(Rect2D rect) override;
+    void set_viewport(Rect2D rect) override;
 
-    std::unique_ptr<Texture> createTexture(const std::string &path) override;
+    std::unique_ptr<Texture> create_texture(const std::string &path) override;
 
-    void drawTexture(Texture *texture, Rect2D rect) override;
-    void drawRect(Rect2D rect, Color color) override;
+    void draw_texture(Texture *texture, Rect2D rect) override;
+    void draw_rect(Rect2D rect, Color color) override;
 
-    SDL_Renderer *getNativeHandle() const;
+    SDL_Renderer *get_native_handle() const;
 
 private:
     SDL_Window *window{};

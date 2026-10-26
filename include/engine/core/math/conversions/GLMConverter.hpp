@@ -13,21 +13,21 @@ struct GLMConverter
 {
     GLMConverter() = delete;
 
-    static glm::vec2 toGLM(const Vector2D &vec);
-    static Vector2D fromGLM(const glm::vec2 &vec);
+    static glm::vec2 to_glm(const Vector2D &vec);
+    static Vector2D from_glm(const glm::vec2 &vec);
 
-    static glm::vec3 toGLM(const Vector3D &vec);
-    static Vector3D fromGLM(const glm::vec3 &vec);
+    static glm::vec3 to_glm(const Vector3D &vec);
+    static Vector3D from_glm(const glm::vec3 &vec);
 
-    static glm::vec4 toGLM(const Vector4D &vec);
-    static Vector4D fromGLM(const glm::vec4 &vec);
+    static glm::vec4 to_glm(const Vector4D &vec);
+    static Vector4D from_glm(const glm::vec4 &vec);
 
-    static glm::quat toGLM(const Quaternion &quat);
-    static Quaternion fromGLM(const glm::quat &quat);
+    static glm::quat to_glm(const Quaternion &quat);
+    static Quaternion from_glm(const glm::quat &quat);
 
-    static glm::mat3 toGLM(const Matrix3 &mat);
-    static Matrix3 fromGLM(const glm::mat3 &mat);
+    static glm::mat3 to_glm(const Matrix3 &mat);
+    static Matrix3 from_glm(const glm::mat3 &mat);
 
-    static glm::mat4 toGLM(const Matrix4 &mat);
-    static Matrix4 fromGLM(const glm::mat4 &mat);
+    static glm::mat4 to_glm(const Matrix4 &mat);
+    static Matrix4 from_glm(const glm::mat4 &mat);
 };

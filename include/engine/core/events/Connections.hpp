@@ -14,12 +14,12 @@ public:
 
 protected:
     virtual void disconnect(EventTypeId type, uint32_t id) = 0;
-    virtual void setListenerEnabled(EventTypeId type, uint32_t id, bool enabled) = 0;
-    virtual bool isListenerEnabled(EventTypeId type, uint32_t id) = 0;
+    virtual void set_listener_enabled(EventTypeId type, uint32_t id, bool enabled) = 0;
+    virtual bool is_listener_enabled(EventTypeId type, uint32_t id) = 0;
 
 private:
-    void registerConnection(EventConnection *connection);
-    void unregisterConnection(EventConnection *connection);
+    void register_connection(EventConnection *connection);
+    void unregister_connection(EventConnection *connection);
 
     // intrusive list
     EventConnection *head = nullptr;
@@ -32,12 +32,12 @@ class EventConnection
 public:
     EventConnection() = default;
     EventConnection(ConnectionSource *source, EventTypeId type, uint32_t id)
-        : connSource(source), eventType(type), eventId(id)
+        : conn_source(source), event_type(type), event_id(id)
     {
-        source->registerConnection(this);
+        source->register_connection(this);
         LOG_TRACE(
             "Event Connection '{}' constructed at {:p} and connected to source.",
-            eventId,
+            event_id,
             static_cast<const void *>(this)
         );
     }
@@ -49,10 +49,10 @@ public:
     // accepts move semantics
     EventConnection(EventConnection &&other) noexcept
     {
-        moveFrom(other);
+        move_from(other);
         LOG_TRACE(
             "Event Connection '{}' at {:p} moved from {:p}.",
-            eventId,
+            event_id,
             static_cast<const void *>(this),
             static_cast<const void *>(&other)
         );
@@ -64,12 +64,12 @@ public:
         {
             // clean current connection
             disconnect();
-            moveFrom(other);
+            move_from(other);
         }
 
         LOG_TRACE(
             "Event Connection '{}' at {:p} moved from {:p}.",
-            eventId,
+            event_id,
             static_cast<const void *>(this),
             static_cast<const void *>(&other)
         );
@@ -79,21 +79,21 @@ public:
     ~EventConnection()
     {
         LOG_TRACE(
-            "destroying Event Connection '{}' at {:p}...", eventId, static_cast<const void *>(this)
+            "destroying Event Connection '{}' at {:p}...", event_id, static_cast<const void *>(this)
         );
         disconnect();
     }
 
     void disconnect()
     {
-        if (!connSource)
+        if (!conn_source)
             return;
 
-        connSource->disconnect(eventType, eventId);
-        connSource->unregisterConnection(this);
+        conn_source->disconnect(event_type, event_id);
+        conn_source->unregister_connection(this);
         LOG_TRACE(
             "Event Connection '{}' at {:p} disconnected from source.",
-            eventId,
+            event_id,
             static_cast<const void *>(this)
         );
         invalidate();
@@ -101,45 +101,45 @@ public:
 
     void enable()
     {
-        setEnabled(true);
+        set_enabled(true);
     }
 
     void disable()
     {
-        setEnabled(false);
+        set_enabled(false);
     }
 
-    bool isEnabled() const
+    bool is_enabled() const
     {
-        return connSource && connSource->isListenerEnabled(eventType, eventId);
+        return conn_source && conn_source->is_listener_enabled(event_type, event_id);
     }
 
     bool connected() const
     {
-        return connSource != nullptr;
+        return conn_source != nullptr;
     }
 
 private:
-    void setEnabled(bool enabled)
+    void set_enabled(bool enabled)
     {
-        if (!connSource)
+        if (!conn_source)
             return;
 
-        connSource->setListenerEnabled(eventType, eventId, enabled);
+        conn_source->set_listener_enabled(event_type, event_id, enabled);
     }
 
-    void moveFrom(EventConnection &other)
+    void move_from(EventConnection &other)
     {
-        connSource = other.connSource;
+        conn_source = other.conn_source;
         prev = other.prev;
         next = other.next;
-        eventType = other.eventType;
-        eventId = other.eventId;
+        event_type = other.event_type;
+        event_id = other.event_id;
 
         if (prev)
             prev->next = this;
-        else if (connSource)
-            connSource->head = this;
+        else if (conn_source)
+            conn_source->head = this;
         if (next)
             next->prev = this;
 
@@ -149,34 +149,34 @@ private:
 
     void invalidate()
     {
-        connSource = nullptr;
+        conn_source = nullptr;
         prev = nullptr;
         next = nullptr;
-        eventType = EventRegistry::getTypeId<void>();
-        eventId = 0;
+        event_type = EventRegistry::get_type_id<void>();
+        event_id = 0;
     }
 
-    ConnectionSource *connSource{};
+    ConnectionSource *conn_source{};
     EventConnection *prev{};
     EventConnection *next{};
-    EventTypeId eventType{EventRegistry::getTypeId<void>()};
-    uint32_t eventId{};
+    EventTypeId event_type{EventRegistry::get_type_id<void>()};
+    uint32_t event_id{};
 };
 
 inline ConnectionSource::~ConnectionSource()
 {
-    EventConnection *curConnection = head;
-    while (curConnection)
+    EventConnection *cur_connection = head;
+    while (cur_connection)
     {
-        EventConnection *next = curConnection->next;
-        curConnection->connSource = nullptr;
-        curConnection->prev = nullptr;
-        curConnection->next = nullptr;
-        curConnection = next;
+        EventConnection *next = cur_connection->next;
+        cur_connection->conn_source = nullptr;
+        cur_connection->prev = nullptr;
+        cur_connection->next = nullptr;
+        cur_connection = next;
     }
 }
 
-inline void ConnectionSource::registerConnection(EventConnection *connection)
+inline void ConnectionSource::register_connection(EventConnection *connection)
 {
     connection->next = head;
     connection->prev = nullptr;
@@ -185,7 +185,7 @@ inline void ConnectionSource::registerConnection(EventConnection *connection)
     head = connection;
 }
 
-inline void ConnectionSource::unregisterConnection(EventConnection *connection)
+inline void ConnectionSource::unregister_connection(EventConnection *connection)
 {
     if (connection->prev)
         connection->prev->next = connection->next;

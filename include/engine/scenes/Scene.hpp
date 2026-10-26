@@ -18,15 +18,15 @@ public:
     void load();
     void unload();
 
-    Entity createEntity();
-    std::vector<EntityId> getEntities();
+    Entity create_entity();
+    std::vector<EntityId> get_entities();
 
-    SceneId getId() const;
+    SceneId get_id() const;
 
-    void setOnLoad(SceneCallback callback);
-    void setOnUnload(SceneCallback callback);
+    void set_on_load(SceneCallback callback);
+    void set_on_unload(SceneCallback callback);
 
-    World &getWorld();
+    World &get_world();
 
 private:
     World &world;
@@ -34,6 +34,6 @@ private:
 
     std::vector<EntityId> entities{};
 
-    SceneCallback onLoad = nullptr;
-    SceneCallback onUnload = nullptr;
+    SceneCallback on_load = nullptr;
+    SceneCallback on_unload = nullptr;
 };

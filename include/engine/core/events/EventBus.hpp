@@ -20,9 +20,9 @@ public:
     template <typename EventType, typename Callback>
     EventConnection connect(Callback &&callback)
     {
-        auto &list = listenersMap[EventRegistry::getTypeId<EventType>()];
+        auto &list = listeners_map[EventRegistry::get_type_id<EventType>()];
 
-        uint32_t id = currentID++;
+        uint32_t id = current_id++;
 
         std::function<void(const Event &)> wrapper =
             [fn = std::forward<Callback>(callback)](const Event &e)
@@ -31,15 +31,15 @@ public:
         list.push_back({{id}, std::move(wrapper)});
         LOG_DEBUG("Event id '{}' connected to EventBus.", id);
 
-        return EventConnection(this, EventRegistry::getTypeId<EventType>(), id);
+        return EventConnection(this, EventRegistry::get_type_id<EventType>(), id);
     }
 
     template <typename EventType>
     void emit(const EventType &event)
     {
-        auto iter = listenersMap.find(EventRegistry::getTypeId<EventType>());
+        auto iter = listeners_map.find(EventRegistry::get_type_id<EventType>());
 
-        if (iter == listenersMap.end())
+        if (iter == listeners_map.end())
             return;
 
         auto &list = iter->second;
@@ -56,25 +56,25 @@ public:
     template <typename EventType>
     void dispatch(EventType event)
     {
-        pendingEvents.push_back(
-            {EventRegistry::getTypeId<EventType>(), std::make_unique<EventType>(std::move(event))}
+        pending_events.push_back(
+            {EventRegistry::get_type_id<EventType>(), std::make_unique<EventType>(std::move(event))}
         );
     }
 
-    void processEvents()
+    void process_events()
     {
-        std::swap(eventQueue, pendingEvents);
+        std::swap(event_queue, pending_events);
 
-        if (eventQueue.empty())
+        if (event_queue.empty())
             return;
 
-        for (auto &event : eventQueue)
+        for (auto &event : event_queue)
         {
             auto queued = std::move(event);
 
-            auto iter = listenersMap.find(queued.type);
+            auto iter = listeners_map.find(queued.type);
 
-            if (iter == listenersMap.end())
+            if (iter == listeners_map.end())
                 continue;
 
             auto &list = iter->second;
@@ -88,12 +88,12 @@ public:
             }
         }
 
-        eventQueue.clear();
+        event_queue.clear();
     }
 
-    void removeDeletedEvents()
+    void remove_deleted_events()
     {
-        for (auto &[type, list] : listenersMap)
+        for (auto &[type, list] : listeners_map)
         {
             std::erase_if(
                 list,
@@ -106,9 +106,9 @@ public:
 private:
     void disconnect(EventTypeId type, uint32_t id) override
     {
-        auto iter = listenersMap.find(type);
+        auto iter = listeners_map.find(type);
 
-        if (iter == listenersMap.end())
+        if (iter == listeners_map.end())
             return;
 
         auto &list = iter->second;
@@ -124,11 +124,11 @@ private:
         }
     }
 
-    void setListenerEnabled(EventTypeId type, uint32_t id, bool enabled) override
+    void set_listener_enabled(EventTypeId type, uint32_t id, bool enabled) override
     {
-        auto iter = listenersMap.find(type);
+        auto iter = listeners_map.find(type);
 
-        if (iter == listenersMap.end())
+        if (iter == listeners_map.end())
             return;
 
         auto &list = iter->second;
@@ -146,11 +146,11 @@ private:
         }
     }
 
-    bool isListenerEnabled(EventTypeId type, uint32_t id) override
+    bool is_listener_enabled(EventTypeId type, uint32_t id) override
     {
-        auto iter = listenersMap.find(type);
+        auto iter = listeners_map.find(type);
 
-        if (iter == listenersMap.end())
+        if (iter == listeners_map.end())
             return false;
 
         auto &list = iter->second;
@@ -165,8 +165,8 @@ private:
         return false;
     }
 
-    std::unordered_map<EventTypeId, std::vector<Listener<const Event &>>> listenersMap{};
-    std::vector<QueuedEvent> eventQueue{};
-    std::vector<QueuedEvent> pendingEvents{};
-    uint32_t currentID{};
+    std::unordered_map<EventTypeId, std::vector<Listener<const Event &>>> listeners_map{};
+    std::vector<QueuedEvent> event_queue{};
+    std::vector<QueuedEvent> pending_events{};
+    uint32_t current_id{};
 };

@@ -18,7 +18,7 @@ void Logger::init()
 
 void Logger::shutdown() {}
 
-void Logger::logImpl(
+void Logger::log_impl(
     LogLevel level, const std::string &message, const char *file, const char *function, int line
 )
 {
@@ -29,7 +29,7 @@ void Logger::logImpl(
 
     std::string timestamp = std::format("{:%Y-%m-%d %H:%M:%S}", time);
 
-    const auto &info = getLogLevelInfo(level);
+    const auto &info = get_log_level_info(level);
 
     // timestamp
     output += "[";
@@ -54,7 +54,7 @@ void Logger::logImpl(
     output += " - ";
     output += message;
 
-    std::string colorReset = "\033[0m";
+    std::string color_reset = "\033[0m";
 
-    std::cout << info.color << output << colorReset << "\n";
+    std::cout << info.color << output << color_reset << "\n";
 }

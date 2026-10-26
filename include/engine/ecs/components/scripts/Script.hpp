@@ -6,21 +6,21 @@ class Script
 public:
     virtual ~Script() = default;
 
-    virtual void onAwake() {}
-    virtual void onActivate() {}
-    virtual void onDeactivate() {}
-    virtual void onStart() {}
-    virtual void onPhysics(float fixedDeltaTime) {}
-    virtual void onPreUpdate() {}
-    virtual void onUpdate(float deltaTime) {}
-    virtual void onPostUpdate() {}
-    virtual void onCollisionEnter(Entity other) {}
-    virtual void onCollisionStay(Entity other) {}
-    virtual void onCollisionExit(Entity other) {}
-    virtual void onTriggerEnter(Entity other) {}
-    virtual void onTriggerStay(Entity other) {}
-    virtual void onTriggerExit(Entity other) {}
-    virtual void onDestruction() {}
+    virtual void on_awake() {}
+    virtual void on_activate() {}
+    virtual void on_deactivate() {}
+    virtual void on_start() {}
+    virtual void on_physics(float fixedDeltaTime) {}
+    virtual void on_pre_update() {}
+    virtual void on_update(float deltaTime) {}
+    virtual void on_post_update() {}
+    virtual void on_collision_enter(Entity other) {}
+    virtual void on_collision_stay(Entity other) {}
+    virtual void on_collision_exit(Entity other) {}
+    virtual void on_trigger_enter(Entity other) {}
+    virtual void on_trigger_stay(Entity other) {}
+    virtual void on_trigger_exit(Entity other) {}
+    virtual void on_destruction() {}
 
     Entity owner;
 };

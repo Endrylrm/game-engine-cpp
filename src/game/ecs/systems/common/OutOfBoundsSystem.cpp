@@ -7,25 +7,25 @@
 #include "game/ecs/components/common/Dead.hpp"
 #include "game/ecs/components/common/OutOfBounds.hpp"
 
-void OutOfBoundsSystem::onUpdate(World &world, float deltaTime)
+void OutOfBoundsSystem::on_update(World &world, float delta_time)
 {
     for (auto [entity, transform, outOfBounds] :
-         world.view<Transform, OutOfBounds>().withEntities())
+         world.view<Transform, OutOfBounds>().with_entities())
     {
-        if (isOutOfBounds(transform.position, outOfBounds.margin))
+        if (is_out_of_bounds(transform.position, outOfBounds.margin))
         {
-            world.addComponent<Dead>(entity);
+            world.add_component<Dead>(entity);
         }
     }
 }
 
-bool OutOfBoundsSystem::isOutOfBounds(Vector2D position, float margin)
+bool OutOfBoundsSystem::is_out_of_bounds(Vector2D position, float margin)
 {
     if (position.y < -margin)
     {
         return true;
     }
-    if (position.y > WindowAPI::getHeight() + margin)
+    if (position.y > WindowAPI::get_height() + margin)
     {
         return true;
     }
@@ -33,7 +33,7 @@ bool OutOfBoundsSystem::isOutOfBounds(Vector2D position, float margin)
     {
         return true;
     }
-    if (position.x > WindowAPI::getWidth() + margin)
+    if (position.x > WindowAPI::get_width() + margin)
     {
         return true;
     }

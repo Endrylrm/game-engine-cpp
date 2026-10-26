@@ -20,12 +20,12 @@ constexpr uint16_t MAX_UINT16 = std::numeric_limits<uint16_t>::max();
 constexpr uint32_t MAX_UINT32 = std::numeric_limits<uint32_t>::max();
 
 // float comparison
-constexpr bool approximatelyEqual(float a, float b)
+constexpr bool approximately_equal(float a, float b)
 {
     return std::abs(a - b) < EPSILON;
 }
 
-constexpr bool approximatelyZero(float value)
+constexpr bool approximately_zero(float value)
 {
     return std::abs(value) < EPSILON;
 }
@@ -52,7 +52,7 @@ constexpr float lerp(float a, float b, float t)
     return a + (b - a) * t;
 }
 
-constexpr float inverseLerp(float a, float b, float value)
+constexpr float inverse_lerp(float a, float b, float value)
 {
     return (value - a) / (b - a);
 }

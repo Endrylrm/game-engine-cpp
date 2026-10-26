@@ -16,8 +16,8 @@ enum class TextureWrap
 
 struct SamplerDescription
 {
-    TextureFilter minFilter = TextureFilter::Linear;
-    TextureFilter magFilter = TextureFilter::Linear;
+    TextureFilter min_filter = TextureFilter::Linear;
+    TextureFilter mag_filter = TextureFilter::Linear;
 
     TextureWrap wrapU = TextureWrap::ClampToEdge;
     TextureWrap wrapV = TextureWrap::ClampToEdge;

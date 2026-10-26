@@ -21,49 +21,49 @@ class SceneManager
 public:
     SceneManager(World &world) : world(world) {}
     template <typename Callback>
-    SceneId registerScene(std::string_view name, Callback &&callback)
+    SceneId register_scene(std::string_view name, Callback &&callback)
     {
-        const SceneId id{nextSceneId++};
+        const SceneId id{next_scene_id++};
         LOG_DEBUG("Registered Scene '{}'...", id.index);
 
         scenes.try_emplace(id, std::forward<Callback>(callback));
-        sceneIds.emplace(StringHandle(name), id);
+        scene_ids.emplace(StringHandle(name), id);
 
         return id;
     }
 
-    void loadScene(SceneId id, SceneLoadMode mode);
-    void loadScene(std::string_view name, SceneLoadMode mode);
+    void load_scene(SceneId id, SceneLoadMode mode);
+    void load_scene(std::string_view name, SceneLoadMode mode);
 
-    void unloadScene(SceneId id);
-    void unloadScene(std::string_view name);
-    void unloadNonPersistentScenes();
-    void unloadAllScenes();
+    void unload_scene(SceneId id);
+    void unload_scene(std::string_view name);
+    void unload_non_persistent_scenes();
+    void unload_all_scenes();
 
-    Scene *getActiveScene(SceneId id) const;
-    Scene *getActiveScene(std::string_view name) const;
+    Scene *get_active_scene(SceneId id) const;
+    Scene *get_active_scene(std::string_view name) const;
 
-    bool isActiveScene(SceneId id) const;
-    bool isActiveScene(std::string_view name) const;
+    bool is_active_scene(SceneId id) const;
+    bool is_active_scene(std::string_view name) const;
 
-    Scene *getMainScene();
-    bool setActiveSceneAsMain(SceneId id);
-    bool setActiveSceneAsMain(std::string_view name);
+    Scene *get_main_scene();
+    bool set_active_scene_as_main(SceneId id);
+    bool set_active_scene_as_main(std::string_view name);
 
-    Scene *getPersistentScene();
+    Scene *get_persistent_scene();
 
-    void processCommands();
+    void process_commands();
 
 private:
-    Scene *buildScene(SceneId id);
-    std::optional<SceneId> findSceneId(std::string_view name) const;
+    Scene *build_scene(SceneId id);
+    std::optional<SceneId> find_scene_id(std::string_view name) const;
 
-    uint32_t nextSceneId{0};
+    uint32_t next_scene_id{0};
     std::unordered_map<SceneId, SceneBuilder> scenes{};
-    std::unordered_map<StringHandle, SceneId, StringHandleHash> sceneIds{};
-    std::vector<std::unique_ptr<Scene>> activeScenes{};
-    std::vector<SceneCommand> pendingCommands{};
-    Scene *mainScene{};
-    Scene *persistentScene{};
+    std::unordered_map<StringHandle, SceneId, StringHandleHash> scene_ids{};
+    std::vector<std::unique_ptr<Scene>> active_scenes{};
+    std::vector<SceneCommand> pending_commands{};
+    Scene *main_scene{};
+    Scene *persistent_scene{};
     World &world;
 };

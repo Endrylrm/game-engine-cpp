@@ -2,12 +2,12 @@
 
 #include <iostream>
 
-SDLInputManager::SDLInputManager(bool *isRunning)
+SDLInputManager::SDLInputManager(bool *is_running)
 {
-    running = isRunning;
+    running = is_running;
 }
 
-void SDLInputManager::processEvent()
+void SDLInputManager::process_event()
 {
     SDL_Event event;
 
@@ -17,57 +17,57 @@ void SDLInputManager::processEvent()
         {
         case SDL_EVENT_KEY_DOWN:
         {
-            KeyInput key = translateKey(event.key.key);
+            KeyInput key = translate_key(event.key.key);
 
-            if (!keysDown.contains(key))
-                keysPressed.insert(key);
+            if (!keys_down.contains(key))
+                keys_pressed.insert(key);
 
-            keysDown.insert(key);
+            keys_down.insert(key);
             break;
         }
 
         case SDL_EVENT_KEY_UP:
         {
-            KeyInput key = translateKey(event.key.key);
+            KeyInput key = translate_key(event.key.key);
 
-            keysDown.erase(key);
-            keysReleased.insert(key);
+            keys_down.erase(key);
+            keys_released.insert(key);
             break;
         }
 
         case SDL_EVENT_MOUSE_BUTTON_DOWN:
         {
-            MouseInput btn = translateMouseButton(event.button.button);
+            MouseInput btn = translate_mouse_button(event.button.button);
 
-            if (!mouseDown.contains(btn))
-                mousePressed.insert(btn);
+            if (!mouse_down.contains(btn))
+                mouse_pressed.insert(btn);
 
-            mouseDown.insert(btn);
+            mouse_down.insert(btn);
             break;
         }
 
         case SDL_EVENT_MOUSE_BUTTON_UP:
         {
-            MouseInput btn = translateMouseButton(event.button.button);
+            MouseInput btn = translate_mouse_button(event.button.button);
 
-            mouseDown.erase(btn);
-            mouseReleased.insert(btn);
+            mouse_down.erase(btn);
+            mouse_released.insert(btn);
             break;
         }
         case SDL_EVENT_MOUSE_MOTION:
         {
-            mouseState.x = event.motion.x;
-            mouseState.y = event.motion.y;
+            mouse_state.x = event.motion.x;
+            mouse_state.y = event.motion.y;
 
-            mouseState.dx += event.motion.xrel;
-            mouseState.dy += event.motion.yrel;
+            mouse_state.dx += event.motion.xrel;
+            mouse_state.dy += event.motion.yrel;
 
             break;
         }
         case SDL_EVENT_MOUSE_WHEEL:
         {
-            mouseState.scrollX += event.wheel.x;
-            mouseState.scrollY += event.wheel.y;
+            mouse_state.scroll_x += event.wheel.x;
+            mouse_state.scroll_y += event.wheel.y;
 
             break;
         }
@@ -78,96 +78,96 @@ void SDLInputManager::processEvent()
     }
 }
 
-void SDLInputManager::beginFrame()
+void SDLInputManager::begin_frame()
 {
-    keysPressed.clear();
-    keysReleased.clear();
-    mousePressed.clear();
-    mouseReleased.clear();
+    keys_pressed.clear();
+    keys_released.clear();
+    mouse_pressed.clear();
+    mouse_released.clear();
 
-    mouseState.dx = 0;
-    mouseState.dy = 0;
+    mouse_state.dx = 0;
+    mouse_state.dy = 0;
 
-    mouseState.scrollX = 0;
-    mouseState.scrollY = 0;
+    mouse_state.scroll_x = 0;
+    mouse_state.scroll_y = 0;
 }
 
-bool SDLInputManager::isKeyDown(KeyInput key) const
+bool SDLInputManager::is_key_down(KeyInput key) const
 {
-    return keysDown.contains(key);
+    return keys_down.contains(key);
 }
 
-bool SDLInputManager::isKeyPressed(KeyInput key) const
+bool SDLInputManager::is_key_pressed(KeyInput key) const
 {
-    return keysPressed.contains(key);
+    return keys_pressed.contains(key);
 }
 
-bool SDLInputManager::isKeyReleased(KeyInput key) const
+bool SDLInputManager::is_key_released(KeyInput key) const
 {
-    return keysReleased.contains(key);
+    return keys_released.contains(key);
 }
 
-bool SDLInputManager::isMouseButtonDown(MouseInput key) const
+bool SDLInputManager::is_mouse_button_down(MouseInput key) const
 {
-    return mouseDown.contains(key);
+    return mouse_down.contains(key);
 }
 
-bool SDLInputManager::isMouseButtonPressed(MouseInput key) const
+bool SDLInputManager::is_mouse_button_pressed(MouseInput key) const
 {
-    return mousePressed.contains(key);
+    return mouse_pressed.contains(key);
 }
 
-bool SDLInputManager::isMouseButtonReleased(MouseInput key) const
+bool SDLInputManager::is_mouse_button_released(MouseInput key) const
 {
-    return mouseReleased.contains(key);
+    return mouse_released.contains(key);
 }
 
-float SDLInputManager::getMouseX() const
+float SDLInputManager::get_mouse_x() const
 {
-    return mouseState.x;
+    return mouse_state.x;
 }
 
-float SDLInputManager::getMouseY() const
+float SDLInputManager::get_mouse_y() const
 {
-    return mouseState.y;
+    return mouse_state.y;
 }
 
-Vector2D SDLInputManager::getMouse() const
+Vector2D SDLInputManager::get_mouse() const
 {
-    return Vector2D{mouseState.x, mouseState.y};
+    return Vector2D{mouse_state.x, mouse_state.y};
 }
 
-float SDLInputManager::getMouseDeltaX() const
+float SDLInputManager::get_mouse_delta_x() const
 {
-    return mouseState.dx;
+    return mouse_state.dx;
 }
 
-float SDLInputManager::getMouseDeltaY() const
+float SDLInputManager::get_mouse_delta_y() const
 {
-    return mouseState.dy;
+    return mouse_state.dy;
 }
 
-Vector2D SDLInputManager::getMouseDelta() const
+Vector2D SDLInputManager::get_mouse_delta() const
 {
-    return Vector2D{mouseState.dx, mouseState.dy};
+    return Vector2D{mouse_state.dx, mouse_state.dy};
 }
 
-float SDLInputManager::getMouseScrollX() const
+float SDLInputManager::get_mouse_scroll_x() const
 {
-    return mouseState.scrollX;
+    return mouse_state.scroll_x;
 }
 
-float SDLInputManager::getMouseScrollY() const
+float SDLInputManager::get_mouse_scroll_y() const
 {
-    return mouseState.scrollY;
+    return mouse_state.scroll_y;
 }
 
-Vector2D SDLInputManager::getMouseScroll() const
+Vector2D SDLInputManager::get_mouse_scroll() const
 {
-    return Vector2D{mouseState.scrollX, mouseState.scrollY};
+    return Vector2D{mouse_state.scroll_x, mouse_state.scroll_y};
 }
 
-KeyInput SDLInputManager::translateKey(SDL_Keycode key)
+KeyInput SDLInputManager::translate_key(SDL_Keycode key)
 {
     switch (key)
     {
@@ -311,7 +311,7 @@ KeyInput SDLInputManager::translateKey(SDL_Keycode key)
     }
 }
 
-MouseInput SDLInputManager::translateMouseButton(Uint8 key)
+MouseInput SDLInputManager::translate_mouse_button(Uint8 key)
 {
     switch (key)
     {

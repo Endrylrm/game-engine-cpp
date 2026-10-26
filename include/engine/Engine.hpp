@@ -17,7 +17,7 @@
 class Engine
 {
 public:
-    Engine(Game &gameRef) : game(gameRef) {}
+    Engine(Game &game_ref) : game(game_ref) {}
 
     // Prevent copying and moving of the engine
     Engine(const Engine &) = delete;
@@ -30,9 +30,9 @@ public:
 
 private:
     void begin_frame();
-    void physics_step(float fixedDeltaTime);
+    void physics_step(float fixed_delta_time);
     void pre_update();
-    void update(float deltaTime);
+    void update(float delta_time);
     void post_update();
     void render();
     void process_commands();

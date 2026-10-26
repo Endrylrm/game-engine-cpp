@@ -7,15 +7,15 @@
 
 #include "game/ecs/components/common/ScreenClamp.hpp"
 
-void ScreenClampSystem::onPostUpdate(World &world)
+void ScreenClampSystem::on_post_update(World &world)
 {
     for (auto [transform, collider, clamp] : world.view<Transform, BoxCollider, ScreenClamp>())
     {
         if (clamp.horizontal)
             transform.position.x =
-                Math::clamp(transform.position.x, 0.0f, WindowAPI::getWidth() - collider.size.x);
+                Math::clamp(transform.position.x, 0.0f, WindowAPI::get_width() - collider.size.x);
         if (clamp.vertical)
             transform.position.y =
-                Math::clamp(transform.position.y, 0.0f, WindowAPI::getHeight() - collider.size.y);
+                Math::clamp(transform.position.y, 0.0f, WindowAPI::get_height() - collider.size.y);
     }
 }

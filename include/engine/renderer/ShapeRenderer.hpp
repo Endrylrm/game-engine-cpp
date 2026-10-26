@@ -7,10 +7,10 @@
 class ShapeRenderer
 {
 public:
-    void init(RenderDevice *newDevice);
+    void init(RenderDevice *new_device);
 
-    void drawRect(Vector2D position, Vector2D size, Color color);
-    void drawRect(Rect2D rect, Color color);
+    void draw_rect(Vector2D position, Vector2D size, Color color);
+    void draw_rect(Rect2D rect, Color color);
 
 private:
     RenderDevice *device = nullptr;

@@ -8,14 +8,14 @@
 class SDLWindow final : public Window
 {
 public:
-    SDLWindow(std::string newTitle, int newWidth, int newHeight);
+    SDLWindow(std::string new_title, int new_width, int new_height);
     ~SDLWindow() override;
-    bool onInit() override;
-    int getWidth() const override;
-    int getHeight() const override;
-    std::string getTitle() const override;
-    SDL_Window *getWindowHandle() const;
-    void quitGame() override;
+    bool on_init() override;
+    int get_width() const override;
+    int get_height() const override;
+    std::string get_title() const override;
+    SDL_Window *get_window_handle() const;
+    void quit_game() override;
 
 private:
     SDL_Window *window{};

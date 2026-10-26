@@ -28,14 +28,14 @@ public:
                static_cast<Underlying>(flags);
     }
 
-    constexpr bool hasAny(Enum flags) const
+    constexpr bool has_any(Enum flags) const
     {
         return (static_cast<Underlying>(value) & static_cast<Underlying>(flags)) != 0;
     }
 
-    constexpr void assign(Enum newValue)
+    constexpr void assign(Enum new_value)
     {
-        value = newValue;
+        value = new_value;
     }
 
     constexpr void set(Enum flags, bool enabled)
@@ -46,10 +46,10 @@ public:
             remove(flags);
     }
 
-    constexpr void replace(Enum removeFlags, Enum addFlags)
+    constexpr void replace(Enum remove_flags, Enum add_flags)
     {
-        remove(removeFlags);
-        add(addFlags);
+        remove(remove_flags);
+        add(add_flags);
     }
 
     constexpr void clear()

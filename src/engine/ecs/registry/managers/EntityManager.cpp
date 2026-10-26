@@ -6,10 +6,10 @@ EntityId EntityManager::create()
 {
     uint32_t index;
 
-    if (!freeIds.empty())
+    if (!free_ids.empty())
     {
-        index = freeIds.back();
-        freeIds.pop_back();
+        index = free_ids.back();
+        free_ids.pop_back();
 
         auto &slot = slots[index];
         slot.alive = true;
@@ -33,7 +33,7 @@ void EntityManager::destroy(EntityId entity)
     slot.alive = false;
     slot.generation++;
 
-    freeIds.push_back(entity.index);
+    free_ids.push_back(entity.index);
     LOG_DEBUG("Entity destroyed: {}, {}.", entity.index, entity.generation);
 }
 

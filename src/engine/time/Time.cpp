@@ -1,49 +1,49 @@
 #include "engine/time/Time.hpp"
 
-std::chrono::duration<float> Time::getTargetFrameTime() const
+std::chrono::duration<float> Time::get_target_frame_time() const
 {
-    return targetFrameTime;
+    return target_frame_time;
 }
 
-void Time::setTargetFPS(const uint32_t FPS)
+void Time::set_target_fps(const uint32_t fps)
 {
-    currentFPS = FPS;
-    targetFrameTime = std::chrono::duration<float>(1.0 / currentFPS);
+    current_fps = fps;
+    target_frame_time = std::chrono::duration<float>(1.0 / current_fps);
 }
 
 void Time::tick()
 {
     auto now = Clock::now();
-    deltaTime = std::chrono::duration<float>(now - lastTime).count();
-    lastTime = now;
-    deltaTime = std::min(deltaTime, 0.25f);
-    accumulator += deltaTime;
+    delta_time = std::chrono::duration<float>(now - last_time).count();
+    last_time = now;
+    delta_time = std::min(delta_time, 0.25f);
+    accumulator += delta_time;
 }
 
-int Time::consumeFixedSteps()
+int Time::consume_fixed_steps()
 {
     int steps = 0;
 
-    while (accumulator >= fixedDeltaTime)
+    while (accumulator >= fixed_delta_time)
     {
-        accumulator -= fixedDeltaTime;
+        accumulator -= fixed_delta_time;
         ++steps;
     }
 
     return steps;
 }
 
-float Time::getDeltaTime() const
+float Time::get_delta_time() const
 {
-    return deltaTime;
+    return delta_time;
 }
 
-float Time::getFixedDeltaTime() const
+float Time::get_fixed_delta_time() const
 {
-    return fixedDeltaTime;
+    return fixed_delta_time;
 }
 
-uint32_t Time::getFPS() const
+uint32_t Time::get_fps() const
 {
-    return currentFPS;
+    return current_fps;
 }

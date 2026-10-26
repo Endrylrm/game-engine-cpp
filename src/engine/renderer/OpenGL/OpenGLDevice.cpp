@@ -11,7 +11,7 @@
 #include "engine/renderer/descriptions/Mesh.hpp"
 #include "engine/renderer/descriptions/Shader.hpp"
 
-OpenGLDevice::OpenGLDevice(SDL_Window *windowHandle) : window(windowHandle) {}
+OpenGLDevice::OpenGLDevice(SDL_Window *window_handle) : window(window_handle) {}
 
 OpenGLDevice::~OpenGLDevice()
 {
@@ -33,19 +33,19 @@ bool OpenGLDevice::init()
         return false;
     }
 
-    if (!initGlad())
+    if (!init_glad())
         return false;
 
-    if (!initTexturePipeline())
+    if (!init_texture_pipeline())
         return false;
 
-    if (!initTrianglePipeline())
+    if (!init_triangle_pipeline())
         return false;
 
-    if (!initRectPipeline())
+    if (!init_rect_pipeline())
         return false;
 
-    if (!initOpenGLState())
+    if (!init_open_gl_state())
         return false;
 
     return true;
@@ -62,12 +62,12 @@ void OpenGLDevice::present()
     SDL_GL_SwapWindow(window);
 }
 
-void OpenGLDevice::setViewport(Rect2D rect)
+void OpenGLDevice::set_viewport(Rect2D rect)
 {
     glViewport(rect.x, rect.y, rect.w, rect.h);
 }
 
-std::unique_ptr<Texture> OpenGLDevice::createTexture(const std::string &path)
+std::unique_ptr<Texture> OpenGLDevice::create_texture(const std::string &path)
 {
     SDL_Surface *surface = IMG_Load(path.c_str());
 
@@ -77,21 +77,21 @@ std::unique_ptr<Texture> OpenGLDevice::createTexture(const std::string &path)
         return nullptr;
     }
 
-    SDL_Surface *rgbaSurface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
+    SDL_Surface *rgba_surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
     SDL_DestroySurface(surface);
 
-    if (!rgbaSurface)
+    if (!rgba_surface)
     {
         LOG_ERROR("Unable to create surface: {}", SDL_GetError());
         return nullptr;
     }
 
-    int width = rgbaSurface->w;
-    int height = rgbaSurface->h;
+    int width = rgba_surface->w;
+    int height = rgba_surface->h;
 
-    GLuint textureId;
-    glGenTextures(1, &textureId);
-    glBindTexture(GL_TEXTURE_2D, textureId);
+    GLuint texture_id;
+    glGenTextures(1, &texture_id);
+    glBindTexture(GL_TEXTURE_2D, texture_id);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -101,14 +101,22 @@ std::unique_ptr<Texture> OpenGLDevice::createTexture(const std::string &path)
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     glTexImage2D(
-        GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, rgbaSurface->pixels
+        GL_TEXTURE_2D,
+        0,
+        GL_RGBA8,
+        width,
+        height,
+        0,
+        GL_RGBA,
+        GL_UNSIGNED_BYTE,
+        rgba_surface->pixels
     );
     glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    SDL_DestroySurface(rgbaSurface);
+    SDL_DestroySurface(rgba_surface);
 
-    if (textureId == 0)
+    if (texture_id == 0)
     {
         LOG_ERROR("Unable to create texture from image in path: '{}'", path);
         return nullptr;
@@ -116,19 +124,19 @@ std::unique_ptr<Texture> OpenGLDevice::createTexture(const std::string &path)
 
     LOG_DEBUG("OpenGL Texture Created.");
 
-    return std::make_unique<OpenGLTexture>(textureId, width, height);
+    return std::make_unique<OpenGLTexture>(texture_id, width, height);
 }
 
-void OpenGLDevice::drawTexture(Texture *texture, Rect2D rect)
+void OpenGLDevice::draw_texture(Texture *texture, Rect2D rect)
 {
-    auto *glTexture = static_cast<OpenGLTexture *>(texture);
+    auto *gl_texture = static_cast<OpenGLTexture *>(texture);
 
-    if (!glTexture || !glTexture->isValid())
+    if (!gl_texture || !gl_texture->is_valid())
         return;
 
-    GLuint handle = glTexture->getNativeHandle();
+    GLuint handle = gl_texture->get_native_handle();
 
-    Vector4D texColor(1.0f, 1.0f, 1.0f, 1.0f);
+    Vector4D tex_color(1.0f, 1.0f, 1.0f, 1.0f);
 
     Matrix4 model = Matrix4::translation(Vector3D(rect.x, rect.y, 0.0f)) *
                     Matrix4::scale(Vector3D(rect.w, rect.h, 1.0f));
@@ -136,18 +144,18 @@ void OpenGLDevice::drawTexture(Texture *texture, Rect2D rect)
     Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
     Matrix4 view = Matrix4::identity();
 
-    textureShader.use();
-    textureShader.set("model", GLMConverter::toGLM(model));
-    textureShader.set("view", GLMConverter::toGLM(view));
-    textureShader.set("projection", GLMConverter::toGLM(projection));
-    textureShader.set("texColor", GLMConverter::toGLM(texColor));
+    texture_shader.use();
+    texture_shader.set("model", GLMConverter::to_glm(model));
+    texture_shader.set("view", GLMConverter::to_glm(view));
+    texture_shader.set("projection", GLMConverter::to_glm(projection));
+    texture_shader.set("texColor", GLMConverter::to_glm(tex_color));
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, handle);
-    textureShader.set("ourTexture", 0);
-    textureMesh.draw();
+    texture_shader.set("ourTexture", 0);
+    texture_mesh.draw();
 }
 
-void OpenGLDevice::drawRect(Rect2D rect, Color color)
+void OpenGLDevice::draw_rect(Rect2D rect, Color color)
 {
     Matrix4 model = Matrix4::translation(Vector3D(rect.x, rect.y, 0.0f)) *
                     Matrix4::scale(Vector3D(rect.w, rect.h, 1.0f));
@@ -155,17 +163,17 @@ void OpenGLDevice::drawRect(Rect2D rect, Color color)
     Matrix4 projection = Matrix4::orthographic(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
     Matrix4 view = Matrix4::identity();
 
-    Vector4D rectColor(color.r, color.g, color.b, color.a);
+    Vector4D rect_color(color.r, color.g, color.b, color.a);
 
-    rectShader.use();
-    rectShader.set("model", GLMConverter::toGLM(model));
-    rectShader.set("view", GLMConverter::toGLM(view));
-    rectShader.set("projection", GLMConverter::toGLM(projection));
-    rectShader.set("rectColor", GLMConverter::toGLM(rectColor));
-    rectMesh.draw();
+    rect_shader.use();
+    rect_shader.set("model", GLMConverter::to_glm(model));
+    rect_shader.set("view", GLMConverter::to_glm(view));
+    rect_shader.set("projection", GLMConverter::to_glm(projection));
+    rect_shader.set("rectColor", GLMConverter::to_glm(rect_color));
+    rect_mesh.draw();
 }
 
-bool OpenGLDevice::initGlad()
+bool OpenGLDevice::init_glad()
 {
     int version = gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
 
@@ -183,17 +191,17 @@ bool OpenGLDevice::initGlad()
     return true;
 }
 
-bool OpenGLDevice::initOpenGLState()
+bool OpenGLDevice::init_open_gl_state()
 {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     return true;
 }
 
-bool OpenGLDevice::initTexturePipeline()
+bool OpenGLDevice::init_texture_pipeline()
 {
     // clang-format off
-    constexpr float vertices[] = {
+    constexpr float VERTICES[] = {
         // positions        // UV
         0.0f, 0.0f, 0.0f,   1.0f, 0.0f,   // top left
         1.0f, 0.0f, 0.0f,   0.0f, 0.0f,   // top right
@@ -203,7 +211,7 @@ bool OpenGLDevice::initTexturePipeline()
     // clang-format on
 
     // clang-format off
-    constexpr GLuint indices[] = {
+    constexpr GLuint INDICES[] = {
         0, 1, 3, // first triangle
         1, 2, 3  // second triangle
     };
@@ -217,12 +225,12 @@ bool OpenGLDevice::initTexturePipeline()
     };
 
     MeshDescription desc =
-        makeMeshDescription<float>(vertices, indices, layout, PrimitiveType::Triangles);
+        make_mesh_description<float>(VERTICES, INDICES, layout, PrimitiveType::Triangles);
 
-    if (!textureMesh.init(desc))
+    if (!texture_mesh.init(desc))
         return false;
 
-    const std::string vertexShaderSource = R"(
+    const std::string VERTEX_SHADER_SOURCE = R"(
     #version 460 core
     layout (location = 0) in vec3 aPosition;
     layout (location = 1) in vec2 aTexCoord;
@@ -240,7 +248,7 @@ bool OpenGLDevice::initTexturePipeline()
     }
     )";
 
-    const std::string fragmentShaderSource = R"(
+    const std::string FRAGMENT_SHADER_SOURCE = R"(
     #version 460 core
     out vec4 fragColor;
   
@@ -256,23 +264,23 @@ bool OpenGLDevice::initTexturePipeline()
     )";
 
     ShaderSource sources[] = {
-        {ShaderStage::Vertex,   vertexShaderSource  },
-        {ShaderStage::Fragment, fragmentShaderSource}
+        {ShaderStage::Vertex,   VERTEX_SHADER_SOURCE  },
+        {ShaderStage::Fragment, FRAGMENT_SHADER_SOURCE}
     };
 
-    ShaderDescription shaderDesc = makeShaderDescription(sources);
+    ShaderDescription shader_desc = make_shader_description(sources);
 
-    if (!textureShader.init(shaderDesc))
+    if (!texture_shader.init(shader_desc))
         return false;
 
     LOG_DEBUG("OpenGL Pipeline: Texture Pipeline Initialized.");
     return true;
 }
 
-bool OpenGLDevice::initTrianglePipeline()
+bool OpenGLDevice::init_triangle_pipeline()
 {
     // clang-format off
-    constexpr float vertices[] = {
+    constexpr float VERTICES[] = {
         // positions   // colors
          0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   // bottom right
         -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   // bottom left
@@ -281,7 +289,7 @@ bool OpenGLDevice::initTrianglePipeline()
     // clang-format on
 
     // clang-format off
-    constexpr uint32_t indices[] = {
+    constexpr uint32_t INDICES[] = {
         0, 1, 2
     };
     // clang-format on
@@ -294,12 +302,12 @@ bool OpenGLDevice::initTrianglePipeline()
     };
 
     MeshDescription desc =
-        makeMeshDescription<float>(vertices, indices, layout, PrimitiveType::Triangles);
+        make_mesh_description<float>(VERTICES, INDICES, layout, PrimitiveType::Triangles);
 
-    if (!triangleMesh.init(desc))
+    if (!triangle_mesh.init(desc))
         return false;
 
-    const std::string vertexShaderSource = R"(
+    const std::string VERTEX_SHADER_SOURCE = R"(
     #version 460 core
     layout (location = 0) in vec2 aPosition;
     layout (location = 1) in vec3 aColor;
@@ -313,7 +321,7 @@ bool OpenGLDevice::initTrianglePipeline()
     }
     )";
 
-    const std::string fragmentShaderSource = R"(
+    const std::string FRAGMENT_SHADER_SOURCE = R"(
     #version 460 core
     out vec4 fragColor;
     in vec3 triangleColor;
@@ -325,23 +333,23 @@ bool OpenGLDevice::initTrianglePipeline()
     )";
 
     ShaderSource sources[] = {
-        {ShaderStage::Vertex,   vertexShaderSource  },
-        {ShaderStage::Fragment, fragmentShaderSource}
+        {ShaderStage::Vertex,   VERTEX_SHADER_SOURCE  },
+        {ShaderStage::Fragment, FRAGMENT_SHADER_SOURCE}
     };
 
-    ShaderDescription shaderDesc = makeShaderDescription(sources);
+    ShaderDescription shader_desc = make_shader_description(sources);
 
-    if (!triangleShader.init(shaderDesc))
+    if (!triangle_shader.init(shader_desc))
         return false;
 
     LOG_DEBUG("OpenGL Pipeline: Triangle Pipeline Initialized.");
     return true;
 }
 
-bool OpenGLDevice::initRectPipeline()
+bool OpenGLDevice::init_rect_pipeline()
 {
     // clang-format off
-    constexpr float vertices[] = {
+    constexpr float VERTICES[] = {
          1.0f,  1.0f, // bottom right
          1.0f,  0.0f, // top right
          0.0f,  0.0f, // top left
@@ -350,7 +358,7 @@ bool OpenGLDevice::initRectPipeline()
     // clang-format on
 
     // clang-format off
-    constexpr uint32_t indices[] = {
+    constexpr uint32_t INDICES[] = {
         0, 1, 3,
         1, 2, 3
     };
@@ -361,12 +369,12 @@ bool OpenGLDevice::initRectPipeline()
     VertexLayout layout{.attributes{position}};
 
     MeshDescription desc =
-        makeMeshDescription<float>(vertices, indices, layout, PrimitiveType::Triangles);
+        make_mesh_description<float>(VERTICES, INDICES, layout, PrimitiveType::Triangles);
 
-    if (!rectMesh.init(desc))
+    if (!rect_mesh.init(desc))
         return false;
 
-    const std::string vertexShaderSource = R"(
+    const std::string VERTEX_SHADER_SOURCE = R"(
     #version 460 core
     layout (location = 0) in vec2 aPosition;
 
@@ -380,7 +388,7 @@ bool OpenGLDevice::initRectPipeline()
     }
     )";
 
-    const std::string fragmentShaderSource = R"(
+    const std::string FRAGMENT_SHADER_SOURCE = R"(
     #version 460 core
     out vec4 fragColor;
 
@@ -393,13 +401,13 @@ bool OpenGLDevice::initRectPipeline()
     )";
 
     ShaderSource sources[] = {
-        {ShaderStage::Vertex,   vertexShaderSource  },
-        {ShaderStage::Fragment, fragmentShaderSource}
+        {ShaderStage::Vertex,   VERTEX_SHADER_SOURCE  },
+        {ShaderStage::Fragment, FRAGMENT_SHADER_SOURCE}
     };
 
-    ShaderDescription shaderDesc = makeShaderDescription(sources);
+    ShaderDescription shader_desc = make_shader_description(sources);
 
-    if (!rectShader.init(shaderDesc))
+    if (!rect_shader.init(shader_desc))
         return false;
 
     LOG_DEBUG("OpenGL Pipeline: Rectangle Pipeline Initialized.");

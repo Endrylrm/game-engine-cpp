@@ -48,42 +48,42 @@ Vector3D Vector3D::back()
     return {0.0f, 0.0f, -1.0f};
 }
 
-bool Vector3D::isZero() const
+bool Vector3D::is_zero() const
 {
-    return lengthSquared() < Math::EPSILON;
+    return length_squared() < Math::EPSILON;
 }
 
 float Vector3D::length() const
 {
-    float vectorLength = std::hypot(std::hypot(x, y), z);
-    return vectorLength;
+    float vector_length = std::hypot(std::hypot(x, y), z);
+    return vector_length;
 }
 
-float Vector3D::lengthSquared() const
+float Vector3D::length_squared() const
 {
     return x * x + y * y + z * z;
 }
 
 void Vector3D::normalize()
 {
-    float vectorLength = length();
+    float vector_length = length();
 
-    if (vectorLength > 0.0f)
+    if (vector_length > 0.0f)
     {
-        x /= vectorLength;
-        y /= vectorLength;
-        z /= vectorLength;
+        x /= vector_length;
+        y /= vector_length;
+        z /= vector_length;
     }
 }
 
 Vector3D Vector3D::normalized() const
 {
-    float vectorLength = length();
+    float vector_length = length();
 
-    if (vectorLength < Math::EPSILON)
+    if (vector_length < Math::EPSILON)
         return {0.0f, 0.0f, 0.0f};
 
-    return {x / vectorLength, y / vectorLength, z / vectorLength};
+    return {x / vector_length, y / vector_length, z / vector_length};
 }
 
 float Vector3D::distance(const Vector3D &other) const
@@ -95,7 +95,7 @@ float Vector3D::distance(const Vector3D &other) const
     return std::hypot(std::hypot(dx, dy), dz);
 }
 
-float Vector3D::distanceSquared(const Vector3D &other) const
+float Vector3D::distance_squared(const Vector3D &other) const
 {
     float dx = other.x - x;
     float dy = other.y - y;
@@ -128,7 +128,7 @@ float Vector3D::angle(const Vector3D &other) const
     return std::acos(cosine);
 }
 
-float Vector3D::angleDegrees(const Vector3D &other) const
+float Vector3D::angle_degrees(const Vector3D &other) const
 {
     return angle(other) * 180.0f / Math::PI;
 }
@@ -138,7 +138,7 @@ float Vector3D::pitch() const
     return std::atan2(y, std::hypot(x * x, z * z));
 }
 
-float Vector3D::pitchDegrees() const
+float Vector3D::pitch_degrees() const
 {
     return std::atan2(z, std::hypot(x * x, y * y)) * 180.0f / Math::PI;
 }
@@ -148,43 +148,43 @@ float Vector3D::yaw() const
     return std::atan2(x, z);
 }
 
-float Vector3D::yawDegrees() const
+float Vector3D::yaw_degrees() const
 {
     return std::atan2(y, x) * 180.0f / Math::PI;
 }
 
-Vector3D Vector3D::moveTowards(const Vector3D &target, float maxDistanceDelta) const
+Vector3D Vector3D::move_towards(const Vector3D &target, float max_distance_delta) const
 {
     Vector3D delta = target - *this;
 
     float distance = delta.length();
 
-    if (distance <= maxDistanceDelta || distance < Math::EPSILON)
+    if (distance <= max_distance_delta || distance < Math::EPSILON)
         return target;
 
-    return *this + delta / distance * maxDistanceDelta;
+    return *this + delta / distance * max_distance_delta;
 }
 
-Vector3D Vector3D::rotateTowards(const Vector3D &target, float maxRadiansDelta) const
+Vector3D Vector3D::rotate_towards(const Vector3D &target, float max_radians_delta) const
 {
     Vector3D from = normalized();
     Vector3D to = target.normalized();
 
-    float dotProduct = from.dot(to);
+    float dot_product = from.dot(to);
 
-    dotProduct = std::clamp(dotProduct, -1.0f, 1.0f);
+    dot_product = std::clamp(dot_product, -1.0f, 1.0f);
 
-    float angle = std::acos(dotProduct);
+    float angle = std::acos(dot_product);
 
     if (angle < Math::EPSILON)
         return target;
 
-    float t = std::min(1.0f, maxRadiansDelta / angle);
+    float t = std::min(1.0f, max_radians_delta / angle);
 
-    float sinAngle = std::sin(angle);
+    float sin_angle = std::sin(angle);
 
-    float a = std::sin((1.0f - t) * angle) / sinAngle;
-    float b = std::sin(t * angle) / sinAngle;
+    float a = std::sin((1.0f - t) * angle) / sin_angle;
+    float b = std::sin(t * angle) / sin_angle;
 
     return (from * a + to * b);
 }
@@ -196,12 +196,12 @@ Vector3D Vector3D::lerp(const Vector3D &target, float t) const
 
 Vector3D Vector3D::project(const Vector3D &onto) const
 {
-    float lengthSq = onto.lengthSquared();
+    float length_sq = onto.length_squared();
 
-    if (lengthSq == 0.0f)
+    if (length_sq == 0.0f)
         return Vector3D(0.0f);
 
-    return onto * (dot(onto) / lengthSq);
+    return onto * (dot(onto) / length_sq);
 }
 
 Vector3D Vector3D::reflect(const Vector3D &normal) const
@@ -209,26 +209,26 @@ Vector3D Vector3D::reflect(const Vector3D &normal) const
     return *this - normal * (2.0f * dot(normal));
 }
 
-Vector3D Vector3D::clampMagnitude(float maxLength) const
+Vector3D Vector3D::clamp_magnitude(float max_length) const
 {
-    float vectorLength = length();
+    float vector_length = length();
 
-    if (vectorLength <= maxLength)
+    if (vector_length <= max_length)
         return *this;
 
-    return normalized() * maxLength;
+    return normalized() * max_length;
 }
 
 Vector3D Vector3D::perpendicular() const
 {
-    const float absX = std::abs(x);
-    const float absY = std::abs(y);
-    const float absZ = std::abs(z);
+    const float ABS_X = std::abs(x);
+    const float ABS_Y = std::abs(y);
+    const float ABS_Z = std::abs(z);
 
-    if (absX <= absY && absX <= absZ)
+    if (ABS_X <= ABS_Y && ABS_X <= ABS_Z)
         return cross(Vector3D::right()).normalized();
 
-    if (absY <= absZ)
+    if (ABS_Y <= ABS_Z)
         return cross(Vector3D::down()).normalized();
 
     return cross(Vector3D::forward()).normalized();
@@ -319,8 +319,8 @@ Vector3D &Vector3D::operator=(const Vector4D &other)
 
 bool Vector3D::operator==(const Vector3D &other) const
 {
-    return Math::approximatelyEqual(x, other.x) && Math::approximatelyEqual(y, other.y) &&
-           Math::approximatelyEqual(z, other.z);
+    return Math::approximately_equal(x, other.x) && Math::approximately_equal(y, other.y) &&
+           Math::approximately_equal(z, other.z);
 }
 
 bool Vector3D::operator!=(const Vector3D &other) const

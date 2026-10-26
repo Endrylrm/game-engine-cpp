@@ -13,7 +13,7 @@ struct ViewIterator
     ViewIterator(EntityIt it, EntityIt end, std::tuple<ComponentStorage<Components> &...> &storages)
         : iter(it), end(end), storages(storages)
     {
-        skipInvalid();
+        skip_invalid();
     }
 
     bool operator==(const ViewIterator &other) const
@@ -29,7 +29,7 @@ struct ViewIterator
     ViewIterator &operator++()
     {
         ++iter;
-        skipInvalid();
+        skip_invalid();
         return *this;
     }
 
@@ -42,13 +42,13 @@ struct ViewIterator
     }
 
 private:
-    void skipInvalid()
+    void skip_invalid()
     {
-        while (iter != end && !allContain(*iter))
+        while (iter != end && !all_contain(*iter))
             ++iter;
     }
 
-    bool allContain(EntityId entity) const
+    bool all_contain(EntityId entity) const
     {
         return (std::get<ComponentStorage<Components> &>(storages).contains(entity) && ...);
     }

@@ -5,9 +5,9 @@ class Window
 {
 public:
     virtual ~Window() = default;
-    virtual bool onInit() = 0;
-    virtual int getWidth() const = 0;
-    virtual int getHeight() const = 0;
-    virtual std::string getTitle() const = 0;
-    virtual void quitGame() = 0;
+    virtual bool on_init() = 0;
+    virtual int get_width() const = 0;
+    virtual int get_height() const = 0;
+    virtual std::string get_title() const = 0;
+    virtual void quit_game() = 0;
 };

@@ -60,7 +60,7 @@ public:
         return sparse.at(index);
     }
 
-    EntityId entityAt(size_t index) const
+    EntityId entity_at(size_t index) const
     {
         return sparse.entityAt(index);
     }

@@ -2,13 +2,13 @@
 
 #include "game/ecs/components/common/Weapon.hpp"
 
-void WeaponCooldownSystem::onUpdate(World &world, float deltaTime)
+void WeaponCooldownSystem::on_update(World &world, float delta_time)
 {
     for (auto [weapon] : world.view<Weapon>())
     {
-        weapon.cooldownTimer -= deltaTime;
+        weapon.cooldown_timer -= delta_time;
 
-        if (weapon.cooldownTimer < 0.0f)
-            weapon.cooldownTimer = 0.0f;
+        if (weapon.cooldown_timer < 0.0f)
+            weapon.cooldown_timer = 0.0f;
     }
 }

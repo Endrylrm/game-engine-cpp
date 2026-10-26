@@ -17,7 +17,7 @@ public:
     // Matrix operations
     float determinant() const;
     Matrix3 inverse() const;
-    bool tryInverse(Matrix3 &result) const;
+    bool try_inverse(Matrix3 &result) const;
     Matrix3 transpose() const;
 
     // Transformations
@@ -26,8 +26,8 @@ public:
     static Matrix3 rotation(const Quaternion &quat);
     static Matrix3 scale(const Vector2D &scale);
 
-    Vector2D transformPoint(const Vector2D &point) const;
-    Vector2D transformDirection(const Vector2D &direction) const;
+    Vector2D transform_point(const Vector2D &point) const;
+    Vector2D transform_direction(const Vector2D &direction) const;
 
     // Operators
     Matrix3 operator+(const Matrix3 &other) const;

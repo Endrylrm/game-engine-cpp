@@ -5,84 +5,84 @@
 void SystemManager::init()
 {
     for (auto &entry : systems)
-        entry.system->onInit(world);
+        entry.system->on_init(world);
 }
 
-void SystemManager::physics(float fixedDeltaTime)
+void SystemManager::physics(float fixed_delta_time)
 {
-    for (auto *system : physicsSystems)
-        system->onPhysics(world, fixedDeltaTime);
+    for (auto *system : physics_systems)
+        system->on_physics(world, fixed_delta_time);
 }
 
-void SystemManager::preUpdate()
+void SystemManager::pre_update()
 {
-    for (auto *system : preUpdateSystems)
-        system->onPreUpdate(world);
+    for (auto *system : pre_update_systems)
+        system->on_pre_update(world);
 }
 
-void SystemManager::update(float deltaTime)
+void SystemManager::update(float delta_time)
 {
-    for (auto *system : updateSystems)
-        system->onUpdate(world, deltaTime);
+    for (auto *system : update_systems)
+        system->on_update(world, delta_time);
 }
 
-void SystemManager::postUpdate()
+void SystemManager::post_update()
 {
-    for (auto *system : postUpdateSystems)
-        system->onPostUpdate(world);
+    for (auto *system : post_update_systems)
+        system->on_post_update(world);
 }
 
 void SystemManager::render(Renderer &renderer)
 {
-    for (auto *system : renderSystems)
-        system->onRender(world, renderer);
+    for (auto *system : render_systems)
+        system->on_render(world, renderer);
 }
 
 void SystemManager::unload()
 {
     for (auto &entry : systems)
-        entry.system->onUnload(world);
+        entry.system->on_unload(world);
 
     systems.clear();
-    physicsSystems.clear();
-    preUpdateSystems.clear();
-    updateSystems.clear();
-    postUpdateSystems.clear();
-    renderSystems.clear();
+    physics_systems.clear();
+    pre_update_systems.clear();
+    update_systems.clear();
+    post_update_systems.clear();
+    render_systems.clear();
 }
 
-void SystemManager::registerSystem(System &system, Flags<SystemStage> stages)
+void SystemManager::register_system(System &system, Flags<SystemStage> stages)
 {
     if (stages.has(SystemStage::Physics))
-        physicsSystems.push_back(&system);
+        physics_systems.push_back(&system);
 
     if (stages.has(SystemStage::PreUpdate))
-        preUpdateSystems.push_back(&system);
+        pre_update_systems.push_back(&system);
 
     if (stages.has(SystemStage::Update))
-        updateSystems.push_back(&system);
+        update_systems.push_back(&system);
 
     if (stages.has(SystemStage::PostUpdate))
-        postUpdateSystems.push_back(&system);
+        post_update_systems.push_back(&system);
 
     if (stages.has(SystemStage::Render))
-        renderSystems.push_back(&system);
+        render_systems.push_back(&system);
 }
 
-void SystemManager::unregisterSystem(System *system, Flags<SystemStage> stages)
+void SystemManager::unregister_system(System *system, Flags<SystemStage> stages)
 {
     if (stages.has(SystemStage::Physics))
-        std::erase(physicsSystems, system);
+        std::erase(physics_systems, system);
 
     if (stages.has(SystemStage::PreUpdate))
-        std::erase(preUpdateSystems, system);
+        std::erase(pre_update_systems, system);
 
     if (stages.has(SystemStage::Update))
-        std::erase(updateSystems, system);
+        std::erase(update_systems, system);
 
     if (stages.has(SystemStage::PostUpdate))
-        std::erase(postUpdateSystems, system);
+        std::erase(post_update_systems, system);
 
     if (stages.has(SystemStage::Render))
-        std::erase(renderSystems, system);
+        std::erase(render_systems, system);
 }

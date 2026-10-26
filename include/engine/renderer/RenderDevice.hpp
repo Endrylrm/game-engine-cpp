@@ -20,10 +20,10 @@ public:
     virtual bool init() = 0;
     virtual void clear(Color color) = 0;
     virtual void present() = 0;
-    virtual void setViewport(Rect2D rect) = 0;
+    virtual void set_viewport(Rect2D rect) = 0;
 
-    virtual std::unique_ptr<Texture> createTexture(const std::string &path) = 0;
+    virtual std::unique_ptr<Texture> create_texture(const std::string &path) = 0;
 
-    virtual void drawTexture(Texture *texture, Rect2D rect) = 0;
-    virtual void drawRect(Rect2D rect, Color color) = 0;
+    virtual void draw_texture(Texture *texture, Rect2D rect) = 0;
+    virtual void draw_rect(Rect2D rect, Color color) = 0;
 };

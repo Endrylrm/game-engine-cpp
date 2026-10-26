@@ -6,8 +6,8 @@
 class OutOfBoundsSystem final : public System
 {
 public:
-    void onUpdate(World &world, float deltaTime) override;
+    void on_update(World &world, float delta_time) override;
 
 private:
-    bool isOutOfBounds(Vector2D position, float margin);
+    bool is_out_of_bounds(Vector2D position, float margin);
 };

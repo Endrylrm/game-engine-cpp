@@ -7,12 +7,12 @@ class ComponentRegistry
 {
 public:
     template <typename T>
-    static ComponentId getTypeId()
+    static ComponentId get_type_id()
     {
-        static const ComponentId id = nextId++;
+        static const ComponentId id = next_id++;
         return id;
     }
 
 private:
-    inline static ComponentId nextId{};
+    inline static ComponentId next_id{};
 };

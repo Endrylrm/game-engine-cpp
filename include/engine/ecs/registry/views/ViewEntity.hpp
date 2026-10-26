@@ -13,12 +13,12 @@ public:
 
     auto begin()
     {
-        return view.beginEntity();
+        return view.begin_entity();
     }
 
     auto end()
     {
-        return view.endEntity();
+        return view.end_entity();
     }
 
 private:

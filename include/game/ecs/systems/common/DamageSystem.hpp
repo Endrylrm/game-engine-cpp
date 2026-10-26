@@ -5,5 +5,5 @@
 class DamageSystem final : public System
 {
 public:
-    void onPostUpdate(World &world) override;
+    void on_post_update(World &world) override;
 };

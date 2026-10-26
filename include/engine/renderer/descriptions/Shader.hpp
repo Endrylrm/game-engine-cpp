@@ -24,7 +24,7 @@ struct ShaderDescription
     std::vector<ShaderSource> sources;
 };
 
-inline ShaderDescription makeShaderDescription(std::span<const ShaderSource> sources)
+inline ShaderDescription make_shader_description(std::span<const ShaderSource> sources)
 {
     ShaderDescription desc;
     desc.sources.assign(sources.begin(), sources.end());

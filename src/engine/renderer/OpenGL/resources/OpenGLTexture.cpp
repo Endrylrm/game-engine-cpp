@@ -7,24 +7,24 @@ OpenGLTexture::OpenGLTexture(GLuint texture, int width, int height)
 
 OpenGLTexture::~OpenGLTexture()
 {
-    if (isValid())
+    if (is_valid())
     {
         glDeleteTextures(1, &texture);
         texture = 0;
     }
 }
 
-bool OpenGLTexture::isValid() const
+bool OpenGLTexture::is_valid() const
 {
     return texture != 0;
 }
 
-Vector2DInt OpenGLTexture::getSize() const
+Vector2DInt OpenGLTexture::get_size() const
 {
     return size;
 }
 
-GLuint OpenGLTexture::getNativeHandle() const
+GLuint OpenGLTexture::get_native_handle() const
 {
     return texture;
 }

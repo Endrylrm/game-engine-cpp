@@ -39,35 +39,35 @@ Vector2D Vector2D::right()
 
 float Vector2D::length() const
 {
-    float vectorLength = std::hypot(x, y);
-    return vectorLength;
+    float vector_length = std::hypot(x, y);
+    return vector_length;
 }
 
-float Vector2D::lengthSquared() const
+float Vector2D::length_squared() const
 {
     return x * x + y * y;
 }
 
 void Vector2D::normalize()
 {
-    float vectorLength = length();
+    float vector_length = length();
 
-    if (vectorLength > 0.0f)
+    if (vector_length > 0.0f)
     {
-        x /= vectorLength;
-        y /= vectorLength;
+        x /= vector_length;
+        y /= vector_length;
     }
 }
 
 Vector2D Vector2D::normalized() const
 {
-    const float vectorLength = length();
+    const float VECTOR_LENGTH = length();
 
-    if (vectorLength < Math::EPSILON)
+    if (VECTOR_LENGTH < Math::EPSILON)
         return Vector2D{0.0f, 0.0f};
 
-    const float invLength = 1.0f / vectorLength;
-    return Vector2D{x * invLength, y * invLength};
+    const float INV_LENGTH = 1.0f / VECTOR_LENGTH;
+    return Vector2D{x * INV_LENGTH, y * INV_LENGTH};
 }
 
 float Vector2D::distance(const Vector2D &other) const
@@ -78,7 +78,7 @@ float Vector2D::distance(const Vector2D &other) const
     return std::sqrt(dx * dx + dy * dy);
 }
 
-float Vector2D::distanceSquared(const Vector2D &other) const
+float Vector2D::distance_squared(const Vector2D &other) const
 {
     float dx = other.x - x;
     float dy = other.y - y;
@@ -101,26 +101,26 @@ float Vector2D::angle() const
     return std::atan2(y, x);
 }
 
-float Vector2D::angleDegrees() const
+float Vector2D::angle_degrees() const
 {
     return std::atan2(y, x) * 180.0f / Math::PI;
 }
 
-float Vector2D::angleTo(const Vector2D &other) const
+float Vector2D::angle_to(const Vector2D &other) const
 {
     return std::atan2(cross(other), dot(other));
 }
 
-Vector2D Vector2D::MoveTowards(const Vector2D &target, float maxDistanceDelta) const
+Vector2D Vector2D::move_towards(const Vector2D &target, float max_distance_delta) const
 {
     Vector2D delta = target - *this;
 
     float distance = delta.length();
 
-    if (distance <= maxDistanceDelta || distance == 0.0f)
+    if (distance <= max_distance_delta || distance == 0.0f)
         return target;
 
-    return *this + delta / distance * maxDistanceDelta;
+    return *this + delta / distance * max_distance_delta;
 }
 
 Vector2D Vector2D::rotate(float radians) const
@@ -138,12 +138,12 @@ Vector2D Vector2D::lerp(const Vector2D &target, float t) const
 
 Vector2D Vector2D::project(const Vector2D &onto) const
 {
-    float lengthSq = onto.lengthSquared();
+    float length_sq = onto.length_squared();
 
-    if (lengthSq == 0.0f)
+    if (length_sq == 0.0f)
         return Vector2D(0.0f, 0.0f);
 
-    return onto * (dot(onto) / lengthSq);
+    return onto * (dot(onto) / length_sq);
 }
 
 Vector2D Vector2D::reflect(const Vector2D &normal) const
@@ -151,22 +151,22 @@ Vector2D Vector2D::reflect(const Vector2D &normal) const
     return *this - normal * (2.0f * dot(normal));
 }
 
-Vector2D Vector2D::clampMagnitude(float maxLength) const
+Vector2D Vector2D::clamp_magnitude(float max_length) const
 {
-    float vectorLength = length();
+    float vector_length = length();
 
-    if (vectorLength <= maxLength)
+    if (vector_length <= max_length)
         return *this;
 
-    return normalized() * maxLength;
+    return normalized() * max_length;
 }
 
-Vector2D Vector2D::perpendicularLeft() const
+Vector2D Vector2D::perpendicular_left() const
 {
     return {y, -x};
 }
 
-Vector2D Vector2D::perpendicularRight() const
+Vector2D Vector2D::perpendicular_right() const
 {
     return {-y, x};
 }
@@ -243,7 +243,7 @@ Vector2D &Vector2D::operator=(const Vector4D &other)
 
 bool Vector2D::operator==(const Vector2D &other) const
 {
-    return Math::approximatelyEqual(x, other.x) && Math::approximatelyEqual(y, other.y);
+    return Math::approximately_equal(x, other.x) && Math::approximately_equal(y, other.y);
 }
 
 bool Vector2D::operator!=(const Vector2D &other) const

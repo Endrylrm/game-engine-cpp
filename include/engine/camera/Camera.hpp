@@ -13,9 +13,9 @@ enum class ProjectionType
 struct PerspectiveProjection
 {
     float fov{45.0f};
-    float aspectRatio{16.0f / 9.0f};
-    float nearPlane{0.1f};
-    float farPlane{100.0f};
+    float aspect_ratio{16.0f / 9.0f};
+    float near_plane{0.1f};
+    float far_plane{100.0f};
 };
 
 struct OrthographicProjection
@@ -24,8 +24,8 @@ struct OrthographicProjection
     float right{};
     float bottom{};
     float top{};
-    float nearPlane{0.1f};
-    float farPlane{100.0f};
+    float near_plane{0.1f};
+    float far_plane{100.0f};
 };
 
 class Camera
@@ -33,85 +33,85 @@ class Camera
 public:
     Camera();
 
-    static Camera createPerspective(
+    static Camera create_perspective(
         const Vector3D &position,
         const Quaternion &rotation,
         float fov,
-        float aspectRatio,
-        float nearPlane,
-        float farPlane
+        float aspect_ratio,
+        float near_plane,
+        float far_plane
     );
 
-    static Camera createOrthographic(
+    static Camera create_orthographic(
         const Vector3D &position,
         const Quaternion &rotation,
-        float orthographicSize,
-        float aspectRatio,
-        float nearPlane,
-        float farPlane
+        float orthographic_size,
+        float aspect_ratio,
+        float near_plane,
+        float far_plane
     );
 
-    static Camera createOrthographic2D(
+    static Camera create_orthographic2_d(
         const Vector3D &position,
         const Quaternion &rotation,
         float width,
         float height,
-        float nearPlane,
-        float farPlane
+        float near_plane,
+        float far_plane
     );
 
-    const Vector3D &getPosition() const;
-    void setPosition(const Vector3D &newPosition);
+    const Vector3D &get_position() const;
+    void set_position(const Vector3D &new_position);
 
-    const Quaternion &getRotation() const;
-    void setRotation(const Quaternion &newRotation);
+    const Quaternion &get_rotation() const;
+    void set_rotation(const Quaternion &new_rotation);
 
-    ProjectionType getProjectionType() const;
-    void setProjectionType(ProjectionType newProjectionType);
+    ProjectionType get_projection_type() const;
+    void set_projection_type(ProjectionType new_projection_type);
 
-    float getFieldOfView() const;
-    void setFieldOfView(float newFov);
+    float get_field_of_view() const;
+    void set_field_of_view(float new_fov);
 
-    float getAspectRatio() const;
-    void setAspectRatio(float newAspectRatio);
+    float get_aspect_ratio() const;
+    void set_aspect_ratio(float new_aspect_ratio);
 
-    float getNearPlane() const;
-    void setNearPlane(float newNearPlane);
+    float get_near_plane() const;
+    void set_near_plane(float new_near_plane);
 
-    float getFarPlane() const;
-    void setFarPlane(float newFarPlane);
+    float get_far_plane() const;
+    void set_far_plane(float new_far_plane);
 
-    float getOrthographicLeft() const;
-    void setOrthographicLeft(float newOrthographicLeft);
+    float get_orthographic_left() const;
+    void set_orthographic_left(float new_orthographic_left);
 
-    float getOrthographicRight() const;
-    void setOrthographicRight(float newOrthographicRight);
+    float get_orthographic_right() const;
+    void set_orthographic_right(float new_orthographic_right);
 
-    float getOrthographicBottom() const;
-    void setOrthographicBottom(float newOrthographicBottom);
+    float get_orthographic_bottom() const;
+    void set_orthographic_bottom(float new_orthographic_bottom);
 
-    float getOrthographicTop() const;
-    void setOrthographicTop(float newOrthographicTop);
+    float get_orthographic_top() const;
+    void set_orthographic_top(float new_orthographic_top);
 
     Vector3D forward() const;
     Vector3D right() const;
     Vector3D up() const;
 
-    const Matrix4 &getViewMatrix() const;
-    const Matrix4 &getProjectionMatrix() const;
+    const Matrix4 &get_view_matrix() const;
+    const Matrix4 &get_projection_matrix() const;
 
 private:
-    void updateViewMatrix();
-    void updateProjectionMatrix();
+    void update_view_matrix();
+    void update_projection_matrix();
 
     Vector3D position{};
     Quaternion rotation{Quaternion::identity()};
 
-    ProjectionType projectionType{ProjectionType::Perspective};
+    ProjectionType projection_type{ProjectionType::Perspective};
 
     PerspectiveProjection perspective{};
     OrthographicProjection orthographic{};
 
-    Matrix4 viewMatrix{Matrix4::identity()};
-    Matrix4 projectionMatrix{Matrix4::identity()};
+    Matrix4 view_matrix{Matrix4::identity()};
+    Matrix4 projection_matrix{Matrix4::identity()};
 };

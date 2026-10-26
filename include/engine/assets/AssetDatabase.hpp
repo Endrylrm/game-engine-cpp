@@ -13,76 +13,76 @@ class AssetDatabase
 {
 public:
     template <typename T>
-    void registerAssetManager()
+    void register_asset_manager()
     {
-        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
-        assetManagers[id] = std::make_unique<AssetManager<T>>();
+        AssetManagerId id = AssetManagerRegistry::get_type_id<T>();
+        asset_managers[id] = std::make_unique<AssetManager<T>>();
     }
 
     template <typename T>
-    void registerResourceManager(typename ResourceManager<T>::Loader loader)
+    void register_resource_manager(typename ResourceManager<T>::Loader loader)
     {
-        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
-        resourceManagers[id] = std::make_unique<ResourceManager<T>>(std::move(loader));
+        AssetManagerId id = AssetManagerRegistry::get_type_id<T>();
+        resource_managers[id] = std::make_unique<ResourceManager<T>>(std::move(loader));
     }
 
     // create both the Asset Manager and Resource Manager.
     template <typename T>
-    void registerAssetType(typename ResourceManager<T>::Loader loader)
+    void register_asset_type(typename ResourceManager<T>::Loader loader)
     {
-        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
-        assetManagers[id] = std::make_unique<AssetManager<T>>();
-        resourceManagers[id] = std::make_unique<ResourceManager<T>>(std::move(loader));
+        AssetManagerId id = AssetManagerRegistry::get_type_id<T>();
+        asset_managers[id] = std::make_unique<AssetManager<T>>();
+        resource_managers[id] = std::make_unique<ResourceManager<T>>(std::move(loader));
     }
 
     template <typename T>
-    AssetHandle<T> findOrRegister(const std::string &path)
+    AssetHandle<T> find_or_register(const std::string &path)
     {
-        return getAssetManager<T>().load(path);
+        return get_asset_manager<T>().load(path);
     }
 
     template <typename T>
     T *load(AssetHandle<T> handle)
     {
-        if (!isLoaded<T>(handle))
+        if (!is_loaded<T>(handle))
         {
-            auto &asset = getAssetManager<T>().get(handle);
-            return getResourceManager<T>().load(handle, asset.path);
+            auto &asset = get_asset_manager<T>().get(handle);
+            return get_resource_manager<T>().load(handle, asset.path);
         }
 
-        return getResourceManager<T>().get(handle);
+        return get_resource_manager<T>().get(handle);
     }
 
     template <typename T>
     T *get(AssetHandle<T> handle)
     {
-        return getResourceManager<T>().get(handle);
+        return get_resource_manager<T>().get(handle);
     }
 
     template <typename T>
-    bool isLoaded(AssetHandle<T> handle) const
+    bool is_loaded(AssetHandle<T> handle) const
     {
-        return getResourceManager<T>().isLoaded(handle);
+        return get_resource_manager<T>().is_loaded(handle);
     }
 
     template <typename T>
     void unload(AssetHandle<T> handle)
     {
-        getResourceManager<T>().unload(handle);
+        get_resource_manager<T>().unload(handle);
     }
 
 private:
     template <typename T>
-    AssetManager<T> &getAssetManager()
+    AssetManager<T> &get_asset_manager()
     {
-        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+        AssetManagerId id = AssetManagerRegistry::get_type_id<T>();
 
-        auto iter = assetManagers.find(id);
+        auto iter = asset_managers.find(id);
 
-        if (iter == assetManagers.end())
+        if (iter == asset_managers.end())
         {
             throw std::runtime_error(
-                std::string("AssetManager<T> not found: ").append(getTypeName<T>())
+                std::string("AssetManager<T> not found: ").append(get_type_name<T>())
             );
         }
 
@@ -90,16 +90,16 @@ private:
     }
 
     template <typename T>
-    const AssetManager<T> &getAssetManager() const
+    const AssetManager<T> &get_asset_manager() const
     {
-        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+        AssetManagerId id = AssetManagerRegistry::get_type_id<T>();
 
-        auto iter = assetManagers.find(id);
+        auto iter = asset_managers.find(id);
 
-        if (iter == assetManagers.end())
+        if (iter == asset_managers.end())
         {
             throw std::runtime_error(
-                std::string("AssetManager<T> not found: ").append(getTypeName<T>())
+                std::string("AssetManager<T> not found: ").append(get_type_name<T>())
             );
         }
 
@@ -107,16 +107,16 @@ private:
     }
 
     template <typename T>
-    ResourceManager<T> &getResourceManager()
+    ResourceManager<T> &get_resource_manager()
     {
-        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+        AssetManagerId id = AssetManagerRegistry::get_type_id<T>();
 
-        auto iter = resourceManagers.find(id);
+        auto iter = resource_managers.find(id);
 
-        if (iter == resourceManagers.end())
+        if (iter == resource_managers.end())
         {
             throw std::runtime_error(
-                std::string("ResourceManager<T> not found: ").append(getTypeName<T>())
+                std::string("ResourceManager<T> not found: ").append(get_type_name<T>())
             );
         }
 
@@ -124,22 +124,22 @@ private:
     }
 
     template <typename T>
-    const ResourceManager<T> &getResourceManager() const
+    const ResourceManager<T> &get_resource_manager() const
     {
-        AssetManagerId id = AssetManagerRegistry::getTypeId<T>();
+        AssetManagerId id = AssetManagerRegistry::get_type_id<T>();
 
-        auto iter = resourceManagers.find(id);
+        auto iter = resource_managers.find(id);
 
-        if (iter == resourceManagers.end())
+        if (iter == resource_managers.end())
         {
             throw std::runtime_error(
-                std::string("ResourceManager<T> not found: ").append(getTypeName<T>())
+                std::string("ResourceManager<T> not found: ").append(get_type_name<T>())
             );
         }
 
         return static_cast<ResourceManager<T> &>(*iter->second);
     }
 
-    std::unordered_map<AssetManagerId, std::unique_ptr<BaseAssetManager>> assetManagers{};
-    std::unordered_map<AssetManagerId, std::unique_ptr<BaseResourceManager>> resourceManagers{};
+    std::unordered_map<AssetManagerId, std::unique_ptr<BaseAssetManager>> asset_managers{};
+    std::unordered_map<AssetManagerId, std::unique_ptr<BaseResourceManager>> resource_managers{};
 };

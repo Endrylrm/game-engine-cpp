@@ -9,58 +9,58 @@ class ScenesAPI : public ManagerAPI<SceneManager>
 {
 public:
     template <typename Callback>
-    static SceneId registerScene(std::string_view name, Callback &&callback)
+    static SceneId register_scene(std::string_view name, Callback &&callback)
     {
-        return getManager().registerScene(name, std::forward<Callback>(callback));
+        return get_manager().register_scene(name, std::forward<Callback>(callback));
     }
 
-    static void loadScene(std::string_view name)
+    static void load_scene(std::string_view name)
     {
-        getManager().loadScene(name, SceneLoadMode::Main);
+        get_manager().load_scene(name, SceneLoadMode::Main);
     }
 
-    static void loadSceneAdditive(std::string_view name)
+    static void load_scene_additive(std::string_view name)
     {
-        getManager().loadScene(name, SceneLoadMode::Additive);
+        get_manager().load_scene(name, SceneLoadMode::Additive);
     }
 
-    static void loadScenePersistent(std::string_view name)
+    static void load_scene_persistent(std::string_view name)
     {
-        getManager().loadScene(name, SceneLoadMode::Persistent);
+        get_manager().load_scene(name, SceneLoadMode::Persistent);
     }
 
-    static void unloadScene(std::string_view name)
+    static void unload_scene(std::string_view name)
     {
-        getManager().unloadScene(name);
+        get_manager().unload_scene(name);
     }
 
-    static void unloadNonPersistentScenes()
+    static void unload_non_persistent_scenes()
     {
-        getManager().unloadNonPersistentScenes();
+        get_manager().unload_non_persistent_scenes();
     }
 
-    static void unloadAllScenes()
+    static void unload_all_scenes()
     {
-        getManager().unloadAllScenes();
+        get_manager().unload_all_scenes();
     }
 
-    static Scene *getActiveScene(std::string_view name)
+    static Scene *get_active_scene(std::string_view name)
     {
-        return getManager().getActiveScene(name);
+        return get_manager().get_active_scene(name);
     }
 
-    static bool isActiveScene(std::string_view name)
+    static bool is_active_scene(std::string_view name)
     {
-        return getManager().isActiveScene(name);
+        return get_manager().is_active_scene(name);
     }
 
-    static bool setActiveSceneAsMain(std::string_view name)
+    static bool set_active_scene_as_main(std::string_view name)
     {
-        return getManager().setActiveSceneAsMain(name);
+        return get_manager().set_active_scene_as_main(name);
     }
 
-    static Scene *getMainScene()
+    static Scene *get_main_scene()
     {
-        return getManager().getMainScene();
+        return get_manager().get_main_scene();
     }
 };

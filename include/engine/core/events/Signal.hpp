@@ -14,12 +14,12 @@ class Signal : public ConnectionSource
 public:
     EventConnection connect(std::function<void(Args...)> callback)
     {
-        uint32_t id = currentID++;
+        uint32_t id = current_id++;
 
         slots.push_back({{id}, callback});
         LOG_DEBUG("Event id '{}' connected to Signal.", id);
 
-        return EventConnection(this, EventRegistry::getTypeId<Signal>(), id);
+        return EventConnection(this, EventRegistry::get_type_id<Signal>(), id);
     }
 
     void emit(Args... args)
@@ -54,7 +54,7 @@ private:
         cleanup();
     }
 
-    void setListenerEnabled(EventTypeId type, uint32_t id, bool enabled) override
+    void set_listener_enabled(EventTypeId type, uint32_t id, bool enabled) override
     {
         for (auto &listener : slots)
         {
@@ -69,7 +69,7 @@ private:
         }
     }
 
-    bool isListenerEnabled(EventTypeId type, uint32_t id) override
+    bool is_listener_enabled(EventTypeId type, uint32_t id) override
     {
         for (auto &listener : slots)
         {
@@ -91,5 +91,5 @@ private:
     }
 
     std::vector<Listener<Args...>> slots{};
-    uint32_t currentID{};
+    uint32_t current_id{};
 };

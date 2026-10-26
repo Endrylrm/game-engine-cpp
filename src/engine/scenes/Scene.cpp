@@ -4,8 +4,8 @@
 
 void Scene::load()
 {
-    if (onLoad)
-        onLoad(*this);
+    if (on_load)
+        on_load(*this);
 
     LOG_DEBUG("Scene '{}' Loaded!", id.index);
 }
@@ -14,46 +14,46 @@ void Scene::unload()
 {
     for (EntityId id : entities)
     {
-        world.destroyEntity(id);
+        world.destroy_entity(id);
     }
 
     entities.clear();
 
-    if (onUnload)
-        onUnload(*this);
+    if (on_unload)
+        on_unload(*this);
 
     LOG_DEBUG("Scene '{}' Unloaded!", id.index);
 }
 
-SceneId Scene::getId() const
+SceneId Scene::get_id() const
 {
     return id;
 }
 
-void Scene::setOnLoad(SceneCallback callback)
+void Scene::set_on_load(SceneCallback callback)
 {
-    onLoad = std::move(callback);
+    on_load = std::move(callback);
 }
 
-void Scene::setOnUnload(SceneCallback callback)
+void Scene::set_on_unload(SceneCallback callback)
 {
-    onUnload = std::move(callback);
+    on_unload = std::move(callback);
 }
 
-Entity Scene::createEntity()
+Entity Scene::create_entity()
 {
-    Entity entity = world.createEntity();
-    entities.push_back(entity.getId());
+    Entity entity = world.create_entity();
+    entities.push_back(entity.get_id());
     LOG_DEBUG("Entity handle created in Scene {}.", id.index);
     return entity;
 }
 
-std::vector<EntityId> Scene::getEntities()
+std::vector<EntityId> Scene::get_entities()
 {
     return entities;
 }
 
-World &Scene::getWorld()
+World &Scene::get_world()
 {
     return world;
 }

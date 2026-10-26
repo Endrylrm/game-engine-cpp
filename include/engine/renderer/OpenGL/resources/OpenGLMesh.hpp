@@ -9,19 +9,19 @@ class OpenGLMesh final : public Mesh
 public:
     ~OpenGLMesh() override;
     bool init(const MeshDescription &desc);
-    bool isValid() const override;
+    bool is_valid() const override;
 
     void bind() const;
     void unbind() const;
     void draw() const;
 
 private:
-    GLenum convertPrimitiveType(PrimitiveType type);
+    GLenum convert_primitive_type(PrimitiveType type);
 
     GLuint vao{};
     GLuint vbo{};
     GLuint ebo{};
 
-    GLsizei indexCount = 0;
-    GLenum primitiveType;
+    GLsizei index_count = 0;
+    GLenum primitive_type;
 };

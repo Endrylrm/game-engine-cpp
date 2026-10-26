@@ -7,7 +7,7 @@ struct Handle
     uint32_t index = UINT32_MAX;
     uint32_t generation = 0;
 
-    bool isValid() const
+    bool is_valid() const
     {
         return index != UINT32_MAX;
     }

@@ -4,11 +4,11 @@
 
 #include "engine/core/log/Log.hpp"
 
-SDLWindow::SDLWindow(std::string newTitle, int newWidth, int newHeight)
+SDLWindow::SDLWindow(std::string new_title, int new_width, int new_height)
 {
-    title = newTitle;
-    width = newWidth;
-    height = newHeight;
+    title = new_title;
+    width = new_width;
+    height = new_height;
 }
 
 SDLWindow::~SDLWindow()
@@ -22,7 +22,7 @@ SDLWindow::~SDLWindow()
     LOG_DEBUG("SDL Window Destroyed.");
 }
 
-bool SDLWindow::onInit()
+bool SDLWindow::on_init()
 {
     // Initialize video and audio subsystem
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
@@ -50,27 +50,27 @@ bool SDLWindow::onInit()
     return true;
 }
 
-int SDLWindow::getWidth() const
+int SDLWindow::get_width() const
 {
     return width;
 }
 
-int SDLWindow::getHeight() const
+int SDLWindow::get_height() const
 {
     return height;
 }
 
-std::string SDLWindow::getTitle() const
+std::string SDLWindow::get_title() const
 {
     return title;
 }
 
-SDL_Window *SDLWindow::getWindowHandle() const
+SDL_Window *SDLWindow::get_window_handle() const
 {
     return window;
 }
 
-void SDLWindow::quitGame()
+void SDLWindow::quit_game()
 {
     SDL_Event quit_event = {.type = SDL_EVENT_QUIT};
     SDL_PushEvent(&quit_event);

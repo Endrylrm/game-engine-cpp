@@ -16,7 +16,7 @@ public:
     bool isValid() const override;
 
     Vector2DInt getSize() const override;
-    SDL_Texture *getNativeHandle() const;
+    SDL_Texture *get_native_handle() const;
 
 private:
     SDL_Texture *texture{};

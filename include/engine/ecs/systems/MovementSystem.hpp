@@ -6,5 +6,5 @@
 class MovementSystem final : public System
 {
 public:
-    void onUpdate(World &world, float deltaTime) override;
+    void on_update(World &world, float delta_time) override;
 };

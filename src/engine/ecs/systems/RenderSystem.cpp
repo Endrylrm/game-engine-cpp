@@ -6,11 +6,11 @@
 #include "engine/ecs/components/Transform.hpp"
 #include "engine/renderer/resources/Texture.hpp"
 
-void RenderSystem::onRender(World &world, Renderer &renderer)
+void RenderSystem::on_render(World &world, Renderer &renderer)
 {
     for (auto [sprite, transform, _] : world.view<Sprite, Transform, Renderable>())
     {
-        auto *texture = AssetsAPI::get<Texture>(sprite.textureId);
-        renderer.getSpriteRenderer().drawTexture(texture, transform.position);
+        auto *texture = AssetsAPI::get<Texture>(sprite.texture_id);
+        renderer.get_sprite_renderer().draw_texture(texture, transform.position);
     }
 }

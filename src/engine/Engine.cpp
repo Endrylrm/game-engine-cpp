@@ -31,7 +31,7 @@ void Engine::initialize(const char *title, int width, int height)
 
     window = std::make_unique<SDLWindow>(title, width, height);
     SDLWindow *window_ptr = static_cast<SDLWindow *>(window.get());
-    if (!window_ptr->onInit())
+    if (!window_ptr->on_init())
     {
         return;
     }
@@ -40,7 +40,7 @@ void Engine::initialize(const char *title, int width, int height)
     render_device = std::make_unique<SDLDevice>(window_ptr->getWindowHandle());
     SDLDevice *device_ptr = static_cast<SDLDevice *>(render_device.get());
 #elif defined(RENDERER_OPENGL)
-    render_device = std::make_unique<OpenGLDevice>(window_ptr->getWindowHandle());
+    render_device = std::make_unique<OpenGLDevice>(window_ptr->get_window_handle());
     OpenGLDevice *device_ptr = static_cast<OpenGLDevice *>(render_device.get());
 #endif
 
@@ -50,85 +50,85 @@ void Engine::initialize(const char *title, int width, int height)
     }
 
     input_manager = std::make_unique<SDLInputManager>(&running);
-    asset_db.registerAssetType<Texture>([this](const std::string &path)
-                                        { return renderer.loadTexture(path); });
+    asset_db.register_asset_type<Texture>([this](const std::string &path)
+                                          { return renderer.load_texture(path); });
 
-    InputAPI::setManager(input_manager.get());
-    WindowAPI::setManager(window.get());
-    ScenesAPI::setManager(&scene_manager);
-    EntityAPI::setManager(&scene_manager);
-    AssetsAPI::setManager(&asset_db);
-    TimerAPI::setManager(&timer_manager);
-    TimeAPI::setManager(&time);
-    EventsAPI::setManager(&event_bus);
-    WorldAPI::setManager(&world);
+    InputAPI::set_manager(input_manager.get());
+    WindowAPI::set_manager(window.get());
+    ScenesAPI::set_manager(&scene_manager);
+    EntityAPI::set_manager(&scene_manager);
+    AssetsAPI::set_manager(&asset_db);
+    TimerAPI::set_manager(&timer_manager);
+    TimeAPI::set_manager(&time);
+    EventsAPI::set_manager(&event_bus);
+    WorldAPI::set_manager(&world);
 
     world.init();
-    game.onInit();
+    game.on_init();
 }
 
 void Engine::begin_frame()
 {
-    input_manager->beginFrame();
-    input_manager->processEvent();
-    event_bus.processEvents();
-    game.onBeginFrame();
+    input_manager->begin_frame();
+    input_manager->process_event();
+    event_bus.process_events();
+    game.on_begin_frame();
 }
 
 void Engine::physics_step(float fixed_delta_time)
 {
     world.physics(fixed_delta_time);
-    game.onPhysics(fixed_delta_time);
+    game.on_physics(fixed_delta_time);
 }
 
 void Engine::pre_update()
 {
-    world.preUpdate();
-    game.onPreUpdate();
+    world.pre_update();
+    game.on_pre_update();
 }
 
 void Engine::update(float delta_time)
 {
     world.update(delta_time);
-    timer_manager.onUpdate(delta_time);
-    game.onUpdate(delta_time);
+    timer_manager.on_update(delta_time);
+    game.on_update(delta_time);
 }
 
 void Engine::post_update()
 {
-    world.postUpdate();
-    game.onPostUpdate();
+    world.post_update();
+    game.on_post_update();
 }
 
 void Engine::render()
 {
     renderer.clear();
     world.render(renderer);
-    game.onRender();
+    game.on_render();
     renderer.present();
 }
 
 void Engine::process_commands()
 {
-    scene_manager.processCommands();
+    scene_manager.process_commands();
 }
 
 void Engine::process_lifecycle()
 {
-    world.processLifecycle();
-    event_bus.removeDeletedEvents();
-    game.processLifecycle();
+    world.process_lifecycle();
+    event_bus.remove_deleted_events();
+    game.process_lifecycle();
 }
 
 void Engine::end_frame()
 {
-    game.onEndFrame();
+    game.on_end_frame();
 }
 
 void Engine::main_loop()
 {
-    const float FIXED_DELTA_TIME = time.getFixedDeltaTime();
-    std::chrono::duration<float> target_frame_time = time.getTargetFrameTime();
+    const float FIXED_DELTA_TIME = time.get_fixed_delta_time();
+    std::chrono::duration<float> target_frame_time = time.get_target_frame_time();
 
     while (running)
     {
@@ -137,14 +137,14 @@ void Engine::main_loop()
 
         begin_frame();
 
-        int fixed_steps = time.consumeFixedSteps();
+        int fixed_steps = time.consume_fixed_steps();
         for (int i = 0; i < fixed_steps; i++)
         {
             physics_step(FIXED_DELTA_TIME);
         }
 
         pre_update();
-        update(time.getDeltaTime());
+        update(time.get_delta_time());
         post_update();
         process_commands();
         process_lifecycle();
@@ -165,6 +165,6 @@ void Engine::main_loop()
 
 void Engine::shutdown()
 {
-    game.onShutdown();
+    game.on_shutdown();
     Logger::get().shutdown();
 }

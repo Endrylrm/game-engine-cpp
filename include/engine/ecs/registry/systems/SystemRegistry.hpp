@@ -7,12 +7,12 @@ class SystemRegistry
 {
 public:
     template <typename T>
-    static SystemTypeId getTypeId()
+    static SystemTypeId get_type_id()
     {
-        static const SystemTypeId id = nextId++;
+        static const SystemTypeId id = next_id++;
         return id;
     }
 
 private:
-    inline static SystemTypeId nextId{};
+    inline static SystemTypeId next_id{};
 };

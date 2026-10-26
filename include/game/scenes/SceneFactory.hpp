@@ -4,7 +4,7 @@
 class SceneFactory
 {
 public:
-    static void createMenuScene(Scene &scene);
-    static void createGameplayScene(Scene &scene);
-    static void createPlayerScene(Scene &scene);
+    static void create_menu_scene(Scene &scene);
+    static void create_gameplay_scene(Scene &scene);
+    static void create_player_scene(Scene &scene);
 };

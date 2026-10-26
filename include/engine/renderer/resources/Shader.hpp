@@ -5,5 +5,5 @@ class Shader
 public:
     virtual ~Shader() = default;
 
-    virtual bool isValid() const = 0;
+    virtual bool is_valid() const = 0;
 };

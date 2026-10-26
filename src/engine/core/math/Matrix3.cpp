@@ -17,69 +17,69 @@ Matrix3 Matrix3::identity()
 
 float Matrix3::determinant() const
 {
-    const float a = data[0][0];
-    const float b = data[0][1];
-    const float c = data[0][2];
+    const float A = data[0][0];
+    const float B = data[0][1];
+    const float C = data[0][2];
 
-    const float d = data[1][0];
-    const float e = data[1][1];
-    const float f = data[1][2];
+    const float D = data[1][0];
+    const float E = data[1][1];
+    const float F = data[1][2];
 
-    const float g = data[2][0];
-    const float h = data[2][1];
-    const float i = data[2][2];
+    const float G = data[2][0];
+    const float H = data[2][1];
+    const float I = data[2][2];
 
-    return a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
+    return A * (E * I - F * H) - B * (D * I - F * G) + C * (D * H - E * G);
 }
 
 Matrix3 Matrix3::inverse() const
 {
-    const float det = determinant();
+    const float DET = determinant();
 
-    if (std::abs(det) < Math::EPSILON)
+    if (std::abs(DET) < Math::EPSILON)
     {
         return Matrix3::identity();
     }
 
-    const float invDet = 1.0f / det;
+    const float INV_DET = 1.0f / DET;
 
     Matrix3 result;
 
-    result[0][0] = (data[1][1] * data[2][2] - data[1][2] * data[2][1]) * invDet;
-    result[0][1] = (data[0][2] * data[2][1] - data[0][1] * data[2][2]) * invDet;
-    result[0][2] = (data[0][1] * data[1][2] - data[0][2] * data[1][1]) * invDet;
+    result[0][0] = (data[1][1] * data[2][2] - data[1][2] * data[2][1]) * INV_DET;
+    result[0][1] = (data[0][2] * data[2][1] - data[0][1] * data[2][2]) * INV_DET;
+    result[0][2] = (data[0][1] * data[1][2] - data[0][2] * data[1][1]) * INV_DET;
 
-    result[1][0] = (data[1][2] * data[2][0] - data[1][0] * data[2][2]) * invDet;
-    result[1][1] = (data[0][0] * data[2][2] - data[0][2] * data[2][0]) * invDet;
-    result[1][2] = (data[0][2] * data[1][0] - data[0][0] * data[1][2]) * invDet;
+    result[1][0] = (data[1][2] * data[2][0] - data[1][0] * data[2][2]) * INV_DET;
+    result[1][1] = (data[0][0] * data[2][2] - data[0][2] * data[2][0]) * INV_DET;
+    result[1][2] = (data[0][2] * data[1][0] - data[0][0] * data[1][2]) * INV_DET;
 
-    result[2][0] = (data[1][0] * data[2][1] - data[1][1] * data[2][0]) * invDet;
-    result[2][1] = (data[0][1] * data[2][0] - data[0][0] * data[2][1]) * invDet;
-    result[2][2] = (data[0][0] * data[1][1] - data[0][1] * data[1][0]) * invDet;
+    result[2][0] = (data[1][0] * data[2][1] - data[1][1] * data[2][0]) * INV_DET;
+    result[2][1] = (data[0][1] * data[2][0] - data[0][0] * data[2][1]) * INV_DET;
+    result[2][2] = (data[0][0] * data[1][1] - data[0][1] * data[1][0]) * INV_DET;
 
     return result;
 }
 
-bool Matrix3::tryInverse(Matrix3 &result) const
+bool Matrix3::try_inverse(Matrix3 &result) const
 {
-    const float det = determinant();
+    const float DET = determinant();
 
-    if (std::abs(det) < Math::EPSILON)
+    if (std::abs(DET) < Math::EPSILON)
         return false;
 
-    const float invDet = 1.0f / det;
+    const float INV_DET = 1.0f / DET;
 
-    result[0][0] = (data[1][1] * data[2][2] - data[1][2] * data[2][1]) * invDet;
-    result[0][1] = (data[0][2] * data[2][1] - data[0][1] * data[2][2]) * invDet;
-    result[0][2] = (data[0][1] * data[1][2] - data[0][2] * data[1][1]) * invDet;
+    result[0][0] = (data[1][1] * data[2][2] - data[1][2] * data[2][1]) * INV_DET;
+    result[0][1] = (data[0][2] * data[2][1] - data[0][1] * data[2][2]) * INV_DET;
+    result[0][2] = (data[0][1] * data[1][2] - data[0][2] * data[1][1]) * INV_DET;
 
-    result[1][0] = (data[1][2] * data[2][0] - data[1][0] * data[2][2]) * invDet;
-    result[1][1] = (data[0][0] * data[2][2] - data[0][2] * data[2][0]) * invDet;
-    result[1][2] = (data[0][2] * data[1][0] - data[0][0] * data[1][2]) * invDet;
+    result[1][0] = (data[1][2] * data[2][0] - data[1][0] * data[2][2]) * INV_DET;
+    result[1][1] = (data[0][0] * data[2][2] - data[0][2] * data[2][0]) * INV_DET;
+    result[1][2] = (data[0][2] * data[1][0] - data[0][0] * data[1][2]) * INV_DET;
 
-    result[2][0] = (data[1][0] * data[2][1] - data[1][1] * data[2][0]) * invDet;
-    result[2][1] = (data[0][1] * data[2][0] - data[0][0] * data[2][1]) * invDet;
-    result[2][2] = (data[0][0] * data[1][1] - data[0][1] * data[1][0]) * invDet;
+    result[2][0] = (data[1][0] * data[2][1] - data[1][1] * data[2][0]) * INV_DET;
+    result[2][1] = (data[0][1] * data[2][0] - data[0][0] * data[2][1]) * INV_DET;
+    result[2][2] = (data[0][0] * data[1][1] - data[0][1] * data[1][0]) * INV_DET;
 
     return true;
 }
@@ -114,13 +114,13 @@ Matrix3 Matrix3::rotation(float angle)
 {
     Matrix3 result = Matrix3::identity();
 
-    const float c = std::cos(angle);
-    const float s = std::sin(angle);
+    const float C = std::cos(angle);
+    const float S = std::sin(angle);
 
-    result[0][0] = c;
-    result[0][1] = -s;
-    result[1][0] = s;
-    result[1][1] = c;
+    result[0][0] = C;
+    result[0][1] = -S;
+    result[1][0] = S;
+    result[1][1] = C;
 
     return result;
 }
@@ -131,29 +131,29 @@ Matrix3 Matrix3::rotation(const Quaternion &quat)
 
     Matrix3 result(1.0f);
 
-    const float xx = n.x * n.x;
-    const float yy = n.y * n.y;
-    const float zz = n.z * n.z;
+    const float XX = n.x * n.x;
+    const float YY = n.y * n.y;
+    const float ZZ = n.z * n.z;
 
-    const float xy = n.x * n.y;
-    const float xz = n.x * n.z;
-    const float yz = n.y * n.z;
+    const float XY = n.x * n.y;
+    const float XZ = n.x * n.z;
+    const float YZ = n.y * n.z;
 
-    const float wx = n.w * n.x;
-    const float wy = n.w * n.y;
-    const float wz = n.w * n.z;
+    const float WX = n.w * n.x;
+    const float WY = n.w * n.y;
+    const float WZ = n.w * n.z;
 
-    result[0][0] = 1.0f - 2.0f * (yy + zz);
-    result[0][1] = 2.0f * (xy - wz);
-    result[0][2] = 2.0f * (xz + wy);
+    result[0][0] = 1.0f - 2.0f * (YY + ZZ);
+    result[0][1] = 2.0f * (XY - WZ);
+    result[0][2] = 2.0f * (XZ + WY);
 
-    result[1][0] = 2.0f * (xy + wz);
-    result[1][1] = 1.0f - 2.0f * (xx + zz);
-    result[1][2] = 2.0f * (yz - wx);
+    result[1][0] = 2.0f * (XY + WZ);
+    result[1][1] = 1.0f - 2.0f * (XX + ZZ);
+    result[1][2] = 2.0f * (YZ - WX);
 
-    result[2][0] = 2.0f * (xz - wy);
-    result[2][1] = 2.0f * (yz + wx);
-    result[2][2] = 1.0f - 2.0f * (xx + yy);
+    result[2][0] = 2.0f * (XZ - WY);
+    result[2][1] = 2.0f * (YZ + WX);
+    result[2][2] = 1.0f - 2.0f * (XX + YY);
 
     return result;
 }
@@ -168,7 +168,7 @@ Matrix3 Matrix3::scale(const Vector2D &scale)
     return result;
 }
 
-Vector2D Matrix3::transformPoint(const Vector2D &point) const
+Vector2D Matrix3::transform_point(const Vector2D &point) const
 {
     return Vector2D(
         data[0][0] * point.x + data[0][1] * point.y + data[0][2],
@@ -176,7 +176,7 @@ Vector2D Matrix3::transformPoint(const Vector2D &point) const
     );
 }
 
-Vector2D Matrix3::transformDirection(const Vector2D &direction) const
+Vector2D Matrix3::transform_direction(const Vector2D &direction) const
 {
     return Vector2D(
         data[0][0] * direction.x + data[0][1] * direction.y,
@@ -289,7 +289,7 @@ bool Matrix3::operator==(const Matrix3 &other) const
     {
         for (size_t column = 0; column < 3; ++column)
         {
-            if (!Math::approximatelyEqual(data[row][column], other[row][column]))
+            if (!Math::approximately_equal(data[row][column], other[row][column]))
             {
                 return false;
             }

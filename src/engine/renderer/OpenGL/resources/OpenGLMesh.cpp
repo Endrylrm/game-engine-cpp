@@ -26,8 +26,8 @@ bool OpenGLMesh::init(const MeshDescription &desc)
         return false;
     }
 
-    indexCount = static_cast<GLsizei>(desc.indices.size());
-    primitiveType = convertPrimitiveType(desc.primitiveType);
+    index_count = static_cast<GLsizei>(desc.indices.size());
+    primitive_type = convert_primitive_type(desc.primitive_type);
 
     glBindVertexArray(vao);
 
@@ -42,11 +42,11 @@ bool OpenGLMesh::init(const MeshDescription &desc)
         GL_STATIC_DRAW
     );
 
-    size_t stride = desc.vertexLayout.getStride();
+    size_t stride = desc.vertex_layout.get_stride();
 
     GLuint location = 0;
 
-    for (VertexAttribute attrib : desc.vertexLayout.attributes)
+    for (VertexAttribute attrib : desc.vertex_layout.attributes)
     {
         switch (attrib.type)
         {
@@ -87,7 +87,7 @@ bool OpenGLMesh::init(const MeshDescription &desc)
     return true;
 }
 
-bool OpenGLMesh::isValid() const
+bool OpenGLMesh::is_valid() const
 {
     return vbo != 0 && vao != 0 && ebo != 0;
 }
@@ -105,10 +105,10 @@ void OpenGLMesh::unbind() const
 void OpenGLMesh::draw() const
 {
     bind();
-    glDrawElements(primitiveType, indexCount, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(primitive_type, index_count, GL_UNSIGNED_INT, nullptr);
 }
 
-GLenum OpenGLMesh::convertPrimitiveType(PrimitiveType type)
+GLenum OpenGLMesh::convert_primitive_type(PrimitiveType type)
 {
     switch (type)
     {

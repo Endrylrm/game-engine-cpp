@@ -47,7 +47,7 @@ public:
         return iter->second.get();
     }
 
-    bool isLoaded(AssetHandle<T> handle) const
+    bool is_loaded(AssetHandle<T> handle) const
     {
         return resources.contains(handle);
     }
@@ -57,7 +57,7 @@ public:
         resources.erase(handle);
     }
 
-    void unloadAll()
+    void unload_all()
     {
         resources.clear();
     }

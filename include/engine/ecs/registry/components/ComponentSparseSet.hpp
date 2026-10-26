@@ -16,11 +16,11 @@ public:
         if (contains(entity))
             return dense[sparse[entity.index]];
 
-        ensureSparseSize(entity);
+        ensure_sparse_size(entity);
 
         sparse[entity.index] = dense.size();
 
-        denseEntities.push_back(entity);
+        dense_entities.push_back(entity);
         dense.emplace_back(std::forward<Args>(args)...);
 
         return dense.back();
@@ -37,15 +37,15 @@ public:
             return;
 
         size_t index = sparse[entity.index];
-        size_t lastDenseIndex = dense.size() - 1;
-        EntityId lastEntity = denseEntities[lastDenseIndex];
+        size_t last_dense_index = dense.size() - 1;
+        EntityId last_entity = dense_entities[last_dense_index];
 
-        dense[index] = std::move(dense[lastDenseIndex]);
-        denseEntities[index] = lastEntity;
-        sparse[lastEntity.index] = index;
+        dense[index] = std::move(dense[last_dense_index]);
+        dense_entities[index] = last_entity;
+        sparse[last_entity.index] = index;
 
         dense.pop_back();
-        denseEntities.pop_back();
+        dense_entities.pop_back();
         sparse[entity.index] = INVALID;
     }
 
@@ -85,9 +85,9 @@ public:
         return dense[index];
     }
 
-    EntityId entityAt(size_t index) const
+    EntityId entity_at(size_t index) const
     {
-        return denseEntities[index];
+        return dense_entities[index];
     }
 
     const std::vector<T> &components() const
@@ -97,7 +97,7 @@ public:
 
     const std::vector<EntityId> &entities() const
     {
-        return denseEntities;
+        return dense_entities;
     }
 
     size_t size() const
@@ -113,7 +113,7 @@ public:
     void clear()
     {
         dense.clear();
-        denseEntities.clear();
+        dense_entities.clear();
         std::fill(sparse.begin(), sparse.end(), INVALID);
     }
 
@@ -150,7 +150,7 @@ public:
     }
 
 private:
-    void ensureSparseSize(EntityId entity)
+    void ensure_sparse_size(EntityId entity)
     {
         size_t index = static_cast<size_t>(entity.index);
 
@@ -161,7 +161,7 @@ private:
     }
 
     std::vector<size_t> sparse;
-    std::vector<EntityId> denseEntities;
+    std::vector<EntityId> dense_entities;
     std::vector<T> dense;
 
     static constexpr size_t INVALID = std::numeric_limits<size_t>::max();

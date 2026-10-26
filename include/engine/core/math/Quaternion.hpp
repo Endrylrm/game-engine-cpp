@@ -13,13 +13,13 @@ public:
         return Quaternion{0.0f, 0.0f, 0.0f, 1.0f};
     }
 
-    static Quaternion fromAxisAngle(const Vector3D &axis, float radians);
-    static Quaternion fromEuler(float pitchX, float yawY, float rollZ);
-    static Quaternion fromToRotation(const Vector3D &from, const Vector3D &to);
+    static Quaternion from_axis_angle(const Vector3D &axis, float radians);
+    static Quaternion from_euler(float pitch_x, float yaw_y, float roll_z);
+    static Quaternion from_to_rotation(const Vector3D &from, const Vector3D &to);
 
     Vector3D rotate(const Vector3D &vector) const;
 
-    float lengthSquared() const;
+    float length_squared() const;
     float length() const;
 
     Quaternion normalized() const;
@@ -31,8 +31,8 @@ public:
 
     static float dot(const Quaternion &a, const Quaternion &b);
 
-    void toAxisAngle(Vector3D &outAxis, float &outAngle) const;
-    Vector3D toEuler() const;
+    void to_axis_angle(Vector3D &out_axis, float &out_angle) const;
+    Vector3D to_euler() const;
 
     static Quaternion nlerp(const Quaternion &a, const Quaternion &b, float t);
     static Quaternion slerp(const Quaternion &a, const Quaternion &b, float t);

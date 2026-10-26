@@ -1,11 +1,11 @@
 #include "engine/time/Timer.hpp"
 
-void Timer::start(float newWaitTime /* = -1.0f */)
+void Timer::start(float new_wait_time /* = -1.0f */)
 {
-    if (newWaitTime >= 0.0f)
-        waitTime = newWaitTime;
+    if (new_wait_time >= 0.0f)
+        wait_time = new_wait_time;
 
-    timeLeft = waitTime;
+    time_left = wait_time;
     running = true;
     paused = false;
 }
@@ -13,7 +13,7 @@ void Timer::start(float newWaitTime /* = -1.0f */)
 void Timer::stop()
 {
     running = false;
-    timeLeft = 0.0f;
+    time_left = 0.0f;
 }
 
 void Timer::pause()
@@ -26,64 +26,64 @@ void Timer::resume()
     paused = false;
 }
 
-void Timer::onUpdate(float deltaTime)
+void Timer::on_update(float delta_time)
 {
     if (!running || paused)
         return;
 
-    timeLeft -= deltaTime;
-    if (timeLeft <= 0.0f)
+    time_left -= delta_time;
+    if (time_left <= 0.0f)
     {
-        if (onTimeout)
-            onTimeout();
+        if (on_timeout)
+            on_timeout();
 
-        if (oneShot)
+        if (one_shot)
         {
             stop();
         }
         else
         {
-            timeLeft += waitTime;
+            time_left += wait_time;
         }
     }
 }
 
-void Timer::setWaitTime(float time)
+void Timer::set_wait_time(float time)
 {
-    waitTime = time;
+    wait_time = time;
 }
 
-void Timer::setOneShot(bool value)
+void Timer::set_one_shot(bool value)
 {
-    oneShot = value;
+    one_shot = value;
 }
 
-void Timer::setOnTimeout(TimeoutCallback callback)
+void Timer::set_on_timeout(TimeoutCallback callback)
 {
-    onTimeout = std::move(callback);
+    on_timeout = std::move(callback);
 }
 
-float Timer::getTimeLeft() const
+float Timer::get_time_left() const
 {
-    return timeLeft;
+    return time_left;
 }
 
-float Timer::getWaitTime() const
+float Timer::get_wait_time() const
 {
-    return waitTime;
+    return wait_time;
 }
 
-bool Timer::isRunning() const
+bool Timer::is_running() const
 {
     return running;
 }
 
-bool Timer::isPaused() const
+bool Timer::is_paused() const
 {
     return paused;
 }
 
-bool Timer::isOneShot() const
+bool Timer::is_one_shot() const
 {
-    return oneShot;
+    return one_shot;
 }

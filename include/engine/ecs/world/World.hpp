@@ -15,62 +15,62 @@ class World
 public:
     void init();
     void events();
-    void physics(float fixedDeltaTime);
-    void preUpdate();
-    void update(float deltaTime);
-    void postUpdate();
+    void physics(float fixed_delta_time);
+    void pre_update();
+    void update(float delta_time);
+    void post_update();
     void render(Renderer &renderer);
-    void processLifecycle();
+    void process_lifecycle();
     void unload();
 
-    Entity createEntity();
-    Entity getEntity(EntityId id);
-    void destroyEntity(EntityId entity);
-    bool isValidEntity(EntityId entity) const;
+    Entity create_entity();
+    Entity get_entity(EntityId id);
+    void destroy_entity(EntityId entity);
+    bool is_valid_entity(EntityId entity) const;
 
     template <typename T, typename... Args>
-    T &addComponent(EntityId entity, Args &&...args)
+    T &add_component(EntityId entity, Args &&...args)
     {
-        return registry.addComponent<T>(entity, std::forward<Args>(args)...);
+        return registry.add_component<T>(entity, std::forward<Args>(args)...);
     }
 
     template <typename T>
-    T &addComponent(EntityId entity, T &&value)
+    T &add_component(EntityId entity, T &&value)
     {
-        return registry.addComponent<T>(entity, std::move(value));
+        return registry.add_component<T>(entity, std::move(value));
     }
 
     template <typename T>
-    T &getComponent(EntityId entity)
+    T &get_component(EntityId entity)
     {
-        return registry.getComponent<T>(entity);
+        return registry.get_component<T>(entity);
     }
 
     template <typename T>
-    T &getOrAddComponent(EntityId entity)
+    T &get_or_add_component(EntityId entity)
     {
-        return registry.getOrAddComponent<T>(entity);
+        return registry.get_or_add_component<T>(entity);
     }
 
     template <typename T>
-    T *tryGetComponent(EntityId entity)
+    T *try_get_component(EntityId entity)
     {
-        return registry.tryGetComponent<T>(entity);
+        return registry.try_get_component<T>(entity);
     }
 
     template <typename T>
-    bool hasComponent(EntityId entity)
+    bool has_component(EntityId entity)
     {
-        return registry.hasComponent<T>(entity);
+        return registry.has_component<T>(entity);
     }
 
     template <typename T>
-    void removeComponent(EntityId entity)
+    void remove_component(EntityId entity)
     {
-        registry.removeComponent<T>(entity);
+        registry.remove_component<T>(entity);
     }
 
-    void removeAllComponents(EntityId entity);
+    void remove_all_components(EntityId entity);
 
     template <typename... Components>
     View<Components...> view()
@@ -79,25 +79,25 @@ public:
     }
 
     template <std::derived_from<System> T, typename... Args>
-    T &addSystem(Flags<SystemStage> stages, Args &&...args)
+    T &add_system(Flags<SystemStage> stages, Args &&...args)
     {
-        return systemManager.addSystem<T>(stages, std::forward<Args>(args)...);
+        return system_manager.add_system<T>(stages, std::forward<Args>(args)...);
     }
 
     template <typename T>
-    void removeSystem()
+    void remove_system()
     {
-        systemManager.removeSystem<T>();
+        system_manager.remove_system<T>();
     }
 
     template <typename T>
-    T *getSystem()
+    T *get_system()
     {
-        return systemManager.getSystem<T>();
+        return system_manager.get_system<T>();
     }
 
 private:
-    EventBus eventBus{};
+    EventBus event_bus{};
     Registry registry{};
-    SystemManager systemManager{*this};
+    SystemManager system_manager{*this};
 };

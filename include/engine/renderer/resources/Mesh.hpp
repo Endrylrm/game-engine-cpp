@@ -5,5 +5,5 @@ class Mesh
 public:
     virtual ~Mesh() = default;
 
-    virtual bool isValid() const = 0;
+    virtual bool is_valid() const = 0;
 };

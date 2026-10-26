@@ -8,78 +8,78 @@
 
 void World::init()
 {
-    systemManager.addSystem<LifetimeSystem>(SystemStage::Update);
-    systemManager.addSystem<MovementSystem>(SystemStage::Update);
-    systemManager.addSystem<RenderSystem>(SystemStage::Render);
-    systemManager.init();
+    system_manager.add_system<LifetimeSystem>(SystemStage::Update);
+    system_manager.add_system<MovementSystem>(SystemStage::Update);
+    system_manager.add_system<RenderSystem>(SystemStage::Render);
+    system_manager.init();
 }
 
 void World::events()
 {
-    eventBus.processEvents();
+    event_bus.process_events();
 }
 
-void World::physics(float fixedDeltaTime)
+void World::physics(float fixed_delta_time)
 {
-    systemManager.physics(fixedDeltaTime);
+    system_manager.physics(fixed_delta_time);
 }
 
-void World::preUpdate()
+void World::pre_update()
 {
-    systemManager.preUpdate();
+    system_manager.pre_update();
 }
 
-void World::update(float deltaTime)
+void World::update(float delta_time)
 {
-    systemManager.update(deltaTime);
+    system_manager.update(delta_time);
 }
 
-void World::postUpdate()
+void World::post_update()
 {
-    systemManager.postUpdate();
+    system_manager.post_update();
 }
 
 void World::render(Renderer &renderer)
 {
-    systemManager.render(renderer);
+    system_manager.render(renderer);
 }
 
-void World::processLifecycle()
+void World::process_lifecycle()
 {
-    registry.processDestroyQueue();
-    eventBus.removeDeletedEvents();
+    registry.process_destroy_queue();
+    event_bus.remove_deleted_events();
 }
 
 void World::unload()
 {
-    systemManager.unload();
+    system_manager.unload();
 }
 
-Entity World::createEntity()
+Entity World::create_entity()
 {
-    EntityId id = registry.createEntity();
+    EntityId id = registry.create_entity();
     Entity entity = {id, this};
     LOG_DEBUG("Entity Handle created from entity: '{}', generation: {}.", id.index, id.generation);
     return entity;
 }
 
-Entity World::getEntity(EntityId id)
+Entity World::get_entity(EntityId id)
 {
     LOG_DEBUG("Entity Handle created from entity: '{}', generation: {}.", id.index, id.generation);
     return Entity{id, this};
 }
 
-void World::destroyEntity(EntityId entity)
+void World::destroy_entity(EntityId entity)
 {
-    registry.destroyEntity(entity);
+    registry.destroy_entity(entity);
 }
 
-void World::removeAllComponents(EntityId entity)
+void World::remove_all_components(EntityId entity)
 {
-    registry.removeAllComponents(entity);
+    registry.remove_all_components(entity);
 }
 
-bool World::isValidEntity(EntityId entity) const
+bool World::is_valid_entity(EntityId entity) const
 {
-    return registry.isValidEntity(entity);
+    return registry.is_valid_entity(entity);
 }

@@ -8,15 +8,15 @@ class ManagerAPI
     friend class Engine;
 
 protected:
-    static Manager &getManager()
+    static Manager &get_manager()
     {
         return *manager;
     }
 
 private:
-    static void setManager(Manager *newManager)
+    static void set_manager(Manager *new_manager)
     {
-        manager = newManager;
+        manager = new_manager;
     }
 
     static inline Manager *manager = nullptr;

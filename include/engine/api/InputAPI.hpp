@@ -8,78 +8,78 @@
 class InputAPI : public ManagerAPI<InputManager>
 {
 public:
-    static bool isKeyDown(KeyInput key)
+    static bool is_key_down(KeyInput key)
     {
-        return getManager().isKeyDown(key);
+        return get_manager().is_key_down(key);
     }
 
-    static bool isKeyPressed(KeyInput key)
+    static bool is_key_pressed(KeyInput key)
     {
-        return getManager().isKeyPressed(key);
+        return get_manager().is_key_pressed(key);
     }
 
-    static bool isKeyReleased(KeyInput key)
+    static bool is_key_released(KeyInput key)
     {
-        return getManager().isKeyReleased(key);
+        return get_manager().is_key_released(key);
     }
 
-    static bool isMouseButtonDown(MouseInput key)
+    static bool is_mouse_button_down(MouseInput key)
     {
-        return getManager().isMouseButtonDown(key);
+        return get_manager().is_mouse_button_down(key);
     }
 
-    static bool isMouseButtonPressed(MouseInput key)
+    static bool is_mouse_button_pressed(MouseInput key)
     {
-        return getManager().isMouseButtonPressed(key);
+        return get_manager().is_mouse_button_pressed(key);
     }
 
-    static bool isMouseButtonReleased(MouseInput key)
+    static bool is_mouse_button_released(MouseInput key)
     {
-        return getManager().isMouseButtonReleased(key);
+        return get_manager().is_mouse_button_released(key);
     }
 
-    static float getMouseX()
+    static float get_mouse_x()
     {
-        return getManager().getMouseX();
+        return get_manager().get_mouse_x();
     }
 
-    static float getMouseY()
+    static float get_mouse_y()
     {
-        return getManager().getMouseY();
+        return get_manager().get_mouse_y();
     }
 
-    static Vector2D getMouse()
+    static Vector2D get_mouse()
     {
-        return getManager().getMouse();
+        return get_manager().get_mouse();
     }
 
-    static float getMouseDeltaX()
+    static float get_mouse_delta_x()
     {
-        return getManager().getMouseDeltaX();
+        return get_manager().get_mouse_delta_x();
     }
 
-    static float getMouseDeltaY()
+    static float get_mouse_delta_y()
     {
-        return getManager().getMouseDeltaY();
+        return get_manager().get_mouse_delta_y();
     }
 
-    static Vector2D getMouseDelta()
+    static Vector2D get_mouse_delta()
     {
-        return getManager().getMouseDelta();
+        return get_manager().get_mouse_delta();
     }
 
-    static float getMouseScrollX()
+    static float get_mouse_scroll_x()
     {
-        return getManager().getMouseScrollX();
+        return get_manager().get_mouse_scroll_x();
     }
 
-    static float getMouseScrollY()
+    static float get_mouse_scroll_y()
     {
-        return getManager().getMouseScrollY();
+        return get_manager().get_mouse_scroll_y();
     }
 
-    static Vector2D getMouseScroll()
+    static Vector2D get_mouse_scroll()
     {
-        return getManager().getMouseScroll();
+        return get_manager().get_mouse_scroll();
     }
 };

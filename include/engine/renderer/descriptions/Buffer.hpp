@@ -31,7 +31,7 @@ struct BufferDescription
 {
     BufferType type = BufferType::None;
     BufferMemory memory = BufferMemory::GpuOnly;
-    BufferUpdateFrequency updateFrequency = BufferUpdateFrequency::Static;
+    BufferUpdateFrequency update_frequency = BufferUpdateFrequency::Static;
 
     size_t size = 0;
 };

@@ -1,4 +1,5 @@
 #pragma once
-#include "engine/core/handle/Handle.hpp"
+#include "engine/core/handle/TypedHandle.hpp"
 
-using EntityId = Handle;
+struct EntityTag;
+using EntityId = TypedHandle<EntityTag>;

@@ -5,23 +5,23 @@ enum class TextureFormat
 {
     R8Unorm,
     RG8Unorm,
-    RgB8Unorm,
-    RgbA8Unorm,
+    RGB8Unorm,
+    RGBA8Unorm,
 
     R16Unorm,
     RG16Unorm,
-    RgB16Unorm,
-    RgbA16Unorm,
+    RGB16Unorm,
+    RGBA16Unorm,
 
     R16Float,
     RG16Float,
-    RgB16Float,
-    RgbA16Float,
+    RGB16Float,
+    RGBA16Float,
 
     R32Float,
     RG32Float,
-    RgB32Float,
-    RgbA32Float,
+    RGB32Float,
+    RGBA32Float,
 
     Depth24Stencil8,
     Depth32Float,
@@ -59,7 +59,7 @@ struct TextureDescription
     uint32_t depth = 0;
     uint32_t mip_levels = 1;
 
-    TextureFormat format = TextureFormat::RgbA8Unorm;
+    TextureFormat format = TextureFormat::RGBA8Unorm;
     TextureDimension dimension = TextureDimension::Texture2D;
     TextureUsage usage = TextureUsage::Sampled;
 

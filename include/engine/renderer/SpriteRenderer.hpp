@@ -11,8 +11,8 @@ public:
     void init(RenderDevice *new_device);
 
     void draw_texture(Texture *texture, Vector2D position);
-    void draw_texture(Texture *tex, Vector2D position, Vector2D size);
-    void draw_texture(Texture *tex, Rect2D rect);
+    void draw_texture(Texture *texture, Vector2D position, Vector2D size);
+    void draw_texture(Texture *texture, Rect2D rect);
 
 private:
     RenderDevice *device = nullptr;

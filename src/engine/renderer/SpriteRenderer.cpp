@@ -10,12 +10,12 @@ void SpriteRenderer::draw_texture(Texture *texture, Vector2D position)
     draw_texture(texture, Rect2D{position, texture->get_size()});
 }
 
-void SpriteRenderer::draw_texture(Texture *tex, Vector2D position, Vector2D size)
+void SpriteRenderer::draw_texture(Texture *texture, Vector2D position, Vector2D size)
 {
-    draw_texture(tex, Rect2D{position, size});
+    draw_texture(texture, Rect2D{position, size});
 }
 
-void SpriteRenderer::draw_texture(Texture *tex, Rect2D rect)
+void SpriteRenderer::draw_texture(Texture *texture, Rect2D rect)
 {
-    device->draw_texture(tex, rect);
+    device->draw_texture(texture, rect);
 }

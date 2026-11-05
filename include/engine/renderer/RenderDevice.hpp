@@ -8,7 +8,6 @@
 #include "engine/renderer/descriptions/Shader.hpp"
 #include "engine/renderer/descriptions/Texture.hpp"
 #include "engine/renderer/resources/Mesh.hpp"
-#include "engine/renderer/resources/Pipeline.hpp"
 #include "engine/renderer/resources/Shader.hpp"
 #include "engine/renderer/resources/Texture.hpp"
 

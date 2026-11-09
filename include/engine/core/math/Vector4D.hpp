@@ -5,7 +5,7 @@ class Vector3D;
 class Vector4D
 {
 public:
-    Vector4D() : Vector4D(0.0f) {}
+    Vector4D() = default;
     Vector4D(float all) : Vector4D(all, all, all, all) {}
     Vector4D(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
     Vector4D(const Vector4D &other) : Vector4D(other.x, other.y, other.z, other.w) {}
@@ -46,5 +46,5 @@ public:
     float x{};
     float y{};
     float z{};
-    float w{};
+    float w{1.0f};
 };

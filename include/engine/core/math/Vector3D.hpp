@@ -5,7 +5,7 @@ class Vector4D;
 class Vector3D
 {
 public:
-    Vector3D() : Vector3D(0.0f) {}
+    Vector3D() = default;
     Vector3D(float all) : Vector3D(all, all, all) {}
     Vector3D(float x, float y, float z) : x(x), y(y), z(z) {}
     Vector3D(const Vector3D &other) : Vector3D(other.x, other.y, other.z) {}

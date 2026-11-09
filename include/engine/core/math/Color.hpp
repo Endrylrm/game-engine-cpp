@@ -53,7 +53,7 @@ struct HSV
 
 struct Color
 {
-    Color();
+    Color() = default;
     Color(float r, float g, float b, float a = 1.0f);
 
     static Color white();
@@ -113,8 +113,8 @@ struct Color
     bool operator==(const Color &other) const;
     bool operator!=(const Color &other) const;
 
-    float r;
-    float g;
-    float b;
-    float a;
+    float r{};
+    float g{};
+    float b{};
+    float a{1.0f};
 };
